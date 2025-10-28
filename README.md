@@ -14,9 +14,12 @@ These files provide default templates for all repositories in the organization:
 
 - **CODE_OF_CONDUCT.md** - Defines standards for community interaction
 - **CONTRIBUTING.md** - Guidelines for contributing to projects
+- **FUNDING.yml** - Funding and sponsorship configuration
+- **GOVERNANCE.md** - Project governance and decision-making processes
+- **LICENSE** - License terms for the organization's projects (MIT License)
+- **MANIFESTO.md** - Core principles and values of the organization
 - **SECURITY.md** - Security policy and vulnerability reporting process
 - **SUPPORT.md** - How to get help and support
-- **FUNDING.yml** - Funding and sponsorship configuration
 
 ### Issue and Pull Request Templates
 
@@ -56,8 +59,11 @@ Individual repositories can override these defaults by creating their own versio
 │   └── ci.properties.json           # Workflow template metadata
 ├── CODE_OF_CONDUCT.md               # Code of conduct
 ├── CONTRIBUTING.md                  # Contributing guidelines
-├── SECURITY.md                      # Security policy
-├── SUPPORT.md                       # Support information
 ├── FUNDING.yml                      # Funding configuration
-└── PULL_REQUEST_TEMPLATE.md         # Pull request template
+├── GOVERNANCE.md                    # Governance model
+├── LICENSE                          # License (MIT)
+├── MANIFESTO.md                     # Organization manifesto
+├── PULL_REQUEST_TEMPLATE.md         # Pull request template
+├── SECURITY.md                      # Security policy
+└── SUPPORT.md                       # Support information
 ```
