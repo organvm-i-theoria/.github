@@ -23,8 +23,28 @@ These files provide default templates for all repositories in the organization:
 
 ### Issue and Pull Request Templates
 
-- **ISSUE_TEMPLATE/** - Templates for creating issues (bug reports, feature requests)
-- **PULL_REQUEST_TEMPLATE.md** - Template for pull requests
+Comprehensive templates to encourage useful issues and pull requests:
+
+#### Issue Templates
+
+- **ISSUE_TEMPLATE/config.yml** - Configuration for issue templates and contact links
+- **ISSUE_TEMPLATE/bug_report.md** - Classic markdown bug report template
+- **ISSUE_TEMPLATE/bug_report_form.yml** - Modern form-based bug report with structured fields
+- **ISSUE_TEMPLATE/feature_request.md** - Classic markdown feature request template
+- **ISSUE_TEMPLATE/feature_request_form.yml** - Modern form-based feature request
+- **ISSUE_TEMPLATE/documentation.md** - Template for documentation issues
+- **ISSUE_TEMPLATE/question.md** - Template for asking questions
+
+#### Pull Request Templates
+
+- **PULL_REQUEST_TEMPLATE.md** - Default comprehensive PR template
+- **PULL_REQUEST_TEMPLATE/bug_fix.md** - Specialized template for bug fixes
+- **PULL_REQUEST_TEMPLATE/feature.md** - Specialized template for new features
+- **PULL_REQUEST_TEMPLATE/documentation.md** - Specialized template for documentation changes
+- **PULL_REQUEST_TEMPLATE/refactoring.md** - Specialized template for code refactoring
+- **PULL_REQUEST_TEMPLATE/performance.md** - Specialized template for performance improvements
+
+**Note**: Contributors can choose a specific PR template by adding `?template=<name>.md` to the PR URL, e.g., `?template=bug_fix.md`
 
 ### Workflow Templates
 
@@ -49,21 +69,31 @@ Individual repositories can override these defaults by creating their own versio
 ```
 .github/
 ├── profile/
-│   └── README.md                    # Organization profile
+│   └── README.md                           # Organization profile
 ├── ISSUE_TEMPLATE/
-│   ├── config.yml                   # Issue template configuration
-│   ├── bug_report.md                # Bug report template
-│   └── feature_request.md           # Feature request template
+│   ├── config.yml                          # Issue template configuration
+│   ├── bug_report.md                       # Bug report (markdown)
+│   ├── bug_report_form.yml                 # Bug report (form)
+│   ├── feature_request.md                  # Feature request (markdown)
+│   ├── feature_request_form.yml            # Feature request (form)
+│   ├── documentation.md                    # Documentation issue
+│   └── question.md                         # Question template
+├── PULL_REQUEST_TEMPLATE/
+│   ├── bug_fix.md                          # Bug fix PR template
+│   ├── feature.md                          # Feature PR template
+│   ├── documentation.md                    # Documentation PR template
+│   ├── refactoring.md                      # Refactoring PR template
+│   └── performance.md                      # Performance PR template
 ├── workflow-templates/
-│   ├── ci.yml                       # CI workflow template
-│   └── ci.properties.json           # Workflow template metadata
-├── CODE_OF_CONDUCT.md               # Code of conduct
-├── CONTRIBUTING.md                  # Contributing guidelines
-├── FUNDING.yml                      # Funding configuration
-├── GOVERNANCE.md                    # Governance model
-├── LICENSE                          # License (MIT)
-├── MANIFESTO.md                     # Organization manifesto
-├── PULL_REQUEST_TEMPLATE.md         # Pull request template
-├── SECURITY.md                      # Security policy
-└── SUPPORT.md                       # Support information
+│   ├── ci.yml                              # CI workflow template
+│   └── ci.properties.json                  # Workflow template metadata
+├── CODE_OF_CONDUCT.md                      # Code of conduct
+├── CONTRIBUTING.md                         # Contributing guidelines
+├── FUNDING.yml                             # Funding configuration
+├── GOVERNANCE.md                           # Governance model
+├── LICENSE                                 # License (MIT)
+├── MANIFESTO.md                            # Organization manifesto
+├── PULL_REQUEST_TEMPLATE.md                # Default PR template
+├── SECURITY.md                             # Security policy
+└── SUPPORT.md                              # Support information
 ```
