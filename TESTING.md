@@ -26,7 +26,7 @@ The weekly report runs every Monday at 9:00 AM UTC, but can also be triggered ma
 1. Go to the Actions tab in GitHub
 2. Select "Weekly Commit Report" workflow
 3. Click "Run workflow"
-4. Select the branch to run on
+4. Click the green "Run workflow" button to confirm
 5. Wait for the workflow to complete
 6. Check the `reports/` directory for the generated report
 
@@ -35,6 +35,7 @@ The weekly report runs every Monday at 9:00 AM UTC, but can also be triggered ma
 To test the setup script locally:
 
 ```bash
+chmod +x setup.sh  # Make the script executable if needed
 ./setup.sh
 ```
 
@@ -76,9 +77,9 @@ When triggered, the workflow should:
 When triggered, the workflow should:
 1. Generate a markdown report with:
    - Total commits in last 7 days
-   - Commits by author
-   - Commits by day
-   - Recent commit list
+   - Commits grouped by author
+   - Commit frequency by date
+   - Recent commit list with details
 2. Save the report to `reports/commit-report-YYYY-MM-DD.md`
 3. Commit and push the report to the repository
 
