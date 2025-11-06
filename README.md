@@ -262,10 +262,10 @@ This repository and all default community health files are provided under the [M
 
 Need help? Have questions?
 
-- 📖 Check our [Support Documentation](SUPPORT.md)
-- 💬 Start a [GitHub Discussion](https://github.com/orgs/ivi374forivi/discussions) (if enabled)
+- 📖 Check our [Support Documentation](SUPPORT.md) for detailed guidance
 - 🐛 Report issues using our [issue templates](ISSUE_TEMPLATE/)
-- 📧 Contact repository maintainers
+- 📧 Contact repository maintainers through GitHub
+- 💬 For general discussions, check if [GitHub Discussions](https://github.com/orgs/ivi374forivi/discussions) are enabled
 
 ---
 
