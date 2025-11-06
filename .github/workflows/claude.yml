@@ -36,6 +36,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # Check if the triggering user has appropriate permissions
+          # Note: This uses API-based validation because this workflow handles multiple
+          # event types (issue_comment, pr_review, etc.) where author_association may not
+          # be consistently available. claude-code-review.yml uses author_association
+          # because it only handles pull_request events where it's always available.
           ACTOR="${{ github.actor }}"
           REPO="${{ github.repository }}"
 
