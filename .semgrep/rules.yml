@@ -1,0 +1,270 @@
+# Custom Semgrep Rules
+# https://semgrep.dev/docs/writing-rules/overview/
+
+rules:
+  # Detect hardcoded API keys
+  - id: hardcoded-api-key
+    patterns:
+      - pattern-either:
+          - pattern: $API_KEY = "..."
+          - pattern: $API_SECRET = "..."
+          - pattern: apiKey = "..."
+          - pattern: api_key = "..."
+    message: Potential hardcoded API key detected
+    severity: ERROR
+    languages:
+      - javascript
+      - typescript
+      - python
+    metadata:
+      category: security
+      cwe: "CWE-798: Use of Hard-coded Credentials"
+      owasp: "A07:2021 - Identification and Authentication Failures"
+
+  # Detect SQL injection vulnerabilities
+  - id: sql-injection
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $SQL = "... " + $INPUT + " ..."
+              $DB.execute($SQL)
+          - pattern: |
+              $DB.query("... " + $INPUT + " ...")
+    message: Possible SQL injection vulnerability
+    severity: ERROR
+    languages:
+      - javascript
+      - python
+    metadata:
+      category: security
+      cwe: "CWE-89: SQL Injection"
+      owasp: "A03:2021 - Injection"
+
+  # Detect insecure random number generation
+  - id: insecure-random
+    patterns:
+      - pattern-either:
+          - pattern: Math.random()
+          - pattern: random.random()
+    message: |
+      Using insecure random number generator.
+      Use crypto.randomBytes() or secrets module instead.
+    severity: WARNING
+    languages:
+      - javascript
+      - python
+    metadata:
+      category: security
+      cwe: "CWE-338: Use of Cryptographically Weak PRNG"
+
+  # Detect missing input validation
+  - id: missing-input-validation
+    patterns:
+      - pattern: |
+          function $FUNC($PARAM) {
+            ...
+            $DB.save($PARAM)
+            ...
+          }
+      - pattern-not: |
+          function $FUNC($PARAM) {
+            ...
+            if (...) { ... }
+            ...
+            $DB.save($PARAM)
+            ...
+          }
+    message: Input parameter used without validation
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+
+  # Detect console.log in production
+  - id: console-log-in-production
+    pattern: console.log(...)
+    message: |
+      console.log() detected. Remove debug logs before production.
+      Consider using a proper logging library.
+    severity: INFO
+    languages:
+      - javascript
+      - typescript
+    paths:
+      include:
+        - "src/**"
+      exclude:
+        - "**/*.test.*"
+        - "**/*.spec.*"
+
+  # Detect TODO/FIXME comments
+  - id: todo-fixme-comments
+    patterns:
+      - pattern-regex: "(TODO|FIXME|HACK|XXX):"
+    message: Found TODO/FIXME comment - track in issue tracker
+    severity: INFO
+    languages:
+      - generic
+
+  # Detect missing error handling
+  - id: unhandled-promise
+    patterns:
+      - pattern: $PROMISE.then(...)
+      - pattern-not: $PROMISE.then(...).catch(...)
+      - pattern-not: |
+          try {
+            ...
+            $PROMISE.then(...)
+            ...
+          } catch (...) { ... }
+    message: Promise without error handling - add .catch() or try/catch
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+
+  # Detect improper error logging
+  - id: log-error-without-stack
+    patterns:
+      - pattern-either:
+          - pattern: console.error($ERR.message)
+          - pattern: logger.error($ERR.message)
+      - pattern-not: console.error($ERR)
+      - pattern-not: logger.error($ERR)
+    message: |
+      Logging only error message loses stack trace.
+      Log the full error object instead.
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+
+  # Detect use of eval()
+  - id: dangerous-eval
+    patterns:
+      - pattern-either:
+          - pattern: eval(...)
+          - pattern: Function(...)
+          - pattern: setTimeout("...", ...)
+          - pattern: setInterval("...", ...)
+    message: |
+      Dangerous use of eval() or Function() constructor.
+      This can lead to code injection vulnerabilities.
+    severity: ERROR
+    languages:
+      - javascript
+      - typescript
+    metadata:
+      category: security
+      cwe: "CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code"
+
+  # Detect weak cryptography
+  - id: weak-crypto-algorithm
+    patterns:
+      - pattern-either:
+          - pattern: crypto.createHash("md5")
+          - pattern: crypto.createHash("sha1")
+          - pattern: hashlib.md5(...)
+          - pattern: hashlib.sha1(...)
+    message: |
+      Weak cryptographic algorithm detected (MD5/SHA1).
+      Use SHA-256 or stronger algorithms.
+    severity: ERROR
+    languages:
+      - javascript
+      - python
+    metadata:
+      category: security
+      cwe: "CWE-327: Use of a Broken or Risky Cryptographic Algorithm"
+
+  # Detect missing HTTPS
+  - id: http-not-https
+    patterns:
+      - pattern-regex: 'http://[^"]+'
+      - pattern-not-regex: 'http://localhost'
+      - pattern-not-regex: 'http://127\.0\.0\.1'
+    message: HTTP URL detected - use HTTPS for external resources
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+      - python
+      - yaml
+      - json
+
+  # Organization-specific: Enforce logging standards
+  - id: use-structured-logging
+    patterns:
+      - pattern: console.log($MSG)
+      - pattern-not: logger.$METHOD(...)
+    message: |
+      Use structured logging (logger) instead of console.log
+      Example: logger.info({ msg: 'event', data })
+    severity: INFO
+    languages:
+      - javascript
+      - typescript
+    paths:
+      include:
+        - "src/**"
+
+  # Detect missing authentication checks
+  - id: missing-auth-check
+    patterns:
+      - pattern: |
+          app.$METHOD($PATH, function($REQ, $RES) {
+            ...
+          })
+      - pattern-not: |
+          app.$METHOD($PATH, $AUTH, function($REQ, $RES) {
+            ...
+          })
+      - pattern-not: |
+          app.$METHOD($PATH, function($REQ, $RES) {
+            ...
+            if ($REQ.user ...) { ... }
+            ...
+          })
+    message: Route handler missing authentication/authorization check
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+    paths:
+      include:
+        - "src/routes/**"
+        - "src/api/**"
+
+  # Detect race conditions
+  - id: check-then-use-race-condition
+    patterns:
+      - pattern: |
+          if (fs.existsSync($PATH)) {
+            ...
+            fs.$OP($PATH, ...)
+            ...
+          }
+    message: |
+      Potential race condition: file existence check followed by operation.
+      File state may change between check and use.
+    severity: WARNING
+    languages:
+      - javascript
+      - typescript
+
+  # Detect missing rate limiting
+  - id: missing-rate-limit
+    patterns:
+      - pattern: |
+          app.post($PATH, ...)
+      - pattern-not: |
+          app.post($PATH, $RATE_LIMITER, ...)
+    message: POST endpoint without rate limiting - consider adding rate limiter
+    severity: INFO
+    languages:
+      - javascript
+      - typescript
+    paths:
+      include:
+        - "src/routes/**"
+        - "src/api/**"
