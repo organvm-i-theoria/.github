@@ -79,6 +79,43 @@ This is the special `.github` repository for the **ivi374forivi** organization. 
 
 ## What's Inside
 
+### 🤖 GitHub Copilot Customizations
+
+This repository includes comprehensive GitHub Copilot customizations from the [github/awesome-copilot](https://github.com/github/awesome-copilot) repository for organization-wide implementation:
+
+#### Custom Agents
+- **Location**: `agents/` directory
+- **Purpose**: Specialized GitHub Copilot agents that integrate with MCP servers for enhanced capabilities
+- **Examples**: CSharpExpert, Terraform, ADR Generator, and partner integrations
+
+#### Instructions
+- **Location**: `instructions/` directory
+- **Purpose**: Comprehensive coding standards and best practices that apply to specific file patterns
+- **Coverage**: Multiple frameworks and languages (Angular, React, Python, .NET, Azure, etc.)
+- **Usage**: Instructions automatically apply based on file patterns
+
+#### Prompts
+- **Location**: `prompts/` directory
+- **Purpose**: Task-specific prompts for code generation, documentation, and problem-solving
+- **Usage**: Access via `/` commands in GitHub Copilot Chat (e.g., `/awesome-copilot create-readme`)
+
+#### Chat Modes
+- **Location**: `chatmodes/` directory
+- **Purpose**: Specialized AI personas for different roles (architect, DBA, security expert, etc.)
+- **Usage**: Activate modes for specialized assistance tailored to specific contexts
+
+#### Collections
+- **Location**: `collections/` directory
+- **Purpose**: Curated collections of prompts, instructions, and chat modes organized by theme
+- **Examples**: Azure Cloud Development, Frontend Web Dev, Security Best Practices
+
+For detailed documentation on each component, see the `docs/` directory:
+- [Agents Documentation](docs/README.agents.md)
+- [Instructions Documentation](docs/README.instructions.md)
+- [Prompts Documentation](docs/README.prompts.md)
+- [Chat Modes Documentation](docs/README.chatmodes.md)
+- [Collections Documentation](docs/README.collections.md)
+
 ### Organization Profile
 
 The `profile/README.md` file displays on the organization's public profile page, introducing visitors to the organization.
@@ -163,6 +200,9 @@ Individual repositories can override these defaults by creating their own versio
 
 ```
 .github/
+├── .github/
+│   ├── copilot-instructions.md             # Copilot code review instructions
+│   └── workflows/                          # GitHub Actions workflows
 ├── profile/
 │   └── README.md                           # Organization profile
 ├── ISSUE_TEMPLATE/
@@ -190,6 +230,12 @@ Individual repositories can override these defaults by creating their own versio
 │   ├── dependency-updates.properties.json  # Dependency update metadata
 │   ├── deployment.yml                      # Deployment workflow
 │   └── deployment.properties.json          # Deployment metadata
+├── agents/                                 # GitHub Copilot custom agents
+├── chatmodes/                              # GitHub Copilot chat modes
+├── collections/                            # Curated Copilot collections
+├── docs/                                   # Copilot customization docs
+├── instructions/                           # Copilot coding instructions
+├── prompts/                                # GitHub Copilot prompts
 ├── AI_IMPLEMENTATION_GUIDE.md              # AI management implementation guide
 ├── BRANCH_PROTECTION.md                    # Branch protection guide
 ├── CODE_OF_CONDUCT.md                      # Code of conduct
