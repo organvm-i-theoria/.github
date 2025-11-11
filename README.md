@@ -265,7 +265,6 @@ Need help? Have questions?
 - 📖 Check our [Support Documentation](SUPPORT.md) for detailed guidance
 - 🐛 Report issues using our [issue templates](ISSUE_TEMPLATE/)
 - 📧 Contact repository maintainers through GitHub
-- 💬 For general discussions, check if [GitHub Discussions](https://github.com/orgs/ivi374forivi/discussions) are enabled
 
 ---
 
