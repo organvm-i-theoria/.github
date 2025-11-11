@@ -32,13 +32,15 @@ jobs:
 
           for task in tasks:
               if task['enabled'] and croniter.is_valid(task['schedule']):
-                  # This logic checks if the current time is a scheduled run time.
-                  # It's a simplification that works because the orchestrator runs frequently (every 15 mins).
-                  cron = croniter(task['schedule'], now)
-                  # Get the previous run time and advance the cron iterator to it
+                  base_time = now
+                  cron = croniter(task['schedule'], base_time)
+
+                  # Check if a scheduled run occurred in the last 15 minutes
+                  # To do this, we get the time of the previous scheduled run
                   prev_run = cron.get_prev(datetime)
-                  # Now check if the current time is a scheduled run time
-                  if cron.get_next(datetime) == now.replace(second=0, microsecond=0):
+
+                  # Now, we check if that previous run time is within the last 15 minutes
+                  if (now - prev_run).total_seconds() <= 900: # 15 minutes * 60 seconds
                       due_tasks.append(task)
 
           print(f"{len(due_tasks)} tasks due to run.")

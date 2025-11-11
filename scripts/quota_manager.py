@@ -40,7 +40,7 @@ def reset_quotas():
     for sub in data["subscriptions"]:
         last_reset = datetime.strptime(sub["last_reset"], "%Y-%m-%d")
         if sub["reset_cadence"] == "daily":
-            if (today - last_reset).days >= 1:
+            if last_reset.date() != today.date():
                 sub["usage"] = 0
                 sub["last_reset"] = today.strftime("%Y-%m-%d")
         elif sub["reset_cadence"] == "monthly":

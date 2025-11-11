@@ -31,10 +31,14 @@ jobs:
         if: ${{ steps.quota.outputs.usage < steps.quota.outputs.quota }}
         run: |
           echo "Running OpenAI task with prompt: ${{ github.event.inputs.prompt }}"
-          # Simulate API call and cost
-          cost=0.07
+          # Simulate a variable cost based on prompt length
+          prompt_length=${#${{ github.event.inputs.prompt }}}
+          cost=$(echo "scale=4; $prompt_length * 0.00012" | bc)
           echo "Simulated cost: $cost"
           python scripts/quota_manager.py increment_usage "OpenAI_API" $cost
+
+          # Simulate output
+          echo "This is a simulated output from OpenAI for the prompt: ${{ github.event.inputs.prompt }}" > openai_output_${{ github.run_id }}.txt
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 

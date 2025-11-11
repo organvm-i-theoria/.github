@@ -31,10 +31,14 @@ jobs:
         if: ${{ steps.quota.outputs.usage < steps.quota.outputs.quota }}
         run: |
           echo "Running Gemini task with prompt: ${{ github.event.inputs.prompt }}"
-          # Simulate API call and cost
-          cost=0.08
+          # Simulate a variable cost based on prompt length
+          prompt_length=${#${{ github.event.inputs.prompt }}}
+          cost=$(echo "scale=4; $prompt_length * 0.00015" | bc)
           echo "Simulated cost: $cost"
           python scripts/quota_manager.py increment_usage "Gemini_API_Tier1" $cost
+
+          # Simulate output
+          echo "This is a simulated output from Gemini for the prompt: ${{ github.event.inputs.prompt }}" > gemini_output_${{ github.run_id }}.txt
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
