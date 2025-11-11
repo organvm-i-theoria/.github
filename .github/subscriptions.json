@@ -5,7 +5,7 @@
       "quota": 100,
       "unit": "tasks",
       "reset_cadence": "daily",
-      "relevant_workflows": ["claude.yml"],
+      "relevant_workflows": ["jules.yml"],
       "usage": 0,
       "last_reset": "2024-01-01"
     },
