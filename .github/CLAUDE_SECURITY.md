@@ -142,6 +142,7 @@ This implementation addresses the following compliance issues:
 ## Regular Security Reviews
 
 Recommended schedule:
+
 - **Monthly**: Review workflow run logs
 - **Quarterly**: Rotate OAuth token
 - **Semi-annually**: Update action SHAs to latest stable versions
