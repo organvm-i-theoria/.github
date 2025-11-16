@@ -12,6 +12,7 @@ on:
 
 jobs:
   claude:
+    # Security: Only trigger on @claude mentions
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
@@ -26,13 +27,50 @@ jobs:
       actions: read # Required for Claude to read CI results on PRs
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
         with:
           fetch-depth: 1
 
+      - name: Validate user permissions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Check if the triggering user has appropriate permissions
+          # Note: This uses API-based validation because this workflow handles multiple
+          # event types (issue_comment, pr_review, etc.) where author_association may not
+          # be consistently available. claude-code-review.yml uses author_association
+          # because it only handles pull_request events where it's always available.
+          # The /repos/{owner}/{repo}/collaborators/{username}/permission endpoint returns
+          # the effective permission level including organization membership.
+          ACTOR="${{ github.actor }}"
+          REPO="${{ github.repository }}"
+
+          echo "Checking permissions for user: $ACTOR"
+
+          # Get user's permission level
+          PERMISSION=$(gh api /repos/$REPO/collaborators/$ACTOR/permission -q .permission 2>/dev/null || echo "none")
+
+          echo "User permission level: $PERMISSION"
+
+          # Allow only admin, write, or maintain permissions (OWNER, MEMBER, COLLABORATOR)
+          if [[ "$PERMISSION" == "admin" || "$PERMISSION" == "write" || "$PERMISSION" == "maintain" ]]; then
+            echo "✓ User has sufficient permissions to trigger Claude"
+          else
+            echo "✗ Error: User does not have sufficient permissions (need admin/write/maintain, got: $PERMISSION)"
+            exit 1
+          fi
+
+      - name: Validate CLAUDE_CODE_OAUTH_TOKEN
+        run: |
+          if [ -z "${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}" ]; then
+            echo "Error: CLAUDE_CODE_OAUTH_TOKEN secret is not configured"
+            exit 1
+          fi
+          echo "Token validation passed"
+
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@06e550b8ff71349db253443c6ca8a4b120e7f89d # v1.0.16
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
