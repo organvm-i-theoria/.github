@@ -5,16 +5,17 @@
 ## Table of Contents
 
 1. [Repository Overview](#repository-overview)
-2. [Codebase Structure](#codebase-structure)
-3. [Development Workflows](#development-workflows)
-4. [Commit Conventions](#commit-conventions)
-5. [Pull Request Process](#pull-request-process)
-6. [GitHub Copilot Customizations](#github-copilot-customizations)
-7. [Automation & CI/CD](#automation--cicd)
-8. [Security & Compliance](#security--compliance)
-9. [Key Conventions](#key-conventions)
-10. [AI Assistant Guidelines](#ai-assistant-guidelines)
-11. [Common Tasks](#common-tasks)
+2. [AI Rapid Development Workflow](#ai-rapid-development-workflow) ⭐ **NEW**
+3. [Codebase Structure](#codebase-structure)
+4. [Development Workflows](#development-workflows)
+5. [Commit Conventions](#commit-conventions)
+6. [Pull Request Process](#pull-request-process)
+7. [GitHub Copilot Customizations](#github-copilot-customizations)
+8. [Automation & CI/CD](#automation--cicd)
+9. [Security & Compliance](#security--compliance)
+10. [Key Conventions](#key-conventions)
+11. [AI Assistant Guidelines](#ai-assistant-guidelines)
+12. [Common Tasks](#common-tasks)
 
 ---
 
@@ -44,6 +45,163 @@ When a repository in the organization doesn't have its own community health file
 
 ---
 
+## AI Rapid Development Workflow
+
+### ⚡ The Challenge
+
+**Problem:** Traditional PR workflows create bottlenecks when a solo developer works with multiple AI assistants:
+- Multiple AI agents create many branches simultaneously
+- PR backlog grows faster than manual review capacity
+- Tasks get lost in closed/stale PRs
+- Can develop working software in <24 hours but spend days managing merges
+
+**Solution:** Speed-optimized workflow with intelligent auto-merge, batch processing, and task preservation.
+
+### 🎯 Core Philosophy
+
+> **For solo dev + AI assistants:**
+> - **CI is your code reviewer** - If tests pass, ship it
+> - **Auto-merge by default** - Manual review only for complex/critical changes
+> - **Short-lived branches** - Max 48-72 hours from creation to merge
+> - **Track work in issues, not PR backlogs** - Tasks extracted from closed PRs
+> - **Batch related work** - Merge dependent PRs together
+> - **Ruthless cleanup** - Auto-close stale PRs
+
+### 🚀 Quick Start
+
+**AI assistants should use these labels when creating PRs:**
+
+```bash
+# Bug fixes, docs, small features (auto-merge immediately)
+gh pr create --label "automerge:when-ci-passes"
+
+# Standard features (auto-merge after 24h review window)
+gh pr create --label "automerge:after-24h"
+
+# Related changes (batch merge together)
+gh pr create --label "batch:feature-name"
+
+# Complex/critical (manual review required)
+gh pr create --label "needs-review"
+```
+
+### 📋 Auto-Merge Labels
+
+| Label | Behavior | Use When |
+|-------|----------|----------|
+| `automerge:when-ci-passes` | Merges immediately when CI ✅ | Bug fixes, docs, config, small features |
+| `automerge:after-24h` | Merges 24h after creation if CI ✅ | Standard features (time for review) |
+| `automerge:batch` | Waits for related PRs, merges together | Dependent changes |
+| `batch:<name>` | Groups related PRs for batch merge | API refactors, multi-PR features |
+| `needs-review` | **Blocks** auto-merge, requires approval | Complex/security/breaking changes |
+| `keep-alive` | Prevents stale auto-closure | Long-running work |
+| `hold` | Temporarily blocks merge | Need to pause |
+
+### ⏱️ Branch Lifecycle
+
+```
+0h     PR created → CI runs
+       ↓
+       If CI passes + "automerge:when-ci-passes" → MERGED ✅
+       OR wait for trigger...
+       ↓
+24h    "automerge:after-24h" + CI passed → MERGED ✅
+       ↓
+48h    No activity → ⚠️ Stale warning
+       ↓
+72h    Still inactive → 🚨 Final warning
+       ↓
+96h    Auto-closed + task extraction → Issue created 📋
+```
+
+### 🔄 Automated Workflows
+
+**Four new workflows support this process:**
+
+1. **`auto-merge.yml`** - Core auto-merge logic
+   - Evaluates PRs based on labels, CI status, age
+   - Automatically merges when conditions met
+   - Posts helpful comments on blocks/success
+
+2. **`branch-lifecycle.yml`** - Stale management
+   - Runs every 6 hours
+   - Warns at 48h, 72h
+   - Auto-closes at 96h with task extraction
+   - Cleans up merged branches
+
+3. **`pr-batch-merge.yml`** - Batch processing
+   - Triggered by `/merge-batch <name>` comment
+   - Validates all PRs in batch are ready
+   - Merges in dependency order
+   - Creates summary issue
+
+4. **`task-extraction.yml`** - Preserve work
+   - Runs when PR closes without merge
+   - Extracts incomplete tasks
+   - Creates new issue with tasks
+   - Assigns to original author
+
+### 📊 Target Metrics
+
+| Metric | Target | Why |
+|--------|--------|-----|
+| Open PRs | <10 | Reduce cognitive load |
+| PR merge time (small) | <2 hours | Ship faster |
+| Auto-merge rate | >70% | Reduce manual overhead |
+| Stale PRs | <5 | Keep backlog clean |
+| Lost tasks | 0 | Automation extracts them |
+
+### 🎓 Daily Routine (15 min/day)
+
+**Morning:**
+```bash
+gh pr list --state merged --search "merged:>=yesterday"  # What shipped?
+gh pr list --label "needs-review"                        # What needs me?
+gh pr list | wc -l                                       # PR count (<10?)
+```
+
+**Evening:**
+```bash
+gh pr list --label "stale:final-warning"  # Triage stale PRs
+```
+
+### 📚 Documentation
+
+- **Full Guide**: [`AI_RAPID_WORKFLOW.md`](AI_RAPID_WORKFLOW.md) - Complete workflow documentation
+- **Quick Reference**: [`RAPID_WORKFLOW_QUICK_REF.md`](RAPID_WORKFLOW_QUICK_REF.md) - Cheat sheet
+- **Workflows**: `.github/workflows/auto-merge.yml`, `branch-lifecycle.yml`, `pr-batch-merge.yml`, `task-extraction.yml`
+
+### ⚠️ Important for AI Assistants
+
+**DO:**
+- ✅ Use `automerge:when-ci-passes` for >70% of your PRs
+- ✅ Keep PRs small (<500 lines when possible)
+- ✅ Link PRs to issues (`Closes #123`)
+- ✅ Use `batch:<name>` for related work
+- ✅ Trust the CI pipeline
+
+**DON'T:**
+- ❌ Create PRs without auto-merge labels (causes manual work)
+- ❌ Create XL PRs (>1000 lines) without breaking them up
+- ❌ Let PRs sit without activity for >48 hours
+- ❌ Disable CI checks to "move faster"
+
+### 🆘 Common Scenarios
+
+**Too many open PRs?**
+→ Use batch merge or add `automerge:when-ci-passes` labels
+
+**Related PRs conflicting?**
+→ Use `batch:<name>` label and trigger `/merge-batch <name>`
+
+**Lost track of work?**
+→ Check issues with `extracted-tasks` label
+
+**PR not auto-merging?**
+→ Check CI status, labels, and merge conflicts
+
+---
+
 ## Codebase Structure
 
 ### Directory Tree
@@ -51,7 +209,12 @@ When a repository in the organization doesn't have its own community health file
 ```
 /home/user/.github/
 ├── .github/                          # Organization's own automation
-│   ├── workflows/                    # 32+ GitHub Actions workflows
+│   ├── workflows/                    # 36+ GitHub Actions workflows
+│   │   ├── Rapid Development (NEW)
+│   │   │   ├── auto-merge.yml
+│   │   │   ├── branch-lifecycle.yml
+│   │   │   ├── pr-batch-merge.yml
+│   │   │   └── task-extraction.yml
 │   │   ├── Security & Compliance
 │   │   │   ├── codeql-analysis.yml
 │   │   │   ├── semgrep.yml
@@ -152,6 +315,8 @@ When a repository in the organization doesn't have its own community health file
 │   │   ├── GOVERNANCE.md
 │   │   └── MANIFESTO.md
 │   ├── AI_CODE_INTELLIGENCE.md       # AI tools integration guide
+│   ├── AI_RAPID_WORKFLOW.md          # Rapid dev workflow (NEW)
+│   ├── RAPID_WORKFLOW_QUICK_REF.md   # Quick reference (NEW)
 │   ├── AUTOMATION_MASTER_GUIDE.md    # Automation documentation
 │   ├── BEST_PRACTICES.md             # Gold standard practices
 │   ├── DOCKER_BEST_PRACTICES.md
