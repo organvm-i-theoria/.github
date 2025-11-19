@@ -108,6 +108,59 @@ gh pr create --label "batch:api-v2" --title "test: API tests"
 
 ---
 
+## 🎯 PR Task Catcher (NEW)
+
+**Automatically scans PR comments for tasks/suggestions that need action**
+
+### What It Catches
+
+- ✅ Unchecked tasks: `- [ ] task`
+- 🚨 Blockers: "FIXME", "TODO", "Must fix", "Blocker"
+- 💡 Suggestions: "suggest", "should", "consider"
+- 💬 Unresolved review threads
+
+### Automatic Actions
+
+- Posts **Task Summary** comment (auto-updates)
+- Adds labels: `has-blockers`, `has-pending-tasks`
+- **Blocks merge** if blocker keywords found
+- Creates issues for tasks (if `create-issues-for-tasks` label present)
+
+### Usage
+
+```bash
+# AI creates PR with known follow-up tasks
+gh pr create \
+  --body "## Tasks
+- [x] Implement feature
+- [ ] Add tests (later)
+- [ ] Update docs (later)" \
+  --label "automerge:when-ci-passes,create-issues-for-tasks"
+
+# Result: PR merges, 2 issues created for incomplete tasks
+```
+
+**Reviewer leaves blocker:**
+```markdown
+🚨 BLOCKER: Must fix SQL injection on line 42
+```
+
+**Result:**
+- `has-blockers` label added
+- Merge blocked until addressed
+- Task summary updated
+
+### Task Catcher Labels
+
+| Label | Auto? | Purpose |
+|-------|-------|---------|
+| `has-blockers` | ✅ | Unresolved blocker items |
+| `has-pending-tasks` | ✅ | Unchecked tasks exist |
+| `create-issues-for-tasks` | ❌ | Create issues on merge |
+| `ignore-task-checks` | ❌ | Bypass blocking (emergency) |
+
+---
+
 ## 📊 Daily Dashboard (15 min/day)
 
 ### Morning

@@ -71,6 +71,33 @@ gh label create "needs-triage" \
   --description "Needs review and prioritization" \
   --force || true
 
+gh label create "task-from-pr" \
+  --color "C5DEF5" \
+  --description "Issue created from PR task" \
+  --force || true
+
+# Task Catcher labels
+echo "Creating Task Catcher labels..."
+gh label create "has-blockers" \
+  --color "D93F0B" \
+  --description "PR has unresolved blocker items" \
+  --force || true
+
+gh label create "has-pending-tasks" \
+  --color "FBCA04" \
+  --description "PR has unchecked tasks" \
+  --force || true
+
+gh label create "ignore-task-checks" \
+  --color "E99695" \
+  --description "Skip task catcher blocking (use sparingly)" \
+  --force || true
+
+gh label create "create-issues-for-tasks" \
+  --color "0E8A16" \
+  --description "Create issues for incomplete tasks when PR merges" \
+  --force || true
+
 # Batch merge label
 echo "Creating batch merge label..."
 gh label create "batch-merge" \

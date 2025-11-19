@@ -116,7 +116,7 @@ gh pr create --label "needs-review"
 
 ### 🔄 Automated Workflows
 
-**Four new workflows support this process:**
+**Five new workflows support this process:**
 
 1. **`auto-merge.yml`** - Core auto-merge logic
    - Evaluates PRs based on labels, CI status, age
@@ -140,6 +140,13 @@ gh pr create --label "needs-review"
    - Extracts incomplete tasks
    - Creates new issue with tasks
    - Assigns to original author
+
+5. **`pr-task-catcher.yml`** - Comment task tracking (NEW)
+   - Scans all PR comments for tasks/suggestions
+   - Detects blocker keywords, unchecked tasks, review threads
+   - Posts/updates task summary comment
+   - Blocks merge if blocker items found
+   - Creates issues for tasks on merge (optional)
 
 ### 📊 Target Metrics
 

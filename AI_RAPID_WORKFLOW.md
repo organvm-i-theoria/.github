@@ -284,6 +284,192 @@ See original work: #123
 
 ---
 
+## PR Task Catcher
+
+### Problem: Tasks/Suggestions in Comments Get Lost
+
+**Common scenario:**
+- Reviewer leaves comment: "Must fix the SQL injection vulnerability here"
+- Or: "TODO: Add error handling"
+- Or: "- [ ] Add unit tests for this function"
+- PR gets merged without addressing the comment
+- Security issue or tech debt gets lost forever
+
+### Solution: Automated Comment Scanning
+
+The **PR Task Catcher** workflow continuously scans all PR comments for:
+
+1. **Unchecked task items**: `- [ ] task`
+2. **Blocker keywords**: "FIXME", "TODO", "Must fix", "Required", "Blocker", "Action item"
+3. **Suggestions**: "suggest", "should", "could", "consider", "recommend"
+4. **Unresolved review threads**
+
+**Automatic actions:**
+- Posts/updates a **Task Catcher Summary** comment showing all found items
+- Adds labels: `has-blockers`, `has-pending-tasks`
+- **Blocks merge** if blocker items are found (unless `ignore-task-checks` label is added)
+- Creates issues for unresolved tasks when PR is merged (if `create-issues-for-tasks` label is present)
+
+### How It Works
+
+**Triggers:**
+- When PR is opened
+- When comments are added/edited
+- When reviews are submitted
+- When PR is ready for review
+
+**Example Task Summary:**
+
+```markdown
+# 🚨 Task Catcher Summary
+
+🚨 BLOCKERS FOUND - Address before merging
+
+## 📋 Task Overview
+
+| Category | Count |
+|----------|-------|
+| PR Body Unchecked Tasks | 2 |
+| PR Body Checked Tasks | 3 ✅ |
+| Comment Tasks | 1 |
+| Blocker Items | 2 🚨 |
+| Suggestions | 3 💡 |
+| Unresolved Review Threads | 1 |
+
+## 💬 Comment Tasks & Blockers
+
+### 🚨 @reviewer1 - BLOCKER at auth.ts:42
+Must fix the SQL injection vulnerability here
+
+### 💡 @reviewer2 - Suggestion
+Consider adding retry logic for API calls
+
+## 🎯 Next Steps
+
+- 🚨 Address all blocker items before merging
+- ✅ Check off completed tasks in PR description
+- 💬 Resolve review discussion threads
+
+**Options:**
+- ✅ Check off tasks as you complete them
+- 📋 Create issues for tasks to handle later: Add `create-issues-for-tasks` label
+- 🚫 Ignore tasks for merge: Add `ignore-task-checks` label
+```
+
+### Usage Patterns
+
+**For AI Assistants:**
+
+```bash
+# When creating PR with known follow-up tasks
+gh pr create \
+  --title "feat: user authentication" \
+  --body "Implements JWT authentication
+
+## Tasks
+- [x] Implement JWT signing
+- [x] Add login endpoint
+- [ ] Add refresh token logic  # Will do in next PR
+- [ ] Add rate limiting       # Will do in next PR
+
+Closes #123" \
+  --label "automerge:when-ci-passes,create-issues-for-tasks"
+
+# Result: PR merges, but 2 issues are auto-created for incomplete tasks
+```
+
+**For Reviewers:**
+
+```markdown
+# In PR comment:
+
+🚨 **BLOCKER:** Must fix the SQL injection on line 42 before merging.
+
+💡 **Suggestion:** Consider adding error handling for API timeout.
+
+- [ ] Add unit tests for the new function
+- [ ] Update API documentation
+```
+
+**Result:**
+- Task Catcher finds 1 blocker, 1 suggestion, 2 tasks
+- Adds `has-blockers` label
+- Posts summary comment
+- **Blocks merge** until blocker is addressed
+
+**Resolving blockers:**
+
+1. Fix the SQL injection
+2. Update the comment or check off the task
+3. Task Catcher re-scans (on next comment/push)
+4. `has-blockers` label removed automatically
+5. Merge proceeds
+
+### Labels
+
+| Label | Purpose | Auto-Added? |
+|-------|---------|-------------|
+| `has-blockers` | PR has unresolved blocker items | ✅ Yes |
+| `has-pending-tasks` | PR has unchecked tasks | ✅ Yes |
+| `ignore-task-checks` | Skip task blocking (not recommended) | ❌ Manual |
+| `create-issues-for-tasks` | Create issues for incomplete tasks on merge | ❌ Manual |
+| `task-from-pr` | Issue was created from PR task | ✅ Yes (on issues) |
+
+### Benefits
+
+**For solo dev + AI:**
+- No reviewer feedback gets lost
+- AI can leave tasks for you to review
+- You can leave tasks for AI to implement
+- Automatic accountability tracking
+
+**Common workflow:**
+
+```bash
+# AI creates PR with known limitations
+gh pr create --body "
+Implements user dashboard.
+
+## Known Limitations (for human review)
+- [ ] Add mobile responsiveness
+- [ ] Optimize database queries
+- [ ] Add accessibility labels
+
+Closes #123
+" --label "automerge:when-ci-passes,create-issues-for-tasks"
+
+# Result:
+# - PR auto-merges (CI passes)
+# - 3 issues auto-created for limitations
+# - You can triage/assign later
+```
+
+### Disabling Task Catcher
+
+**To bypass blocking:**
+```bash
+# If you really need to merge with blockers (emergency)
+gh pr edit 123 --add-label "ignore-task-checks"
+```
+
+**To disable for a PR:**
+The task catcher only blocks merge if blocker keywords are found. Regular unchecked tasks are informational only.
+
+### Best Practices
+
+**✅ DO:**
+- Use blocker keywords sparingly (only for actual blockers)
+- Check off tasks as you complete them
+- Use `create-issues-for-tasks` label for follow-up work
+- Resolve review threads to clear them from summary
+
+**❌ DON'T:**
+- Mark everything as "BLOCKER" (dilutes meaning)
+- Ignore task summaries (defeats the purpose)
+- Use `ignore-task-checks` routinely (defeats the purpose)
+
+---
+
 ## Batch Merge Workflow
 
 ### Problem: Related PRs Create Merge Conflicts
