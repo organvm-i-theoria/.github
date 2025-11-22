@@ -1,0 +1,24 @@
+name: Project Automation
+
+on:
+  issues:
+    types: [opened, reopened, labeled]
+  pull_request:
+    types: [opened, reopened, labeled]
+
+jobs:
+  project-management:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Parse Issue
+        uses: github/issue-parser@v3
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/bug_report.md # Optional: Adjust based on actual templates
+
+      - name: Add to Project
+        uses: actions/add-to-project@v0
+        with:
+          # Requires a PAT or App token with project write permissions
+          project-url: https://github.com/orgs/${{ github.repository_owner }}/projects/1
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
