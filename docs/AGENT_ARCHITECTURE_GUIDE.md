@@ -170,7 +170,7 @@ parameters:
 **Skill Implementation:**
 
 ```python
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
 @dataclass
@@ -568,6 +568,8 @@ MCP servers configured in agent frontmatter and user settings.
 ### Tool Discovery
 
 ```python
+from typing import List, Dict, Any
+
 class MCPClient:
     async def discover_tools(self) -> List[str]:
         """Discover available tools from MCP server."""
