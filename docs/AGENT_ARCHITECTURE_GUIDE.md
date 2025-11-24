@@ -232,10 +232,27 @@ class VoteDecision(Enum):
     REJECT = "reject"
     ABSTAIN = "abstain"
 
+class CouncilMember:
+    """Represents an agent in the council."""
+    
+    def __init__(self, agent: 'BaseAgent', weight: float = 1.0):
+        self.agent = agent
+        self.weight = weight
+    
+    def vote(self, proposal: Dict[str, Any]) -> VoteDecision:
+        """Cast a vote on a proposal."""
+        result = self.agent.execute({"action": "review", "proposal": proposal})
+        return VoteDecision(result.get("decision", "abstain"))
+    
+    def provide_feedback(self, proposal: Dict[str, Any]) -> str:
+        """Provide detailed feedback on proposal."""
+        result = self.agent.execute({"action": "feedback", "proposal": proposal})
+        return result.get("feedback", "")
+
 class AgentCouncil:
     """Orchestrates decision-making across multiple agents."""
     
-    def __init__(self, members: List, quorum: float = 0.5):
+    def __init__(self, members: List[CouncilMember], quorum: float = 0.5):
         self.members = members
         self.quorum = quorum
     
@@ -571,6 +588,12 @@ MCP servers configured in agent frontmatter and user settings.
 from typing import List, Dict, Any
 
 class MCPClient:
+    """Client for interacting with MCP servers."""
+    
+    def __init__(self, server_config: Dict[str, Any]):
+        self.config = server_config
+        self.tools = {}
+    
     async def discover_tools(self) -> List[str]:
         """Discover available tools from MCP server."""
         if self.config["type"] == "http":
