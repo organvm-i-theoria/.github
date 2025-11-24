@@ -43,7 +43,7 @@ Read our complete vision in the [Manifesto](docs/MANIFESTO.md).
 
 We follow conventional commit format:
 
-```
+```text
 <type>: <description>
 
 [optional body]
@@ -61,6 +61,7 @@ We follow conventional commit format:
 ### Viewing Commit Reports
 
 Commit tracking runs automatically on:
+
 - Every push to `main` or `develop` branches
 - Every pull request update
 
@@ -71,11 +72,10 @@ Weekly reports are generated every Monday and stored in the `reports/` directory
 
 ### 🤖 GitHub Copilot Customizations
 
-This repository includes comprehensive GitHub Copilot customizations from the [g
-ithub/awesome-copilot](https://github.com/github/awesome-copilot) repository for
- organization-wide implementation:
+This repository includes comprehensive GitHub Copilot customizations from the [github/awesome-copilot](https://github.com/github/awesome-copilot) repository for organization-wide implementation.
 
 #### Custom Agents
+
 - **Location**: `agents/` directory
 - **Purpose**: Specialized GitHub Copilot agents that integrate with MCP servers for enhanced capabilities
 - **Count**: 18 production-ready agents across 5 categories (Security, Infrastructure, Development, Languages, Documentation)
@@ -83,33 +83,29 @@ ithub/awesome-copilot](https://github.com/github/awesome-copilot) repository for
 - **Examples**: CSharpExpert, Terraform, ADR Generator, Security Audit, and partner integrations
 
 #### Instructions
+
 - **Location**: `instructions/` directory
-- **Purpose**: Comprehensive coding standards and best practices that apply to s
-pecific file patterns
-- **Coverage**: Multiple frameworks and languages (Angular, React, Python, .NET,
- Azure, etc.)
+- **Purpose**: Comprehensive coding standards and best practices that apply to specific file patterns
+- **Coverage**: Multiple frameworks and languages (Angular, React, Python, .NET, Azure, etc.)
 - **Usage**: Instructions automatically apply based on file patterns
 
 #### Prompts
+
 - **Location**: `prompts/` directory
-- **Purpose**: Task-specific prompts for code generation, documentation, and pro
-blem-solving
-- **Usage**: Access via `/` commands in GitHub Copilot Chat (e.g., `/awesome-cop
-ilot create-readme`)
+- **Purpose**: Task-specific prompts for code generation, documentation, and problem-solving
+- **Usage**: Access via `/` commands in GitHub Copilot Chat (e.g., `/awesome-copilot create-readme`)
 
 #### Chat Modes
+
 - **Location**: `chatmodes/` directory
-- **Purpose**: Specialized AI personas for different roles (architect, DBA, secu
-rity expert, etc.)
-- **Usage**: Activate modes for specialized assistance tailored to specific cont
-exts
+- **Purpose**: Specialized AI personas for different roles (architect, DBA, security expert, etc.)
+- **Usage**: Activate modes for specialized assistance tailored to specific contexts
 
 #### Collections
+
 - **Location**: `collections/` directory
-- **Purpose**: Curated collections of prompts, instructions, and chat modes orga
-nized by theme
-- **Examples**: Azure Cloud Development, Frontend Web Dev, Security Best Practic
-es
+- **Purpose**: Curated collections of prompts, instructions, and chat modes organized by theme
+- **Examples**: Azure Cloud Development, Frontend Web Dev, Security Best Practices
 
 For detailed documentation on each component, see the `docs/` directory:
 - [**Agent Registry**](docs/AGENT_REGISTRY.md) - Complete catalog of 18 production agents + future roadmap
@@ -128,18 +124,21 @@ The Mouthpiece Filter System allows you to write and speak in your authentic voi
 > *"Write like a human. Let the filter handle the rest."*
 
 #### What It Does
+
 - **Preserves Your Voice**: Keeps your unique style, metaphors, and emotional context
 - **Extracts Intent**: Understands what you mean, not just what you say
 - **Structures Information**: Organizes thoughts into clear, actionable formats
 - **Optimizes for AI**: Creates prompts that AI systems can process effectively
 
 #### Components
+
 - **Filter Script** (`scripts/mouthpiece_filter.py`) - CLI transformation engine
 - **Chat Mode** (`chatmodes/mouthpiece.chatmode.md`) - Interactive AI persona
 - **Prompt Template** (`prompts/mouthpiece-transform.prompt.md`) - Quick transformations
 - **Documentation** ([MOUTHPIECE_README.md](MOUTHPIECE_README.md)) - Complete guide
 
 #### Quick Start
+
 ```bash
 # Transform natural writing into structured prompts
 python scripts/mouthpiece_filter.py "your natural thoughts here"
@@ -149,6 +148,7 @@ python scripts/mouthpiece_filter.py "need something that watches APIs and alerts
 ```
 
 **Learn More:**
+
 - [Mouthpiece System Overview](MOUTHPIECE_README.md)
 - [Complete Documentation](docs/MOUTHPIECE_SYSTEM.md)
 - [Examples & Patterns](docs/mouthpiece-examples.md)
@@ -171,18 +171,19 @@ s all repositories:
 
 ### Documentation & Guides
 
-All our documentation and guides are now located in the `docs/` directory. This includes:
+All our documentation and guides are located in the `docs/` directory. Highlights include:
 
-| Document | Description |
-|----------|-------------|
-| [AGENT_ARCHITECTURE_GUIDE.md](docs/AGENT_ARCHITECTURE_GUIDE.md) | Comprehensive guide for building and deploying agents |
-| [AI_IMPLEMENTATION_GUIDE.md](docs/AI_IMPLEMENTATION_GUIDE.md) | AI-driven organization management guide |
-| [BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md) | Branch protection rules and configuration |
-| [REPOSITORY_SETUP_CHECKLIST.md](docs/REPOSITORY_SETUP_CHECKLIST.md) | New repository setup checklist |
-| [LABELS.md](docs/LABELS.md) | Standard label set for consistent tagging |
-| [TESTING.md](docs/TESTING.md) | Testing standards and best practices |
-| [PR_AUTOMATION.md](PR_AUTOMATION.md) | **Automated PR creation, push, and merge system** |
-| [for-ai-implementation.txt](for-ai-implementation.txt) | Complete AI GitHub management protocol |
+| Document                                                            | Description                                            |
+| ------------------------------------------------------------------- | ------------------------------------------------------ |
+| [AGENT_ARCHITECTURE_GUIDE.md](docs/AGENT_ARCHITECTURE_GUIDE.md)     | Comprehensive guide for building and deploying agents  |
+| [AI_IMPLEMENTATION_GUIDE.md](docs/AI_IMPLEMENTATION_GUIDE.md)       | AI-driven organization management guide                |
+| [BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md)                   | Branch protection rules and configuration              |
+| [REPOSITORY_SETUP_CHECKLIST.md](docs/REPOSITORY_SETUP_CHECKLIST.md) | New repository setup checklist                         |
+| [LABELS.md](docs/LABELS.md)                                         | Standard label set for consistent tagging              |
+| [TESTING.md](docs/TESTING.md)                                       | Testing standards and best practices                   |
+| [PR_AUTOMATION.md](PR_AUTOMATION.md)                                | Automated PR creation, push, and merge system          |
+| [for-ai-implementation.txt](for-ai-implementation.txt)              | Complete AI GitHub management protocol                 |
+| [REPOSITORY_PURPOSE_ANALYSIS.md](docs/REPOSITORY_PURPOSE_ANALYSIS.md) | Analysis of repository appropriateness for function set |
 
 
 ### Issue Templates
@@ -213,18 +214,13 @@ Specialized templates for different types of contributions:
 
 Reusable GitHub Actions workflows ready to use in any repository:
 
-| Template | Purpose | Use Case |
-|----------|---------|----------|
-| [ci.yml](workflow-templates/ci.yml) | Basic CI pipeline | Building and testing
- code |
-| [security-scan.yml](workflow-templates/security-scan.yml) | CodeQL analysis |
-Vulnerability scanning |
-| [stale-management.yml](workflow-templates/stale-management.yml) | Stale issue/
-PR management | Keeping repositories clean |
-| [dependency-updates.yml](workflow-templates/dependency-updates.yml) | Automate
-d updates | Managing dependencies |
-| [deployment.yml](workflow-templates/deployment.yml) | Deployment pipeline | St
-aging and production releases |
+| Template                                                            | Purpose                               | Use Case                       |
+| ------------------------------------------------------------------- | ------------------------------------- | ------------------------------ |
+| [ci.yml](workflow-templates/ci.yml)                                 | Basic CI pipeline                     | Building and testing           |
+| [security-scan.yml](workflow-templates/security-scan.yml)           | CodeQL analysis                       | Vulnerability scanning         |
+| [stale-management.yml](workflow-templates/stale-management.yml)     | Stale issue and PR management         | Keeping repositories clean     |
+| [dependency-updates.yml](workflow-templates/dependency-updates.yml) | Automated dependency update workflows | Managing dependencies          |
+| [deployment.yml](workflow-templates/deployment.yml)                 | Deployment pipeline                   | Staging and production releases |
 
 ### Automation Configuration
 
@@ -237,19 +233,6 @@ ion for:
   - Go modules
   - Composer (PHP)
 
-### Documentation & Guides
-
-Comprehensive guides for maintaining high-quality repositories:
-
-| Document | Description |
-|----------|-------------|
-| [AI_IMPLEMENTATION_GUIDE.md](docs/AI_IMPLEMENTATION_GUIDE.md) | AI-driven organization management guide |
-| [REPOSITORY_PURPOSE_ANALYSIS.md](docs/REPOSITORY_PURPOSE_ANALYSIS.md) | Analysis of repository appropriateness for function set |
-| [BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md) | Branch protection rules and configuration |
-| [REPOSITORY_SETUP_CHECKLIST.md](docs/REPOSITORY_SETUP_CHECKLIST.md) | New repository setup checklist |
-| [LABELS.md](docs/LABELS.md) | Standard label set for consistent tagging |
-| [TESTING.md](docs/TESTING.md) | Testing standards and best practices |
-| [for-ai-implementation.txt](for-ai-implementation.txt) | Complete AI GitHub management protocol |
 
 ### Organization Profile
 
@@ -286,7 +269,7 @@ tion default.
 
 ## 📁 Repository Structure
 
-```
+```text
 .github/
 ├── docs/
 │   ├── AI_IMPLEMENTATION_GUIDE.md
@@ -443,15 +426,10 @@ To enhance our organization's GitHub management:
 
 ### GitHub Documentation
 
-- [About default community health files](https://docs.github.com/en/communities/
-setting-up-your-project-for-healthy-contributions/creating-a-default-community-h
-ealth-file)
-- [About organization profiles](https://docs.github.com/en/organizations/collabo
-rating-with-groups-in-organizations/customizing-your-organizations-profile)
-- [Creating workflow templates](https://docs.github.com/en/actions/using-workflo
-ws/creating-starter-workflows-for-your-organization)
-- [Dependabot configuration](https://docs.github.com/en/code-security/dependabot
-/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
+- [About default community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+- [About organization profiles](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/customizing-your-organizations-profile)
+- [Creating workflow templates](https://docs.github.com/en/actions/using-workflows/creating-starter-workflows-for-your-organization)
+- [Dependabot configuration](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
 
 ### Organization Documentation
 
@@ -472,9 +450,8 @@ Need help? Have questions?
 - 📖 Check our [Support Documentation](docs/SUPPORT.md) for detailed guidance
 - 🐛 Report issues using our [issue templates](ISSUE_TEMPLATE/)
 - 📧 Contact repository maintainers through GitHub
-- 💬 For general discussions, check if [GitHub Discussions](https://github.com/or
-gs/ivi374forivi/discussions) are enabled
+- 💬 For general discussions, check if [GitHub Discussions](https://github.com/orgs/ivi374forivi/discussions) are enabled
 
 ---
 
-**Built with ❤️ by the ivi374forivi community**
+Built with ❤️ by the ivi374forivi community.
