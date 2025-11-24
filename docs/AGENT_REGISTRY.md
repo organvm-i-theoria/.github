@@ -2,7 +2,9 @@
 
 > **The complete catalog of organizational GitHub Copilot agents**
 
-Welcome to the Agent Registry — your single source of truth for all GitHub Copilot agents available across the organization. This catalog provides comprehensive documentation for discovering, understanding, and using the 19 specialized agents that extend GitHub Copilot's capabilities.
+Welcome to the Agent Registry — your single source of truth for all GitHub Copilot agents available across the organization. This catalog provides comprehensive documentation for discovering, understanding, and using specialized agents that extend GitHub Copilot's capabilities.
+
+**Current Status**: 18 production-ready agents across 5 categories
 
 ## Table of Contents
 
@@ -16,6 +18,7 @@ Welcome to the Agent Registry — your single source of truth for all GitHub Cop
   - [Documentation & Analysis](#documentation--analysis)
 - [Agent Development Guidelines](#agent-development-guidelines)
 - [Related Documentation](#related-documentation)
+- [Future Agents](#future-agents)
 
 ## Quick Reference
 
@@ -31,7 +34,6 @@ Welcome to the Agent Registry — your single source of truth for all GitHub Cop
 | [LaunchDarkly Flag Cleanup](#launchdarkly-flag-cleanup) | Development & Operations | Automated feature flag cleanup | launchdarkly | [agents/launchdarkly-flag-cleanup.agent.md](../agents/launchdarkly-flag-cleanup.agent.md) |
 | [Neon Migration Specialist](#neon-migration-specialist) | Infrastructure & DevOps | Zero-downtime Postgres migrations | None | [agents/neon-migration-specialist.agent.md](../agents/neon-migration-specialist.agent.md) |
 | [Neon Performance Analyzer](#neon-performance-analyzer) | Infrastructure & DevOps | Postgres query optimization | None | [agents/neon-optimization-analyzer.agent.md](../agents/neon-optimization-analyzer.agent.md) |
-| [Nervous Archaeologist](#nervous-archaeologist) | Documentation & Analysis | Repository analysis and documentation | None | *(Planned)* |
 | [Octopus Release Notes](#octopus-deploy-release-notes) | Development & Operations | Generates Octopus Deploy release notes | octopus | [agents/octopus-deploy-release-notes-mcp.agent.md](../agents/octopus-deploy-release-notes-mcp.agent.md) |
 | [PagerDuty Responder](#pagerduty-incident-responder) | Security & Compliance | Incident response automation | pagerduty | [agents/pagerduty-incident-responder.agent.md](../agents/pagerduty-incident-responder.agent.md) |
 | [Repository Setup](#repository-setup-agent) | Infrastructure & DevOps | New repository creation and configuration | github | [agents/repository-setup.agent.md](../agents/repository-setup.agent.md) |
@@ -781,35 +783,6 @@ Agents for documentation creation, architectural decisions, and repository analy
 
 ---
 
-#### Nervous Archaeologist
-
-**Purpose**: Repository analysis and documentation specialist *(Planned agent)*.
-
-**Key Features** (Planned):
-- Repository structure analysis
-- Code archaeology and history analysis
-- Documentation gap identification
-- Dependency mapping
-- Historical context extraction
-- Legacy code understanding
-
-**Prerequisites**: TBD
-
-**Invocation Examples** (Planned):
-```
-@nervous-archaeologist analyze the repository structure
-@nervous-archaeologist find undocumented features
-@nervous-archaeologist trace the history of the authentication module
-```
-
-**Integration Points**: TBD
-
-**Related Workflows**: TBD
-
-**Documentation**: *(Planned)*
-
----
-
 ## Agent Development Guidelines
 
 ### Creating New Agents
@@ -997,6 +970,35 @@ All new agents must go through:
 - [MCP Protocol Specification](https://modelcontextprotocol.io/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Semantic Versioning](https://semver.org/)
+
+---
+
+## Future Agents
+
+The following agents are planned for future development and are not yet available for use.
+
+### Nervous Archaeologist
+
+**Purpose**: Repository analysis and documentation specialist.
+
+**Planned Features**:
+- Repository structure analysis
+- Code archaeology and history analysis
+- Documentation gap identification
+- Dependency mapping
+- Historical context extraction
+- Legacy code understanding
+
+**Expected Use Cases**:
+```
+@nervous-archaeologist analyze the repository structure
+@nervous-archaeologist find undocumented features
+@nervous-archaeologist trace the history of the authentication module
+```
+
+**Status**: Planned for Q1 2026
+
+**Note**: If you're interested in contributing this agent or have requirements to share, please open a discussion or feature request issue.
 
 ---
 
