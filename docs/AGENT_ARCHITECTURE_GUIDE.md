@@ -592,7 +592,7 @@ class MCPClient:
     
     def __init__(self, server_config: Dict[str, Any]):
         self.config = server_config
-        self.tools = {}
+        self.tools = {}  # Populated by discover_tools() after initialization
     
     async def discover_tools(self) -> List[str]:
         """Discover available tools from MCP server."""
@@ -650,13 +650,14 @@ class InputValidator:
 ```python
 import time
 import random
+from typing import Callable, Any
 
 class RetryStrategy:
     def __init__(self, max_retries: int = 3, base_delay: float = 1.0):
         self.max_retries = max_retries
         self.base_delay = base_delay
     
-    def execute_with_retry(self, func, *args, **kwargs):
+    def execute_with_retry(self, func: Callable, *args: Any, **kwargs: Any) -> Any:
         for attempt in range(self.max_retries):
             try:
                 return func(*args, **kwargs)
