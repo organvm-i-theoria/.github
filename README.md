@@ -185,6 +185,19 @@ All our documentation and guides are located in the `docs/` directory. Highlight
 | [for-ai-implementation.txt](for-ai-implementation.txt)              | Complete AI GitHub management protocol                 |
 | [REPOSITORY_PURPOSE_ANALYSIS.md](docs/REPOSITORY_PURPOSE_ANALYSIS.md) | Analysis of repository appropriateness for function set |
 
+### Version Control & Standards
+
+Organization-wide standards for version control, branching, releases, and documentation:
+
+| Document                                                            | Description                                            |
+| ------------------------------------------------------------------- | ------------------------------------------------------ |
+| [VERSION_CONTROL_STANDARDS.md](VERSION_CONTROL_STANDARDS.md)       | Comprehensive version control standards and practices  |
+| [BRANCH_STRATEGY.md](BRANCH_STRATEGY.md)                           | Branching strategy for development and archival        |
+| [RELEASE_PROCESS.md](RELEASE_PROCESS.md)                           | Release creation and management workflows              |
+| [MARKDOWN_STYLE_GUIDE.md](MARKDOWN_STYLE_GUIDE.md)                 | Living style bible for markdown and English language   |
+| [SEMANTIC_VERSIONING.md](SEMANTIC_VERSIONING.md)                   | Detailed semantic versioning guidelines                |
+| [GIT_WORKFLOW.md](GIT_WORKFLOW.md)                                 | Complete Git workflow documentation                    |
+
 
 ### Issue Templates
 
