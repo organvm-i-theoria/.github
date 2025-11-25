@@ -248,6 +248,64 @@ python scripts/web_crawler.py --base-dir .
 python scripts/ecosystem_visualizer.py --find-latest
 ```
 
+---
+
+### 🔍 `validate-standards.sh`
+
+**Purpose**: Version control and documentation standards validation
+
+**Implements**:
+- Branch naming convention validation
+- Commit message format validation (Conventional Commits)
+- Markdown style validation (no emoji)
+
+**Features**:
+- Validates branch names against hierarchical naming conventions
+- Checks commit messages follow Conventional Commits format
+- Detects emoji in markdown files
+- Provides detailed error messages with examples
+- Can validate all or specific standards
+
+**Usage**:
+
+```bash
+# Validate all standards
+./scripts/validate-standards.sh
+
+# Validate specific standards
+./scripts/validate-standards.sh --branch     # Branch name only
+./scripts/validate-standards.sh --commits    # Commit messages only
+./scripts/validate-standards.sh --markdown   # Markdown style only
+
+# Show help
+./scripts/validate-standards.sh --help
+```
+
+**What it validates**:
+
+1. **Branch Names**: Ensures branch names follow `<lifecycle>/<type>/<component>[/<subcomponent>]`
+   - Examples: `develop/feature/auth`, `production/hotfix/security-fix`
+   - See [VERSION_CONTROL_STANDARDS.md](../VERSION_CONTROL_STANDARDS.md)
+
+2. **Commit Messages**: Ensures commits follow `<type>(<scope>): <subject>`
+   - Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+   - Examples: `feat(auth): add OAuth2`, `fix: resolve memory leak`
+   - See [GIT_WORKFLOW.md](../GIT_WORKFLOW.md)
+
+3. **Markdown Style**: Checks for emoji and style violations
+   - See [MARKDOWN_STYLE_GUIDE.md](../MARKDOWN_STYLE_GUIDE.md)
+
+**Integration**:
+- Pre-commit hooks (`.pre-commit-config.yaml`)
+- GitHub Actions (`.github/workflows/version-control-standards.yml`)
+- Local development validation
+
+**Exit codes**:
+- `0`: All validations passed
+- `1`: One or more validations failed
+
+---
+
 ## 🤝 Contributing
 
 Improvements to these scripts should:
@@ -261,7 +319,10 @@ Improvements to these scripts should:
 - [AI Implementation Guide](../docs/AI_IMPLEMENTATION_GUIDE.md)
 - [for-ai-implementation.txt](../for-ai-implementation.txt) - Complete AI protocol
 - [Repository Setup Checklist](../docs/REPOSITORY_SETUP_CHECKLIST.md)
+- [VERSION_CONTROL_STANDARDS.md](../VERSION_CONTROL_STANDARDS.md) - Version control standards
+- [BRANCH_STRATEGY.md](../BRANCH_STRATEGY.md) - Branching strategies
+- [MARKDOWN_STYLE_GUIDE.md](../MARKDOWN_STYLE_GUIDE.md) - Markdown style guide
 
 ---
 
-**🎉 Bringing the organization to life, one analysis at a time!**
+**Bringing the organization to life, one analysis at a time!**
