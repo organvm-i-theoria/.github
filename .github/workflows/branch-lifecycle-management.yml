@@ -118,29 +118,40 @@ EOF
           
           # Create temp file for branch list
           BRANCHES_FILE=$(mktemp)
+          echo "$BRANCHES_FILE" > /tmp/branches_file_path
           
-          # Find merged branches
+          # Find merged branches - redirect to file instead of using while read subshell
           git branch -r --merged origin/$DEFAULT_BRANCH | \
             grep -v "HEAD\|$DEFAULT_BRANCH\|main\|master\|develop" | \
             grep "origin/feature/\|origin/fix/\|origin/hotfix/\|origin/release/" | \
-            sed 's/origin\///' | \
-            while read branch; do
-              LAST_COMMIT_DATE=$(git log -1 --format=%ct origin/$branch)
+            sed 's/origin\///' > /tmp/all_branches.txt
+          
+          # Process branches and filter by age
+          if [ -s /tmp/all_branches.txt ]; then
+            while IFS= read -r branch; do
+              if [ -z "$branch" ]; then
+                continue
+              fi
+              
+              LAST_COMMIT_DATE=$(git log -1 --format=%ct origin/$branch 2>/dev/null || echo "0")
               CURRENT_DATE=$(date +%s)
               DAYS_OLD=$(( ($CURRENT_DATE - $LAST_COMMIT_DATE) / 86400 ))
               
               if [ $DAYS_OLD -gt 30 ]; then
                 echo "Branch $branch is $DAYS_OLD days old (merged)"
-                echo "$branch" >> $BRANCHES_FILE
+                echo "$branch" >> "$BRANCHES_FILE"
               fi
-            done
+            done < /tmp/all_branches.txt
+          fi
           
-          # Check if any branches found
-          if [ -s $BRANCHES_FILE ]; then
+          # Check if any branches found and set output
+          if [ -s "$BRANCHES_FILE" ]; then
             echo "found=true" >> $GITHUB_OUTPUT
             echo "branches_file=$BRANCHES_FILE" >> $GITHUB_OUTPUT
+            echo "Found stale branches: $(wc -l < $BRANCHES_FILE)"
           else
             echo "found=false" >> $GITHUB_OUTPUT
+            echo "No stale branches found"
           fi
 
       - name: Create cleanup issue
@@ -152,10 +163,31 @@ EOF
           script: |
             const fs = require('fs');
             const branchesFile = process.env.BRANCHES_FILE || '';
-            if (!branchesFile) return;
             
-            const branches = fs.readFileSync(branchesFile, 'utf8').trim().split('\n');
-            if (branches.length === 0) return;
+            if (!branchesFile) {
+              console.log('No branches file specified');
+              return;
+            }
+            
+            // Check if file exists and read it
+            if (!fs.existsSync(branchesFile)) {
+              console.log('Branches file does not exist');
+              return;
+            }
+            
+            const content = fs.readFileSync(branchesFile, 'utf8').trim();
+            if (!content) {
+              console.log('Branches file is empty');
+              return;
+            }
+            
+            const branches = content.split('\n').filter(b => b.trim() !== '');
+            if (branches.length === 0) {
+              console.log('No valid branches found');
+              return;
+            }
+            
+            console.log(`Found ${branches.length} stale branches`);
             
             const body = `## Merged Branches Ready for Cleanup
             
