@@ -93,7 +93,7 @@ validate_commit_messages() {
     
     # Get commits in current branch not in base branch
     local commits
-    commits=$(git log "$base_branch"..HEAD --pretty=format:"%H %s" 2>/dev/null || echo "")
+    commits=$(git log "$base_branch"..HEAD --pretty=format:"%H|%s" 2>/dev/null || echo "")
     
     if [ -z "$commits" ]; then
         info "No commits to validate"
@@ -102,8 +102,12 @@ validate_commit_messages() {
     
     local invalid_count=0
     while IFS= read -r line; do
-        local hash=$(echo "$line" | cut -d' ' -f1)
-        local message=$(echo "$line" | cut -d' ' -f2-)
+        if [ -z "$line" ]; then
+            continue
+        fi
+        
+        local hash=$(echo "$line" | cut -d'|' -f1)
+        local message=$(echo "$line" | cut -d'|' -f2-)
         
         # Skip merge commits
         if [[ "$message" =~ ^Merge ]]; then
@@ -152,7 +156,22 @@ validate_markdown_style() {
     while IFS= read -r file; do
         # Check for emoji characters (actual emoji, not box-drawing/geometric)
         # Focus on emoji faces, symbols, and objects ranges
-        if python3 -c "import re, sys; sys.exit(0 if re.search(r'[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', open('$file').read()) else 1)" 2>/dev/null; then
+        # Skip files that don't exist or aren't readable
+        if [ ! -f "$file" ] || [ ! -r "$file" ]; then
+            warning "Cannot read file: $file"
+            continue
+        fi
+        
+        if python3 -c "
+import re, sys
+try:
+    with open('$file', 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+        sys.exit(0 if re.search(r'[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', content) else 1)
+except Exception as e:
+    print(f'Error reading file: {e}', file=sys.stderr)
+    sys.exit(1)
+" 2>/dev/null; then
             error "Emoji found in $file (violates MARKDOWN_STYLE_GUIDE.md)"
             emoji_found=true
         fi
