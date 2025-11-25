@@ -1,10 +1,10 @@
-# 🛠️  Organization Management Scripts
+#   Organization Management Scripts
 
 This directory contains automation scripts that bring the AI GitHub Management Protocol to life.
 
-## 📁 Scripts Overview
+##  Scripts Overview
 
-### 🕷️  `web_crawler.py`
+###   `web_crawler.py`
 
 **Purpose**: Comprehensive organization health monitoring and analysis
 
@@ -14,13 +14,13 @@ This directory contains automation scripts that bring the AI GitHub Management P
 - **AI-GH-08**: Strategic Analysis & Risk Mitigation
 
 **Features**:
-- 🔍 Crawls all markdown documentation
-- 🌐 Validates external links
-- 📊 Analyzes repository health metrics
-- 🗺️  Maps the entire ecosystem
-- 🔦 Identifies blind spots (unknown risks)
-- 💥 Identifies shatter points (single points of failure)
-- 📝 Generates comprehensive JSON and Markdown reports
+-  Crawls all markdown documentation
+-  Validates external links
+-  Analyzes repository health metrics
+-   Maps the entire ecosystem
+-  Identifies blind spots (unknown risks)
+-  Identifies shatter points (single points of failure)
+-  Generates comprehensive JSON and Markdown reports
 
 **Usage**:
 
@@ -48,7 +48,7 @@ python scripts/web_crawler.py --github-token ghp_xxx --org-name myorg
 
 ---
 
-### 🎨 `ecosystem_visualizer.py`
+### `ecosystem_visualizer.py`
 
 **Purpose**: Generate visual dashboards and diagrams of the ecosystem
 
@@ -57,10 +57,10 @@ python scripts/web_crawler.py --github-token ghp_xxx --org-name myorg
 - **AI-GH-07**: Repository analytics visualization
 
 **Features**:
-- 📊 Creates interactive Mermaid diagrams
-- 🎯 Generates comprehensive dashboards
-- 🏆 Calculates health scores and badges
-- 📈 Visualizes trends and metrics
+-  Creates interactive Mermaid diagrams
+-  Generates comprehensive dashboards
+-  Calculates health scores and badges
+-  Visualizes trends and metrics
 
 **Usage**:
 
@@ -81,7 +81,7 @@ python scripts/ecosystem_visualizer.py --find-latest --output reports/MY_DASHBOA
 
 ---
 
-### 🔄 `quota_manager.py`
+###  `quota_manager.py`
 
 **Purpose**: Manage API quotas for AI workflow integrations
 
@@ -94,7 +94,7 @@ python scripts/ecosystem_visualizer.py --find-latest --output reports/MY_DASHBOA
 
 ---
 
-### 📦 `commit_changes.sh`
+###  `commit_changes.sh`
 
 **Purpose**: Automated git commit helper
 
@@ -102,7 +102,7 @@ python scripts/ecosystem_visualizer.py --find-latest --output reports/MY_DASHBOA
 
 ---
 
-### 🔒 `manage_lock.sh`
+###  `manage_lock.sh`
 
 **Purpose**: File-based locking mechanism for concurrent workflows
 
@@ -110,7 +110,7 @@ python scripts/ecosystem_visualizer.py --find-latest --output reports/MY_DASHBOA
 
 ---
 
-## 🚀 Automated Workflows
+##  Automated Workflows
 
 These scripts are automatically triggered by GitHub Actions:
 
@@ -129,7 +129,7 @@ These scripts are automatically triggered by GitHub Actions:
 You can manually trigger workflows from the Actions tab:
 - **Organization Health Crawler** - Run on-demand with optional link validation
 
-## 📊 Reports Structure
+##  Reports Structure
 
 All reports are saved to the `reports/` directory:
 
@@ -171,7 +171,7 @@ reports/
 }
 ```
 
-## 🔧 Dependencies
+##  Dependencies
 
 ### Python Packages
 
@@ -185,7 +185,7 @@ pip install requests
 - Git
 - GitHub CLI (`gh`) for some features (optional)
 
-## 🎯 AI GitHub Management Protocol Mapping
+##  AI GitHub Management Protocol Mapping
 
 | Module | Script | Workflow |
 |--------|--------|----------|
@@ -193,7 +193,7 @@ pip install requests
 | **AI-GH-07**: System Health | `web_crawler.py` | `org-health-crawler.yml`, `repo-metrics.yml` |
 | **AI-GH-08**: Risk Analysis | `web_crawler.py` | `org-health-crawler.yml` |
 
-## 📈 Health Scoring
+##  Health Scoring
 
 The health score (0-100) is calculated based on:
 
@@ -204,13 +204,13 @@ The health score (0-100) is calculated based on:
 | Critical Alerts | 30% | Penalty for critical blind spots and shatter points |
 
 **Score Ranges**:
-- 🟢 **80-100**: Excellent
-- 🟢 **60-79**: Good
-- 🟡 **40-59**: Fair
-- 🟠 **20-39**: Poor
-- 🔴 **0-19**: Critical
+-  **80-100**: Excellent
+-  **60-79**: Good
+-  **40-59**: Fair
+-  **20-39**: Poor
+-  **0-19**: Critical
 
-## 🚨 Alerting
+##  Alerting
 
 Critical findings trigger automated GitHub issues with:
 - `health-alert` label
@@ -218,14 +218,14 @@ Critical findings trigger automated GitHub issues with:
 - Detailed analysis and recommendations
 - Link to full report
 
-## 🔐 Security
+##  Security
 
 - Scripts require `GITHUB_TOKEN` with appropriate permissions
 - No secrets are logged or committed
 - All API calls respect rate limits
 - Reports may contain sensitive organizational data - review before sharing
 
-## 📝 Development
+##  Development
 
 ### Adding New Analysis
 
@@ -250,7 +250,7 @@ python scripts/ecosystem_visualizer.py --find-latest
 
 ---
 
-### 🔍 `validate-standards.sh`
+### validate-standards.sh
 
 **Purpose**: Version control and documentation standards validation
 
@@ -306,7 +306,7 @@ python scripts/ecosystem_visualizer.py --find-latest
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Improvements to these scripts should:
 - Follow the AI GitHub Management Protocol modules
@@ -314,7 +314,7 @@ Improvements to these scripts should:
 - Update this README
 - Add tests where applicable
 
-## 📚 Related Documentation
+##  Related Documentation
 
 - [AI Implementation Guide](../docs/AI_IMPLEMENTATION_GUIDE.md)
 - [for-ai-implementation.txt](../for-ai-implementation.txt) - Complete AI protocol

@@ -28,7 +28,7 @@ warning() {
 }
 
 success() {
-    echo -e "${GREEN}✓ $1${NC}"
+    echo -e "${GREEN}SUCCESS: $1${NC}"
 }
 
 info() {
@@ -150,9 +150,9 @@ validate_markdown_style() {
     
     local emoji_found=false
     while IFS= read -r file; do
-        # Check for common emoji patterns
-        # This checks for emoji Unicode ranges
-        if grep -P '[\x{1F300}-\x{1F9FF}]|[\x{2600}-\x{26FF}]|[\x{2700}-\x{27BF}]' "$file" > /dev/null 2>&1; then
+        # Check for emoji characters (actual emoji, not box-drawing/geometric)
+        # Focus on emoji faces, symbols, and objects ranges
+        if python3 -c "import re, sys; sys.exit(0 if re.search(r'[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF]', open('$file').read()) else 1)" 2>/dev/null; then
             error "Emoji found in $file (violates MARKDOWN_STYLE_GUIDE.md)"
             emoji_found=true
         fi

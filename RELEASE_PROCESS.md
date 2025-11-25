@@ -226,20 +226,20 @@ Automatically generated release notes include:
 ```markdown
 ## [1.2.0] - 2025-11-25
 
-### 🚀 Features
+###  Features
 - Add user authentication with OAuth2 (#123)
 - Implement dashboard analytics widget (#124)
 - Add export functionality for reports (#125)
 
-### 🐛 Bug Fixes
+###  Bug Fixes
 - Fix memory leak in data processor (#126)
 - Resolve login timeout issue (#127)
 
-### 📚 Documentation
+###  Documentation
 - Update API documentation (#128)
 - Add migration guide for v1 to v2 (#129)
 
-### ⚠️ BREAKING CHANGES
+###  BREAKING CHANGES
 - Authentication API redesigned to use OAuth2 tokens
   - Migration guide: docs/migration-v2.md
   - Old API keys deprecated, support ends 2026-01-31
@@ -510,7 +510,7 @@ We're excited to announce version 1.2.0 of [Project Name]!
 [Link to upgrade instructions]
 
 **Breaking Changes:**
-⚠️ API authentication now requires OAuth2 tokens. See our
+ API authentication now requires OAuth2 tokens. See our
 migration guide: [link]
 
 **Download:**
@@ -538,7 +538,7 @@ Thank you for using [Project Name]!
     status: custom
     custom_payload: |
       {
-        text: "🚀 New release: ${{ steps.semantic.outputs.new_release_version }}",
+        text: " New release: ${{ steps.semantic.outputs.new_release_version }}",
         attachments: [{
           color: 'good',
           text: ${{ steps.semantic.outputs.new_release_notes }}
@@ -554,7 +554,7 @@ Thank you for using [Project Name]!
       github.rest.issues.create({
         owner: context.repo.owner,
         repo: context.repo.repo,
-        title: '📢 Release v${{ steps.semantic.outputs.new_release_version }}',
+        title: ' Release v${{ steps.semantic.outputs.new_release_version }}',
         body: ${{ steps.semantic.outputs.new_release_notes }},
         labels: ['release', 'announcement']
       })
