@@ -4,7 +4,7 @@
 
 Welcome to the Agent Registry — your single source of truth for all GitHub Copilot agents available across the organization. This catalog provides comprehensive documentation for discovering, understanding, and using specialized agents that extend GitHub Copilot's capabilities.
 
-**Current Status**: 19 production-ready agents across 5 categories
+**Current Status**: 20 production-ready agents across 5 categories
 
 ## Table of Contents
 
@@ -35,6 +35,7 @@ Welcome to the Agent Registry — your single source of truth for all GitHub Cop
 | [LaunchDarkly Flag Cleanup](#launchdarkly-flag-cleanup) | Development & Operations | Automated feature flag cleanup | launchdarkly | [agents/launchdarkly-flag-cleanup.agent.md](../agents/launchdarkly-flag-cleanup.agent.md) |
 | [Neon Migration Specialist](#neon-migration-specialist) | Infrastructure & DevOps | Zero-downtime Postgres migrations | None | [agents/neon-migration-specialist.agent.md](../agents/neon-migration-specialist.agent.md) |
 | [Neon Performance Analyzer](#neon-performance-analyzer) | Infrastructure & DevOps | Postgres query optimization | None | [agents/neon-optimization-analyzer.agent.md](../agents/neon-optimization-analyzer.agent.md) |
+| [Nervous Archaeologist](#nervous-archaeologist) | Documentation & Analysis | Exhaustive repository analysis and data excavation | github | [agents/nervous-archaeologist.agent.md](../agents/nervous-archaeologist.agent.md) |
 | [Octopus Release Notes](#octopus-deploy-release-notes) | Development & Operations | Generates Octopus Deploy release notes | octopus | [agents/octopus-deploy-release-notes-mcp.agent.md](../agents/octopus-deploy-release-notes-mcp.agent.md) |
 | [PagerDuty Responder](#pagerduty-incident-responder) | Security & Compliance | Incident response automation | pagerduty | [agents/pagerduty-incident-responder.agent.md](../agents/pagerduty-incident-responder.agent.md) |
 | [Repository Setup](#repository-setup-agent) | Infrastructure & DevOps | New repository creation and configuration | github | [agents/repository-setup.agent.md](../agents/repository-setup.agent.md) |
@@ -823,6 +824,47 @@ Agents for documentation creation, architectural decisions, and repository analy
 - Quality assurance
 
 **Documentation**: [agents/completionism-specialist.agent.md](../agents/completionism-specialist.agent.md)
+
+---
+
+#### Nervous Archaeologist
+
+**Purpose**: Exhaustive repository analysis agent that performs compulsive data excavation, generates actionable tasks, and creates persistent memories.
+
+**Key Features**:
+- Hyper-vigilant repository scanning
+- Stratigraphic code analysis (layer-by-layer examination)
+- Comprehensive artifact cataloging
+- Temporal analysis and change tracking
+- Pattern recognition across codebase
+- Persistent memory creation for findings
+- Actionable task generation
+- Cross-referencing and relationship mapping
+
+**Prerequisites**:
+- GitHub MCP server access
+- Repository read permissions
+
+**Invocation Examples**:
+```
+@nervous-archaeologist perform exhaustive repository analysis
+@nervous-archaeologist scan for overlooked patterns and artifacts
+@nervous-archaeologist generate comprehensive repository report
+@nervous-archaeologist identify historical trends in the codebase
+```
+
+**Integration Points**:
+- GitHub API via MCP server
+- Repository history and commits
+- Code patterns and artifacts
+- Documentation and metadata
+
+**Related Workflows**:
+- Repository audits
+- Code archaeology
+- Technical debt analysis
+
+**Documentation**: [agents/nervous-archaeologist.agent.md](../agents/nervous-archaeologist.agent.md)
 
 ---
 
