@@ -62,6 +62,19 @@ Strategic next steps and logical expansions to enhance this gold standard reposi
 
 ---
 
+## Critical Review & Risk Controls
+
+**Why this matters**: The roadmap is ambitious and tooling-heavy. Without guardrails, it can erode existing stability—the very functionality we need to preserve while expanding capability.
+
+- **Tooling sprawl risk**: Prefer one tool per concern (e.g., pick **Percy _or_ Chromatic**, **Datadog _or_ Prometheus/Grafana**) and document the rationale to avoid duplicated effort and inconsistent outputs.
+- **Pipeline performance risk**: Mutation, visual, and accessibility suites can balloon CI time. Introduce a **tiered test strategy** (smoke on PRs, full suites on schedules) with published SLAs for runtime budgets.
+- **Change-management guardrails**: Gate adoption with **feature flags** and **progressive rollout** plans (shadow mode, mirrored traffic, then production) so behavior stays stable while capabilities grow.
+- **Observability consistency**: Standardize telemetry naming (service, environment, version) and require **baseline dashboards + alerts** _before_ enabling new exporters to avoid noisy, low-signal alerting.
+- **Compliance & data handling**: For logging/observability additions, run a **PII data audit** and keep a redaction policy enforced in code linters or centralized middleware.
+- **Ownership clarity**: Assign an **owner per capability** (Testing, Observability, DX, API Docs) with a published escalation path so regressions have clear accountability.
+
+---
+
 ## High-Priority Expansions
 
 ### 1. Testing Excellence Suite
@@ -804,6 +817,14 @@ jobs:
 
 ## Implementation Roadmap
 
+### Functionality Preservation Gates (apply to every phase)
+- [ ] **Baseline captured**: Golden path smoke tests + before/after metrics recorded.
+- [ ] **Rollout strategy defined**: Feature flag or canary path with rollback steps documented.
+- [ ] **PII/secret handling confirmed**: Logging/telemetry redaction rules enforced and linted.
+- [ ] **Owner & runbook**: Named DRI with an escalation and rollback playbook linked.
+- [ ] **Alert hygiene**: At least one high-signal alert plus dashboard for the new capability, reviewed for noise.
+- [ ] **Dependency check**: New tools validated against existing SLAs (CI runtime, hosting costs, retention policies).
+
 ### Phase 1: Testing Excellence (Weeks 1-4)
 - [ ] Week 1: Mutation testing setup
 - [ ] Week 2: Contract testing implementation
@@ -891,6 +912,6 @@ Track these to measure expansion impact:
 
 ---
 
-**Last Updated**: 2024-11-08
+**Last Updated**: 2025-12-09
 
 **Next Review**: After Phase 1 completion
