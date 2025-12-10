@@ -284,7 +284,9 @@ Choosing the right merge strategy is critical for preserving context and functio
   - ✅ **Use when** you need a linear history for small, isolated branches and tests are green after the rebase.
   - 🔍 **Critique**: Rewriting history can obscure when changes actually occurred; avoid for shared branches or when auditability is required.
 
-**Main branch default:** Favor `--no-ff` merge commits for release and hotfix branches to keep auditability and alignment with deployment checkpoints. Use squash merges for short-lived feature branches after confirming tests and reviews are complete.
+**Default Merge Strategies:**
+- **When merging to `main`:** Favor `--no-ff` merge commits for `release/*` and `hotfix/*` branches to preserve history and auditability.
+- **When merging to `develop`:** Use squash merges for `feature/*` branches to keep the integration history clean.
 
 ### Functional Preservation Checklist for Merging to Main
 
