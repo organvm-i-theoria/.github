@@ -281,8 +281,8 @@ Choosing the right merge strategy is critical for preserving context and functio
   - ✅ **Use when** the branch contains many small or iterative commits that should be represented as a single logical change.
   - 🔍 **Critique**: Loses granular commit messages and can hide the sequence of decisions; avoid for long-running feature or release branches.
 - **Rebase and merge**
-  - ✅ **Use when** you need a linear history for small, isolated branches and tests are green after the rebase.
-  - 🔍 **Critique**: Rewriting history can obscure when changes actually occurred; avoid for shared branches or when auditability is required.
+  - ✅ **Use when** you need a linear history for small, isolated branches.
+  - 🔍 **Critique**: Rewriting history can obscure when changes occurred and may introduce broken intermediate commits if not done carefully. This complicates debugging (e.g., `git bisect`). To mitigate this, use interactive rebase (`git rebase -i`) to ensure each commit is a self-contained, working change. Avoid for shared branches or when strict auditability is required.
 
 **Default Merge Strategies:**
 - **When merging to `main`:** Favor `--no-ff` merge commits for `release/*` and `hotfix/*` branches to preserve history and auditability.
