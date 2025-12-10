@@ -82,6 +82,7 @@ Strategic next steps and logical expansions to enhance this gold standard reposi
 | Data handling | Validate PII handling/redaction in logs and traces. | Security/Privacy | Passing lint/redaction checks; audit log captured. |
 | Alert hygiene | Add/validate high-signal alerts with runbook links. | Observability | Alerts linked to runbooks; noise budget ≤ agreed SLA. |
 | Dependency validation | Confirm new tooling versions are pinned and scoped. | Capability owner | Lockfiles updated; supply-chain checks green. |
+| Functional parity | Run smoke/perf baselines before & after rollout to verify no regression. | Capability owner | Baseline deltas within agreed error budget; rollback plan exercised if breached. |
 
 ---
 
