@@ -279,6 +279,25 @@ For each finding:
 9. **Validate Findings**: Cross-reference evidence from multiple sources
 10. **Prepare for Legal**: Ensure evidence is admissible if needed
 
+## Operational Guardrails and Critique
+
+**Pre-investigation**
+- **Freeze first, analyze second**: Snapshot data sources and repositories (branches, logs, DB exports) before running queries to prevent evidence contamination.
+- **Scope hygiene**: Write down the incident window, affected systems, and explicit out-of-scope areas so the effort stays bounded.
+- **Access approvals**: Confirm who is authorized to view sensitive evidence; avoid expanding permissions mid-incident.
+
+**During investigation**
+- **Chain-of-custody discipline**: Log who accessed which artifacts, when, and for what purpose so findings remain defensible.
+- **Bias checks**: Maintain competing hypotheses and note disconfirming evidence to reduce confirmation bias.
+- **Data minimization**: Collect only required evidence and redact nonessential PII to reduce secondary exposure risk.
+- **Tool transparency**: Record CLI flags, MCP servers, script versions, and hash evidence bundles to keep the work reproducible.
+- **Escalation triggers**: Define explicit thresholds for notifying legal/HR/compliance (e.g., regulated data touched, insider involvement, multi-tenant blast radius).
+
+**Post-investigation**
+- **Peer validation**: Have another reviewer spot-check timelines, evidence references, and root-cause statements before publishing.
+- **Postmortem readiness**: Structure notes so they can be lifted directly into formal reports, including timelines, findings, remediation, and open risks.
+- **Retain/expire**: Set retention windows for collected artifacts and ensure sensitive evidence is securely disposed of after approval.
+
 ## References
 
 - GitHub Audit Log Documentation: https://docs.github.com/en/organizations/keeping-your-organization-secure/reviewing-the-audit-log-for-your-organization
