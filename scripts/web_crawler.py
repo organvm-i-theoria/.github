@@ -9,6 +9,8 @@ import re
 import json
 import requests
 import urllib.parse
+import socket
+import ipaddress
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
