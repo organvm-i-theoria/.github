@@ -18,8 +18,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 from collections import defaultdict
 import time
-import socket
-import ipaddress
+import functools
 
 
 class OrganizationCrawler:
@@ -111,6 +110,11 @@ class OrganizationCrawler:
 
         return results
 
+    @functools.lru_cache(maxsize=1024)
+    def _resolve_hostname(self, hostname: str) -> str:
+        """Resolve hostname to IP with caching"""
+        return socket.gethostbyname(hostname)
+
     def _is_safe_url(self, url: str) -> bool:
         """Check if URL resolves to a safe (non-local) IP address"""
         try:
@@ -120,7 +124,7 @@ class OrganizationCrawler:
                 return False
 
             # Resolve hostname
-            ip = socket.gethostbyname(hostname)
+            ip = self._resolve_hostname(hostname)
             ip_obj = ipaddress.ip_address(ip)
 
             # Check for private/loopback/link-local
