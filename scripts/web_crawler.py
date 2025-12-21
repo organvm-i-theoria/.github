@@ -7,6 +7,8 @@ Implements AI-GH-06, AI-GH-07, and AI-GH-08 modules
 import os
 import re
 import json
+import socket
+import ipaddress
 import requests
 import urllib.parse
 import socket
@@ -16,8 +18,7 @@ from pathlib import Path
 from typing import Dict, List, Set, Tuple
 from collections import defaultdict
 import time
-import socket
-import ipaddress
+import functools
 
 
 class OrganizationCrawler:
@@ -109,6 +110,17 @@ class OrganizationCrawler:
 
         return results
 
+    @functools.lru_cache(maxsize=1024)
+    def _resolve_hostname(self, hostname: str) -> List[str]:
+        """Resolve hostname to list of IPs with caching"""
+        # getaddrinfo returns list of (family, type, proto, canonname, sockaddr)
+        # We want sockaddr[0] (the IP address)
+        try:
+            results = socket.getaddrinfo(hostname, None)
+            return list(set(item[4][0] for item in results))
+        except socket.gaierror:
+            return []
+
     def _is_safe_url(self, url: str) -> bool:
         """Check if URL resolves to a safe (non-local) IP address"""
         try:
@@ -118,12 +130,20 @@ class OrganizationCrawler:
                 return False
 
             # Resolve hostname
-            ip = socket.gethostbyname(hostname)
-            ip_obj = ipaddress.ip_address(ip)
+            ips = self._resolve_hostname(hostname)
 
-            # Check for private/loopback/link-local
-            if ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_link_local:
+            if not ips:
                 return False
+
+            for ip in ips:
+                # Handle IPv6 scope ids if present (e.g., fe80::1%en0)
+                if '%' in ip:
+                    ip = ip.split('%')[0]
+
+                ip_obj = ipaddress.ip_address(ip)
+                # Check for private/loopback/link-local
+                if ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_link_local:
+                    return False
 
             return True
         except Exception:
