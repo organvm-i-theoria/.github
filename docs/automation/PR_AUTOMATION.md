@@ -73,6 +73,7 @@ git push -u origin feature/user-authentication
 ```
 
 A pull request will be **automatically created** with:
+
 - Title: `feat: user authentication`
 - Base branch: `develop` (for feature branches)
 - Labels: `enhancement`, `auto-created`
@@ -83,12 +84,14 @@ A pull request will be **automatically created** with:
 To enable auto-merge for a PR, use **any** of these methods:
 
 **Method 1: Add label**
+
 ```bash
 # Add the 'auto-merge' label via GitHub UI or CLI
 gh pr edit <PR_NUMBER> --add-label "auto-merge"
 ```
 
 **Method 2: Include in title**
+
 ```
 feat: user authentication [auto-merge]
 ```
@@ -101,6 +104,7 @@ Auto-created PRs are automatically eligible for auto-merge.
 To skip automation for specific commits or PRs:
 
 **Skip Auto PR Creation:**
+
 ```bash
 git commit -m "feat: work in progress [skip-auto-pr]"
 ```
@@ -125,12 +129,12 @@ Auto PR creation triggers when you push to branches matching these patterns:
 
 The system automatically selects the appropriate base branch:
 
-| Branch Type | Base Branch | Example |
-|------------|-------------|---------|
-| `feature/*` | `develop` | `feature/login` → PR to `develop` |
-| `bugfix/*` | `develop` | `bugfix/fix-typo` → PR to `develop` |
-| `hotfix/*` | `main` | `hotfix/critical-fix` → PR to `main` |
-| `release/*` | `main` | `release/v1.2.0` → PR to `main` |
+| Branch Type | Base Branch | Example                              |
+| ----------- | ----------- | ------------------------------------ |
+| `feature/*` | `develop`   | `feature/login` → PR to `develop`    |
+| `bugfix/*`  | `develop`   | `bugfix/fix-typo` → PR to `develop`  |
+| `hotfix/*`  | `main`      | `hotfix/critical-fix` → PR to `main` |
+| `release/*` | `main`      | `release/v1.2.0` → PR to `main`      |
 
 ### Generated PR Details
 
@@ -154,22 +158,26 @@ Each auto-created PR includes:
 Auto-generated PR for `feature/user-authentication`
 
 ## Type of Change
+
 - [x] New feature
 - [ ] Bug fix
 - [ ] Breaking change
 - [ ] Documentation update
 
 ## Changes Made
+
 - Add authentication middleware (a1b2c3d)
 - Implement JWT token generation (e4f5g6h)
 - Add login/logout endpoints (i7j8k9l)
 
 ## Testing
+
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
 - [ ] Manual testing completed
 
 ## Checklist
+
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Comments added for complex code
@@ -187,21 +195,28 @@ Auto-generated PR for `feature/user-authentication`
 A PR is eligible for auto-merge when **ALL** of these conditions are met:
 
 #### 1. **Auto-Merge Indicator**
+
 One of:
+
 - Has `auto-merge` or `automerge` label
 - Was auto-created (has `auto-created` label)
 - Title contains `[auto-merge]`
 
 #### 2. **Not in Draft Mode**
+
 PR must not be marked as draft
 
 #### 3. **No Merge Conflicts**
+
 Either:
+
 - No conflicts exist, OR
 - Conflicts were auto-resolved by updating the branch
 
 #### 4. **All Status Checks Pass**
+
 All required CI/CD checks must pass:
+
 - Linting
 - Tests
 - Security scans
@@ -209,17 +224,20 @@ All required CI/CD checks must pass:
 - Any custom checks
 
 #### 5. **Required Approvals**
+
 Minimum approvals based on branch type:
 
-| Branch Type | Required Approvals |
-|------------|-------------------|
-| `feature/*` | 1 |
-| `bugfix/*` | 1 |
-| `hotfix/*` | 0 (emergency fixes) |
-| `release/*` | 2 |
+| Branch Type | Required Approvals  |
+| ----------- | ------------------- |
+| `feature/*` | 1                   |
+| `bugfix/*`  | 1                   |
+| `hotfix/*`  | 0 (emergency fixes) |
+| `release/*` | 2                   |
 
 #### 6. **No Blocking Labels**
+
 PR must NOT have these labels:
+
 - `do-not-merge`
 - `wip`
 - `on-hold`
@@ -261,6 +279,7 @@ If auto-resolution fails:
 This PR has merge conflicts that cannot be automatically resolved.
 
 **To resolve:**
+
 1. Update your local branch: `git checkout feature/my-feature`
 2. Merge the base branch: `git merge develop`
 3. Resolve conflicts in your editor
@@ -284,9 +303,9 @@ The PR automation behavior is controlled by `.github/pr-automation.yml`.
 auto_pr:
   enabled: true
   branch_patterns:
-    - 'feature/**'
-    - 'bugfix/**'
-    - 'hotfix/**'
+    - "feature/**"
+    - "bugfix/**"
+    - "hotfix/**"
   base_branches:
     feature: develop
     bugfix: develop
@@ -299,7 +318,7 @@ auto_pr:
 ```yaml
 auto_merge:
   enabled: true
-  merge_method: squash  # Options: merge, squash, rebase
+  merge_method: squash # Options: merge, squash, rebase
 
   approvals:
     minimum: 1
@@ -419,12 +438,14 @@ gh pr edit <PR_NUMBER> --add-label "do-not-merge"
 ### PR Not Auto-Created
 
 **Check:**
+
 - ✅ Branch name matches patterns (`feature/*`, `bugfix/*`, etc.)
 - ✅ Commit message doesn't contain `[skip-auto-pr]`
 - ✅ No existing open PR for this branch
 - ✅ Workflow has proper permissions
 
 **Solution:**
+
 ```bash
 # Manually trigger workflow
 git commit --allow-empty -m "trigger: auto-pr creation"
@@ -434,6 +455,7 @@ git push
 ### PR Not Auto-Merging
 
 **Check:**
+
 - ✅ PR has `auto-merge` label or was auto-created
 - ✅ All status checks passed
 - ✅ Required approvals obtained
@@ -442,6 +464,7 @@ git push
 - ✅ No `do-not-merge` label
 
 **Debug:**
+
 ```bash
 # Check PR status
 gh pr view <PR_NUMBER> --json statusCheckRollup,reviews,mergeable
@@ -456,6 +479,7 @@ gh run view <RUN_ID> --log
 **Reason:** Conflicts are too complex for automatic resolution
 
 **Solution:**
+
 ```bash
 # 1. Checkout your branch
 git checkout feature/my-feature
@@ -478,11 +502,13 @@ git push
 ### Branch Not Deleted After Merge
 
 **Check:**
+
 - ✅ Branch is not protected (not main/develop/master)
 - ✅ `delete_branch_after_merge: true` in config
 - ✅ Workflow has proper permissions
 
 **Manual cleanup:**
+
 ```bash
 # Delete local branch
 git branch -d feature/my-feature
@@ -498,6 +524,7 @@ git push origin --delete feature/my-feature
 ### ✅ Do's
 
 1. **Use descriptive branch names**
+
    ```bash
    ✅ feature/user-authentication
    ✅ bugfix/fix-login-timeout
@@ -505,6 +532,7 @@ git push origin --delete feature/my-feature
    ```
 
 2. **Follow conventional commits**
+
    ```bash
    ✅ feat: add user authentication
    ✅ fix: resolve login timeout issue
@@ -512,11 +540,13 @@ git push origin --delete feature/my-feature
    ```
 
 3. **Keep PRs focused and small**
+
    - One feature/fix per PR
    - Easier to review and merge
    - Reduces conflict likelihood
 
 4. **Update PR descriptions**
+
    - Auto-generated descriptions are starting points
    - Add context and testing details
    - Link related issues
@@ -529,12 +559,14 @@ git push origin --delete feature/my-feature
 ### ❌ Don'ts
 
 1. **Don't bypass required checks**
+
    ```bash
    ❌ Pushing without running tests locally
    ❌ Forcing merge with failing checks
    ```
 
 2. **Don't create massive PRs**
+
    ```bash
    ❌ feature/everything - 50 files changed
    ✅ feature/user-auth - 5 files changed
@@ -542,11 +574,13 @@ git push origin --delete feature/my-feature
    ```
 
 3. **Don't ignore merge conflicts**
+
    - Address conflicts promptly
    - Test after resolving
    - Don't just accept all changes
 
 4. **Don't disable safety features**
+
    - Keep required approvals
    - Maintain status checks
    - Use branch protection
@@ -589,7 +623,7 @@ Configure per repository:
 ```yaml
 # .github/pr-automation.yml
 auto_merge:
-  merge_method: squash  # or 'merge' or 'rebase'
+  merge_method: squash # or 'merge' or 'rebase'
 ```
 
 **Squash (default):** Combines all commits into one
@@ -602,10 +636,10 @@ auto_merge:
 auto_merge:
   approvals:
     by_branch_type:
-      feature: 1      # Features need 1 approval
-      bugfix: 1       # Bugfixes need 1 approval
-      hotfix: 0       # Hotfixes can merge without approval
-      release: 2      # Releases need 2 approvals
+      feature: 1 # Features need 1 approval
+      bugfix: 1 # Bugfixes need 1 approval
+      hotfix: 0 # Hotfixes can merge without approval
+      release: 2 # Releases need 2 approvals
 ```
 
 ### Manual Trigger
@@ -634,6 +668,7 @@ gh workflow run auto-merge.yml -f pr_number=123
 ### Audit Trail
 
 All automation actions are:
+
 - Logged in workflow runs
 - Commented on PRs
 - Visible in git history
@@ -645,10 +680,10 @@ The workflows require these permissions:
 
 ```yaml
 permissions:
-  contents: write        # Push and merge
-  pull-requests: write   # Create and modify PRs
-  issues: write          # Add labels and comments
-  checks: read          # Read status checks
+  contents: write # Push and merge
+  pull-requests: write # Create and modify PRs
+  issues: write # Add labels and comments
+  checks: read # Read status checks
 ```
 
 ---
@@ -679,6 +714,7 @@ When reporting issues, include:
 ### Version 1.0.0 (2024-11-18)
 
 Initial release:
+
 - Auto PR creation for feature branches
 - Auto merge with approval and check validation
 - Automatic conflict resolution
