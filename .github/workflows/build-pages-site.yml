@@ -139,7 +139,7 @@ jobs:
                 WALKTHROUGH_COUNT=$((WALKTHROUGH_COUNT + 1))
               done
             fi
-          done < <(jq -c '.' /tmp/repos.json)
+          done < <(jq -c '.' /tmp/repos.json 2>/dev/null || echo '[]')
 
           echo "walkthrough_count=$WALKTHROUGH_COUNT" >> $GITHUB_OUTPUT
           echo "✅ Found $WALKTHROUGH_COUNT walkthrough(s)"
