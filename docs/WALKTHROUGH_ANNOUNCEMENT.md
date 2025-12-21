@@ -226,7 +226,7 @@ STORAGE_API_KEY       # For long-term artifact storage
 
 ### Getting Help
 
-- 📖 **Documentation**: Check our [comprehensive guides](../../docs/)
+- 📖 **Documentation**: Check our [comprehensive guides](./)
 - 💬 **Discussions**: Ask questions in [GitHub Discussions](https://github.com/orgs/ivviiviivvi/discussions)
 - 🐛 **Bug Reports**: File an issue using our bug report template
 - 📧 **Direct Support**: Contact @4444JPP for urgent issues
@@ -269,9 +269,9 @@ STORAGE_API_KEY       # For long-term artifact storage
 
 - 📋 [Walkthrough Request Template](../ISSUE_TEMPLATE/walkthrough-request.yml)
 - 🔐 [Secrets Setup Guide](./SECRETS_SETUP.md)
-- 🏗️ [Architecture Documentation](../../docs/AI_IMPLEMENTATION_GUIDE.md)
-- 🤝 [Contributing Guidelines](../../docs/CONTRIBUTING.md)
-- 📜 [Code of Conduct](../../docs/CODE_OF_CONDUCT.md)
+- 🏗️ [Architecture Documentation](./AI_IMPLEMENTATION_GUIDE.md)
+- 🤝 [Contributing Guidelines](./CONTRIBUTING.md)
+- 📜 [Code of Conduct](./CODE_OF_CONDUCT.md)
 
 ## 🎯 Use Cases & Examples
 
@@ -300,7 +300,7 @@ We want to hear from you!
 ### Ways to Contribute
 1. **Comment below** with your feedback
 2. **Submit feature requests** using our issue template
-3. **Contribute** to the codebase (see [CONTRIBUTING.md](../../docs/CONTRIBUTING.md))
+3. **Contribute** to the codebase (see [CONTRIBUTING.md](./CONTRIBUTING.md))
 4. **Share examples** of walkthroughs you've generated
 5. **Help others** by answering questions in discussions
 
@@ -315,7 +315,7 @@ Have questions or need help getting started?
 - 💬 **Start a discussion** in the [Discussions tab](https://github.com/orgs/ivviiviivvi/discussions)
 - 📧 **Contact** @4444JPP for direct support
 - 🐛 **Report issues** using the bug report template
-- 📖 **Check the docs** at [our documentation hub](../../docs/)
+- 📖 **Check the docs** at [our documentation hub](./)
 
 ---
 

@@ -837,15 +837,15 @@ Video Generation: Free
 
 - 📋 [Walkthrough Request Template](../ISSUE_TEMPLATE/walkthrough-request.yml)
 - 📢 [Announcement & Quick Start](./WALKTHROUGH_ANNOUNCEMENT.md)
-- 🏗️ [System Architecture](../../docs/AI_IMPLEMENTATION_GUIDE.md)
-- 🤝 [Contributing Guide](../../docs/CONTRIBUTING.md)
+- 🏗️ [System Architecture](./AI_IMPLEMENTATION_GUIDE.md)
+- 🤝 [Contributing Guide](./CONTRIBUTING.md)
 
 ### Getting Help
 
 - 💬 **GitHub Discussions**: [Ask the community](https://github.com/orgs/ivviiviivvi/discussions)
-- 🐛 **Bug Reports**: [File an issue](../../ISSUE_TEMPLATE/)
+- 🐛 **Bug Reports**: [File an issue](../ISSUE_TEMPLATE/)
 - 📧 **Direct Support**: Contact @4444JPP
-- 📖 **Documentation Hub**: [View all docs](../../docs/)
+- 📖 **Documentation Hub**: [View all docs](./)
 
 ### Community
 
