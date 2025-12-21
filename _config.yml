@@ -1,0 +1,100 @@
+# Jekyll Configuration for Ivviiviivvi Applications Gallery
+
+# Site Settings
+title: "Ivviiviivvi Applications"
+description: "Explore live demos and tutorials for all Ivviiviivvi organization applications"
+url: "https://ivviiviivvi.github.io"
+baseurl: ""
+author: "Ivviiviivvi Organization"
+email: ""
+
+# Theme
+theme: minima
+remote_theme: pages-themes/minimal@v0.2.0
+
+# Collections
+collections:
+  walkthroughs:
+    output: true
+    permalink: /tutorials/:name/
+  apps:
+    output: true
+    permalink: /apps/:name/
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "walkthroughs"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "apps"
+    values:
+      layout: "app-demo"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .sass-cache
+  - .jekyll-cache
+  - .github
+  - README.md
+  - LICENSE
+
+# Include files
+include:
+  - _pages
+
+# Sass/SCSS settings
+sass:
+  style: compressed
+
+# SEO settings
+twitter:
+  username: ivviiviivvi
+  card: summary_large_image
+
+social:
+  name: Ivviiviivvi
+  links:
+    - https://github.com/ivviiviivvi
+
+github:
+  owner_name: ivviiviivvi
+  owner_url: https://github.com/ivviiviivvi
+
+# Custom settings for gallery
+gallery:
+  items_per_page: 12
+  enable_search: true
+  enable_filters: true
+  video_autoplay: false
+  show_source_links: true
+
+# Analytics (optional)
+# google_analytics: UA-XXXXXXXXX-X
+
+# Comments (optional)
+# disqus:
+#   shortname: your-disqus-shortname

@@ -1,0 +1,152 @@
+name: Build GitHub Pages Gallery Site
+
+on:
+  workflow_run:
+    workflows: ["Generate Walkthrough"]
+    types:
+      - completed
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  aggregate-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Ruby for Jekyll
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: false
+
+      - name: Query GitHub API for walkthrough metadata
+        id: query
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Querying organization repositories for walkthroughs..."
+          
+          # Get all repositories in the organization
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "/orgs/${{ github.repository_owner }}/repos?per_page=100" \
+            > repos.json
+          
+          # Initialize walkthroughs data file
+          mkdir -p docs/_data
+          echo "walkthroughs:" > docs/_data/walkthroughs.yml
+          
+          # Process each repository
+          jq -r '.[].full_name' repos.json | while read repo; do
+            echo "Processing $repo..."
+            
+            # Check for workflow runs with video artifacts
+            gh api \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/$repo/actions/artifacts?name=walkthrough-video&per_page=1" \
+              > artifacts.json 2>/dev/null || continue
+            
+            artifact_count=$(jq '.total_count' artifacts.json)
+            
+            if [ "$artifact_count" -gt 0 ]; then
+              # Get artifact details
+              artifact_url=$(jq -r '.artifacts[0].archive_download_url' artifacts.json)
+              created_at=$(jq -r '.artifacts[0].created_at' artifacts.json)
+              
+              # Get repository details
+              gh api \
+                -H "Accept: application/vnd.github+json" \
+                "/repos/$repo" \
+                > repo_details.json
+              
+              repo_name=$(jq -r '.name' repo_details.json)
+              description=$(jq -r '.description // "No description"' repo_details.json)
+              topics=$(jq -r '.topics[]' repo_details.json 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+              
+              # Append to walkthroughs data
+              cat >> docs/_data/walkthroughs.yml << EOF
+            - name: ${repo_name}
+              description: "${description}"
+              repository: ${repo}
+              video_url: ${artifact_url}
+              created_at: ${created_at}
+              tech_stack: [${topics}]
+              demo_url: ""
+          EOF
+            fi
+          done
+          
+          echo "Metadata aggregation complete"
+
+      - name: Create docs directory structure
+        run: |
+          mkdir -p docs/_layouts
+          mkdir -p docs/_includes
+          mkdir -p docs/_data
+          mkdir -p docs/assets/css
+          mkdir -p docs/assets/js
+          mkdir -p docs/videos
+
+      - name: Generate Gemfile for Jekyll
+        run: |
+          cat > Gemfile << 'EOF'
+          source 'https://rubygems.org'
+          
+          gem 'github-pages', group: :jekyll_plugins
+          gem 'jekyll-feed'
+          gem 'jekyll-seo-tag'
+          gem 'jekyll-sitemap'
+          EOF
+
+      - name: Install Jekyll dependencies
+        run: |
+          bundle install
+
+      - name: Build Jekyll site
+        run: |
+          if [ -f "_config.yml" ]; then
+            bundle exec jekyll build
+          else
+            echo "Warning: _config.yml not found, skipping Jekyll build"
+            echo "Please ensure _config.yml is created"
+          fi
+
+      - name: Handle missing or invalid videos
+        run: |
+          echo "Validating video artifacts..."
+          # Add video validation logic here
+          # For now, we'll create placeholder for missing videos
+          touch docs/videos/.gitkeep
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Log deployment status
+        run: |
+          echo "GitHub Pages deployed successfully"
+          echo "Site URL: https://${{ github.repository_owner }}.github.io"

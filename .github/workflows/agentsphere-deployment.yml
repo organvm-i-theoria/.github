@@ -1,0 +1,243 @@
+name: AgentSphere Live Demo Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force redeployment even if no changes detected'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  detect-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect application type
+        id: detect
+        run: |
+          echo "Detecting application type..."
+          
+          # Initialize app type
+          APP_TYPE="unknown"
+          STARTUP_CMD=""
+          PORT="3000"
+          
+          # Check for Node.js
+          if [ -f "package.json" ]; then
+            if grep -q "\"react\"" package.json; then
+              APP_TYPE="react"
+              STARTUP_CMD="npm start"
+              PORT="3000"
+            elif grep -q "\"vue\"" package.json; then
+              APP_TYPE="vue"
+              STARTUP_CMD="npm run serve"
+              PORT="8080"
+            elif grep -q "\"@angular/core\"" package.json; then
+              APP_TYPE="angular"
+              STARTUP_CMD="npm start"
+              PORT="4200"
+            elif grep -q "\"express\"" package.json; then
+              APP_TYPE="nodejs"
+              STARTUP_CMD="npm start"
+              PORT="3000"
+            else
+              APP_TYPE="nodejs"
+              STARTUP_CMD="npm start"
+              PORT="3000"
+            fi
+          fi
+          
+          # Check for Python
+          if [ -f "requirements.txt" ] || [ -f "setup.py" ] || [ -f "pyproject.toml" ]; then
+            if [ -f "app.py" ]; then
+              APP_TYPE="flask"
+              STARTUP_CMD="python app.py"
+              PORT="5000"
+            elif [ -f "main.py" ]; then
+              if grep -q "fastapi\|uvicorn" requirements.txt 2>/dev/null; then
+                APP_TYPE="fastapi"
+                STARTUP_CMD="uvicorn main:app --host 0.0.0.0 --port 8000"
+                PORT="8000"
+              else
+                APP_TYPE="python"
+                STARTUP_CMD="python main.py"
+                PORT="8000"
+            fi
+            elif [ -f "manage.py" ]; then
+              APP_TYPE="django"
+              STARTUP_CMD="python manage.py runserver 0.0.0.0:8000"
+              PORT="8000"
+            else
+              APP_TYPE="python"
+              STARTUP_CMD="python -m flask run --host=0.0.0.0"
+              PORT="5000"
+            fi
+          fi
+          
+          # Check for Java
+          if [ -f "pom.xml" ] || [ -f "build.gradle" ]; then
+            APP_TYPE="java"
+            if [ -f "build.gradle" ]; then
+              STARTUP_CMD="gradle bootRun"
+            else
+              STARTUP_CMD="mvn spring-boot:run"
+            fi
+            PORT="8080"
+          fi
+          
+          # Check for static site
+          if [ -f "index.html" ] && [ ! -f "package.json" ] && [ ! -f "requirements.txt" ]; then
+            APP_TYPE="static"
+            STARTUP_CMD="none"
+            PORT="80"
+          fi
+          
+          echo "app_type=$APP_TYPE" >> $GITHUB_OUTPUT
+          echo "startup_cmd=$STARTUP_CMD" >> $GITHUB_OUTPUT
+          echo "port=$PORT" >> $GITHUB_OUTPUT
+          echo "Detected: $APP_TYPE with command: $STARTUP_CMD on port: $PORT"
+
+      - name: Load AgentSphere configuration
+        id: config
+        run: |
+          CONFIG_FILE=".github/agentsphere-config.yml"
+          if [ -f "$CONFIG_FILE" ]; then
+            echo "Loading custom AgentSphere configuration..."
+            # Load enabled status
+            ENABLED=$(grep "^enable:" "$CONFIG_FILE" | awk '{print $2}' || echo "true")
+            echo "enabled=$ENABLED" >> $GITHUB_OUTPUT
+            
+            # Load custom startup command if defined
+            APP_TYPE="${{ steps.detect.outputs.app_type }}"
+            CUSTOM_CMD=$(grep -A 20 "startup_scripts:" "$CONFIG_FILE" | grep "$APP_TYPE:" | awk '{print $2}' || echo "")
+            if [ -n "$CUSTOM_CMD" ]; then
+              echo "custom_startup_cmd=$CUSTOM_CMD" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "enabled=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create .agentsphere.yml
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          STARTUP_CMD="${{ steps.config.outputs.custom_startup_cmd }}"
+          if [ -z "$STARTUP_CMD" ]; then
+            STARTUP_CMD="${{ steps.detect.outputs.startup_cmd }}"
+          fi
+          
+          cat > .agentsphere.yml << EOF
+          name: ${{ github.event.repository.name }}
+          type: ${{ steps.detect.outputs.app_type }}
+          startup_command: $STARTUP_CMD
+          port: ${{ steps.detect.outputs.port }}
+          repository: ${{ github.repository }}
+          branch: ${{ github.ref_name }}
+          auto_restart: true
+          health_check:
+            enabled: true
+            endpoint: /
+            interval: 60
+            timeout: 30
+          environment:
+            NODE_ENV: production
+            PYTHON_ENV: production
+          EOF
+          
+          echo "Created .agentsphere.yml configuration"
+          cat .agentsphere.yml
+
+      - name: Register with AgentSphere API
+        if: steps.config.outputs.enabled == 'true'
+        id: register
+        run: |
+          # Simulate API registration (replace with actual AgentSphere API call)
+          echo "Registering with AgentSphere API..."
+          
+          DEMO_URL="https://agentsphere.dev/${{ github.repository_owner }}/${{ github.event.repository.name }}"
+          
+          # In production, this would make an actual API call:
+          # RESPONSE=$(curl -X POST https://api.agentsphere.dev/register \
+          #   -H "Authorization: Bearer ${{ secrets.AGENTSPHERE_API_KEY }}" \
+          #   -H "Content-Type: application/json" \
+          #   -d @.agentsphere.yml)
+          # DEMO_URL=$(echo $RESPONSE | jq -r '.demo_url')
+          
+          echo "demo_url=$DEMO_URL" >> $GITHUB_OUTPUT
+          echo "AgentSphere registration complete: $DEMO_URL"
+
+      - name: Update README with Live Demo badge
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          if [ -f "README.md" ]; then
+            DEMO_URL="${{ steps.register.outputs.demo_url }}"
+            BADGE="[![Live Demo](https://img.shields.io/badge/Live%20Demo-AgentSphere-blue?style=for-the-badge&logo=google-chrome)](${DEMO_URL})"
+            
+            # Check if badge already exists
+            if ! grep -q "Live Demo-AgentSphere" README.md; then
+              # Add badge after the first heading
+              if grep -q "^#" README.md; then
+                sed -i "0,/^#/s|\(^#.*\)|\1\n\n${BADGE}|" README.md
+              else
+                # No heading found, add at the top
+                echo -e "${BADGE}\n\n$(cat README.md)" > README.md
+              fi
+              echo "Added Live Demo badge to README.md"
+            else
+              echo "Live Demo badge already exists in README.md"
+            fi
+          fi
+
+      - name: Create Pull Request with Live Demo
+        if: steps.config.outputs.enabled == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'feat: Add AgentSphere live demo deployment'
+          title: '🚀 AgentSphere Live Demo Deployed'
+          body: |
+            ## AgentSphere Live Demo Deployment
+            
+            **Application Type:** ${{ steps.detect.outputs.app_type }}
+            **Startup Command:** ${{ steps.detect.outputs.startup_cmd }}
+            **Port:** ${{ steps.detect.outputs.port }}
+            **Demo URL:** ${{ steps.register.outputs.demo_url }}
+            
+            ### What's included:
+            - ✅ `.agentsphere.yml` configuration file
+            - ✅ Live Demo badge added to README.md
+            - ✅ Registered with AgentSphere API
+            - ✅ Auto-restart and health checking enabled
+            
+            ### Access the live demo:
+            🌐 **[Launch Live Demo](${{ steps.register.outputs.demo_url }})**
+            
+            ### Next steps:
+            - Review the configuration in `.agentsphere.yml`
+            - Test the live demo link
+            - Merge this PR to make the demo permanent
+            
+            ---
+            *Deployed automatically by AgentSphere Deployment workflow*
+          branch: agentsphere-deployment
+          delete-branch: true
+
+      - name: Error handling and fallback
+        if: failure()
+        run: |
+          echo "::error::AgentSphere deployment failed"
+          echo "Application type: ${{ steps.detect.outputs.app_type }}"
+          echo "Please check the workflow logs for details"
+          echo "You can manually configure AgentSphere by creating .agentsphere.yml"

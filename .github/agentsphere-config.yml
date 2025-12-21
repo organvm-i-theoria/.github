@@ -1,0 +1,98 @@
+# AgentSphere Live Demo Configuration
+# This file controls how your applications are deployed to AgentSphere
+
+# Enable/disable AgentSphere deployment
+enable: true
+
+# Automatically deploy on push to main branch
+auto_deploy: true
+
+# Startup scripts for different application types
+# These are the default commands - they can be overridden per repository
+startup_scripts:
+  nodejs: npm start
+  nodejs_dev: npm run dev
+  react: npm start
+  vue: npm run serve
+  angular: npm start
+  express: npm start
+  python: python app.py
+  flask: python -m flask run --host=0.0.0.0
+  fastapi: uvicorn main:app --host 0.0.0.0 --port 8000
+  django: python manage.py runserver 0.0.0.0:8000
+  java: java -jar target/*.jar
+  spring_boot_gradle: gradle bootRun
+  spring_boot_maven: mvn spring-boot:run
+  static: none
+
+# Badge configuration
+badge:
+  position: after_title  # Options: after_title, top, bottom
+  style: for-the-badge   # Options: flat, flat-square, plastic, for-the-badge, social
+  color: blue           # Options: brightgreen, green, yellowgreen, yellow, orange, red, blue, lightgrey
+
+# Access control settings
+access_control:
+  visibility: public    # Options: public, private, organization
+  require_auth: false   # Require GitHub authentication to access
+  rate_limit: 100       # Requests per minute per IP
+  cors_enabled: true    # Enable CORS for API endpoints
+
+# Monitoring and health checks
+monitoring:
+  auto_restart: true    # Automatically restart if app crashes
+  health_check_interval: 60  # Seconds between health checks
+  health_check_timeout: 30   # Seconds to wait for health check response
+  health_check_endpoint: /   # Endpoint to check for health status
+  max_restarts: 5            # Maximum automatic restarts per hour
+  log_retention_days: 7      # Days to keep application logs
+
+# Environment variables per stack
+# These are default environment variables applied to all deployments
+environment:
+  common:
+    NODE_ENV: production
+    PYTHON_ENV: production
+    FLASK_ENV: production
+    DJANGO_SETTINGS_MODULE: config.settings.production
+  nodejs:
+    PORT: 3000
+    HOST: 0.0.0.0
+  python:
+    PORT: 8000
+    HOST: 0.0.0.0
+  java:
+    SERVER_PORT: 8080
+    JAVA_OPTS: -Xmx512m
+
+# Resource limits
+resources:
+  cpu_limit: 1.0        # CPU cores
+  memory_limit: 512M    # Memory limit
+  disk_limit: 1G        # Disk storage limit
+  timeout: 300          # Request timeout in seconds
+
+# Deployment settings
+deployment:
+  timeout: 120          # Deployment timeout in seconds
+  strategy: rolling     # Options: rolling, blue_green, canary
+  rollback_on_failure: true
+  pre_deploy_checks: true
+  post_deploy_checks: true
+
+# Notifications
+notifications:
+  on_success: false     # Notify on successful deployment
+  on_failure: true      # Notify on failed deployment
+  channels:
+    - github_issues     # Create issue on failure
+    - github_pr         # Comment on PR
+
+# Advanced settings
+advanced:
+  cache_dependencies: true   # Cache npm/pip dependencies
+  build_timeout: 600         # Build timeout in seconds
+  custom_domains: []         # List of custom domains to map
+  ssl_enabled: true          # Enable SSL/TLS
+  http2_enabled: true        # Enable HTTP/2
+  compression_enabled: true  # Enable gzip compression

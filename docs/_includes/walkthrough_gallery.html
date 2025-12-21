@@ -1,0 +1,154 @@
+<!-- Walkthrough Gallery Component -->
+<!-- This Jekyll include displays a responsive grid of application walkthroughs -->
+
+{% if site.data.walkthroughs %}
+<div class="gallery-grid">
+  {% for walkthrough in site.data.walkthroughs.walkthroughs %}
+    <div class="card" data-tech-stack="{{ walkthrough.tech_stack | downcase }}">
+      <!-- Video Player -->
+      <div class="card-video">
+        {% if walkthrough.has_video and walkthrough.video_url != "" %}
+          <video 
+            controls 
+            preload="metadata"
+            poster="/assets/images/video-placeholder.png"
+            style="width: 100%; height: 100%; object-fit: cover;"
+          >
+            <source src="{{ walkthrough.video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% else %}
+          <!-- Fallback for missing video -->
+          <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1e293b; color: white;">
+            <div style="text-align: center; padding: 2rem;">
+              <svg style="width: 48px; height: 48px; margin: 0 auto 1rem;" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+              </svg>
+              <p>Video walkthrough coming soon</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      
+      <!-- Card Content -->
+      <div class="card-content">
+        <h3 class="card-title">{{ walkthrough.name }}</h3>
+        <p class="card-description">{{ walkthrough.description | truncate: 120 }}</p>
+        
+        <!-- Tech Stack Badges -->
+        {% if walkthrough.tech_stack and walkthrough.tech_stack != "" %}
+        <div class="card-meta">
+          {% assign tech_items = walkthrough.tech_stack | split: ", " %}
+          {% for tech in tech_items limit: 4 %}
+            <span class="badge">{{ tech }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Metadata -->
+        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          {% if walkthrough.created_at and walkthrough.created_at != "" %}
+            <time datetime="{{ walkthrough.created_at }}">
+              📅 {{ walkthrough.created_at | date: "%b %d, %Y" }}
+            </time>
+          {% endif %}
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="card-footer">
+          {% if walkthrough.has_video %}
+            <a href="{{ walkthrough.video_url }}" class="btn" target="_blank">
+              ▶️ Watch Tutorial
+            </a>
+          {% endif %}
+          
+          {% if walkthrough.repo_url and walkthrough.repo_url != "" %}
+            <a href="{{ walkthrough.repo_url }}" class="btn btn-secondary" target="_blank">
+              📦 View Source
+            </a>
+          {% endif %}
+          
+          <!-- Check if live demo exists -->
+          {% if site.data.app-deployments %}
+            {% for app in site.data.app-deployments.apps %}
+              {% if app.app_name == walkthrough.name and app.live_url and app.live_url != "" and app.status == "deployed" %}
+                <a href="{{ app.live_url }}" class="btn" target="_blank" style="background: #10b981;">
+                  🚀 Live Demo
+                </a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- No walkthroughs message -->
+{% if site.data.walkthroughs.walkthroughs.size == 0 %}
+<div style="text-align: center; padding: 4rem 2rem; color: var(--text-secondary);">
+  <svg style="width: 64px; height: 64px; margin: 0 auto 1rem;" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+  </svg>
+  <h3>No walkthroughs available yet</h3>
+  <p>Check back soon for application tutorials and demos!</p>
+</div>
+{% endif %}
+
+{% else %}
+<!-- Data file doesn't exist -->
+<div style="text-align: center; padding: 4rem 2rem; color: var(--text-secondary);">
+  <h3>Loading walkthroughs...</h3>
+  <div class="spinner"></div>
+  <p style="margin-top: 1rem;">If this message persists, walkthroughs data may not be available yet.</p>
+</div>
+{% endif %}
+
+<style>
+  .card-video video {
+    display: block;
+  }
+  
+  .card-video video::-webkit-media-controls-panel {
+    background: linear-gradient(transparent, rgba(0,0,0,0.5));
+  }
+  
+  /* Hover effect for video cards */
+  .card:hover .card-video video {
+    opacity: 0.9;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .card-footer {
+      flex-direction: column;
+    }
+    
+    .card-footer .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Lazy load videos for better performance
+  document.addEventListener('DOMContentLoaded', function() {
+    const videos = document.querySelectorAll('.card-video video');
+    
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          video.load();
+          videoObserver.unobserve(video);
+        }
+      });
+    }, {
+      rootMargin: '50px'
+    });
+    
+    videos.forEach(video => {
+      videoObserver.observe(video);
+    });
+  });
+</script>
