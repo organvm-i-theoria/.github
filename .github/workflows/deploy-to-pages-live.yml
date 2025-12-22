@@ -18,11 +18,6 @@ on:
           - codespaces
           - documentation-only
         default: 'auto'
-      force_deploy:
-        description: 'Force deployment even if no changes detected'
-        required: false
-        type: boolean
-        default: false
 
 concurrency:
   group: 'pages-live-deploy-${{ github.ref }}'
