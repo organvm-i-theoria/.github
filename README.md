@@ -246,6 +246,70 @@ gh pr create --title "[auto-merge] Your feature"
 - `.github/workflows/auto-merge.yml` - Main auto-merge orchestrator
 - `.github/workflows/auto-enable-merge.yml` - Auto-enables merge for qualifying PRs
 
+### Repository Quality and Metadata Management 🎨
+
+**Automated Badge Management** - Keep your repositories looking professional with automatically generated and maintained badges.
+
+#### Badge Management Workflow
+
+**Features:**
+- ✅ **Auto-Detection** - Automatically detects languages, frameworks, and tools
+- ✅ **Comprehensive Badges** - CI status, license, languages, stats, Docker, and more
+- ✅ **Smart Placement** - Inserts badges in README with customizable position
+- ✅ **Zero Config** - Works out of the box with sensible defaults
+- ✅ **Customizable** - Fine-tune via `.github/badge-config.yml`
+
+**Usage:**
+
+```yaml
+# Trigger manually for any repository
+on:
+  workflow_dispatch:
+
+# Or include as part of your CI
+jobs:
+  badges:
+    uses: ivviiviivvi/.github/.github/workflows/badge-management.yml@main
+```
+
+**Configuration:** [`.github/badge-config.yml`](.github/badge-config.yml)
+
+#### Bio and Description Completions Workflow
+
+**Features:**
+- ✅ **Organization-Wide Auditing** - Scans all repositories for missing descriptions
+- ✅ **Profile Completeness** - Checks organization profile and metadata
+- ✅ **Smart Suggestions** - Generates description suggestions from repository content
+- ✅ **Automated Issues** - Creates issues for incomplete metadata
+- ✅ **Weekly Reports** - Scheduled audits with completion metrics
+- ✅ **Agent Integration** - Works with completionism-specialist agent
+
+**Audit Coverage:**
+- Repository descriptions (minimum length, quality checks)
+- Repository topics/tags (recommended 3-5)
+- Website URLs and homepage links
+- Organization profile completeness
+- Community health files
+- README.md presence and quality
+
+**Usage:**
+
+```bash
+# Trigger a manual audit
+gh workflow run bio-description-completions.yml
+
+# Audit specific scope
+gh workflow run bio-description-completions.yml -f scope=repositories
+```
+
+**Configuration:** [`.github/completions-config.yml`](.github/completions-config.yml)
+
+**Learn More:**
+- 🎨 [Badge Management Workflow](.github/workflows/badge-management.yml)
+- 📋 [Bio Completions Workflow](.github/workflows/bio-description-completions.yml)
+- ⚙️ [Badge Configuration](.github/badge-config.yml)
+- 📝 [Completions Configuration](.github/completions-config.yml)
+
 ### Community Health Files
 
 These files establish standards for community interaction and contribution acros
@@ -334,6 +398,8 @@ Advanced workflows for organization-wide automation:
 | [deploy-to-pages-live.yml](.github/workflows/deploy-to-pages-live.yml)                         | Deploy live apps to GitHub Pages          | Push to main, manual      |
 | [collect-deployment-metadata.yml](.github/workflows/collect-deployment-metadata.yml)           | Collect deployment metadata (reusable)    | Workflow run, workflow_call |
 | [generate-pages-index.yml](.github/workflows/generate-pages-index.yml)                         | Generate gallery index from all org repos | Schedule, repository dispatch |
+| [badge-management.yml](.github/workflows/badge-management.yml)                                 | Generate and manage repository badges     | Push, PR, manual, workflow_call |
+| [bio-description-completions.yml](.github/workflows/bio-description-completions.yml)           | Audit and complete repo/org descriptions  | Weekly schedule, manual   |
 
 See [Video Walkthrough Guide](.github/WALKTHROUGH_GUIDE.md) and [Deployment Metadata Collection Guide](docs/workflows/DEPLOYMENT_METADATA_COLLECTION.md) for detailed documentation.
 
