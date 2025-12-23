@@ -42,6 +42,10 @@ on:
       - 'pom.xml'
       - 'build.gradle'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   generate-walkthrough:
     runs-on: ubuntu-latest

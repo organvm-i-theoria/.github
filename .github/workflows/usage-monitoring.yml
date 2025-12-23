@@ -24,6 +24,10 @@ on:
         type: number
         default: 80
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   issues: write
@@ -35,6 +39,7 @@ env:
 jobs:
   collect-usage-data:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     name: 'Collect Usage Metrics'
     outputs:
       total_minutes: ${{ steps.billing.outputs.total_minutes }}

@@ -6,6 +6,10 @@ on:
   issues:
     types: [opened]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: false
+
 permissions:
   contents: read
   issues: write
@@ -15,10 +19,11 @@ jobs:
   auto-assign-pr:
     name: Auto Assign PR
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: github.event_name == 'pull_request'
     steps:
       - name: Auto-assign PR to author
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             // Assign PR to the author
@@ -30,7 +35,7 @@ jobs:
             })
 
       - name: Request review from CODEOWNERS
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             // You can customize this to request reviews from specific people/teams
@@ -49,10 +54,11 @@ jobs:
   auto-assign-issue:
     name: Auto Assign Issue
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: github.event_name == 'issues'
     steps:
       - name: Auto-assign issue to maintainers
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
             // Uncomment and customize to auto-assign issues to specific users
