@@ -79,6 +79,24 @@ The following features have their own dedicated locations and are NOT primarily 
 - Security Policies
 - Contribution Guidelines
 
+### Automation for Individual Repositories 🤖
+
+While the features themselves don't live in `.github`, **automation workflows** to set them up in individual repositories DO belong here:
+
+**Repository Bootstrap Workflow** (`.github/workflows/repository-bootstrap.yml`):
+- ✅ Enables repository features (Issues, Projects, Discussions, Wiki)
+- ✅ Creates standard labels from `docs/LABELS.md`
+- ✅ Copies workflow templates to target repositories
+- ✅ Configures branch protection rules
+- ✅ Creates initial project boards
+
+This workflow can be:
+- Called as a reusable workflow from any repository
+- Triggered manually from the `.github` repository to bootstrap any org repo
+- Used as a workflow template that repositories can customize
+
+**See:** [Repository Bootstrap Documentation](../workflows/REPOSITORY_BOOTSTRAP.md)
+
 ## Analysis
 
 ### What is This Repository?
