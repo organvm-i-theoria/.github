@@ -2,9 +2,13 @@ name: Branch Lifecycle Management
 
 on:
   schedule:
-    # Run every 6 hours
-    - cron: '0 */6 * * *'
+    # Run every 12 hours (reduced from 6 hours for cost savings)
+    - cron: '0 */12 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -20,6 +24,7 @@ jobs:
   manage-stale-prs:
     name: Manage Stale PRs and Branches
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
