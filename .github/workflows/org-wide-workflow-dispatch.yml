@@ -322,7 +322,7 @@ jobs:
           PYTHON_SCRIPT
 
       - name: 'Upload dispatch results'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.5.0
         with:
           name: dispatch-results-${{ github.run_number }}
           path: dispatch_results.json
