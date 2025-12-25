@@ -79,9 +79,12 @@ except* Exception as eg:
     # Process partial results from successful tasks only
     results = []
     for task in tasks:
-        if task.done() and not task.cancelled() and task.exception() is None:
-            # Only call result() on tasks that completed successfully
-            results.append(task.result())
+        if task.done() and not task.cancelled():
+            # Check for exception before calling result()
+            if task.exception() is None:
+                results.append(task.result())
+            else:
+                logger.warning(f"Task failed with: {task.exception()}")
 ```
 
 ### Input Validation and Sanitization
@@ -117,6 +120,13 @@ def validate_origin(origin: str) -> bool:
         # Check hostname exists
         if not result.netloc:
             return False
+        # Reject wildcard origins unless explicitly supported
+        if '*' in result.netloc:
+            return False
+        # Validate port if present
+        if result.port is not None:
+            if not (1 <= result.port <= 65535):
+                return False
         # Check for invalid characters (no spaces or control/non-printable characters)
         if ' ' in origin or not origin.isprintable():
             return False
@@ -395,8 +405,9 @@ logger = logging.getLogger(__name__)
 
 def redact_sensitive_data(data: str) -> str:
     """Redact sensitive information from logs"""
-    # Redact credit card numbers
-    data = re.sub(r'\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b', 'XXXX-XXXX-XXXX-XXXX', data)
+    # Redact credit card numbers (16-digit and 15-digit AmEx format)
+    data = re.sub(r'\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b', 'XXXX-XXXX-XXXX-XXXX', data)  # 16-digit
+    data = re.sub(r'\b\d{4}[\s-]?\d{6}[\s-]?\d{5}\b', 'XXXX-XXXXXX-XXXXX', data)  # 15-digit AmEx
     # Redact email addresses: mask local part but preserve domain for debugging
     data = re.sub(r'\b([A-Za-z0-9._%+-]+)@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+)\b', r'[EMAIL]@\2', data)
     # Redact SSN patterns
