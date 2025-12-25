@@ -28,7 +28,7 @@
 | 📝 Copilot Instructions | 110 |
 | 💬 Copilot Prompts | 119 |
 | 🎭 Copilot Chat Modes | 88 |
-| 🛠️  Technologies Supported | 110 |
+| 🛠️ Technologies Supported | 110 |
 
 [Back to Top](#organization-ecosystem-dashboard)
 
