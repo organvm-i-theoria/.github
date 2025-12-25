@@ -67,8 +67,6 @@ return [r for r in results if r is not None]
 
 **Option 3: Use `asyncio.TaskGroup` with exception handling (Python 3.11+)**
 ```python
-from contextlib import suppress
-
 try:
     async with asyncio.TaskGroup() as tg:
         tasks = [tg.create_task(self.process_event(event, enrichments)) 
@@ -78,8 +76,14 @@ try:
 except* Exception as eg:
     # Handle ExceptionGroup - TaskGroup raises all exceptions together
     logger.error(f"Multiple tasks failed: {eg}")
-    # Process partial results from successful tasks
-    results = [task.result() for task in tasks if not task.cancelled() and not task.exception()]
+    # Process partial results from successful tasks only
+    results = []
+    for task in tasks:
+        if task.done() and not task.cancelled():
+            try:
+                results.append(task.result())
+            except Exception:
+                pass  # Skip failed tasks
 ```
 
 ### Input Validation and Sanitization
@@ -395,8 +399,8 @@ def redact_sensitive_data(data: str) -> str:
     """Redact sensitive information from logs"""
     # Redact credit card numbers
     data = re.sub(r'\b\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}\b', 'XXXX-XXXX-XXXX-XXXX', data)
-    # Redact email addresses
-    data = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b', '[EMAIL]', data)
+    # Redact email addresses (simplified pattern for common cases)
+    data = re.sub(r'\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b', '[EMAIL]', data)
     # Redact SSN patterns
     data = re.sub(r'\b\d{3}-\d{2}-\d{4}\b', 'XXX-XX-XXXX', data)
     return data
