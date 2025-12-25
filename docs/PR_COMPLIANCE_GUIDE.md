@@ -205,7 +205,7 @@ def get_recent_events(
     limit: int = 10,
     source: Optional[EventSource] = None
 ) -> List[NormalizedEvent]:
-    """Get recent normalized events - optimized to avoid full sort
+    """Get recent normalized events in reverse chronological order
     
     Args:
         limit: Maximum number of events to return (must be positive)
