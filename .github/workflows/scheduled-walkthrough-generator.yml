@@ -173,7 +173,7 @@ jobs:
 
     steps:
       - name: Checkout target repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
         with:
           repository: ${{ github.repository_owner }}/${{ matrix.repo.name }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -281,7 +281,7 @@ jobs:
 
       - name: Upload walkthrough artifact
         if: steps.generate.outputs.status == 'success'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4
         with:
           name: walkthrough-${{ matrix.repo.name }}
           path: ${{ steps.generate.outputs.video_path }}
@@ -296,8 +296,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
       - name: Compile results
         id: compile
         run: |
