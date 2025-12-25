@@ -45,7 +45,7 @@
 
 | URL | Status |
 |---|---|
-| `https://...'` | 500 |
+| `<invalid or redacted URL>` | 500 |
 | `http://+:8080` | 404 |
 | `http://localhost:3000/health` | 403 |
 | `https://GUI-rs.org),` | 404 |
