@@ -117,8 +117,8 @@ def validate_origin(origin: str) -> bool:
         # Check hostname exists
         if not result.netloc:
             return False
-        # Check for invalid characters (no spaces or control characters)
-        if ' ' in origin or any(ord(c) < 32 for c in origin):
+        # Check for invalid characters (no spaces or control/non-printable characters)
+        if ' ' in origin or not origin.isprintable():
             return False
         return True
     except Exception:
