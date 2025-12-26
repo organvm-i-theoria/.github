@@ -331,7 +331,8 @@ graph TD
                 parts.append(f"\n## ⚙️  Active Workflows\n\n")
                 parts.append(f"<details>\n<summary>View all {len(workflows)} workflows</summary>\n\n")
                 for workflow in sorted(workflows):
-                    parts.append(f"- `{workflow}`\n")
+                    # Link to the workflow file (assuming relative path from reports/ to .github/workflows/)
+                    parts.append(f"- [`{workflow}`](../.github/workflows/{workflow})\n")
                 parts.append("\n</details>\n")
                 parts.append(f"\n[Back to Top](#organization-ecosystem-dashboard)\n")
 
