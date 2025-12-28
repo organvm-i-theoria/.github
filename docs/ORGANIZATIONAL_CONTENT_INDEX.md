@@ -137,10 +137,12 @@ See the relevant guide for standards and conventions.
 
 | Document | Purpose | Audience | Length |
 |----------|---------|----------|--------|
-| [Issue Taxonomy](docs/ISSUE_TAXONOMY.md) | Comprehensive issue classification | Maintainers, Contributors | ~25 min read |
-| [Discussion Guide](docs/DISCUSSION_GUIDE.md) | Discussion framework and templates | Community Managers | ~40 min read |
-| [Projects Guide](docs/PROJECTS_GUIDE.md) | Project management best practices | Project Managers | ~50 min read |
-| [Wiki Guide](docs/WIKI_GUIDE.md) | Wiki structure and maintenance | Documentation Team | ~60 min read |
+| [🚀 Quick Start](ORGANIZATIONAL_CONTENT_QUICK_START.md) | Get started in 15 minutes | Everyone | ~5 min read |
+| [🛠️ Implementation Guide](ORGANIZATIONAL_CONTENT_IMPLEMENTATION.md) | Step-by-step deployment | Administrators | ~45 min read |
+| [📝 Issue Taxonomy](ISSUE_TAXONOMY.md) | Comprehensive issue classification | Maintainers, Contributors | ~25 min read |
+| [💬 Discussion Guide](DISCUSSION_GUIDE.md) | Discussion framework and templates | Community Managers | ~40 min read |
+| [📊 Projects Guide](PROJECTS_GUIDE.md) | Project management best practices | Project Managers | ~50 min read |
+| [📚 Wiki Guide](WIKI_GUIDE.md) | Wiki structure and maintenance | Documentation Team | ~60 min read |
 
 ### Quick References
 
