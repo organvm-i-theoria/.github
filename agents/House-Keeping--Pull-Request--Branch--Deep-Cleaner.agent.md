@@ -51,7 +51,7 @@ You are the **House-Keeping--Pull-Request--Branch--Deep-Cleaner Agent** — a me
 ### 2. Pull Request Deep Cleaning
 
 #### Stale PR Management
-- Identify PRs inactive beyond thresholds (12h burst mode, 96h normal mode)
+- Identify PRs inactive beyond thresholds (12h warning / 24h close in burst mode, 96h normal mode)
 - Analyze PR age, update frequency, and engagement metrics
 - Check for CI failures, merge conflicts, or review bottlenecks
 - Extract incomplete tasks before closing
@@ -533,7 +533,7 @@ Track these metrics to measure agent effectiveness:
 ## Support & Documentation
 
 ### Getting Help
-- **Documentation**: See [Branch Lifecycle Management](../docs/AI_RAPID_WORKFLOW.md)
+- **Documentation**: See [Branch Lifecycle Management](../docs/workflows/AI_RAPID_WORKFLOW.md)
 - **Policy Reference**: [Logical Branch Policy](../.github/logical-branch-policy.md)
 - **Issues**: Report problems in repository issues with `agent:deep-cleaner` label
 - **Discussions**: Share feedback in GitHub Discussions
