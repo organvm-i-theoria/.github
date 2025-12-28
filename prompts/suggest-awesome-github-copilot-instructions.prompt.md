@@ -166,7 +166,7 @@ When analyzing instructions from awesome-copilot, gather and display these quali
 ## Requirements
 
 - Use `githubRepo` tool to get content and metadata from awesome-copilot repository
-- Gather popularity and quality metrics from GitHub API
+- Gather popularity and quality metrics from GitHub API (with fallback to cached/estimated values if API unavailable)
 - Scan local file system for existing instructions in `instructions/` directory
 - Read YAML front matter from local instruction files to extract descriptions and `applyTo` patterns
 - Compare against existing instructions in this repository to avoid duplicates

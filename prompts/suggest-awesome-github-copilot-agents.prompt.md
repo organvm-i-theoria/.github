@@ -105,7 +105,7 @@ When analyzing custom agents from awesome-copilot, gather and display these qual
 ## Requirements
 
 - Use `githubRepo` tool to get content and metadata from awesome-copilot repository agents folder
-- Gather popularity and quality metrics from GitHub API
+- Gather popularity and quality metrics from GitHub API (with fallback to cached/estimated values if API unavailable)
 - Scan local file system for existing agents in `.github/agents/` directory
 - Read YAML front matter from local agent files to extract descriptions
 - Compare against existing agents in this repository to avoid duplicates

@@ -319,7 +319,7 @@ Installation Impact:
 2. Start with 🔥🔥🔥 Critical (biggest gaps)
 3. Review quality indicators (community validation)
 4. Check category breakdown (systematic coverage)
-5. Evaluate ROI (time/value trade-off)
+5. Evaluate ROI (setup time, quality improvements, % benefits)
 6. Make informed decision
 
 ## Scanning Efficiency

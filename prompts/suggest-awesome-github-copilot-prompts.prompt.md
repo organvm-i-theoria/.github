@@ -72,10 +72,10 @@ Display suggestions grouped by priority with enhanced visual hierarchy:
 ### 📈 Quality Indicators Legend
 
 - ⭐ **Stars**: GitHub stars (popularity metric)
-- 📈 **Trending**: Recently gaining traction
-- 🔥 **Popular**: High usage/adoption
-- 💬 **Discussions**: Active community engagement
-- ✅ **Well-maintained**: Regular updates
+- 📈 **Trending**: Recently gaining traction (>25% growth in 30 days)
+- 🔥 **Popular**: High usage/adoption (top 25%)
+- 💬 **Discussions**: Active community engagement (>50 discussions)
+- ✅ **Well-maintained**: Updated within last 60 days
 - 📚 **Well-documented**: Comprehensive documentation
 - 🎓 **Course Featured**: Mentioned in popular courses
 - 👥 **Team Recommended**: Endorsed by GitHub teams
@@ -117,7 +117,7 @@ When analyzing prompts from awesome-copilot, gather and display these quality in
 ## Requirements
 
 - Use `githubRepo` tool to get content and metadata from awesome-copilot repository
-- Gather popularity and quality metrics from GitHub API
+- Gather popularity and quality metrics from GitHub API (with fallback to cached/estimated values if API unavailable)
 - Scan local file system for existing prompts in `.github/prompts/` directory
 - Read YAML front matter from local prompt files to extract descriptions
 - Compare against existing prompts in this repository to avoid duplicates

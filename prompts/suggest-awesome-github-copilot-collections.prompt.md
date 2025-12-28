@@ -134,7 +134,7 @@ Group collections by theme to show coverage:
 ### 📈 Quality Indicators Legend
 
 - ⭐ **Stars**: GitHub stars (popularity metric)
-- 📈 **Trending**: Recent growth >30% in 30 days
+- 📈 **Trending**: Recent growth >25% in 30 days
 - 🔥 **Popular**: Top 20% of collections
 - 💬 **Discussions**: Active community (>100 discussions)
 - ✅ **Maintained**: Updated within 45 days
@@ -148,13 +148,13 @@ Group collections by theme to show coverage:
 **Install Now (🔥🔥🔥):**
 - >70% new assets
 - Fills critical capability gap
-- High quality indicators (>400 stars, trending)
+- High quality indicators (>300 stars for collections, trending)
 - Immediate value proposition
 
 **Install Soon (🔥🔥 / ⚡⚡):**
 - 50-70% new assets
 - Enhances existing capabilities
-- Good quality indicators (>300 stars)
+- Good quality indicators (>250 stars for collections)
 - Clear improvement potential
 
 **Consider Later (⚡ / 💡):**
@@ -256,7 +256,7 @@ When analyzing collections from awesome-copilot, gather and display these qualit
 ## Requirements
 
 - Use `fetch` tool to get collections data and metadata from awesome-copilot repository
-- Gather popularity and quality metrics from GitHub API
+- Gather popularity and quality metrics from GitHub API (with fallback to cached/estimated values if API unavailable)
 - Use `githubRepo` tool to get individual asset content for analysis and download
 - Scan local file system for existing assets in `prompts/`, `instructions/`, `chatmodes/`, and `agents/` directories
 - Read YAML front matter from local asset files to extract descriptions and capabilities

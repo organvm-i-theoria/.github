@@ -410,10 +410,11 @@ Planned improvements include:
 
 ## Related Documentation
 
-- [Prompts Documentation](README.prompts.md)
-- [Instructions Documentation](README.instructions.md)
-- [Chat Modes Documentation](README.chatmodes.md)
+- [Agent Registry](AGENT_REGISTRY.md)
 - [Agents Documentation](README.agents.md)
+- [Instructions Documentation](README.instructions.md)
+- [Prompts Documentation](README.prompts.md)
+- [Chat Modes Documentation](README.chatmodes.md)
 - [Collections Documentation](README.collections.md)
 - [GitHub Awesome-Copilot Repository](https://github.com/github/awesome-copilot)
 
