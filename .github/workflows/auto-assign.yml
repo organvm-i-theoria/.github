@@ -49,7 +49,7 @@ jobs:
               console.log('✅ Successfully requested review from @copilot');
             } catch (error) {
               console.log(`⚠️ Could not request review from @copilot: ${error.message}`);
-              console.log('Note: CODEOWNERS will still be automatically requested for review');
+              console.log('Note: CODEOWNERS will still be requested by GitHub automatically');
             }
 
   auto-assign-issue:
