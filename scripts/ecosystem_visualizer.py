@@ -13,6 +13,8 @@ from datetime import datetime
 class EcosystemVisualizer:
     """Generate visual representations of the ecosystem"""
 
+    _WORKFLOW_BASE_PATH = "../.github/workflows/"
+
     def __init__(self, report_path: Path = None):
         self.report_path = report_path
         self.report_data = None
@@ -52,7 +54,7 @@ graph TD
             workflow_id = f"WF{i}"
             parts.append(f"        {workflow_id}[{workflow}]:::workflow\n")
             # Add click event to open workflow file
-            parts.append(f'        click {workflow_id} "../.github/workflows/{workflow}" "View Workflow"\n')
+            parts.append(f'        click {workflow_id} "{self._WORKFLOW_BASE_PATH}{workflow}" "View Workflow"\n')
             parts.append(f"        ORG --> {workflow_id}\n")
 
         parts.append("    end\n\n")
@@ -334,7 +336,7 @@ graph TD
                 parts.append(f"<details>\n<summary>View all {len(workflows)} workflows</summary>\n\n")
                 for workflow in sorted(workflows):
                     # Link to the workflow file (assuming relative path from reports/ to .github/workflows/)
-                    parts.append(f"- [`{workflow}`](../.github/workflows/{workflow})\n")
+                    parts.append(f"- [`{workflow}`]({self._WORKFLOW_BASE_PATH}{workflow})\n")
                 parts.append("\n</details>\n")
                 parts.append(f"\n[Back to Top](#organization-ecosystem-dashboard)\n")
 
