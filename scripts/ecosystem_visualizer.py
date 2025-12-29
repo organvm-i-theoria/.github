@@ -332,8 +332,8 @@ graph TD
                 parts.append(f"\n## ⚙️  Active Workflows\n\n")
                 parts.append(f"<details>\n<summary>View all {len(workflows)} workflows</summary>\n\n")
                 for workflow in sorted(workflows):
-                    workflow_path = f"../.github/workflows/{workflow}"
-                    parts.append(f"- [`{workflow}`]({workflow_path})\n")
+                    workflow_path = Path(os.path.relpath(Path('.github/workflows'), output_path.parent if output_path else Path('reports'))) / workflow
+                    parts.append(f"- [`{workflow}`]({workflow_path.as_posix()})\n")
                 parts.append("\n</details>\n")
                 parts.append(f"\n[Back to Top](#organization-ecosystem-dashboard)\n")
 
