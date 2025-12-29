@@ -13,6 +13,8 @@ from datetime import datetime
 class EcosystemVisualizer:
     """Generate visual representations of the ecosystem"""
 
+    _WORKFLOW_BASE_PATH = "../.github/workflows/"
+
     def __init__(self, report_path: Path = None):
         self.report_path = report_path
         self.report_data = None
