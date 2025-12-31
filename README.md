@@ -17,10 +17,36 @@ central hub for:
 - **Organization-wide configuration** and documentation standards
 - **Living Document System** - AI-driven governance and management protocols
 - **Mouthpiece Filter System** - Transform natural human expression into AI-optimized prompts
+- **🤖 PR & Dependency Automation** - Comprehensive automation for managing PRs at scale
 
 When a repository in our organization doesn't have its own community health files, GitHub automatically uses the defaults from this repository.
 
 > **Is this the right repository for these functions?** See our [Repository Purpose Analysis](docs/architecture/REPOSITORY_PURPOSE_ANALYSIS.md) for a detailed explanation of why this `.github` repository is the appropriate location for organization-wide governance, templates, and the Living Document System.
+
+## 🚀 PR & Dependency Automation (NEW!)
+
+**Tired of managing 100+ PRs manually?** We've got you covered!
+
+Our comprehensive automation system handles:
+- ✅ **Dependabot batching** - Groups PRs by ecosystem for efficient merging
+- ✅ **Nightly cleanup** - Auto-merges ready PRs, deletes merged branches, closes stale PRs
+- ✅ **Bulk operations** - Emergency batch actions for large PR volumes
+- ✅ **Auto-conversion** - Draft PRs from AI agents automatically become ready
+- ✅ **Smart assignment** - Copilot auto-assigned to all PRs
+
+**Quick Start:**
+```bash
+# Approve all Dependabot PRs
+gh workflow run bulk-pr-operations.yml -f operation=approve-all-dependabot -f dry_run=false
+
+# Merge all ready PRs
+gh workflow run bulk-pr-operations.yml -f operation=merge-all-ready -f dry_run=false
+```
+
+**Learn More:**
+- 📖 [Full Documentation](PR_AUTOMATION_GUIDE.md)
+- ⚡ [Quick Reference](PR_AUTOMATION_QUICK_REF.md)
+- ⚙️ [Configuration](.github/dependabot.yml)
 
 ## Our Mission
 
