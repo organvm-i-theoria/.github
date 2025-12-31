@@ -179,6 +179,15 @@ This repository has undergone an exhaustive workflow optimization analysis cover
 
 This repository includes comprehensive GitHub Copilot customizations from the [github/awesome-copilot](https://github.com/github/awesome-copilot) repository for organization-wide implementation.
 
+#### 🚀 Quick Start
+
+**New to GitHub Copilot customizations?** Start here:
+
+- **[📘 Quick Start Guide](docs/COPILOT_QUICK_START.md)** - Get up and running in 15 minutes
+- **[🔧 Custom Instructions Setup](docs/CUSTOM_INSTRUCTIONS_SETUP.md)** - Configure coding standards and best practices
+- **[🔌 MCP Server Setup](docs/MCP_SERVER_SETUP.md)** - Extend Copilot with Model Context Protocol servers
+- **[💻 Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)** - Optimize your dev environment for AI-assisted coding
+
 #### Custom Agents
 
 - **Location**: `agents/` directory
@@ -191,8 +200,16 @@ This repository includes comprehensive GitHub Copilot customizations from the [g
 
 - **Location**: `instructions/` directory
 - **Purpose**: Comprehensive coding standards and best practices that apply to specific file patterns
-- **Coverage**: Multiple frameworks and languages (Angular, React, Python, .NET, Azure, etc.)
+- **Coverage**: 100+ instructions for multiple frameworks and languages (Angular, React, Python, .NET, Azure, etc.)
 - **Usage**: Instructions automatically apply based on file patterns
+- **Setup Guide**: [Custom Instructions Setup](docs/CUSTOM_INSTRUCTIONS_SETUP.md)
+
+#### MCP Servers
+
+- **Support**: 11 programming languages (Python, TypeScript, Java, C#, Go, Rust, Ruby, PHP, Swift, Kotlin, Power Platform)
+- **Purpose**: Extend Copilot with tools, resources, and prompts via Model Context Protocol
+- **Components**: Chat modes, prompts, instructions, and collections for each language
+- **Setup Guide**: [MCP Server Setup](docs/MCP_SERVER_SETUP.md)
 
 #### Prompts
 
@@ -210,10 +227,14 @@ This repository includes comprehensive GitHub Copilot customizations from the [g
 
 - **Location**: `collections/` directory
 - **Purpose**: Curated collections of prompts, instructions, and chat modes organized by theme
-- **Examples**: Azure Cloud Development, Frontend Web Dev, Security Best Practices
+- **Examples**: Azure Cloud Development, Frontend Web Dev, Security Best Practices, MCP Development
 
 For detailed documentation on each component, see the `docs/` directory:
 
+- **[🚀 Quick Start Guide](docs/COPILOT_QUICK_START.md)** - 15-minute setup guide for all Copilot enhancements
+- **[🔧 Custom Instructions Setup](docs/CUSTOM_INSTRUCTIONS_SETUP.md)** - Configure coding standards (100+ instructions available)
+- **[🔌 MCP Server Setup](docs/MCP_SERVER_SETUP.md)** - Integrate Model Context Protocol servers (11 languages supported)
+- **[💻 Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)** - DevContainer and VS Code optimization
 - [**Agent Registry**](docs/AGENT_REGISTRY.md) - Complete catalog of 26 production agents + future roadmap
 - [**Suggest-Awesome Enhancements**](docs/SUGGEST_AWESOME_ENHANCEMENTS.md) - 🆕 Quality metrics & visual hierarchy for discovering best assets
 - [Agents Documentation](docs/README.agents.md)
@@ -611,6 +632,17 @@ s all repositories:
 ### Documentation & Guides
 
 All our documentation and guides are located in the `docs/` directory. Highlights include:
+
+#### 🚀 GitHub Copilot Enhancement Guides (NEW!)
+
+| Document                                                                           | Description                                                  |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [**COPILOT_QUICK_START.md**](docs/COPILOT_QUICK_START.md) ⭐                      | **15-minute quick start guide for all Copilot enhancements** |
+| [CUSTOM_INSTRUCTIONS_SETUP.md](docs/CUSTOM_INSTRUCTIONS_SETUP.md)                 | Configure custom instructions and coding standards (100+ available) |
+| [MCP_SERVER_SETUP.md](docs/MCP_SERVER_SETUP.md)                                   | Model Context Protocol server setup and integration (11 languages) |
+| [DEVELOPMENT_ENVIRONMENT_SETUP.md](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)         | DevContainer and VS Code optimization for AI-assisted development |
+
+#### Core Documentation
 
 | Document                                                                           | Description                                                  |
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------ |
