@@ -15,7 +15,7 @@ body:
     attributes:
       label: Announcement Title
       description: A clear, concise title for the announcement
-      placeholder: e.g., "New Feature: Automated Deployment Gallery"
+      placeholder: e.g., New Feature - Automated Deployment Gallery
     validations:
       required: true
 
