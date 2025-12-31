@@ -394,9 +394,9 @@ graph TD
 
                 parts.append("\n</details>\n")
             else:
-                 parts.append("No technologies detected.\n")
+                parts.append("No technologies detected.\n")
         else:
-             parts.append("No technology data available.\n")
+            parts.append("No technology data available.\n")
 
         parts.append(f"\n[Back to Top](#organization-ecosystem-dashboard)\n")
 
@@ -416,9 +416,9 @@ graph TD
                     parts.append(f"- [`{workflow}`]({workflow_path}{workflow})\n")
                 parts.append("\n</details>\n")
             else:
-                 parts.append("No active workflows detected.\n")
+                parts.append("No active workflows detected.\n")
         else:
-             parts.append("No workflow data available.\n")
+            parts.append("No workflow data available.\n")
 
         parts.append(f"\n[Back to Top](#organization-ecosystem-dashboard)\n")
 
