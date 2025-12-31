@@ -8,11 +8,13 @@ on:
         required: true
         type: choice
         options:
+          - approve-all-automated
           - approve-all-dependabot
           - merge-all-ready
           - close-all-stale
           - convert-all-drafts
           - label-all-dependencies
+          - label-all-automated
       filter_label:
         description: 'Filter by label (optional)'
         required: false
@@ -107,12 +109,26 @@ jobs:
             
             // Execute operation based on type
             switch (operation) {
+              case 'approve-all-automated':
               case 'approve-all-dependabot':
+                // Define automated agents
+                const automatedAgents = [
+                  'dependabot[bot]',
+                  'Jules',
+                  'github-actions[bot]',
+                  'renovate[bot]',
+                  'copilot'
+                ];
+                
                 for (const pr of prs) {
-                  if (pr.user.login !== 'dependabot[bot]') continue;
+                  const isAutomated = operation === 'approve-all-automated'
+                    ? automatedAgents.some(agent => pr.user.login.toLowerCase().includes(agent.toLowerCase()))
+                    : pr.user.login === 'dependabot[bot]';
+                  
+                  if (!isAutomated) continue;
                   
                   processed++;
-                  console.log(`\nProcessing PR #${pr.number}: ${pr.title}`);
+                  console.log(`\nProcessing PR #${pr.number}: ${pr.title} (@${pr.user.login})`);
                   
                   if (dryRun) {
                     console.log('[DRY RUN] Would approve PR');
@@ -287,20 +303,40 @@ jobs:
                 break;
                 
               case 'label-all-dependencies':
+              case 'label-all-automated':
+                const automatedAgentsForLabeling = [
+                  'dependabot[bot]',
+                  'Jules',
+                  'github-actions[bot]',
+                  'renovate[bot]',
+                  'copilot'
+                ];
+                
                 for (const pr of prs) {
-                  const isDependency = 
-                    pr.user.login === 'dependabot[bot]' ||
-                    pr.labels.some(l => l.name === 'dependencies') ||
-                    pr.title.toLowerCase().includes('bump') ||
-                    pr.title.toLowerCase().includes('update');
+                  let shouldLabel = false;
+                  let labelsToAdd = [];
                   
-                  if (!isDependency) continue;
+                  if (operation === 'label-all-dependencies') {
+                    shouldLabel = 
+                      pr.user.login === 'dependabot[bot]' ||
+                      pr.labels.some(l => l.name === 'dependencies') ||
+                      pr.title.toLowerCase().includes('bump') ||
+                      pr.title.toLowerCase().includes('update');
+                    labelsToAdd = ['dependencies', 'auto-merge'];
+                  } else { // label-all-automated
+                    shouldLabel = automatedAgentsForLabeling.some(agent => 
+                      pr.user.login.toLowerCase().includes(agent.toLowerCase())
+                    );
+                    labelsToAdd = ['automated', 'auto-merge'];
+                  }
+                  
+                  if (!shouldLabel) continue;
                   
                   processed++;
-                  console.log(`\nProcessing PR #${pr.number}: ${pr.title}`);
+                  console.log(`\nProcessing PR #${pr.number}: ${pr.title} (@${pr.user.login})`);
                   
                   if (dryRun) {
-                    console.log('[DRY RUN] Would add labels');
+                    console.log(`[DRY RUN] Would add labels: ${labelsToAdd.join(', ')}`);
                     succeeded++;
                     continue;
                   }
@@ -310,7 +346,7 @@ jobs:
                       owner: context.repo.owner,
                       repo: context.repo.repo,
                       issue_number: pr.number,
-                      labels: ['dependencies', 'auto-merge']
+                      labels: labelsToAdd
                     });
                     
                     console.log('✅ Labeled');

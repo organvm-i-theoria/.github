@@ -1,27 +1,35 @@
 # PR Automation Quick Reference
 
-Quick commands and tips for using the PR automation system.
+Quick commands and tips for using the PR automation system for ALL PRs (Dependabot, Jules, GitHub Actions, Copilot, etc.).
 
 ## 🚀 Quick Commands
 
-### Batch Merge Dependabot PRs
+### Batch Merge Automated PRs
 ```bash
 # View batches ready for merge
-gh workflow run auto-batch-dependabot.yml
+gh workflow run auto-batch-prs.yml
 
-# Merge a specific batch
+# Merge a specific batch (Jules, Dependabot, etc.)
+gh workflow run pr-batch-merge.yml -f batch_label="batch:jules"
 gh workflow run pr-batch-merge.yml -f batch_label="batch:dependabot-npm"
+gh workflow run pr-batch-merge.yml -f batch_label="batch:copilot"
 
 # Or comment on any PR in the batch:
+/merge-batch jules
 /merge-batch dependabot-npm
 ```
 
 ### Emergency Bulk Operations
 ```bash
-# Approve all Dependabot PRs (dry run first!)
+# Approve all automated PRs (Jules, Dependabot, etc.) - dry run first!
+gh workflow run bulk-pr-operations.yml \
+  -f operation=approve-all-automated \
+  -f dry_run=true
+
+# Approve only Dependabot PRs
 gh workflow run bulk-pr-operations.yml \
   -f operation=approve-all-dependabot \
-  -f dry_run=true
+  -f dry_run=false
 
 # Merge all ready PRs (up to 50)
 gh workflow run bulk-pr-operations.yml \
@@ -82,24 +90,27 @@ gh pr edit <PR_NUMBER> --add-label "keep-open"
 
 ## 📋 Common Scenarios
 
-### Scenario 1: 100+ Dependabot PRs to Merge
+### Scenario 1: 100+ PRs from Multiple Sources (Jules, Dependabot, etc.)
 
 1. **Check current state:**
    ```bash
-   gh pr list --label dependencies --limit 100
+   gh pr list --label automated --limit 100
+   # Or check specific sources
+   gh pr list --author Jules --limit 50
+   gh pr list --author dependabot --limit 50
    ```
 
-2. **Approve all (dry run):**
+2. **Approve all automated PRs (dry run):**
    ```bash
    gh workflow run bulk-pr-operations.yml \
-     -f operation=approve-all-dependabot \
+     -f operation=approve-all-automated \
      -f dry_run=true
    ```
 
 3. **Review dry run output**, then run for real:
    ```bash
    gh workflow run bulk-pr-operations.yml \
-     -f operation=approve-all-dependabot \
+     -f operation=approve-all-automated \
      -f dry_run=false
    ```
 

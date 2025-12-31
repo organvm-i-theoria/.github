@@ -1,39 +1,48 @@
 # PR & Dependency Management Automation
 
-Comprehensive automation system for managing pull requests, dependencies, and repository cleanup with minimal manual intervention.
+Comprehensive automation system for managing ALL pull requests - from Dependabot, Jules, GitHub Actions, Copilot, Renovate, and any other automated sources - with minimal manual intervention.
 
 ## 🎯 Overview
 
-This system addresses common pain points in managing repositories with high PR volume:
-- ✅ **Automated dependency batching** - Group Dependabot PRs by ecosystem
+This system addresses common pain points in managing repositories with high PR volume from ALL sources:
+- ✅ **Automated PR batching** - Group PRs from Dependabot, Jules, and all automated tools
 - ✅ **Nightly cleanup** - Automated maintenance of PRs, branches, and more
-- ✅ **Draft-to-ready automation** - AI agent PRs auto-convert when ready
-- ✅ **Bulk operations** - Emergency batch actions for 100+ PRs
+- ✅ **Draft-to-ready automation** - AI agent PRs (Jules, Copilot, etc.) auto-convert when ready
+- ✅ **Bulk operations** - Emergency batch actions for 100+ PRs from any source
 - ✅ **Smart merging** - Auto-merge qualified PRs when checks pass
 
 ## 📋 Workflows
 
-### 1. Auto-Batch Dependabot PRs
-**File:** `.github/workflows/auto-batch-dependabot.yml`
+### 1. Auto-Batch Automated PRs
+**File:** `.github/workflows/auto-batch-prs.yml`
 
-Automatically groups Dependabot PRs by ecosystem for batch processing.
+Automatically groups ALL automated PRs for batch processing.
 
 **Triggers:**
-- Daily at 4 AM UTC (after Dependabot runs)
-- When Dependabot PRs are opened
+- Daily at 4 AM UTC (after automated tools run)
+- When automated PRs are opened
 - Manual dispatch
 
 **What it does:**
-1. Finds all open Dependabot PRs
-2. Groups them by ecosystem (npm, pip, GitHub Actions, Docker, Go, PHP)
-3. Applies batch labels (`batch:dependabot-{ecosystem}`)
+1. Finds all open automated PRs (Dependabot, Jules, GitHub Actions, Renovate, Copilot, etc.)
+2. Groups them by source and category
+3. Applies batch labels (e.g., `batch:jules`, `batch:dependabot-npm`)
 4. Comments on each PR with batch information
 5. Triggers batch merge if all PRs in a batch pass checks
 
+**Supported automated sources:**
+- **Dependabot** - Grouped by ecosystem (npm, pip, GitHub Actions, Docker, Go, PHP)
+- **Jules** - All Jules PRs batched together
+- **GitHub Actions** - Bot-generated PRs
+- **Renovate** - Alternative dependency update tool
+- **Copilot** - AI-generated PRs
+- **Manual PRs** - With `auto-batch` or `batch-me` label
+
 **Example batch labels:**
+- `batch:jules`
 - `batch:dependabot-npm`
-- `batch:dependabot-pip`
-- `batch:dependabot-github-actions`
+- `batch:github-actions`
+- `batch:copilot`
 
 ### 2. Nightly Cleanup
 **File:** `.github/workflows/nightly-cleanup.yml`
@@ -43,8 +52,8 @@ Comprehensive nightly maintenance and cleanup.
 **Schedule:** Every night at 2 AM UTC
 
 **Tasks:**
-- ✅ Auto-merge ready PRs with `auto-merge` label
-- ✅ Convert draft PRs from trusted agents (Jules, Dependabot, GitHub Actions)
+- ✅ Auto-merge ready PRs with `auto-merge` label (from ALL sources)
+- ✅ Convert draft PRs from trusted agents (Jules, Dependabot, GitHub Actions, Copilot)
 - ✅ Delete merged branches (excluding protected branches)
 - ✅ Close stale PRs (90+ days inactive)
 

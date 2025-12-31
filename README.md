@@ -25,22 +25,25 @@ When a repository in our organization doesn't have its own community health file
 
 ## 🚀 PR & Dependency Automation (NEW!)
 
-**Tired of managing 100+ PRs manually?** We've got you covered!
+**Tired of managing 100+ PRs from Dependabot, Jules, and other automated tools?** We've got you covered!
 
-Our comprehensive automation system handles:
-- ✅ **Dependabot batching** - Groups PRs by ecosystem for efficient merging
+Our comprehensive automation system handles ALL automated PRs:
+- ✅ **Automated PR batching** - Groups PRs from Dependabot, Jules, GitHub Actions, Copilot, Renovate
 - ✅ **Nightly cleanup** - Auto-merges ready PRs, deletes merged branches, closes stale PRs
-- ✅ **Bulk operations** - Emergency batch actions for large PR volumes
-- ✅ **Auto-conversion** - Draft PRs from AI agents automatically become ready
+- ✅ **Bulk operations** - Emergency batch actions for large PR volumes from any source
+- ✅ **Auto-conversion** - Draft PRs from AI agents (Jules, Copilot, etc.) automatically become ready
 - ✅ **Smart assignment** - Copilot auto-assigned to all PRs
 
 **Quick Start:**
 ```bash
-# Approve all Dependabot PRs
-gh workflow run bulk-pr-operations.yml -f operation=approve-all-dependabot -f dry_run=false
+# Approve all automated PRs (Jules, Dependabot, etc.)
+gh workflow run bulk-pr-operations.yml -f operation=approve-all-automated -f dry_run=false
 
-# Merge all ready PRs
+# Merge all ready PRs (from any source)
 gh workflow run bulk-pr-operations.yml -f operation=merge-all-ready -f dry_run=false
+
+# Batch merge Jules PRs
+gh workflow run pr-batch-merge.yml -f batch_label="batch:jules"
 ```
 
 **Learn More:**
