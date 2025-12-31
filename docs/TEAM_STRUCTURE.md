@@ -259,17 +259,19 @@ docker-compose.yml @ivviiviivvi/devops
 ### Via GitHub CLI
 
 ```bash
-# Create a team
+# Create a team (replace {org} with your organization name)
 gh api orgs/{org}/teams \
   -f name="engineering" \
   -f description="Engineering team responsible for code development" \
   -f privacy="closed"
 
-# Add member to team
+# Add member to team (replace {org} and {username})
 gh api orgs/{org}/teams/engineering/memberships/{username} \
   -X PUT \
   -f role="member"
 ```
+
+**Note**: Replace `{org}` with your organization name and `{username}` with the GitHub username.
 
 ### Via Terraform
 
@@ -301,10 +303,13 @@ resource "github_team_membership" "engineering_member" {
 
 ```bash
 # Add team to repository with write access
+# Replace {owner} with organization/user name and {repo} with repository name
 gh api repos/{owner}/{repo}/teams/engineering \
   -X PUT \
   -f permission="push"
 ```
+
+**Note**: Replace `{owner}` and `{repo}` with your actual organization and repository names.
 
 ## Review Assignment
 
