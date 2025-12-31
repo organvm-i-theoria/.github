@@ -19,6 +19,9 @@ from typing import Dict, List
 import functools
 import concurrent.futures
 
+# Disable warnings globally
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 class OrganizationCrawler:
     """Crawls and analyzes organization repositories and documentation"""
@@ -35,9 +38,6 @@ class OrganizationCrawler:
         self.org_name = org_name or os.environ.get('GITHUB_REPOSITORY', '').split('/')[0]
         self.max_workers = max_workers
         self.session = requests.Session()
-
-        # Disable warnings once at initialization
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
         # Optimize connection pool size to match workers
         # Default is 10, which bottlenecks if max_workers > 10
@@ -66,6 +66,13 @@ class OrganizationCrawler:
             'shatter_points': [],
             'recommendations': []
         }
+
+    # Pre-compile regex for performance
+    # Match both [text](url) and bare URLs using a single pass to avoid
+    # incorrect matching of bare URLs inside markdown syntax (e.g. "url)")
+    # Group 1: URL inside markdown link [text](URL) - excludes spaces to avoid malformed URLs
+    # Group 2: Bare URL - excludes closing paren and spaces to avoid trailing punctuation
+    LINK_PATTERN = re.compile(r'\[(?:[^\]]+)\]\(([^)\s]+)\)|(https?://[^\s<>"{}|\\^`\[\])]+)')
 
     def crawl_markdown_files(self, directory: Path) -> Dict[str, List[str]]:
         """Extract all links from markdown files"""
