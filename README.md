@@ -18,12 +18,49 @@ central hub for:
 - **Living Document System** - AI-driven governance and management protocols
 - **Mouthpiece Filter System** - Transform natural human expression into AI-optimized prompts
 - **🤖 PR & Dependency Automation** - Comprehensive automation for managing PRs at scale
+- **🏗️ Workspace & Containerization Protocols** - Lightweight local systems with flexible remote access
 
 When a repository in our organization doesn't have its own community health files, GitHub automatically uses the defaults from this repository.
 
 > **Is this the right repository for these functions?** See our [Repository Purpose Analysis](docs/architecture/REPOSITORY_PURPOSE_ANALYSIS.md) for a detailed explanation of why this `.github` repository is the appropriate location for organization-wide governance, templates, and the Living Document System.
 
-## 🚀 PR & Dependency Automation (NEW!)
+## 🏗️ Workspace & Containerization Protocols (NEW!)
+
+**Keep your local system light while accessing powerful development environments from anywhere!**
+
+Our comprehensive workspace protocols enable:
+- ✅ **Lightweight local setup** - Minimal dependencies on your machine
+- ✅ **Flexible access** - VS Code Desktop, Web, or browser-based
+- ✅ **Complete isolation** - Containerized services and dependencies
+- ✅ **Universal portability** - Work from any device, anywhere
+- ✅ **Self-hosted options** - Full control with code-server
+
+**Quick Start:**
+```bash
+# Create workspace from template
+./scripts/workspace/create-workspace.sh --template fullstack --name my-project
+
+# Or open existing project in DevContainer
+code .
+# Dev Containers: Reopen in Container
+
+# Or use GitHub Codespaces
+gh codespace create --repo ivviiviivvi/.github
+```
+
+**Access Methods:**
+- 🖥️ **VS Code Desktop** - Full IDE with DevContainers
+- 🌐 **GitHub Codespaces** - Cloud-based development
+- 🔧 **Self-Hosted Code-Server** - Your own VS Code in browser
+- 📱 **Browser-Based** - Quick edits on any device
+
+**Learn More:**
+- 📖 [Complete Protocols](docs/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
+- 🚀 [Codespaces Guide](docs/CODESPACES_GUIDE.md)
+- 🔧 [Code-Server Setup](docs/CODE_SERVER_SETUP.md)
+- 🎯 [DevContainer Templates](.devcontainer/templates/)
+
+## 🚀 PR & Dependency Automation
 
 **Tired of managing 100+ PRs from Dependabot, Jules, and other automated tools?** We've got you covered!
 
