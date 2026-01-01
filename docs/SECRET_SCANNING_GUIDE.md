@@ -256,7 +256,7 @@ For questions or issues with secret scanning:
 
 ---
 
-**Last Updated**: 2026-01-01  
+**Last Updated**: 2025-12-25  
 **Maintained By**: Security Team  
 **Related Files**: 
 - `.gitleaks.toml`
