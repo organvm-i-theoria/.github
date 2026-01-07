@@ -174,7 +174,15 @@ class OrganizationCrawler:
                 ip = ip.split('%')[0]
             try:
                 ip_obj = ipaddress.ip_address(ip)
-                if not ip_obj.is_global or ip_obj.is_multicast:
+                # Enhanced SSRF protection: Explicitly check for all unsafe categories
+                # While is_global handles most, explicit checks are safer for defense-in-depth
+                if (not ip_obj.is_global or
+                    ip_obj.is_multicast or
+                    ip_obj.is_private or
+                    ip_obj.is_loopback or
+                    ip_obj.is_link_local or
+                    ip_obj.is_reserved or
+                    ip_obj.is_unspecified):
                     return False
             except ValueError:
                 return False
@@ -200,8 +208,14 @@ class OrganizationCrawler:
                     ip = ip.split('%')[0]
 
                 ip_obj = ipaddress.ip_address(ip)
-                # Check if IP is globally reachable and not multicast
-                if not ip_obj.is_global or ip_obj.is_multicast:
+                # Enhanced SSRF protection
+                if (not ip_obj.is_global or
+                    ip_obj.is_multicast or
+                    ip_obj.is_private or
+                    ip_obj.is_loopback or
+                    ip_obj.is_link_local or
+                    ip_obj.is_reserved or
+                    ip_obj.is_unspecified):
                     return False
 
             return True
