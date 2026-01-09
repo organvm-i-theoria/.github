@@ -289,10 +289,10 @@ class OrganizationCrawler:
                         port=port
                     )
 
-                # The safe_url contains the IP in the netloc, but we just need the path
-                # and query for the request method, as the pool handles the host connection.
-                # However, urllib3 request/urlopen expects a URL. If we pass a relative path,
-                # it works.
+                # The connection pool is configured with the resolved safe_ip as the host,
+                # so for the request we only need to provide the path and query components.
+                # urllib3.request accepts a relative path here, and the pool handles the
+                # actual TCP/SSL connection to the configured host and port.
                 url_path = urllib.parse.urlunparse(('', '', parsed.path, parsed.params, parsed.query, parsed.fragment))
                 if not url_path.startswith('/'):
                     url_path = '/' + url_path
