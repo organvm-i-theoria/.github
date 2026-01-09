@@ -248,13 +248,26 @@ jobs:
     if: always()
 
     steps:
+      - name: "Check if gh-pages branch exists"
+        id: check_branch
+        run: |
+          if git ls-remote --heads https://github.com/${{ github.repository }} gh-pages | grep -q gh-pages; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "✓ gh-pages branch exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ gh-pages branch does not exist, skipping cleanup"
+          fi
+
       - name: "Checkout repository"
+        if: steps.check_branch.outputs.exists == 'true'
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
         with:
           fetch-depth: 0
           ref: gh-pages
 
       - name: "Cleanup old builds"
+        if: steps.check_branch.outputs.exists == 'true'
         run: |
           echo "🧹 Cleaning up old builds (90-day retention)..."
 
