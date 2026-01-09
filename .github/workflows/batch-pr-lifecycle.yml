@@ -255,7 +255,22 @@ jobs:
           DRY_RUN: ${{ github.event.inputs.dry_run }}
         with:
           script: |
-            const draftPRs = JSON.parse(process.env.DRAFT_PRS);
+            const rawDraftPRs = process.env.DRAFT_PRS;
+            
+            if (!rawDraftPRs) {
+              console.log('No draft PRs data found in DRAFT_PRS. Nothing to convert.');
+              return { converted: [], failed: [] };
+            }
+            
+            let draftPRs;
+            try {
+              draftPRs = JSON.parse(rawDraftPRs);
+            } catch (error) {
+              console.error('Failed to parse DRAFT_PRS as JSON:', error.message);
+              console.error('DRAFT_PRS content:', rawDraftPRs);
+              throw new Error('Invalid JSON in DRAFT_PRS environment variable');
+            }
+            
             const dryRun = process.env.DRY_RUN === 'true';
             
             console.log(`Converting ${draftPRs.length} draft PRs to ready...`);
