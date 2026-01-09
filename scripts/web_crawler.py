@@ -293,9 +293,8 @@ class OrganizationCrawler:
                 # so for the request we only need to provide the path and query components.
                 # urllib3.request accepts a relative path here, and the pool handles the
                 # actual TCP/SSL connection to the configured host and port.
-                url_path = urllib.parse.urlunparse(('', '', parsed.path, parsed.params, parsed.query, parsed.fragment))
-                if not url_path.startswith('/'):
-                    url_path = '/' + url_path
+                path = parsed.path or '/'
+                url_path = urllib.parse.urlunparse(('', '', path, parsed.params, parsed.query, parsed.fragment))
 
                 response = pool.request(
                     'HEAD',
