@@ -515,12 +515,12 @@ jobs:
     steps:
       - name: Generate Summary
         env:
-            INPUT_ACTION: ${{ github.event.inputs.action }}
-            INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
-            TOTAL_COUNT: ${{ needs.analyze-prs.outputs.total-count }}
-            DRAFT_PRS: ${{ needs.analyze-prs.outputs.draft-prs }}
-            READY_PRS: ${{ needs.analyze-prs.outputs.ready-prs }}
-            MERGEABLE_PRS: ${{ needs.analyze-prs.outputs.mergeable-prs }}
+          INPUT_ACTION: ${{ github.event.inputs.action }}
+          INPUT_DRY_RUN: ${{ github.event.inputs.dry_run }}
+          TOTAL_COUNT: ${{ needs.analyze-prs.outputs.total-count }}
+          DRAFT_PRS: ${{ needs.analyze-prs.outputs.draft-prs }}
+          READY_PRS: ${{ needs.analyze-prs.outputs.ready-prs }}
+          MERGEABLE_PRS: ${{ needs.analyze-prs.outputs.mergeable-prs }}
         run: |
           DRAFT_COUNT=$(echo "$DRAFT_PRS" | jq length)
           READY_COUNT=$(echo "$READY_PRS" | jq length)
