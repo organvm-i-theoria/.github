@@ -427,6 +427,9 @@ graph TD
             workflows = em.get('workflows', [])
 
             if workflows:
+                # UX Improvement: Add legend for workflow types
+                parts.append("> **Legend:** 🛡️ Safeguard · 🔐 Security · ♻️ Reusable · 🤖 AI Agent · 🚀 CI/CD · 🔀 PR Mgmt · ⏱️ Scheduled · 💓 Health · ⚙️ General\n\n")
+
                 # Calculate the correct relative path for workflow links
                 workflow_path = self._calculate_relative_path(output_path, ".github/workflows/")
                 
