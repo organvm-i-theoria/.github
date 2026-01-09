@@ -169,7 +169,7 @@ class MouthpieceFilter:
         else:
             return "neutral"
 
-    def _assess_complexity(self, text: str, concepts: List[str] = None) -> str:
+    def _assess_complexity(self, text: str, concepts: Optional[List[str]] = None) -> str:
         """Assess the complexity level of the request."""
         words = text.split()
         sentences = re.split(r'[.!?]+', text)
