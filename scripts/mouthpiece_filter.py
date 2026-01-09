@@ -48,6 +48,22 @@ class MouthpieceFilter:
     _QUESTIONS = re.compile(r'([^.!?]*\?)')
     _STEPS = re.compile(r'\b(?:step\s+)?\d+[\.:)]|\bfirst\b|\bsecond\b|\bthen\b|\bfinally\b')
     _PARAGRAPHS = re.compile(r'\n\s*\n')
+    # Compile regex patterns once for performance
+    # Capitalized words (potential proper nouns or important concepts)
+    _CAPITALIZED_WORDS = re.compile(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b')
+    # Quoted terms
+    _QUOTED_DOUBLE = re.compile(r'"([^"]+)"')
+    _QUOTED_SINGLE = re.compile(r"'([^']+)'")
+    # Technical-looking terms (contains underscores, dots, or mixed case)
+    _TECH_TERMS_MIXED = re.compile(r'\b\w+[._]\w+\b')
+    _TECH_TERMS_CAMEL = re.compile(r'\b[a-z]+[A-Z]\w+\b')  # camelCase
+    # Sentence splitters
+    _SENTENCE_SPLITTER = re.compile(r'[.!?]+')
+    _PARAGRAPH_SPLITTER = re.compile(r'\n\s*\n')
+    # Questions
+    _QUESTIONS = re.compile(r'([^.!?]*\?)')
+    # Steps
+    _STEPS = re.compile(r'\b(?:step\s+)?\d+[\.:)]|\bfirst\b|\bsecond\b|\bthen\b|\bfinally\b')
 
     def __init__(self, config: Optional[Dict] = None):
         """Initialize the filter with optional configuration."""
@@ -135,6 +151,7 @@ class MouthpieceFilter:
         # Simple concept extraction - looks for capitalized words, quoted terms, and technical terms
         concepts = []
 
+        # Optimization: Use pre-compiled regex patterns
         # Capitalized words (potential proper nouns or important concepts)
         concepts.extend(self._CAPITALIZED_WORDS.findall(text))
 
@@ -158,7 +175,7 @@ class MouthpieceFilter:
         ]
 
         metaphors = []
-        sentences = self._SENTENCE_SPLIT.split(text)
+        sentences = self._SENTENCE_SPLITTER.split(text)
 
         for sentence in sentences:
             if any(indicator in sentence.lower() for indicator in metaphor_indicators):
