@@ -61,7 +61,9 @@ jobs:
           
           # Write to GITHUB_OUTPUT
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f"due_tasks={due_tasks_json}\n")
+              f.write('due_tasks<<EOF\n')
+              f.write(f"{due_tasks_json}\n")
+              f.write('EOF\n')
           EOF
 
       - name: Dispatch Due Tasks
