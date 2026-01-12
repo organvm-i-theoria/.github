@@ -58,6 +58,9 @@ class OrganizationCrawler:
             ssl_context=self.ssl_context,
         )
 
+        # Optimization: Reuse SSL context to avoid expensive re-initialization per request
+        self.ssl_context = ssl.create_default_context()
+
         if self.github_token:
             self.session.headers.update({"Authorization": f"token {self.github_token}"})
 
@@ -276,12 +279,13 @@ class OrganizationCrawler:
 
                 # Create a temporary connection pool for this specific request
                 # allowing us to verify hostname against the IP connection
-                if scheme == "https":
-                    # Use shared SSL context to avoid expensive recreation (approx 40ms per call)
+                if scheme == 'https':
+                    # Use system default SSL context to avoid extra dependencies
+                    # Optimization: Reuse pre-initialized SSL context
                     pool = urllib3.HTTPSConnectionPool(
                         host=safe_ip,
                         port=port,
-                        cert_reqs="CERT_REQUIRED",
+                        cert_reqs='CERT_REQUIRED',
                         ssl_context=self.ssl_context,
                         assert_hostname=hostname,
                         server_hostname=hostname,
