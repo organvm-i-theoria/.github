@@ -2,123 +2,209 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 #
 # These owners will be automatically requested for review when someone opens a pull request
-# that modifies code that they own. Order is important; the last matching pattern takes precedence.
+# that modifies code that they own. 
 #
-# Module 1: Organization & Repository Administration - Access Control
-# Module 2: Project Management & Workflow Automation - Code Review Assistance
+# IMPORTANT: Order matters! More specific patterns should appear AFTER general patterns.
+# The last matching pattern takes precedence.
+#
+# Teams must have explicit write access to the repository to be valid code owners.
+# See TEAM_STRUCTURE.md for team definitions and permissions.
 
 ##############################
 # Default Owners
 ##############################
 
 # Default owners for everything in the repo
-# Unless a later match takes precedence, these users will be requested for review
-* @ivi374forivi
+# Leadership team has oversight but should not be used for routine code review
+* @ivviiviivvi/leadership
+
+##############################
+# Source Code
+##############################
+
+# General source code - Engineering team
+/src/ @ivviiviivvi/engineering
+
+# Python files - Backend team
+*.py @ivviiviivvi/backend
+
+# JavaScript and TypeScript - Frontend team
+*.js @ivviiviivvi/frontend
+*.jsx @ivviiviivvi/frontend
+*.ts @ivviiviivvi/frontend
+*.tsx @ivviiviivvi/frontend
+*.vue @ivviiviivvi/frontend
+*.svelte @ivviiviivvi/frontend
+
+# Frontend-specific directories
+/src/components/ @ivviiviivvi/frontend
+/src/pages/ @ivviiviivvi/frontend
+/src/views/ @ivviiviivvi/frontend
+/public/ @ivviiviivvi/frontend
+/static/ @ivviiviivvi/frontend
+
+# Backend-specific directories
+/src/api/ @ivviiviivvi/backend
+/src/services/ @ivviiviivvi/backend
+/src/models/ @ivviiviivvi/backend
+/src/database/ @ivviiviivvi/backend
+
+##############################
+# Infrastructure & DevOps
+##############################
+
+# GitHub Actions workflows
+/.github/workflows/ @ivviiviivvi/devops
+
+# Infrastructure as code
+/infrastructure/ @ivviiviivvi/devops
+/terraform/ @ivviiviivvi/devops
+/kubernetes/ @ivviiviivvi/devops
+/k8s/ @ivviiviivvi/devops
+
+# Docker
+Dockerfile* @ivviiviivvi/devops
+docker-compose*.yml @ivviiviivvi/devops
+docker-compose*.yaml @ivviiviivvi/devops
+/docker/ @ivviiviivvi/devops
+
+# CI/CD and deployment
+/.github/workflows/deploy*.yml @ivviiviivvi/devops
+/.github/workflows/ci*.yml @ivviiviivvi/devops
+/.circleci/ @ivviiviivvi/devops
+/.gitlab-ci.yml @ivviiviivvi/devops
+/scripts/deploy/ @ivviiviivvi/devops
+
+# Configuration files
+*.yml @ivviiviivvi/devops
+*.yaml @ivviiviivvi/devops
+*.toml @ivviiviivvi/devops
+.env.example @ivviiviivvi/devops
+
+# Dependency management
+package.json @ivviiviivvi/devops
+package-lock.json @ivviiviivvi/devops
+requirements.txt @ivviiviivvi/devops
+Pipfile @ivviiviivvi/devops
+Pipfile.lock @ivviiviivvi/devops
+go.mod @ivviiviivvi/devops
+go.sum @ivviiviivvi/devops
+Gemfile @ivviiviivvi/devops
+Gemfile.lock @ivviiviivvi/devops
+Cargo.toml @ivviiviivvi/devops
+Cargo.lock @ivviiviivvi/devops
+
+##############################
+# Security
+##############################
+
+# Security policy and advisories
+/SECURITY.md @ivviiviivvi/security
+
+# Security-related workflows
+/.github/workflows/security*.yml @ivviiviivvi/security
+/.github/workflows/codeql*.yml @ivviiviivvi/security
+
+# Authentication and authorization
+**/auth/ @ivviiviivvi/security
+**/authentication/ @ivviiviivvi/security
+**/authorization/ @ivviiviivvi/security
+/src/security/ @ivviiviivvi/security
+
+# Security configurations
+/security/ @ivviiviivvi/security
+
+##############################
+# Documentation
+##############################
+
+# All markdown files - Engineering team
+*.md @ivviiviivvi/engineering
+
+# Documentation directory
+/docs/ @ivviiviivvi/engineering
+
+# API documentation
+/docs/api/ @ivviiviivvi/backend
 
 ##############################
 # GitHub-specific Files
 ##############################
 
-# GitHub-specific configuration files
-/.github/ @ivi374forivi
-/.github/workflows/ @ivi374forivi
-
-# Documentation
-*.md @ivi374forivi
-/docs/ @ivi374forivi
-
-# Configuration files
-*.yml @ivi374forivi
-*.yaml @ivi374forivi
-*.json @ivi374forivi
-*.toml @ivi374forivi
-
-# Security-related files
-/SECURITY.md @ivi374forivi
-/.github/workflows/security-*.yml @ivi374forivi
-/.github/workflows/codeql*.yml @ivi374forivi
+# GitHub-specific configuration files (Leadership oversight)
+/.github/ @ivviiviivvi/leadership
 
 # Community health files
-/CODE_OF_CONDUCT.md @ivi374forivi
-/CONTRIBUTING.md @ivi374forivi
-/LICENSE @ivi374forivi
-
-# CI/CD workflows
-/.github/workflows/ @ivi374forivi
-
-# Dependency management
-/dependabot.yml @ivi374forivi
-/renovate.json @ivi374forivi
-package.json @ivi374forivi
-package-lock.json @ivi374forivi
-requirements.txt @ivi374forivi
-go.mod @ivi374forivi
-go.sum @ivi374forivi
-Gemfile @ivi374forivi
-Gemfile.lock @ivi374forivi
-Cargo.toml @ivi374forivi
-Cargo.lock @ivi374forivi
+/CODE_OF_CONDUCT.md @ivviiviivvi/leadership
+/CONTRIBUTING.md @ivviiviivvi/leadership
+/LICENSE @ivviiviivvi/leadership
 
 ##############################
 # GitHub Copilot Customizations
 ##############################
 
 # GitHub Copilot agents
-/agents/ @ivi374forivi
+/agents/ @ivviiviivvi/engineering
 
 # GitHub Copilot chat modes
-/chatmodes/ @ivi374forivi
+/chatmodes/ @ivviiviivvi/engineering
 
 # GitHub Copilot collections
-/collections/ @ivi374forivi
+/collections/ @ivviiviivvi/engineering
 
 # GitHub Copilot instructions
-/instructions/ @ivi374forivi
+/instructions/ @ivviiviivvi/engineering
 
 # GitHub Copilot prompts
-/prompts/ @ivi374forivi
+/prompts/ @ivviiviivvi/engineering
 
 ##############################
 # Templates
 ##############################
 
 # Issue templates
-/ISSUE_TEMPLATE/ @ivi374forivi
+/ISSUE_TEMPLATE/ @ivviiviivvi/leadership
+
+# Discussion templates
+/DISCUSSION_TEMPLATE/ @ivviiviivvi/leadership
 
 # PR templates
-/PULL_REQUEST_TEMPLATE/ @ivi374forivi
-/PULL_REQUEST_TEMPLATE.md @ivi374forivi
-
-##############################
-# Organization-specific Areas
-##############################
-
-# Example: Specific teams for different areas
-# Uncomment and customize as needed when you have teams:
-# /frontend/ @org/frontend-team
-# /backend/ @org/backend-team
-# /api/ @org/api-team
-# /infrastructure/ @org/devops-team
-# /scripts/ @org/automation-team
-# /tests/ @org/qa-team
+/PULL_REQUEST_TEMPLATE/ @ivviiviivvi/leadership
+/PULL_REQUEST_TEMPLATE.md @ivviiviivvi/leadership
 
 ##############################
 # Automation Scripts
 ##############################
 
-/scripts/ @ivi374forivi
-/scripts/quota_manager.py @ivi374forivi
-/scripts/manage_lock.sh @ivi374forivi
-/scripts/commit_changes.sh @ivi374forivi
+# General scripts
+/scripts/ @ivviiviivvi/devops
+
+# Python automation scripts
+/scripts/*.py @ivviiviivvi/backend @ivviiviivvi/devops
+
+# Shell scripts
+/scripts/*.sh @ivviiviivvi/devops
 
 ##############################
-# Documentation
+# Organization Documentation
 ##############################
 
 # Organization documentation
-/docs/ @ivi374forivi
-/profile/ @ivi374forivi
+/profile/ @ivviiviivvi/leadership
+
+# Team structure and governance
+TEAM_STRUCTURE.md @ivviiviivvi/leadership
 
 # AI Implementation Protocol
-/for-ai-implementation.txt @ivi374forivi
-AI_IMPLEMENTATION_GUIDE.md @ivi374forivi
+/for-ai-implementation.txt @ivviiviivvi/engineering
+AI_IMPLEMENTATION_GUIDE.md @ivviiviivvi/engineering
+
+##############################
+# Context and Observability
+##############################
+
+# Context handoff system
+/context-handoff/ @ivviiviivvi/engineering
+
+# Observability and monitoring
+/observability/ @ivviiviivvi/devops
