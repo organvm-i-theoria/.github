@@ -116,7 +116,7 @@ graph TD
 
 Supported languages and frameworks:
 
-- `python`
+- 🐍 `python`
 
 
 [⬆️ Back to Top](#organization-ecosystem-dashboard)

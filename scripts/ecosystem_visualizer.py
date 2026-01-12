@@ -406,7 +406,8 @@ graph TD
                 # UX Improvement: Use list for small numbers, table for large to avoid empty cells
                 if len(technologies) <= 5:
                     for tech in technologies:
-                        parts.append(f"- `{tech}`\n")
+                        icon = self.TECHNOLOGY_ICONS.get(tech.lower(), '🔹')
+                        parts.append(f"- {icon} `{tech}`\n")
                     parts.append("\n")
                 else:
                     parts.append(f"<details>\n<summary>View all {len(technologies)} technologies</summary>\n\n")
@@ -421,7 +422,13 @@ graph TD
                         if current_len < cols:
                             row_techs.extend([""] * (cols - current_len))
 
-                        formatted_cells = [f"`{t}`" if t else "" for t in row_techs]
+                        formatted_cells = []
+                        for t in row_techs:
+                            if t:
+                                icon = self.TECHNOLOGY_ICONS.get(t.lower(), '🔹')
+                                formatted_cells.append(f"{icon} `{t}`")
+                            else:
+                                formatted_cells.append("")
                         parts.append("| " + " | ".join(formatted_cells) + " |\n")
 
                         if i == 0:
@@ -444,9 +451,10 @@ graph TD
             if workflows:
                 # Calculate the correct relative path for workflow links
                 workflow_path = self._calculate_relative_path(output_path, ".github/workflows/")
-                
-                # UX Improvement: Add legend for workflow types
-                # Use a single, consistent legend derived from the class constant
+
+                parts.append(f"<details>\n<summary>View all {len(workflows)} workflows</summary>\n\n")
+
+                # UX Improvement: Single source of truth for legend, using interpunct for cleaner look
                 legend_items = [f"{emoji} {name}" for emoji, name in self.WORKFLOW_CATEGORIES.items()]
                 legend_string = " · ".join(legend_items)
                 parts.append(f"> **Legend:** {legend_string}\n\n")
