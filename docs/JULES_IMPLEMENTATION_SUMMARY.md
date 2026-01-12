@@ -38,7 +38,7 @@
 - Triggers PR consolidation after 30 minutes (configurable)
 - Updates state file to track last run
 
-**Key Feature:** "insure this happens daily"
+**Key Feature:** "ensure this happens daily"
 
 #### 3. Daily PR Consolidator  
 **File:** `.github/workflows/daily-pr-consolidator.yml`

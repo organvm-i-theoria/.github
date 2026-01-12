@@ -6,7 +6,7 @@ Prevents cascading and redundant task generation from Jules and automated workfl
 
 import json
 import hashlib
-import os
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 

@@ -85,7 +85,7 @@ gh workflow run daily-pr-consolidator.yml
 cat .github/task_state.json | jq '.'
 ```
 
-📖 **Full docs:** [Jules Cascade Prevention](docs/JULES_CASCADE_PREVENTION.md) | [Quick Reference](docs/JULES_CASCADE_PREVENTION_QUICK_REF.md)
+📖 **Full docs:** [Jules Cascade Prevention](docs/JULES_CASCADE_PREVENTION.md) | [Quick Reference](docs/JULES_CASCADE_PREVENTION_QUICK_REF.md) | [Implementation Summary](docs/JULES_IMPLEMENTATION_SUMMARY.md)
 
 ### Classic PR Automation (Still Available)
 
