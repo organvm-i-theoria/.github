@@ -116,17 +116,17 @@ graph TD
 
 Supported languages and frameworks:
 
-- `python`
+- 🐍 `python`
 
 
 [⬆️ Back to Top](#organization-ecosystem-dashboard)
 
 ## ⚙️  Active Workflows
 
+> **Legend:** 🛡️ Safeguards · 🔐 Security · ♻️ Reusable · 🤖 AI Agents · 🚀 CI/CD · 🔀 PR Management · ⏱️ Scheduled · 💓 Health · ⚙️ Utility & Other
+
 <details>
 <summary>View all 15 workflows</summary>
-
-> **Legend:** 🛡️ Safeguards & Policies | 🔐 Security | ♻️ Reusable Workflows | 🤖 AI Agents & Automation | 🚀 CI/CD & Deployment | 🔀 PR Management | ⏱️ Scheduled Tasks | 💓 Health & Metrics | ⚙️ Utility & Other
 
 | # | Type | Workflow | Action |
 |---|---|---|---|
