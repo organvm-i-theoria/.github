@@ -1,0 +1,116 @@
+name: Close Stale Issues and PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    name: Mark and Close Stale Items
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Stale issue and PR management
+        uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          
+          # Days before marking as stale
+          days-before-stale: 60
+          
+          # Days before closing after marked stale
+          days-before-close: 14
+          
+          # Labels to exempt from stale marking
+          exempt-issue-labels: 'security,priority: critical,priority: high,pinned,wontfix'
+          exempt-pr-labels: 'security,priority: critical,priority: high,pinned,in-progress'
+          
+          # Labels to add when marked stale
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          
+          # Messages
+          stale-issue-message: |
+            👋 This issue has been automatically marked as stale because it has not had recent activity in the last 60 days.
+            
+            **It will be closed in 14 days if no further activity occurs.**
+            
+            If this issue is still relevant:
+            - Add a comment to keep it open
+            - Add the `pinned` label to prevent it from being marked stale
+            - Reference it in a pull request
+            
+            If this was resolved or is no longer needed:
+            - No action needed, it will close automatically
+            
+            Thank you for your contributions! 🙏
+          
+          stale-pr-message: |
+            👋 This pull request has been automatically marked as stale because it has not had recent activity in the last 60 days.
+            
+            **It will be closed in 14 days if no further activity occurs.**
+            
+            If this PR is still being worked on:
+            - Push new commits or add a comment
+            - Request a review
+            - Add the `pinned` label to prevent it from being marked stale
+            
+            If this PR is no longer needed:
+            - No action needed, it will close automatically
+            
+            Thank you for your contributions! 🙏
+          
+          close-issue-message: |
+            🔒 This issue was automatically closed because it has been stale for 14 days with no activity.
+            
+            If you believe this issue should be reopened:
+            - Comment on this issue with an update
+            - Open a new issue referencing this one
+            - Contact the maintainers
+            
+            Thank you! 🙏
+          
+          close-pr-message: |
+            🔒 This pull request was automatically closed because it has been stale for 14 days with no activity.
+            
+            If you'd like to continue this work:
+            - Reopen this PR with an update
+            - Open a new PR referencing this one
+            - Contact the maintainers
+            
+            Thank you for your contribution! 🙏
+          
+          # Operations per run (to avoid rate limiting)
+          operations-per-run: 100
+          
+          # Remove stale label when activity occurs
+          remove-stale-when-updated: true
+          
+          # Enable debug output
+          debug-only: false
+          
+          # Ascending order (oldest first)
+          ascending: true
+          
+          # Don't mark issues/PRs with assignees as stale
+          exempt-all-assignees: true
+          
+          # Close issues even if they have an assignee
+          close-issue-reason: 'not_planned'
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### 🧹 Stale Issue Management" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Stale management workflow completed." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Policy:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues/PRs marked stale after 60 days of inactivity" >> $GITHUB_STEP_SUMMARY
+          echo "- Closed 14 days after being marked stale" >> $GITHUB_STEP_SUMMARY
+          echo "- Exemptions: security, priority: critical, priority: high, pinned" >> $GITHUB_STEP_SUMMARY

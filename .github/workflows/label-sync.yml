@@ -1,0 +1,40 @@
+name: Sync Labels
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/labels.yml'
+      - '.github/workflows/label-sync.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly on Monday at 9am UTC
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  label-sync:
+    name: Sync Repository Labels
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          delete-other-labels: false
+          dry-run: false
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### 🏷️ Label Sync Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Labels have been synced from \`.github/labels.yml\`" >> $GITHUB_STEP_SUMMARY
