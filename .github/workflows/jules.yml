@@ -66,7 +66,7 @@ jobs:
           TASK_TYPE="jules_request"
           TASK_DATA="{\"issue\":\"$ISSUE_NUM\",\"event\":\"${{ github.event_name }}\",\"repo\":\"${{ github.repository }}\"}"
           
-          DEDUPE_RESULT=$(python3 .github/scripts/task_deduplicator.py check "$TASK_TYPE" "$TASK_DATA" || echo '{"should_process":true,"reason":"deduplication check failed"}')
+          DEDUPE_RESULT=$(python3 .github/scripts/task_deduplicator.py check "$TASK_TYPE" "$TASK_DATA" || echo '{"should_process":false,"reason":"deduplication check failed"}')
           SHOULD_PROCESS=$(echo "$DEDUPE_RESULT" | jq -r '.should_process')
           REASON=$(echo "$DEDUPE_RESULT" | jq -r '.reason')
           
@@ -118,4 +118,5 @@ jobs:
 
       - name: Commit state changes
         if: always()
-        run: ./scripts/commit_changes.sh "chore - update state for Jules task"
+        run: |
+          ./scripts/commit_changes.sh "chore: update state for Jules task"
