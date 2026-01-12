@@ -2,7 +2,7 @@ blank_issues_enabled: false
 
 contact_links:
   - name: 🔒 Security Vulnerability (Private Disclosure)
-    url: ../SECURITY.md
+    url: https://github.com/YOUR_ORG/YOUR_REPO/blob/main/SECURITY.md
     about: |
       For serious security vulnerabilities, please use our private disclosure process.
       Do NOT create a public issue for high or critical security concerns.
