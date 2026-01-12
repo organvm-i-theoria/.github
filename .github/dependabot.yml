@@ -3,54 +3,64 @@
 
 version: 2
 updates:
-  # Enable version updates for npm (JavaScript/TypeScript)
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "organization-team"
-    labels:
-      - "dependencies"
-      - "automated"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-  
-  # Enable version updates for pip (Python)
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
-    reviewers:
-      - "organization-team"
-    labels:
-      - "dependencies"
-      - "automated"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-  
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
+      time: "09:00"
+    open-pull-requests-limit: 10
     labels:
       - "dependencies"
-      - "github-actions"
+      - "automated"
+      - "category: github-actions"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers:
+      - "ivviiviivvi/devops"
+
+  # Enable version updates for pip (Python)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ivviiviivvi/backend"
+    labels:
+      - "dependencies"
       - "automated"
     commit-message:
-      prefix: "ci"
+      prefix: "chore(deps)"
+      include: "scope"
+  
+  # Enable version updates for npm (JavaScript/TypeScript)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "ivviiviivvi/frontend"
+    labels:
+      - "dependencies"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    # Group minor and patch updates together
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
   
   # Enable version updates for Docker
   - package-ecosystem: "docker"
@@ -58,14 +68,14 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "03:00"
+      time: "09:00"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
-      - "docker"
       - "automated"
+      - "category: configuration"
     commit-message:
-      prefix: "build"
+      prefix: "chore(deps)"
   
   # Enable version updates for Go modules
   - package-ecosystem: "gomod"
@@ -73,14 +83,13 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "03:00"
-    open-pull-requests-limit: 5
+      time: "09:00"
+    open-pull-requests-limit: 10
     labels:
       - "dependencies"
-      - "go"
       - "automated"
     commit-message:
-      prefix: "chore"
+      prefix: "chore(deps)"
   
   # Enable version updates for Composer (PHP)
   - package-ecosystem: "composer"
@@ -88,11 +97,27 @@ updates:
     schedule:
       interval: "weekly"
       day: "monday"
-      time: "03:00"
+      time: "09:00"
     open-pull-requests-limit: 5
     labels:
       - "dependencies"
-      - "php"
       - "automated"
     commit-message:
-      prefix: "chore"
+      prefix: "chore(deps)"
+  
+  # Enable version updates for Terraform
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "automated"
+      - "category: configuration"
+    commit-message:
+      prefix: "chore(deps)"
+    reviewers:
+      - "ivviiviivvi/devops"
