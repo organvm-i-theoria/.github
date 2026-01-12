@@ -31,6 +31,7 @@ jobs:
         id: orchestrator
         run: |
           python3 << 'EOF'
+          python << 'EOF'
           import json
           import os
           from datetime import datetime
@@ -58,9 +59,12 @@ jobs:
           # Correctly format the JSON for the output
           due_tasks_json = json.dumps({"tasks": due_tasks})
           print(due_tasks_json)
-
+          
           # Write to GITHUB_OUTPUT
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write('due_tasks<<EOF\n')
+              f.write(f"{due_tasks_json}\n")
+              f.write('EOF\n')
               f.write(f"due_tasks={due_tasks_json}\n")
           EOF
 
