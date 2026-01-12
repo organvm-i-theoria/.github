@@ -1,11 +1,28 @@
 blank_issues_enabled: false
+
 contact_links:
-  - name: 🔒 Security Issue
-    url: https://github.com/ivi374forivi/.github/security/advisories/new
-    about: Please report security vulnerabilities privately
-  - name: 💬 GitHub Discussions
-    url: https://github.com/orgs/ivi374forivi/discussions
-    about: Ask questions and discuss with the community
-  - name: 📖 Documentation
-    url: https://github.com/ivi374forivi
-    about: Read the documentation and guides
+  - name: 🔒 Security Vulnerability (Private Disclosure)
+    url: ../SECURITY.md
+    about: |
+      For serious security vulnerabilities, please use our private disclosure process.
+      Do NOT create a public issue for high or critical security concerns.
+  
+  - name: 💬 GitHub Discussions - Questions & Support
+    url: https://github.com/ivviiviivvi/REPO_NAME/discussions
+    about: |
+      Ask questions, get help, or discuss ideas with the community.
+      Use this for general questions that don't require a formal issue.
+  
+  - name: 📚 Documentation
+    url: https://github.com/ivviiviivvi/REPO_NAME/wiki
+    about: |
+      Browse the project documentation, guides, and tutorials.
+      Check here first before opening an issue.
+  
+  - name: 🐛 Bug Reports
+    url: https://github.com/ivviiviivvi/REPO_NAME/issues/new?template=bug_report.yml
+    about: Report a bug or unexpected behavior
+  
+  - name: ✨ Feature Requests
+    url: https://github.com/ivviiviivvi/REPO_NAME/issues/new?template=feature_request.yml
+    about: Suggest a new feature or enhancement

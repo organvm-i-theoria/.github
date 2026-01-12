@@ -1,0 +1,100 @@
+name: Task
+description: Create a task or work item
+title: "[Task] "
+labels: ["task"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to create a task or work item for the team.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the task.
+      placeholder: Describe what needs to be done...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define what "done" looks like for this task.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any tasks, issues, or resources this task depends on.
+      placeholder: |
+        - Depends on #123
+        - Requires access to...
+        - Blocked by...
+    validations:
+      required: false
+
+  - type: input
+    id: due-date
+    attributes:
+      label: Due Date
+      description: When should this task be completed? (Optional)
+      placeholder: YYYY-MM-DD or "End of Sprint 5"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: estimated-effort
+    attributes:
+      label: Estimated Effort
+      description: Rough estimate of effort required (Optional).
+      options:
+        - XS (< 2 hours)
+        - S (2-4 hours)
+        - M (1-2 days)
+        - L (3-5 days)
+        - XL (1-2 weeks)
+        - XXL (> 2 weeks)
+        - Unknown
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Task priority level (Optional).
+      options:
+        - Low
+        - Medium
+        - High
+        - Urgent
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes
+      description: Any technical details, implementation notes, or context.
+      placeholder: Technical considerations, API endpoints, file locations, etc...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any other information relevant to this task.
+      placeholder: Links, references, background information...
+    validations:
+      required: false
