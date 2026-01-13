@@ -52,7 +52,7 @@ docker-compose.yml @ivviiviivvi/devops
 /.github/workflows/scan-*.yml @ivviiviivvi/security
 
 ##############################
-# Documentation
+# Organization Documentation
 ##############################
 
 # Documentation

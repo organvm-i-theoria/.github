@@ -3,8 +3,8 @@
 
 version: 2
 updates:
-  # Enable version updates for npm (JavaScript/TypeScript)
-  - package-ecosystem: "npm"
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
@@ -47,13 +47,13 @@ updates:
       time: "03:00"
     open-pull-requests-limit: 2
     reviewers:
-      - "organization-team"
+      - "ivviiviivvi/backend"
     labels:
       - "dependencies"
       - "automated"
       - "auto-merge"
     commit-message:
-      prefix: "chore"
+      prefix: "chore(deps)"
       include: "scope"
     groups:
       python-dependencies:
@@ -62,9 +62,9 @@ updates:
         update-types:
           - "minor"
           - "patch"
-
-  # Enable version updates for GitHub Actions
-  - package-ecosystem: "github-actions"
+  
+  # Enable version updates for npm (JavaScript/TypeScript)
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
@@ -73,7 +73,6 @@ updates:
     open-pull-requests-limit: 2
     labels:
       - "dependencies"
-      - "github-actions"
       - "automated"
       - "auto-merge"
     commit-message:
@@ -93,7 +92,6 @@ updates:
     open-pull-requests-limit: 2
     labels:
       - "dependencies"
-      - "docker"
       - "automated"
       - "auto-merge"
     commit-message:
@@ -113,7 +111,6 @@ updates:
     open-pull-requests-limit: 2
     labels:
       - "dependencies"
-      - "go"
       - "automated"
       - "auto-merge"
     commit-message:
@@ -136,7 +133,6 @@ updates:
     open-pull-requests-limit: 2
     labels:
       - "dependencies"
-      - "php"
       - "automated"
       - "auto-merge"
     commit-message:

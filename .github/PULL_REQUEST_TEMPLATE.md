@@ -1,247 +1,153 @@
-<!--
-PR Automation Metadata
-type: <!-- feature | bugfix | refactor | docs | performance | security | chore -->
-
-labels: <!-- comma-separated labels --> size: <!-- small | medium | large -->
-priority: <!-- low | medium | high | critical --> breaking-changes:
-
-<!-- yes | no --> -->
-
-## Pull Request
-
-<!--
-🤖 Automation Hooks Active:
-- Auto-labeling based on file changes and PR metadata
-- CODEOWNERS-based reviewer assignment
-- CI/CD workflow triggers
-- Breaking change detection
-- Documentation validation
-- Security scanning
-- Performance benchmarking
-
-💡 Tip: Use specific PR templates for better automation:
-- ?template=feature.md - New features
-- ?template=bug_fix.md - Bug fixes
-- ?template=refactoring.md - Code refactoring
-- ?template=performance.md - Performance improvements
-- ?template=documentation.md - Documentation updates
--->
-
-### Description
+## Description
 
 <!-- Provide a clear and concise description of your changes -->
 
-**What changes does this PR introduce?**
 
-**Why are these changes needed?**
 
-Closes #(issue number) Related to #(related issues)
-
-### Type of Change
+## Type of Change
 
 <!-- Check all that apply -->
 
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality
-      to not work as expected)
-- [ ] 📝 Documentation update
-- [ ] 🎨 Code refactoring (no functional changes)
+- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] 📚 Documentation update
+- [ ] ♻️ Code refactor (no functional changes)
 - [ ] ⚡ Performance improvement
 - [ ] ✅ Test update
 - [ ] 🔧 Configuration change
-- [ ] 🔒 Security fix
-- [ ] 🏗️ Infrastructure/build changes
+- [ ] 🎨 Style/UI change
 
-### Changes Made
+## Related Issues
 
-<!-- Provide a detailed list of changes -->
+<!-- Link related issues using GitHub's closing keywords -->
+<!-- Examples: Closes #123, Fixes #456, Resolves #789 -->
 
-## **Key Changes:**
+- Closes #
+- Related to #
 
--
-- **Files Modified:**
+## Changes Made
 
-<!-- List major files changed and why -->
+<!-- List the specific changes in this PR -->
 
--
--
+- 
+- 
+- 
+
+## Checklist
+
+<!-- Check all items that apply. Add N/A if not applicable -->
+
+### Code Quality
+- [ ] My code follows the project's code style and conventions
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] My changes generate no new warnings or errors
+- [ ] I have removed any debugging code or console logs
 
 ### Testing
-
-<!-- Describe the testing you've done -->
-
-**Test Coverage:**
-
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated
-- [ ] E2E tests added/updated
-- [ ] Manual testing performed
-- [ ] All tests pass locally
-
-**Test Scenarios Covered:** 1. 2. 3.
-
-**How to Test:**
-
-<!-- Steps for reviewers to test your changes -->
-
-1.
-1.
-1.
-
-### Impact Assessment
-
-**Areas Affected:**
-
-<!-- List components, features, or areas affected by this change -->
-
--
-- **Breaking Changes:**
-
-<!-- If yes, describe what breaks and migration path -->
-
-- [ ] No breaking changes
-- [ ] Breaking changes (explain below)
-
-**Performance Impact:**
-
-<!-- Describe any performance implications -->
-
-- [ ] No performance impact
-- [ ] Performance improvement
-- [ ] Potential performance degradation (explain below)
-
-**Security Impact:**
-
-- [ ] No security implications
-- [ ] Security improvement
-- [ ] Requires security review
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] I have tested this change in a development/staging environment
+- [ ] Edge cases have been considered and tested
 
 ### Documentation
+- [ ] I have updated the documentation accordingly
+- [ ] I have updated the README if needed
+- [ ] I have added/updated code comments where necessary
+- [ ] I have updated the CHANGELOG (if applicable)
 
-- [ ] README updated (if needed)
-- [ ] API documentation updated
-- [ ] Code comments added where necessary
-- [ ] CHANGELOG.md updated
-- [ ] Migration guide provided (if breaking changes)
-- [ ] Examples/tutorials updated
+### Security & Performance
+- [ ] I have considered security implications of my changes
+- [ ] No sensitive data (API keys, passwords, tokens) is exposed
+- [ ] My changes do not introduce performance regressions
+- [ ] I have reviewed the code for potential security vulnerabilities
 
-### Screenshots/Videos
+### Pre-commit & CI
+- [ ] Pre-commit hooks pass locally
+- [ ] All CI/CD checks pass
+- [ ] Linting passes without errors
+- [ ] Code coverage has not decreased (or is justified)
 
-<!-- Add screenshots or videos if applicable -->
+## Screenshots / Video
 
-**Before:**
+<!-- If your changes include UI/UX updates, add screenshots or video here -->
+<!-- Delete this section if not applicable -->
 
-<!-- Screenshot/description of behavior before changes -->
+### Before
 
-**After:**
 
-<!-- Screenshot/description of behavior after changes -->
+### After
 
-### Checklist
 
-<!-- ✅ Automation workflows may check these items -->
+## Reviewer Notes
 
-#### Code Quality
+<!-- Add any context or notes for reviewers -->
+<!-- Highlight areas that need special attention -->
+<!-- Mention any trade-offs or decisions made -->
 
-- [ ] Code follows project style guidelines
-- [ ] Self-review completed
-- [ ] Complex code has explanatory comments
-- [ ] No new warnings generated
-- [ ] Linting and formatting checks pass
-- [ ] No commented-out code or debug logs
 
-#### Testing
 
-- [ ] Adequate test coverage for new code
-- [ ] All tests pass locally
-- [ ] Edge cases considered and tested
-- [ ] Error handling tested
-- [ ] Regression tests added (for bug fixes)
+## Testing Instructions
 
-#### Documentation
+<!-- Provide step-by-step instructions for reviewers to test your changes -->
 
-- [ ] User-facing documentation updated
-- [ ] API documentation updated (if applicable)
-- [ ] Code documentation (comments) added
-- [ ] Inline examples provided where helpful
+1. 
+2. 
+3. 
 
-#### Security & Best Practices
+## Deployment Notes
 
-- [ ] No hardcoded secrets or credentials
-- [ ] Input validation implemented
-- [ ] No SQL injection vulnerabilities
-- [ ] No XSS vulnerabilities
-- [ ] CSRF protection maintained (if applicable)
-- [ ] Authentication/authorization unchanged (or properly updated)
-- [ ] No sensitive data in logs
+<!-- Any special deployment considerations, migration steps, or configuration changes -->
+<!-- Delete this section if not applicable -->
 
-#### Dependencies
 
-- [ ] No new dependencies added OR
-- [ ] New dependencies are necessary and documented
-- [ ] Dependencies are from trusted sources
-- [ ] License compatibility verified
-- [ ] Security vulnerabilities checked
 
-#### Performance
+## Rollback Plan
 
-- [ ] No performance regressions
-- [ ] Database queries optimized (if applicable)
-- [ ] Caching considered where appropriate
-- [ ] Resource cleanup (connections, files, etc.)
+<!-- How can this change be rolled back if needed? -->
+<!-- Delete this section if not applicable -->
 
-#### Deployment
 
-- [ ] Environment variables documented (if added/changed)
-- [ ] Database migrations included (if needed)
-- [ ] Backward compatible OR migration path provided
-- [ ] Configuration changes documented
-- [ ] Deployment risks identified
-
-### Reviewer Notes
-
-<!-- Specific things you want reviewers to focus on -->
-
-## **Areas needing special attention:**
-
--
-
-## **Questions for reviewers:**
-
--
-
-### Pre-Merge Checklist
-
-<!-- To be completed before merging -->
-
-- [ ] All CI/CD checks passing
-- [ ] Required reviews approved
-- [ ] No merge conflicts
-- [ ] Branch is up to date with base branch
-- [ ] All conversations resolved
-- [ ] Final self-review completed
-
-### Post-Merge Tasks
-
-<!-- Tasks to complete after merging -->
-
-- [ ] Monitor deployment
-- [ ] Update related documentation
-- [ ] Close related issues
-- [ ] Notify stakeholders
-- [ ] Update project board
 
 ---
 
-<!--
-For reviewers: Use GitHub's review features
-- Request changes if issues found
-- Approve when satisfied
-- Use inline comments for specific feedback
-- Check "Viewed" to track review progress
--->
+### Conventional Commit Reminder
 
-**Additional Context:**
+Please ensure your commit messages follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
-<!-- Any other information that would be helpful for reviewers -->
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+**Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+
+**Example:**
+```
+feat(auth): add OAuth2 authentication
+
+Implements OAuth2 authentication flow with Google and GitHub providers.
+Includes token refresh logic and secure session management.
+
+Closes #123
+```
+
+---
+
+### Contributing Guidelines
+
+Please review our [CONTRIBUTING.md](../CONTRIBUTING.md) for code standards, branch naming conventions, and the full contribution workflow.
+
+---
+
+**For Reviewers:**
+- [ ] Code is understandable and maintainable
+- [ ] Changes align with project architecture
+- [ ] Security considerations have been addressed
+- [ ] Performance impact is acceptable
+- [ ] Documentation is adequate
+- [ ] Tests provide sufficient coverage

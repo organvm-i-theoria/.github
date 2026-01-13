@@ -1,15 +1,16 @@
-# ivi374forivi Organization
+# ivviiviivvi Organization Policies
 
-> **Default Community Health Files and Configurations**
+This repository contains community health files and organization-wide policies for the ivviiviivvi GitHub organization.
 
-Welcome to the **ivi374forivi** organization! We believe in open collaboration,
-transparent development, and building innovative solutions through high-quality
-software and inclusive community practices.
+## 📚 Documentation
 
-## About This Repository
+### Core Policies
 
-This is the special `.github` repository for our organization. It serves as the
-central hub for:
+- **[SECURITY.md](SECURITY.md)** - Security vulnerability reporting and response procedures
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to our projects
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community standards and enforcement (Contributor Covenant 2.1)
+- **[SUPPORT.md](SUPPORT.md)** - How to get help and support resources
+- **[GOVERNANCE_ANALYSIS.md](GOVERNANCE_ANALYSIS.md)** - Governance framework and decision-making processes
 
 - **Default community health files** that apply to all repositories
 - **Standardized templates** for issues and pull requests
@@ -23,14 +24,10 @@ central hub for:
 - **🏗️ Workspace & Containerization Protocols** - Lightweight local systems with
   flexible remote access
 
-When a repository in our organization doesn't have its own community health
-files, GitHub automatically uses the defaults from this repository.
+- **[docs/TEAM_STRUCTURE.md](docs/TEAM_STRUCTURE.md)** - Team organization, permissions, and CODEOWNERS
+- **[docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md)** - Branch protection rules and workflows
 
-> **Is this the right repository for these functions?** See our
-> [Repository Purpose Analysis](docs/architecture/REPOSITORY_PURPOSE_ANALYSIS.md)
-> for a detailed explanation of why this `.github` repository is the appropriate
-> location for organization-wide governance, templates, and the Living Document
-> System.
+### Templates
 
 ## 🏗️ Workspace & Containerization Protocols (NEW!)
 
@@ -182,26 +179,70 @@ source scripts/op-mcp-env.sh
 
 ## Our Mission
 
-At **ivi374forivi**, we are committed to:
+#### Discussion Templates (`.github/DISCUSSION_TEMPLATE/`)
+- `announcements.yml` - Official announcements
+- `ideas.yml` - Feature ideas and suggestions
+- `q-and-a.yml` - Q&A discussions
+- `show-and-tell.yml` - Community showcases
+- `general.yml` - General discussions
 
-- **Openness**: Developing in the open with transparency
-- **Collaboration**: Welcoming diverse perspectives and contributors
-- **Quality**: Delivering well-tested, documented, and maintainable software
-- **Respect**: Maintaining an inclusive environment for all
-- **Innovation**: Encouraging experimentation and creative problem-solving
-- **Sustainability**: Building projects supported by healthy communities
+#### Pull Request Template
+- **[PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md)** - PR checklist and guidelines
 
-Read our complete vision in the [Manifesto](docs/MANIFESTO.md).
+### Configuration Files
 
-### Commit Message Format
+- **[CODEOWNERS](.github/CODEOWNERS)** - Code ownership by team
+- **[dependabot.yml](.github/dependabot.yml)** - Automated dependency updates (7 ecosystems)
+- **[labels.yml](.github/labels.yml)** - Standardized label definitions
+- **[.pre-commit-config.yaml](.pre-commit-config.yaml)** - Pre-commit hook configuration
 
-We follow conventional commit format:
+## 🔄 Workflows
 
-```text
-<type>: <description>
+Automated GitHub Actions workflows in `.github/workflows/`:
 
-[optional body]
+- **ci.yml** - Comprehensive CI pipeline (lint, test, security)
+- **security-scan.yml** - Secret and vulnerability scanning
+- **stale.yml** - Stale issue and PR management
+- **welcome.yml** - Welcome new contributors
+- **label-sync.yml** - Synchronize labels across repositories
 
+## 🏗️ Repository Structure
+
+```
+.github/
+├── ISSUE_TEMPLATE/           # Issue templates
+│   ├── bug_report.yml
+│   ├── feature_request.yml
+│   ├── security_vulnerability.yml
+│   ├── task.yml
+│   ├── documentation.yml
+│   └── config.yml
+├── DISCUSSION_TEMPLATE/      # Discussion templates
+│   ├── announcements.yml
+│   ├── ideas.yml
+│   ├── q-and-a.yml
+│   ├── show-and-tell.yml
+│   └── general.yml
+├── workflows/                # GitHub Actions workflows
+│   ├── ci.yml
+│   ├── security-scan.yml
+│   ├── stale.yml
+│   ├── welcome.yml
+│   └── label-sync.yml
+├── CODEOWNERS                # Code ownership
+├── dependabot.yml            # Dependency updates
+├── labels.yml                # Label configuration
+└── PULL_REQUEST_TEMPLATE.md  # PR template
+├── SECURITY.md               # Security policy
+├── CONTRIBUTING.md           # Contribution guidelines
+├── CODE_OF_CONDUCT.md        # Community standards
+├── SUPPORT.md                # Support resources
+├── GOVERNANCE_ANALYSIS.md    # Governance framework
+├── README.md                 # This file
+├── .pre-commit-config.yaml   # Pre-commit hooks
+└── docs/                     # Additional documentation
+    ├── TEAM_STRUCTURE.md     # Team organization
+    └── BRANCH_PROTECTION.md  # Branch protection rules
 [optional footer]
 ```
 
@@ -1191,61 +1232,51 @@ tion default.
 └── PULL_REQUEST_TEMPLATE.md                # Default PR template
 ```
 
-## AI-Driven Organization Management
+## 🚀 Quick Start
 
-This organization implements an advanced AI-driven GitHub management system with
-8 core modules:
+### For Contributors
 
-1. **Organization & Repository Administration** - Setup, access control, and bra
-   nch protection
-1. **Project Management & Workflow Automation** - Boards, issues, labels, and au
-   tomation
-1. **CI/CD & Development Lifecycle** - Build pipelines, testing, and deployment
-1. **Security & Compliance Operations** - Vulnerability management and complianc
-   e
-1. **Documentation & Knowledge Base** - Maintaining comprehensive documentation
-1. **Ecosystem Integration & Architecture** - Monitoring service dependencies
-1. **Observability & System Health** - Analytics and system monitoring
-1. **Strategic Analysis & Risk Mitigation** - Proactive risk identification
+1. **Read the docs**: Start with [CONTRIBUTING.md](CONTRIBUTING.md)
+2. **Set up your environment**: Follow development setup instructions
+3. **Install pre-commit hooks**: `pip install pre-commit && pre-commit install`
+4. **Create a branch**: `git checkout -b feature/your-feature`
+5. **Make changes**: Follow our code style guidelines
+6. **Submit a PR**: Use the PR template
 
-Read the full protocol:
-[AI Implementation Notes](docs/guides/AI_IMPLEMENTATION_NOTES.txt) |
-[Implementation Guide](docs/AI_IMPLEMENTATION_GUIDE.md)
+### For Maintainers
 
-### Active Health Monitoring
+1. **Review policies**: Familiarize yourself with [GOVERNANCE_ANALYSIS.md](GOVERNANCE_ANALYSIS.md)
+2. **Set up teams**: Follow [docs/TEAM_STRUCTURE.md](docs/TEAM_STRUCTURE.md)
+3. **Apply branch protection**: See [docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md)
+4. **Sync labels**: Run label sync workflow or use `scripts/sync_labels_gh.sh`
 
-The organization now features **automated health monitoring** that brings the AI
-protocol to life:
+## 🔒 Security
 
-- **🔍 Web Crawler** - Continuously analyzes organization health, validates
-  documentation links, and maps the ecosystem
-- **📊 Health Dashboard** - Real-time visualization of repository health,
-  workflow coverage, and Copilot customizations
-- **🔦 Blind Spot Detection** - Identifies unknown risks and unmaintained areas
-- **💥 Shatter Point Analysis** - Detects single points of failure in workflows
-  and infrastructure
-- **⚡ Automated Reporting** - Weekly health reports with critical issue alerts
+**Found a security vulnerability?**
 
-**Current Stats**: 32 workflows • 324 Copilot customizations • 109 technologies
-supported
+**DO NOT create a public issue.** Follow our [Security Policy](SECURITY.md) to report privately:
 
-📊 View the [Live Dashboard](reports/DASHBOARD.md) | 🛠️
-[Scripts Documentation](scripts/README.md)
+- Email: security@ivviiviivvi.com
+- GitHub Security Advisory: [Create Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)
 
-## Key Features
+**Response Timeline:**
+- 24 hours: Acknowledgment
+- 72 hours: Initial assessment
+- 7 days: Detailed response
+- 30 days: Fix deployed (critical issues)
 
-### PR Automation (NEW!)
+## 🤝 Community
 
-- **Auto PR Creation**: Automatically creates PRs when feature branches are
-  pushed
-- **Auto Merge**: Intelligently merges PRs when all requirements are met
-- **Conflict Resolution**: Automatically resolves merge conflicts when possible
-- **Branch Cleanup**: Removes merged branches automatically
-- **Comprehensive Documentation**: See
-  [PR_AUTOMATION.md](docs/automation/PR_AUTOMATION.md) for details
+### Getting Help
 
-### Automated Security
+- **Questions**: [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)
+- **Documentation**: [docs/](docs/)
+- **Support**: [SUPPORT.md](SUPPORT.md)
+- **Email**: support@ivviiviivvi.com
 
+### Contributing
+
+We welcome contributions from the community! Please see:
 - **Dependabot**: Automatic dependency updates across multiple ecosystems
 - **CodeQL Analysis**: Continuous security scanning for vulnerabilities
 - **Branch Protection**: Enforced protection rules on production branches
@@ -1258,10 +1289,14 @@ supported
   - 📖 **[Secret Scanning Guide](docs/SECRET_SCANNING_GUIDE.md)**: Complete setup
     and troubleshooting documentation
 
-### Quality Assurance
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community standards
+- [Good First Issues](https://github.com/search?q=org%3Aivviiviivvi+label%3A%22good+first+issue%22+state%3Aopen&type=issues)
 
-- **PR Compliance Guide**: Comprehensive guide for addressing pull request
-  compliance checks - [PR_COMPLIANCE_GUIDE.md](docs/PR_COMPLIANCE_GUIDE.md)
+### Code of Conduct
+
+This project follows the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+- **PR Compliance Guide**: Comprehensive guide for addressing pull request compliance checks - [PR_COMPLIANCE_GUIDE.md](docs/PR_COMPLIANCE_GUIDE.md)
 - **Standardized Templates**: Consistent issue and PR formats
 - **Code Review Guidelines**: Built into PR templates
 - **Testing Standards**: Documented in [TESTING.md](docs/TESTING.md)
@@ -1306,56 +1341,56 @@ for complete templates, facilitation guides, and getting started instructions.
 
 ### Developer Experience
 
-- **Workflow Templates**: Ready-to-use CI/CD pipelines
-- **Stale Issue Management**: Automated cleanup of inactive items
-- **Comprehensive Documentation**: Setup guides and best practices
-- **Label Standards**: Consistent categorization across repositories
+Report violations to: conduct@ivviiviivvi.com
 
-## 🤝 Contributing
+## 📊 Labels
 
-We welcome contributions from everyone! Here's how to get started:
+We use a standardized label system across all repositories:
 
-1. **Read the Guidelines**: Check [CONTRIBUTING.md](docs/CONTRIBUTING.md) for
-   detailed instructions
-1. **Follow the Code of Conduct**: All interactions must follow our
-   [CODE_OF_CONDUCT.md](docs/CODE_OF_CONDUCT.md)
-1. **Use Templates**: Submit issues and PRs using our templates
-1. **Ask Questions**: Don't hesitate to open a question issue or discussion
+**Priority:** critical, high, medium, low  
+**Type:** bug, enhancement, documentation, security, task, question  
+**Status:** triage, in-progress, blocked, needs-review, approved  
+**Category:** github-actions, configuration, dependencies, automated
 
-### Improving This Repository
+See [labels.yml](.github/labels.yml) for complete definitions.
 
-To enhance our organization's GitHub management:
+## 🔄 Automation
 
-- Propose changes via pull requests
-- Use appropriate PR templates
-- Ensure changes align with our AI GitHub Management Protocol
-- Update documentation when adding new features
+### Dependabot
 
-## 📚 Resources
+Automated dependency updates configured for:
+- GitHub Actions (weekly, Monday 9am)
+- pip/Python (weekly, Monday 9am)
+- npm/Node.js (weekly, Monday 9am)
+- Docker (weekly, Monday 9am)
+- Go modules (weekly, Monday 9am)
+- Terraform (weekly, Monday 9am)
 
-### GitHub Documentation
+### Stale Management
 
-- [About default community health files](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
-- [About organization profiles](https://docs.github.com/en/organizations/collaborating-with-groups-in-organizations/customizing-your-organizations-profile)
-- [Creating workflow templates](https://docs.github.com/en/actions/using-workflows/creating-starter-workflows-for-your-organization)
-- [Dependabot configuration](https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file)
+- Issues/PRs marked stale after 60 days of inactivity
+- Closed 14 days after being marked stale
+- Exemptions: security, priority: critical/high, pinned
 
-### Organization Documentation
+### Label Sync
 
-- [Manifesto](docs/MANIFESTO.md) - Our core principles and values
-- [Governance](docs/GOVERNANCE.md) - How we make decisions
-- [Support](docs/SUPPORT.md) - Getting help
-- [Security](docs/SECURITY.md) - Reporting vulnerabilities
+- Syncs labels from `.github/labels.yml`
+- Runs on push to main and weekly
+- Ensures consistency across all repositories
 
-## 📄 License
+## 📝 License
 
-This repository and all default community health files are provided under the
-[M IT License](LICENSE).
+Organization policies and documentation are available under the [MIT License](LICENSE).
 
-## 💬 Support
+Individual repositories may use different licenses - check each repository's LICENSE file.
 
-Need help? Have questions?
+## 📞 Contact
 
+- **General**: info@ivviiviivvi.com
+- **Security**: security@ivviiviivvi.com
+- **Support**: support@ivviiviivvi.com
+- **Governance**: governance@ivviiviivvi.com
+- **Conduct**: conduct@ivviiviivvi.com
 - 📖 Check our [Support Documentation](docs/SUPPORT.md) for detailed guidance
 - 🐛 Report issues using our [issue templates](ISSUE_TEMPLATE/)
 - 📧 Contact repository maintainers through GitHub
@@ -1364,4 +1399,5 @@ Need help? Have questions?
 
 ---
 
-Built with ❤️ by the ivi374forivi community.
+**Last Updated**: January 12, 2026  
+**Maintained by**: @ivviiviivvi/leadership
