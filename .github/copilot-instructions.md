@@ -194,18 +194,25 @@ When performing a code review, pay close attention to the following:
     compromised demo can read or inject content into the parent gallery. The
     sandbox should be tightened or the content proxied.
 
-- **Workflow Reusability:**
+*   **Deployment Registry and Data Aggregation:**
+    *   High - Ensure that deployment workflows are not overwriting a central YAML file (`app-deployments.yml`) inside the source repo, especially if the gallery is in a separate `.github` repo and the index job only queries GitHub APIs. Commits to the source repo will not reach the gallery site, and the deployment registry will remain empty, preventing live demos from being surfaced in the UI.
 
-  - High - Check if new workflows expose a `workflow_call` trigger. If the `on:`
-    blocks only listen to pushes on the current repository, other org repos
-    cannot invoke them. The workflows should be reusable across the
-    organization.
+## Stash Management Rules
 
-- **Deployment Registry and Data Aggregation:**
+When encountering a large number of stashed changes and ongoing issues:
 
-  - High - Ensure that deployment workflows are not overwriting a central YAML
-    file (`app-deployments.yml`) inside the source repo, especially if the
-    gallery is in a separate `.github` repo and the index job only queries
-    GitHub APIs. Commits to the source repo will not reach the gallery site, and
-    the deployment registry will remain empty, preventing live demos from being
-    surfaced in the UI.
+*   **Triage Plan:**
+    *   When there are a large number of stashed changes, start with a triage plan.
+    *   Gather concise `git status`.
+    *   Summarize stashes.
+    *   Prioritize which stashes to address.
+
+*   **Triage Options:**
+    *   Collect `git status` and a stash inventory summary (count + newest/oldest entries).
+    *   Focus on active issues that need fixing - ask the user to specify the issues or failing workflow.
+    *   Prune stale stashes after backing up important ones.
+
+*   **Execution:**
+    *   When handling a large number of stashed changes and ongoing issues with autonomous approval:
+        *   Run `git status -sb` to get the current working tree status.
+        *   Summarize stashes using: `(git stash list | head -n 5; echo '---'; git stash list | tail -n 5; echo '---count---'; git stash list | wc -l)`.

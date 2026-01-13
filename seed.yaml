@@ -1,0 +1,24 @@
+version: 1
+project:
+  name: .github
+  description: Auto-generated seed. Waiting for human intent.
+  owners:
+  - handle: ivviiviivvi
+    role: steward
+  repo:
+    org: ivviiviivvi
+    type: generic
+    role: mythos/research
+architecture:
+  tech_stack: []
+automation_contract:
+  ai_access:
+    read_paths:
+    - '**/*'
+    write_paths:
+    - src/**
+    - docs/**
+    - tests/**
+    disallowed_writes:
+    - .github/workflows/**
+    - seed.yaml
