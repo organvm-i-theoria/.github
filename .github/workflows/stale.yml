@@ -98,3 +98,24 @@ jobs:
 
             # Enable debug output
           debug-only: false
+          
+          # Ascending order (oldest first)
+          ascending: true
+          
+          # Exempt issues/PRs with assignees from being marked stale
+          exempt-all-assignees: true
+          
+          # Close reason for stale issues
+          close-issue-reason: 'not_planned'
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### 🧹 Stale Issue Management" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Stale management workflow completed." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Policy:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Issues/PRs marked stale after 60 days of inactivity" >> $GITHUB_STEP_SUMMARY
+          echo "- Closed 14 days after being marked stale" >> $GITHUB_STEP_SUMMARY
+          echo "- Exemptions: security, priority: critical, priority: high, pinned" >> $GITHUB_STEP_SUMMARY
