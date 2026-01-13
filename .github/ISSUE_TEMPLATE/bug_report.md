@@ -1,35 +1,38 @@
 ---
 
-name: Bug report about: Create a report to help us improve title: '' labels: ''
-assignees: ''
+## name: 🐛 Bug Report about: Report a bug to help us improve title: '\[BUG\] ' labels: \['bug'\] assignees: \[\]
 
----
+## Describe the Bug
 
-**Describe the bug** A clear and concise description of what the bug is.
+A clear and concise description of what the bug is.
 
-**To Reproduce** Steps to reproduce the behavior:
+## To Reproduce
+
+Steps to reproduce the behavior:
 
 1. Go to '...'
-1. Click on '....'
-1. Scroll down to '....'
+1. Click on '...'
+1. Scroll down to '...'
 1. See error
 
-**Expected behavior** A clear and concise description of what you expected to
-happen.
+## Expected Behavior
 
-**Screenshots** If applicable, add screenshots to help explain your problem.
+A clear and concise description of what you expected to happen.
 
-**Desktop (please complete the following information):**
+## Actual Behavior
 
-- OS: \[e.g. iOS\]
-- Browser \[e.g. chrome, safari\]
-- Version \[e.g. 22\]
+A clear and concise description of what actually happened.
 
-**Smartphone (please complete the following information):**
+## Screenshots
 
-- Device: \[e.g. iPhone6\]
-- OS: \[e.g. iOS8.1\]
-- Browser \[e.g. stock browser, safari\]
-- Version \[e.g. 22\]
+If applicable, add screenshots to help explain your problem.
 
-**Additional context** Add any other context about the problem here.
+## Environment
+
+- OS: \[e.g. Windows 10, macOS 13, Ubuntu 22.04\]
+- Browser: \[e.g. Chrome 120, Firefox 121\]
+- Version: \[e.g. v1.0.0\]
+
+## Additional Context
+
+Add any other context about the problem here.

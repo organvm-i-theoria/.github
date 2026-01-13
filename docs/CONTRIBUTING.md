@@ -1,201 +1,285 @@
-# Contributing Guidelines
+# Contributing to this Project
 
-## Commit Guidelines
+Thank you for your interest in contributing! This guide will help you get
+started.
 
-We follow a structured approach to tracking and managing commits in this
-project. Please adhere to these guidelines when contributing.
+## Table of Contents
 
-### Commit Message Format
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [How to Contribute](#how-to-contribute)
+- [Code Style Guidelines](#code-style-guidelines)
+- [Commit Message Format](#commit-message-format)
+- [Pull Request Process](#pull-request-process)
+- [Issue Reporting Guidelines](#issue-reporting-guidelines)
+- [Code Review Expectations](#code-review-expectations)
+- [Testing Requirements](#testing-requirements)
 
-We use conventional commit messages to maintain a clean and trackable history:
+## Code of Conduct
+
+This project and everyone participating in it is governed by our
+[Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to
+uphold this code. Please report unacceptable behavior through the appropriate
+channels.
+
+## Getting Started
+
+1. **Fork the repository** to your GitHub account
+1. **Clone your fork** locally
+1. **Create a branch** for your changes
+1. **Make your changes** following our guidelines
+1. **Push to your fork** and submit a pull request
+
+## Development Setup
+
+### Prerequisites
+
+- Python 3.11 or higher
+- Git
+- Node.js 20 or higher (for some tooling)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/ivviiviivvi/.github.git
+cd .github
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Install pre-commit hooks
+pip install pre-commit
+pre-commit install
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+python -m pytest
+
+# Run specific test file
+python -m pytest tests/test_specific.py
+
+# Run with coverage
+python -m pytest --cov=. --cov-report=html
+```
+
+### Running Linters
+
+```bash
+# Run all pre-commit hooks
+pre-commit run --all-files
+
+# Run specific hook
+pre-commit run ruff --all-files
+```
+
+## How to Contribute
+
+### Reporting Bugs
+
+Use our [Bug Report template](.github/ISSUE_TEMPLATE/bug_report.yml) and
+include:
+
+- Clear description of the issue
+- Steps to reproduce
+- Expected vs actual behavior
+- Environment details (OS, browser, version)
+
+### Suggesting Features
+
+Use our [Feature Request template](.github/ISSUE_TEMPLATE/feature_request.yml)
+and include:
+
+- Problem statement
+- Proposed solution
+- Alternatives considered
+
+### Improving Documentation
+
+Documentation improvements are always welcome! Use our
+[Documentation template](.github/ISSUE_TEMPLATE/documentation.yml) for doc
+issues.
+
+## Code Style Guidelines
+
+### Python
+
+- Follow **PEP 8** style guide
+- Use **Python 3.11+** features
+- Use type hints where appropriate
+- Maximum line length: 100 characters
+- Use descriptive variable names
+
+```python
+# Good
+def calculate_total_price(items: list[Item]) -> Decimal:
+    """Calculate the total price of items including tax."""
+    return sum(item.price for item in items) * Decimal('1.08')
+
+# Bad
+def calc(x):
+    return sum(i.p for i in x) * 1.08
+```
+
+### JavaScript/TypeScript
+
+- Use ES6+ features
+- Prefer `const` over `let`, avoid `var`
+- Use meaningful variable and function names
+- Follow existing code patterns
+
+### YAML
+
+- Use 2-space indentation
+- Quote strings when necessary
+- Maintain consistent formatting
+
+## Commit Message Format
+
+We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```
-<type>: <subject>
+<type>(<scope>): <subject>
 
 <body>
 
 <footer>
 ```
 
-#### Type
+### Types
 
-Must be one of the following:
-
-- **feat**: A new feature
-- **fix**: A bug fix
-- **docs**: Documentation only changes
-- **style**: Changes that don't affect the meaning of the code (white-space,
-  formatting, missing semi-colons, etc)
-- **refactor**: A code change that neither fixes a bug nor adds a feature
-- **perf**: A code change that improves performance
-- **test**: Adding missing tests or correcting existing tests
-- **chore**: Changes to the build process or auxiliary tools and libraries
-
-#### Subject
-
-The subject contains a succinct description of the change:
-
-- Use the imperative, present tense: "change" not "changed" nor "changes"
-- Don't capitalize the first letter
-- No dot (.) at the end
-- Keep it under 50 characters
-
-#### Body (Optional)
-
-Just as in the subject, use the imperative, present tense. The body should
-include the motivation for the change and contrast this with previous behavior.
-
-#### Footer (Optional)
-
-The footer should contain any information about Breaking Changes and is also the
-place to reference issues that this commit closes.
+- `feat:` New feature
+- `fix:` Bug fix
+- `docs:` Documentation only
+- `style:` Code style changes (formatting, no logic change)
+- `refactor:` Code refactoring
+- `perf:` Performance improvements
+- `test:` Adding or updating tests
+- `chore:` Maintenance tasks
+- `ci:` CI/CD changes
 
 ### Examples
 
-#### Good Commit Messages
-
 ```
-feat: add commit tracking workflow
+feat(workflows): add automated dependency updates
 
-This workflow automatically tracks all commits pushed to main and develop
-branches. It generates statistics and validates commit messages.
+Implement Dependabot configuration for npm, pip, and GitHub Actions.
+This will help keep dependencies up to date automatically.
 
-Resolves: #4
+Closes #123
 ```
 
 ```
-fix: correct workflow syntax in commit-tracking.yml
+fix(security): patch XSS vulnerability in user input
 
-The previous version had incorrect indentation in the YAML file.
+Sanitize user input before rendering to prevent XSS attacks.
+
+BREAKING CHANGE: API now requires authentication token
 ```
 
+## Pull Request Process
+
+1. **Update Documentation**: Update README, docs, or comments as needed
+1. **Add Tests**: Include tests for new functionality
+1. **Run Linters**: Ensure all linting checks pass
+1. **Run Tests**: Ensure all tests pass
+1. **Update Changelog**: Add entry to CHANGELOG.md (if applicable)
+1. **Fill PR Template**: Complete all sections of the PR template
+1. **Request Review**: Request review from appropriate team members
+
+### PR Checklist
+
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Comments added for complex code
+- [ ] Documentation updated
+- [ ] Tests added/updated
+- [ ] All tests pass locally
+- [ ] No new warnings
+- [ ] Linting passes
+- [ ] No hardcoded secrets
+
+## Issue Reporting Guidelines
+
+### Before Creating an Issue
+
+1. Search existing issues to avoid duplicates
+1. Check if the issue is already fixed in the latest version
+1. Gather relevant information (logs, screenshots, etc.)
+
+### Creating a Quality Issue
+
+- Use appropriate issue template
+- Provide clear, concise description
+- Include reproduction steps
+- Add relevant labels
+- Link related issues
+
+## Code Review Expectations
+
+### For Authors
+
+- Respond to feedback promptly
+- Be open to suggestions
+- Keep PRs focused and reasonably sized
+- Update PR based on feedback
+- Resolve all conversations before merge
+
+### For Reviewers
+
+- Be constructive and respectful
+- Explain the reasoning behind suggestions
+- Approve when satisfied with changes
+- Request changes if issues need addressing
+- Use GitHub's review features effectively
+
+## Testing Requirements
+
+### Unit Tests
+
+- Write tests for new functionality
+- Maintain or improve code coverage
+- Test edge cases and error conditions
+- Use descriptive test names
+
+### Integration Tests
+
+- Test interactions between components
+- Verify end-to-end workflows
+- Test with realistic data
+
+### Test Guidelines
+
+```python
+# Good test
+def test_calculate_total_price_with_multiple_items():
+    """Test total price calculation with multiple items."""
+    items = [Item(price=10.00), Item(price=20.00)]
+    total = calculate_total_price(items)
+    assert total == Decimal('32.40')  # 30.00 * 1.08 tax
+
+# Bad test
+def test1():
+    assert calc([Item(10), Item(20)]) == 32.4
 ```
-docs: update README with commit tracking information
-```
 
-#### Bad Commit Messages
+## Getting Help
 
-```
-Updated stuff
-```
+- 💬 [Discussions](https://github.com/ivviiviivvi/.github/discussions) - Ask
+  questions
+- 📚 [Documentation](README.md) - Read the docs
+- 🐛 [Issues](https://github.com/ivviiviivvi/.github/issues) - Report bugs
 
-```
-fix
-```
+## Recognition
 
-```
-changing things that were broken
-```
+Contributors will be:
 
-### Setting Up Commit Message Template
-
-To use the provided commit message template:
-
-```bash
-git config commit.template .github/.gitmessage
-```
-
-This will set the template for your local repository.
-
-### Commit Tracking
-
-This repository includes automated commit tracking via GitHub Actions:
-
-- **Commit Validation**: All commits are validated for proper format and
-  meaningful content
-- **Commit Statistics**: Statistics are generated for recent commit activity
-- **Author Tracking**: Tracks contributions by different authors
-- **Pull Request Tracking**: Monitors all commits in pull requests
-
-### Pull Request Guidelines
-
-When creating a pull request:
-
-1. Ensure all commits follow the commit message format
-1. Keep commits atomic - one logical change per commit
-1. Squash "fix typo" or "address review comments" commits before merging
-1. Reference relevant issues in commit messages or PR description
-1. Review the [PR Compliance Guide](PR_COMPLIANCE_GUIDE.md) to understand and
-   address automated compliance checks
-
-### Questions?
-
-If you have questions about contributing, please open an issue for discussion.
-Thank you for considering contributing to our projects! We welcome contributions
-from everyone.
-
-## How to Contribute
-
-### Reporting Issues
-
-- Check if the issue already exists before creating a new one
-- Use a clear and descriptive title
-- Provide detailed information about the issue including:
-  - Steps to reproduce
-  - Expected behavior
-  - Actual behavior
-  - Environment details (OS, version, etc.)
-
-### Submitting Pull Requests
-
-1. **Fork the repository** and create your branch from the default branch
-1. **Make your changes** following the code style of the project
-1. **Test your changes** to ensure they work as expected
-1. **Commit your changes** with clear, descriptive commit messages
-1. **Push to your fork** and submit a pull request
-1. **Address compliance checks** - Review any automated compliance feedback
-   using the [PR Compliance Guide](PR_COMPLIANCE_GUIDE.md)
-
-### Pull Request Guidelines
-
-- Keep pull requests focused on a single feature or fix
-- Write clear, concise commit messages
-- Include tests for new features when applicable
-- Update documentation as needed
-- Ensure all tests pass before submitting
-- Reference related issues in your PR description
-- Address all compliance check warnings and errors (see
-  [PR Compliance Guide](PR_COMPLIANCE_GUIDE.md))
-
-### Code Style
-
-- Follow the existing code style in the project
-- Use meaningful variable and function names
-- Comment complex logic
-- Keep functions small and focused
-
-### Testing
-
-- Write tests for new features and bug fixes
-- Ensure all existing tests pass
-- Run the test suite before submitting your PR
-
-## Code Review Process
-
-All submissions require review before being merged. We aim to review pull
-requests promptly and provide constructive feedback.
-
-### Automated Compliance Checks
-
-All pull requests are subject to automated compliance checks covering:
-
-- **Security**: Error handling, input validation, secure coding practices
-- **Code Quality**: Naming conventions, edge case handling, maintainability
-- **Ticket Compliance**: Issue references and traceability
-- **Custom Rules**: Organization-specific best practices
-
-See the [PR Compliance Guide](PR_COMPLIANCE_GUIDE.md) for detailed information
-on understanding and addressing compliance check results.
-
-## Community
-
-- Be respectful and inclusive
-- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
-- Help others when you can
-
-## Questions?
-
-If you have questions, please check our [Support documentation](SUPPORT.md) or
-open an issue for discussion.
+- Added to CONTRIBUTORS.md
+- Mentioned in release notes
+- Acknowledged in commit messages
 
 Thank you for contributing! 🎉

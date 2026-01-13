@@ -1,117 +1,101 @@
 # Security Policy
 
+## Reporting Security Vulnerabilities
+
+We take the security of this project seriously. If you discover a security
+vulnerability, please report it responsibly.
+
+### Private Disclosure (Recommended for Sensitive Issues)
+
+**For sensitive security vulnerabilities**, please report them privately through
+our
+[Security Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)
+page.
+
+**DO NOT** create a public issue for sensitive security vulnerabilities.
+
+### Public Disclosure (For Low-Risk Issues)
+
+For security issues that are:
+
+- Already publicly disclosed
+- Low severity and don't pose immediate risk
+- Security enhancements or hardening suggestions
+
+You may create a public issue using our
+[Security Vulnerability template](https://github.com/ivviiviivvi/.github/issues/new?template=security_vulnerability.yml).
+
+## What to Include in Your Report
+
+When reporting a security vulnerability, please include:
+
+1. **Description**: Detailed description of the vulnerability
+1. **Type**: Category of vulnerability (e.g., XSS, SQL Injection,
+   Authentication)
+1. **Severity**: Your assessment of the severity (Critical, High, Medium, Low)
+1. **Impact**: Who or what is affected
+1. **Steps to Reproduce**: Clear reproduction steps
+1. **Proof of Concept**: If applicable (be responsible)
+1. **Affected Versions**: Which versions are vulnerable
+1. **Suggested Fix**: If you have recommendations
+
+## Security Response Timeline
+
+We are committed to addressing security issues promptly:
+
+- **Critical vulnerabilities**: Response within 24 hours, patch within 7 days
+- **High severity**: Response within 48 hours, patch within 14 days
+- **Medium severity**: Response within 5 days, patch within 30 days
+- **Low severity**: Response within 14 days, patch in next release
+
 ## Supported Versions
 
-We take security seriously. Please report security vulnerabilities responsibly.
+We provide security updates for the following versions:
 
-## Reporting a Vulnerability
-
-If you discover a security vulnerability, please follow these steps:
-
-1. **Do NOT** open a public issue
-1. **Email** the security concern to the repository maintainers
-1. **Include** as much information as possible:
-   - Type of vulnerability
-   - Full paths of affected source files
-   - Location of the affected source code (tag/branch/commit or direct URL)
-   - Step-by-step instructions to reproduce the issue
-   - Proof-of-concept or exploit code (if possible)
-   - Impact of the issue
-
-## Response Process
-
-- We will acknowledge receipt of your vulnerability report within 48 hours
-- We will provide a detailed response within 7 days indicating next steps
-- We will work on a fix and keep you informed of progress
-- Once the vulnerability is fixed, we will publicly disclose the issue
-  (crediting you if desired)
-
-## Automated Secret Scanning
-
-We use automated secret scanning to protect against accidental credential
-exposure in code and video walkthroughs.
-
-### Scanning Tools
-
-Our repository is continuously monitored by three complementary secret detection
-tools:
-
-1. **TruffleHog** - Entropy-based secret detection and regex pattern matching
-1. **Gitleaks** - High-speed secret scanning with customizable rules
-1. **detect-secrets** - Baseline-driven secret detection with plugin support
-
-### Scan Schedule
-
-- **Daily**: Automated scans run at 2:00 AM UTC
-- **On Push**: Scans trigger on commits to main/master branches
-- **On PR**: Pull requests are scanned before merge
-- **Manual**: Workflows can be triggered on-demand via workflow_dispatch
-
-### Workflows
-
-- **Code Scanning** (`.github/workflows/scan-for-secrets.yml`): Scans all code
-  files for hardcoded secrets
-- **Video Scanning** (`.github/workflows/safeguard-5-secret-scanning.yml`): OCR
-  analysis of video frames for visible credentials
-
-### Configuration Files
-
-Secret scanning can be customized using:
-
-- `.gitleaks.toml` - Configure Gitleaks rules and allowlists
-- `.secrets.baseline` - Manage detect-secrets baseline for known false positives
-
-### What Happens When Secrets Are Detected
-
-1. **Automated Issue Creation**: A security alert issue is created with scan
-   details
-1. **Workflow Failure**: The scan workflow fails to block merges
-1. **Artifact Upload**: Detailed scan results are uploaded for review
-1. **PR Blocking**: Pull requests are automatically blocked until secrets are
-   removed
-
-### Reviewing Scan Results
-
-1. Check the automated issue for high-level summary
-1. Download scan result artifacts from the workflow run
-1. Review each detection to determine if it's a true positive or false positive
-1. Update configuration files to suppress false positives if needed
-
-### Responding to Secret Detections
-
-If real secrets are detected:
-
-1. **Immediately rotate** the exposed credentials
-1. **Remove secrets** from the current codebase
-1. **Clean git history** using tools like
-   [BFG Repo-Cleaner](https://rtyley.github.io/bfg-repo-cleaner/) or
-   git-filter-repo
-1. **Update documentation** and processes to prevent recurrence
-1. **Re-record videos** if secrets appeared in walkthrough recordings
-
-### Scan Results
-
-All scan results are tracked in security alert issues with the `security` and
-`secrets` labels. Regular clean scans indicate the repository is free from
-hardcoded credentials.
+| Version | Supported |
+| ------- | --------- |
+| Latest  | ✅ Yes    |
+| \< 1.0  | ❌ No     |
 
 ## Security Best Practices
 
-When contributing, please:
+When contributing to this project:
 
-- Never commit sensitive information (API keys, passwords, tokens)
-- Use environment variables for configuration secrets
-- Keep dependencies up to date
-- Follow secure coding practices
-- Review video recordings before publishing to ensure no secrets are visible
+1. **No Hardcoded Secrets**: Never commit API keys, passwords, or credentials
+1. **Input Validation**: Always validate and sanitize user input
+1. **Dependency Security**: Keep dependencies up to date
+1. **Secure Coding**: Follow secure coding practices
+1. **Security Testing**: Include security tests where appropriate
+1. **Code Review**: All code must be reviewed before merging
 
-## Disclosure Policy
+## Security Features
 
-We follow responsible disclosure practices:
+This repository includes:
 
-- Security issues are fixed before public disclosure
-- Contributors who report security issues are credited (unless they prefer
-  anonymity)
-- We coordinate disclosure with affected parties when applicable
+- **Dependabot**: Automated dependency updates
+- **CodeQL**: Automated security scanning
+- **Secret Scanning**: Detection of committed secrets
+- **Branch Protection**: Required reviews and checks
 
-Thank you for helping keep our projects secure!
+## Contact
+
+For security-related questions or concerns, contact:
+
+- **Security Team**: Create a private security advisory
+- **Email**: (if you have a dedicated security email)
+
+## Bug Bounty Program
+
+We do not currently have a bug bounty program. However, we deeply appreciate
+responsible disclosure and will publicly acknowledge contributors who help
+improve our security.
+
+## Acknowledgments
+
+We thank the following researchers for responsibly disclosing security issues:
+
+- (Names will be added as issues are resolved)
+
+---
+
+**Last Updated**: 2024-12-31
