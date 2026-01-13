@@ -1,74 +1,10 @@
 ---
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
----
 
-## PROJECT OVERVIEW
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
-## CODE STYLE
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
-## FOLDER ORGANIZATION
-
-## TECH STACK
-
-## PROJECT-SPECIFIC STANDARDS
-
-## WORKFLOW & RELEASE RULES
-
-## REFERENCE EXAMPLES
-
-## PROJECT DOCUMENTATION & CONTEXT SYSTEM
-
-## DEBUGGING
-
-- **Git Commit Issues:**
-  - If commits are blocked due to pre-commit hook failures, especially with
-    `mypy`, check for issues related to the `types-all` dependency in
-    `.pre-commit-config.yaml`.
-  - The `mypy` hook may fail if it tries to install `types-all`, which depends
-    on a yanked/nonexistent stub package (`types-pkg-resources`).
-  - To resolve:
-    - Remove or narrow the `types-all` dependency in `.pre-commit-config.yaml`
-      under the `mypy` hook. For example, delete
-      `additional_dependencies: [types-all]` or replace it with only the stubs
-      you actually need (e.g., `types-requests`, etc.).
-    - Run `pre-commit clean && pre-commit install` (or just retry the commit;
-      pre-commit will reinstall environments).
-    - Optional: run `pre-commit autoupdate` to pull newer hook revisions, but
-      the main issue is `types-all`.
-  - After resolving the `types-all` issue, refresh the pre-commit environments
-    and reinstall the hooks using: `pre-commit clean && pre-commit install`.
-    Then, retry the commit.
-
-- **Pre-commit Hook Failures:**
-  - When pre-commit hooks fail, address the issues systematically:
-    1. **Shell Scripts:** Ensure shell scripts have executable permissions (`chmod +x script_name.py`).
-    2. **YAML Formatting:** Check `.bandit` for YAML syntax errors.
-    3. **Markdown Formatting:** Use `mdformat` to fix markdown issues.
-    4. **Python Linting:** Resolve `flake8` and `mypy` errors.
-    5. **Shell Linting:** Address `shellcheck` issues.
-    6. **Configuration Issues:** Resolve issues reported by `bandit` and `detect-secrets`.
-  - For `detect-secrets` issues, try running `pre-commit autoupdate`.
-  - If ESLint reports missing configuration, create an `.eslintrc.json` file. Example:
-    ```json
-    {
-      "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true
-      },
-      "extends": "eslint:recommended",
-      "parserOptions": {
-        "ecmaVersion": 12,
-        "sourceType": "module"
-      },
-      "rules": {}
-    }
-    ```
-  - To auto-fix formatting issues, stage all changes (`git add -u`) before committing.
-  - If pre-commit hooks are causing persistent issues, temporarily bypass them using `git commit --no-verify -m "chore: fix pre-commit hook configuration issues"` (use with caution).
-
-## FINAL DOs AND DON'Ts
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
 ## GitHub Copilot Enhancement Resources
 
@@ -162,3 +98,24 @@ When performing a code review, pay close attention to the following:
     GitHub APIs. Commits to the source repo will not reach the gallery site, and
     the deployment registry will remain empty, preventing live demos from being
     surfaced in the UI.
+
+## Debugging
+
+- **Git Commit Issues:**
+  - If commits are blocked due to pre-commit hook failures, especially with
+    `mypy`, check for issues related to the `types-all` dependency in
+    `.pre-commit-config.yaml`.
+  - The `mypy` hook may fail if it tries to install `types-all`, which depends
+    on a yanked/nonexistent stub package (`types-pkg-resources`).
+  - To resolve:
+    - Remove or narrow the `types-all` dependency in `.pre-commit-config.yaml`
+      under the `mypy` hook. For example, delete
+      `additional_dependencies: [types-all]` or replace it with only the stubs
+      you actually need (e.g., `types-requests`, etc.).
+    - Run `pre-commit clean && pre-commit install` (or just retry the commit;
+      pre-commit will reinstall environments).
+    - Optional: run `pre-commit autoupdate` to pull newer hook revisions, but
+      the main issue is `types-all`.
+  - After resolving the `types-all` issue, refresh the pre-commit environments
+    and reinstall the hooks using: `pre-commit clean && pre-commit install`.
+    Then, retry the commit.
