@@ -17,8 +17,6 @@ current validation status, and follow-up items.
 - infrastructure.yml: Infrastructure or DevOps requests; labels: infrastructure,
   devops, needs-triage
 - performance_issue.yml: Performance issues; labels: performance, needs-triage
-- security_vulnerability.yml: Low-severity security reports; labels: security,
-  low-priority
 - task.yml: Tasks; labels: task
 - tech_debt.yml: Technical debt or refactoring; labels: tech-debt, refactoring,
   needs-triage
@@ -27,14 +25,14 @@ current validation status, and follow-up items.
 
 ## Legacy markdown templates
 
-These files are present but have invalid or incomplete front matter and should
-be fixed or removed to avoid confusion:
+These files are legacy markdown templates that duplicate the issue forms. The
+front matter is valid; consider removing them if you want to use only forms:
 
-- bug_report.md (missing front matter end)
-- custom.md (front matter YAML error)
-- documentation.md (missing front matter end)
-- feature_request.md (missing front matter end)
-- question.md (missing front matter end)
+- bug_report.md
+- custom.md
+- documentation.md
+- feature_request.md
+- question.md
 
 ## Validation checklist
 
@@ -43,17 +41,22 @@ be fixed or removed to avoid confusion:
   labels.
 - config.yml contains contact_links with valid URLs (no placeholders).
 - Labels are defined for each issue form.
+- Template labels exist in `.github/labels.yml`.
+- Template labels exist in the repository label set.
 - Logs or attachment fields include a warning against sharing sensitive data.
 - Security reporting path points to a private advisory workflow.
+- Template links point to valid repository documents.
 
 ## Latest validation (2026-01-14)
 
-- YAML issue forms: OK (12 files).
+- YAML issue forms: OK (11 files).
 - config.yml: OK (3 contact links).
 - Markdown templates: OK (front matter validated).
 - Manual check: bug_report.yml logs field includes a PII warning.
-- Security template is public low-severity only; ensure private advisory contact
-  link remains in config.yml.
+- Links updated to canonical docs and correct org URLs.
+- Labels synced in `.github/labels.yml` for all templates.
+- Repo labels synced to match `.github/labels.yml`.
+- Security template removed; config.yml directs reporters to private advisories.
 
 ## Re-run validation
 
@@ -74,6 +77,23 @@ for path in sorted(issue_dir.glob("*.yml")):
         if item.get("type") != "markdown":
             assert item.get("id"), f"{path.name}: missing id"
             assert item.get("attributes", {}).get("label"), f"{path.name}: missing label"
-print("Issue forms validated")
+labels = set()
+labels_data = yaml.safe_load(Path(".github/labels.yml").read_text())
+items = labels_data.get("labels") if isinstance(labels_data, dict) else labels_data
+if isinstance(items, list):
+    for entry in items:
+        if isinstance(entry, dict) and "name" in entry:
+            labels.add(entry["name"])
+missing = []
+for path in sorted(issue_dir.glob("*.yml")):
+    if path.name == "config.yml":
+        continue
+    data = yaml.safe_load(path.read_text())
+    lbls = data.get("labels")
+    if isinstance(lbls, list):
+        missing.extend([lbl for lbl in lbls if lbl not in labels])
+if missing:
+    raise SystemExit(f"Missing labels: {sorted(set(missing))}")
+print("Issue forms and labels validated")
 PY
 ```

@@ -26,12 +26,12 @@ globs: *
 - **Git Commit Issues:**
   - If commits are blocked due to pre-commit hook failures, especially with
     `mypy`, check for issues related to the `types-all` dependency in
-    `.pre-commit-config.yaml`.
+    `.pre-commit-config-rapid.yaml`.
   - The `mypy` hook may fail if it tries to install `types-all`, which depends
     on a yanked/nonexistent stub package (`types-pkg-resources`).
   - To resolve:
-    - Remove or narrow the `types-all` dependency in `.pre-commit-config.yaml`
-      under the `mypy` hook. For example, delete
+    - Remove or narrow the `types-all` dependency in
+      `.pre-commit-config-rapid.yaml` under the `mypy` hook. For example, delete
       `additional_dependencies: [types-all]` or replace it with only the stubs
       you actually need (e.g., `types-requests`, etc.).
     - Run `pre-commit clean && pre-commit install` (or just retry the commit;
@@ -81,7 +81,7 @@ globs: *
   - If facing multiple pre-commit failures, follow these steps:
     1. **Identify the Issues:** Carefully examine the pre-commit output to
        pinpoint the specific errors. These often include:
-       - YAML syntax errors (e.g., in `.bandit` or `.pre-commit-config.yaml`)
+       - YAML syntax errors (e.g., in `.bandit` or `.pre-commit-config-rapid.yaml`)
        - Markdown formatting problems.
        - Python linting errors (flake8, mypy).
        - Shell script permission issues.
@@ -140,7 +140,7 @@ globs: *
 - **Pre-commit Hook Dependency Conflict:**
   - When pre-commit hooks fail due to dependency conflicts, especially with
     `mdformat`, update to a compatible version that works with GFM plugins.
-  - Specifically, ensure that the `mdformat` hook in `.pre-commit-config.yaml`
+  - Specifically, ensure that the `mdformat` hook in `.pre-commit-config-rapid.yaml`
     is using a compatible revision and includes the necessary
     `additional_dependencies`.
   - Example:
@@ -159,7 +159,7 @@ globs: *
     ```
   - **Resolution Steps:**
     1. **Examine Current Configuration:** Check the current `mdformat`
-       configuration in `.pre-commit-config.yaml`.
+       configuration in `.pre-commit-config-rapid.yaml`.
     1. **Apply the Fix:** Update the `mdformat` configuration to use
        `rev: 0.7.17` and include `mdformat-gfm>=0.3.5`, `mdformat-tables`, and
        `mdformat-toc` in `additional_dependencies`. Ensure
@@ -335,4 +335,5 @@ Key tasks:
 1. **4.1 Audit All Workflows** - Generate workflow inventory
 2. **4.2 Fix Workflow Health Issues** - Issues #193, #207 (21 errors, 20 warnings)
 3. **4.3 Consolidate Reusable Workflows** - Reduce duplication
-4. **4.4 Optimize Workflow Triggers** - Reduce unnecessary runs
+4. **4.4 Optimize Workflow Triggers**
+- Reduce unnecessary runs

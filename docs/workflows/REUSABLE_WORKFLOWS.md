@@ -17,6 +17,7 @@ This organization provides **7 reusable workflows and composite actions** that s
 **Purpose:** Standardized Python environment setup with testing and coverage
 
 **Use Cases:**
+
 - Unit testing with pytest
 - Integration testing
 - Test coverage reporting
@@ -72,6 +73,7 @@ jobs:
 **Purpose:** Node.js environment setup with build and test capabilities
 
 **Use Cases:**
+
 - TypeScript/JavaScript builds
 - npm/yarn/pnpm projects
 - Frontend application testing
@@ -130,6 +132,7 @@ jobs:
 **Purpose:** Multi-platform Docker image builds with layer caching
 
 **Use Cases:**
+
 - Container image builds
 - Multi-platform images (amd64, arm64)
 - Docker Hub / GHCR / ECR publishing
@@ -198,6 +201,7 @@ jobs:
 **Purpose:** Standardized GitHub CLI operations for Pull Requests
 
 **Use Cases:**
+
 - List pull requests with filters
 - Merge pull requests with specific strategies
 - Add PR reviews
@@ -267,6 +271,7 @@ jobs:
 **Purpose:** Unified security scanning with multiple tools
 
 **Use Cases:**
+
 - CodeQL analysis
 - Trivy vulnerability scanning
 - Semgrep security audits
@@ -339,6 +344,7 @@ jobs:
 **Purpose:** Standardized artifact upload and download
 
 **Use Cases:**
+
 - Build artifact storage
 - Test result preservation
 - Cross-job artifact sharing
@@ -406,6 +412,7 @@ jobs:
 **Purpose:** Ratchet-pinned checkout with consistent configuration
 
 **Use Cases:**
+
 - Replace `actions/checkout` calls
 - Ensure consistent checkout behavior
 - Automatic ratchet pinning management
@@ -448,6 +455,7 @@ jobs:
 ```
 
 **Why use this instead of `actions/checkout` directly?**
+
 - ✅ Automatically ratchet-pinned to secure SHA
 - ✅ Consistent configuration across all repositories
 - ✅ Centralized updates and security patches
@@ -462,16 +470,19 @@ jobs:
 Find workflows in your repository that match these patterns:
 
 **Python workflows:**
+
 ```bash
 grep -l "setup-python\|pytest" .github/workflows/*.yml
 ```
 
 **Node.js workflows:**
+
 ```bash
 grep -l "setup-node\|npm\|yarn" .github/workflows/*.yml
 ```
 
 **Docker workflows:**
+
 ```bash
 grep -l "docker build\|docker/build-push-action" .github/workflows/*.yml
 ```
@@ -479,6 +490,7 @@ grep -l "docker build\|docker/build-push-action" .github/workflows/*.yml
 ### Step 2: Update Workflow Files
 
 **Before (traditional workflow):**
+
 ```yaml
 name: Python Tests
 
@@ -498,6 +510,7 @@ jobs:
 ```
 
 **After (using reusable workflow):**
+
 ```yaml
 name: Python Tests
 
@@ -512,6 +525,7 @@ jobs:
 ```
 
 **Result:**
+
 - ✅ 15 lines → 8 lines (47% reduction)
 - ✅ Consistent Python setup across all repos
 - ✅ Automatic updates to setup logic
@@ -520,6 +534,7 @@ jobs:
 ### Step 3: Test the Migration
 
 1. **Create a test branch:**
+
    ```bash
    git checkout -b migrate-to-reusable-workflows
    ```
@@ -583,16 +598,19 @@ This repository uses [organization reusable workflows](https://github.com/ivviiv
 ### Versioning
 
 **Use commit SHA for production:**
+
 ```yaml
 uses: ivviiviivvi/.github/.github/workflows/reusable/python-setup-test.yml@abc1234
 ```
 
 **Use branch for development:**
+
 ```yaml
 uses: ivviiviivvi/.github/.github/workflows/reusable/python-setup-test.yml@main
 ```
 
 **Use tags for releases:**
+
 ```yaml
 uses: ivviiviivvi/.github/.github/workflows/reusable/python-setup-test.yml@v1.0.0
 ```
@@ -683,12 +701,14 @@ Have ideas for new reusable workflows? See our [Contributing Guide](../../CONTRI
 ### 2026-01-14 - Initial Release
 
 **Added:**
+
 - 7 reusable workflows and composite actions
 - Comprehensive documentation
 - Migration examples
 - Best practices guide
 
 **Workflows:**
+
 1. ✅ Python Setup & Test
 2. ✅ Node.js Setup & Build
 3. ✅ Docker Build & Push
