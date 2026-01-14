@@ -11,11 +11,13 @@
 **Total Scripts Found:** 18 shell scripts across the repository
 
 **Shellcheck Results:**
+
 - ✅ **Clean (0 issues):** 4 scripts
 - ⚠️ **Warnings Only:** 6 scripts
 - 🔧 **Needs Fixes:** 8 scripts
 
 **Issue Breakdown:**
+
 - SC2155 (warning): Declare and assign separately - **12 occurrences**
 - SC2086 (info): Quote variables to prevent word splitting - **8 occurrences**
 - SC2034 (warning): Unused variables - **5 occurrences**
@@ -91,28 +93,30 @@
 
 ### Root Level Scripts
 
-12. **setup.sh** - ✅ **Clean**
-   - Purpose: Project setup
-   - Issues: None
-   - Status: Active, critical for onboarding
-   - Error handling: Present
-   - Usage message: Present
+1. **setup.sh** - ✅ **Clean**
 
-13. **sync_labels_gh.sh** - ✅ **Clean**
-   - Purpose: Label synchronization (wrapper for Python script)
-   - Issues: None
-   - Status: Active
-   - Error handling: Present
-   - Recommendation: Already well-structured
+- Purpose: Project setup
+- Issues: None
+- Status: Active, critical for onboarding
+- Error handling: Present
+- Usage message: Present
+
+1. **sync_labels_gh.sh** - ✅ **Clean**
+
+- Purpose: Label synchronization (wrapper for Python script)
+- Issues: None
+- Status: Active
+- Error handling: Present
+- Recommendation: Already well-structured
 
 ### Other Locations
 
-14. **.devcontainer/post-create.sh** - Status: Not analyzed (devcontainer config)
-15. **.devcontainer/templates/datascience/post-create.sh** - Status: Not analyzed
-16. **.devcontainer/templates/fullstack/post-create.sh** - Status: Not analyzed
-17. **.github/scripts/detect-stale-branches.sh** - Status: Not analyzed
-18. **project_meta/context-handoff/generate_context.sh** - Status: Not analyzed
-19. **project_meta/context-handoff/tests/test_workflow.sh** - Status: Not analyzed
+1. **.devcontainer/post-create.sh** - Status: Not analyzed (devcontainer config)
+2. **.devcontainer/templates/datascience/post-create.sh** - Status: Not analyzed
+3. **.devcontainer/templates/fullstack/post-create.sh** - Status: Not analyzed
+4. **.github/scripts/detect-stale-branches.sh** - Status: Not analyzed
+5. **project_meta/context-handoff/generate_context.sh** - Status: Not analyzed
+6. **project_meta/context-handoff/tests/test_workflow.sh** - Status: Not analyzed
 
 ---
 
@@ -125,6 +129,7 @@
 **Occurrences:** 12 (aicommit.sh, bootstrap-walkthrough-org.sh)
 
 **Example:**
+
 ```bash
 # ❌ Bad (masks return value)
 local tmp_file=$(mktemp)
@@ -145,6 +150,7 @@ tmp_file=$(mktemp)
 **Occurrences:** 8 (commit_changes.sh, test-draft-to-ready-automation.sh)
 
 **Example:**
+
 ```bash
 # ❌ Bad
 git add $FILES
@@ -166,6 +172,7 @@ gh pr view "$PR_NUMBER"
 **Occurrences:** 5 (aicommit.sh, bootstrap-walkthrough-org.sh)
 
 **Example:**
+
 ```bash
 # ❌ Bad
 local diff_stats="$2"  # Never used
@@ -185,6 +192,7 @@ COMMIT_TYPES=("feat" "fix")  # Never referenced
 **Occurrences:** 2 (aicommit.sh, bootstrap-walkthrough-org.sh)
 
 **Example:**
+
 ```bash
 # ❌ Bad (expands $tmp_file now)
 trap "rm -f \"$tmp_file\"" EXIT
@@ -208,6 +216,7 @@ trap 'rm -f "$tmp_file"' EXIT
    - ✅ Add usage messages to scripts missing them
 
 2. **Add Standard Headers to All Scripts:**
+
    ```bash
    #!/usr/bin/env bash
    #
@@ -249,10 +258,12 @@ trap 'rm -f "$tmp_file"' EXIT
 ### Migration to Python Candidates
 
 Scripts that would benefit from Python:
+
 - aicommit.sh - Complex string manipulation and logic
 - bootstrap-walkthrough-org.sh - API interactions
 
 Scripts best kept as shell:
+
 - commit_changes.sh - Simple git wrapper
 - manage_lock.sh - File locking primitive
 - setup.sh - Initial project setup
@@ -265,6 +276,7 @@ Scripts best kept as shell:
 ### Error Handling
 
 All scripts should have:
+
 ```bash
 set -euo pipefail
 # -e: Exit on error
@@ -275,6 +287,7 @@ set -euo pipefail
 ### Proper Quoting
 
 Always quote variables:
+
 ```bash
 "$variable"      # Single variable
 "${array[@]}"    # Array elements
@@ -284,6 +297,7 @@ Always quote variables:
 ### Trap Cleanup
 
 Use single quotes for delayed expansion:
+
 ```bash
 temp_file=$(mktemp)
 trap 'rm -f "$temp_file"' EXIT
@@ -292,6 +306,7 @@ trap 'rm -f "$temp_file"' EXIT
 ### Usage Messages
 
 Standard format:
+
 ```bash
 usage() {
     cat << EOF
@@ -344,7 +359,8 @@ EOF
 ## Next Steps (Phase 3.4)
 
 After shell script cleanup:
-1. Remove build artifacts (__pycache__, .pyc, etc.)
+
+1. Remove build artifacts (**pycache**, .pyc, etc.)
 2. Create cleanup.sh script
 3. Add pre-commit hook to prevent artifact commits
 4. Update .gitignore for completeness
