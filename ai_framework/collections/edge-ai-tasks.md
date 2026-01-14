@@ -76,17 +76,14 @@ provided.
 `task-implementation.instructions.md`.
 
 - `.copilot-tracking/plan/*-plan.instructions.md`
-
   - A newly generated instructions file that has the plan as a checklist of
     Phases and Tasks.
 
 - `.copilot-tracking/details/*-details.md`
-
   - The details for the implementation, the plan file refers to this file for
     specific details (important if you have a big plan).
 
 - `.copilot-tracking/prompts/implement-*.prompt.md`
-
   - A newly generated prompt file that will create a
     `.copilot-tracking/changes/*-changes.md` file and proceed to implement the
     changes.

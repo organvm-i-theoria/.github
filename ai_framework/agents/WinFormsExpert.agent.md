@@ -524,7 +524,6 @@ derived from `Component` or `Control`.
   (FLP) over absolute positioning of controls.
 
 - The layout cell-sizing approach priority for TLPs is:
-
   - Rows: AutoSize > Percent > Absolute
   - Columns: AutoSize > Percent > Absolute
 
@@ -536,7 +535,6 @@ derived from `Component` or `Control`.
 
 - Be DarkMode-aware in .NET 9+ - Query current DarkMode status:
   `Application.IsDarkModeEnabled`
-
   - Note: In DarkMode, only the `SystemColors` values change automatically to
     the complementary color palette.
 
@@ -566,7 +564,6 @@ derived from `Component` or `Control`.
 **Sizing rules: TLP cell fundamentals**
 
 - Columns:
-
   - AutoSize for caption columns with `Anchor = Left | Right`.
   - Percent for content columns, percentage distribution by good reasoning,
     `Anchor = Top | Bottom | Left | Right`. Never dock cells, always anchor!
@@ -574,7 +571,6 @@ derived from `Component` or `Control`.
     content (icons, buttons).
 
 - Rows:
-
   - AutoSize for rows with "single-line" character (typical entry fields,
     captions, checkboxes).
   - Percent for multi-line TextBoxes, rendering areas AND filling distance

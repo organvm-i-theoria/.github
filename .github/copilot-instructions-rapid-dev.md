@@ -75,26 +75,22 @@ and ship features rapidly with minimal friction and maximum automation.**
 The lazy human only needs to intervene for:
 
 1. **Strategic Decisions**
-
    - Architecture and design choices
    - Technology stack selection
    - Breaking changes that affect APIs
    - Major refactoring decisions
 
 1. **Security Reviews**
-
    - Review HIGH severity security vulnerabilities
    - Approve changes to authentication/authorization
    - Review secrets management changes
 
 1. **Deployments**
-
    - Production deployments (after CI passes)
    - Infrastructure changes
    - Database migrations in production
 
 1. **Final Approval**
-
    - PR merge (but can be auto-merged if configured)
    - Release tagging
    - Public announcements

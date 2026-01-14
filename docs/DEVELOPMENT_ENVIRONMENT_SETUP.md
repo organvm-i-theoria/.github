@@ -86,7 +86,6 @@ for creating an environment that:
 For the fastest, most consistent setup:
 
 1. **Install prerequisites**:
-
    - [VS Code](https://code.visualstudio.com/) or
      [VS Code Insiders](https://code.visualstudio.com/insiders/)
    - [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -101,7 +100,6 @@ For the fastest, most consistent setup:
    ```
 
 1. **Reopen in container**:
-
    - Press `Cmd/Ctrl + Shift + P`
    - Select "Dev Containers: Reopen in Container"
    - Wait for container to build (first time only)
@@ -444,20 +442,17 @@ Recommended shortcuts for GitHub Copilot:
 ### Basic Setup
 
 1. **Install GitHub Copilot**:
-
    - Open VS Code
    - Go to Extensions (`Cmd/Ctrl + Shift + X`)
    - Search "GitHub Copilot"
    - Install both "GitHub Copilot" and "GitHub Copilot Chat"
 
 1. **Sign in**:
-
    - Click "Sign in to GitHub" in the status bar
    - Authorize VS Code in your browser
    - Verify Copilot icon appears in status bar
 
 1. **Verify installation**:
-
    - Open a code file
    - Start typing - you should see suggestions
    - Press `Cmd/Ctrl + I` to open Copilot Chat

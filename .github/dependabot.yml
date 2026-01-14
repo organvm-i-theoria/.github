@@ -62,7 +62,7 @@ updates:
         update-types:
           - "minor"
           - "patch"
-  
+
   # Enable version updates for npm (JavaScript/TypeScript)
   - package-ecosystem: "npm"
     directory: "/"

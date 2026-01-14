@@ -659,13 +659,11 @@ Overall Health Score: [X/100]
 **Activities**:
 
 1. Workflow inventory (15 min)
-
    - List all workflows
    - Document purpose of each
    - Identify dependencies
 
 2. Metrics review (15 min)
-
    - Average run times
    - Failure rates
    - Resource usage/costs
@@ -690,19 +688,16 @@ Overall Health Score: [X/100]
 **Topics**:
 
 1. Caching strategies (15 min)
-
    - Dependency caching
    - Build artifact caching
    - When and how to cache
 
 2. Parallelization (15 min)
-
    - Job-level parallelization
    - Matrix strategies
    - Conditional execution
 
 3. Resource optimization (15 min)
-
    - Runner selection
    - Timeout configurations
    - Cost optimization
@@ -725,13 +720,11 @@ Overall Health Score: [X/100]
 **Activities**:
 
 1. Prioritization (20 min)
-
    - High-impact, low-effort wins
    - Strategic improvements
    - Long-term investments
 
 2. Implementation planning (30 min)
-
    - Detailed action items
    - Dependencies and prerequisites
    - Risk assessment

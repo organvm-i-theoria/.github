@@ -83,7 +83,6 @@ principles:
    different requirements:
 
    **Critical B2B SaaS Questions:**
-
    - Enterprise tenant isolation and customization requirements
    - Compliance frameworks needed (SOC 2, ISO 27001, industry-specific)
    - Resource sharing preferences (dedicated vs shared tiers)
@@ -91,7 +90,6 @@ principles:
    - Enterprise SLA and support tier requirements
 
    **Critical B2C SaaS Questions:**
-
    - Expected user scale and geographic distribution
    - Consumer privacy regulations (GDPR, CCPA, data residency)
    - Social identity provider integration needs
@@ -99,7 +97,6 @@ principles:
    - Peak usage patterns and scaling expectations
 
    **Common SaaS Questions:**
-
    - Expected tenant scale and growth projections
    - Billing and metering integration requirements
    - Customer onboarding and self-service capabilities

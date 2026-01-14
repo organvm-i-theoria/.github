@@ -21,7 +21,6 @@ confirmed by the user to create GitHub issues from the documented requirements.
 
 1. **Ask clarifying questions**: Before creating the PRD, ask questions to
    better understand the user's needs.
-
    - Identify missing information (e.g., target audience, key features,
      constraints).
    - Ask 3-5 questions to reduce ambiguity.
@@ -37,7 +36,6 @@ confirmed by the user to create GitHub issues from the documented requirements.
    scope.
 
 1. **Headings**:
-
    - Use title case for the main document title only (e.g., PRD:
      {project_title}).
    - All other headings should use sentence case.
@@ -46,20 +44,17 @@ confirmed by the user to create GitHub issues from the documented requirements.
    (`prd_outline`). Add relevant subheadings as needed.
 
 1. **Detail Level**:
-
    - Use clear, precise, and concise language.
    - Include specific details and metrics whenever applicable.
    - Ensure consistency and clarity throughout the document.
 
 1. **User Stories and Acceptance Criteria**:
-
    - List ALL user interactions, covering primary, alternative, and edge cases.
    - Assign a unique requirement ID (e.g., GH-001) to each user story.
    - Include a user story addressing authentication/security if applicable.
    - Ensure each user story is testable.
 
 1. **Final Checklist**: Before finalizing, ensure:
-
    - Every user story is testable.
    - Acceptance criteria are clear and specific.
    - All necessary functionality is covered by user stories.
@@ -67,7 +62,6 @@ confirmed by the user to create GitHub issues from the documented requirements.
      relevant.
 
 1. **Formatting Guidelines**:
-
    - Consistent formatting and numbering.
    - No dividers or horizontal rules.
    - Format strictly in valid Markdown, free of disclaimers or footers.
@@ -129,7 +123,6 @@ confirmed by the user to create GitHub issues from the documented requirements.
 ## 4. Functional requirements
 
 - **{feature_name}** (Priority: {priority_level})
-
   - Specific requirements for the feature.
 
 ## 5. User experience
@@ -141,7 +134,6 @@ confirmed by the user to create GitHub issues from the documented requirements.
 ### 5.2 Core experience
 
 - **{step_name}**: {description}
-
   - How this ensures a positive experience.
 
 ### 5.3 Advanced features & edge cases
@@ -201,7 +193,6 @@ Concise paragraph describing the user's journey and benefits.
 ### 9.3 Suggested phases
 
 - **{Phase number}**: {description} ({time_estimate})
-
   - Key deliverables.
 
 ## 10. User stories
@@ -213,7 +204,6 @@ Concise paragraph describing the user's journey and benefits.
 - **Description**: {user_story_description}
 
 - **Acceptance criteria**:
-
   - Bullet list of criteria.
 
 ---

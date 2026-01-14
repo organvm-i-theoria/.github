@@ -69,7 +69,6 @@ You understand the fundamental structure of Logic Apps workflow definitions:
    Logic Apps
 
 1. **Recommend Best Practices**: Provide actionable guidance based on:
-
    - Performance optimization
    - Cost management
    - Error handling and resiliency
@@ -77,7 +76,6 @@ You understand the fundamental structure of Logic Apps workflow definitions:
    - Monitoring and troubleshooting
 
 1. **Provide Concrete Examples**: When appropriate, share:
-
    - JSON snippets showing correct Workflow Definition Language syntax
    - Expression patterns for common scenarios
    - Integration patterns for connecting systems

@@ -1,0 +1,995 @@
+# Comprehensive Codebase Cleanup & Consolidation Roadmap
+
+# Organization: ivviiviivvi/.github
+
+# Generated: 2026-01-13
+
+## Executive Summary
+
+This roadmap provides a phased approach to cleaning up, consolidating, and
+optimizing the `.github` organization repository following the successful merge
+of PRs #180-227. The goal is to achieve a maintainable, secure, well-documented,
+and efficiently automated codebase.
+
+**Current State:**
+
+- ✅ All pending PRs (#180-227) successfully merged
+- 📊 98 GitHub Actions workflows
+- 🤖 Multiple AI agent tracking systems (Jules, palette, sentinel, bolt,
+  agentsphere)
+- 📁 Distributed documentation across multiple directories
+- ⚠️ Persistent pre-commit mdformat dependency conflict
+- 🔄 Case sensitivity issues (`.jules` vs `.Jules`)
+- 📋 10 open issues requiring attention
+
+---
+
+## Phase 1: Immediate Critical Fixes (Priority: 🔴 CRITICAL)
+
+**Timeline:** 1-2 days | **Owner:** DevOps/Security
+
+### 1.1 Fix Pre-commit Hook Dependency Conflict
+
+**Issue:** mdformat 1.0.0 incompatible with mdformat-gfm plugins **Impact:**
+Blocks all commits without `--no-verify`, bypassing quality gates
+
+**Actions:**
+
+- [ ] Update `.pre-commit-config.yaml` mdformat hook to compatible version
+- [ ] Test: `pre-commit run --all-files` should pass
+- [ ] Remove all `--no-verify` workarounds from documentation
+- [ ] Update `.pre-commit-config-rapid.yaml` if it exists
+
+**Files:**
+
+- `.pre-commit-config.yaml` (lines 51-60)
+- `.pre-commit-config-rapid.yaml`
+
+**Solution Options:**
+
+```yaml
+# Option A: Update to compatible mdformat version
+- repo: https://github.com/executablebooks/mdformat
+  rev: 0.7.17 # Compatible with gfm plugins
+  hooks:
+    - id: mdformat
+      additional_dependencies:
+        - mdformat-gfm>=0.3.5
+        - mdformat-tables
+        - mdformat-toc
+
+# Option B: Remove mdformat-gfm until compatibility restored
+- repo: https://github.com/executablebooks/mdformat
+  rev: 1.0.0
+  hooks:
+    - id: mdformat
+      additional_dependencies:
+        - mdformat-tables
+        - mdformat-toc
+```
+
+### 1.2 Resolve Directory Case Sensitivity Issues
+
+**Issue:** Both `.jules/` and `.Jules/` exist, causing confusion **Impact:**
+Tracking inconsistency, merge conflicts, cross-platform issues
+
+**Actions:**
+
+- [ ] Audit all references to `.jules` vs `.Jules` in workflows
+- [ ] Standardize on lowercase `.jules/` (Unix/Linux convention)
+- [ ] Move `.Jules/palette.md` to `.jules/palette.md`
+- [ ] Delete empty `.Jules/` directory
+- [ ] Update all workflow files referencing these directories
+- [ ] Add `.Jules/` to `.gitignore` to prevent recreation
+
+**Commands:**
+
+```bash
+# Audit references
+grep -r "\.Jules" .github/workflows/
+grep -r "\.jules" .github/workflows/
+
+# Consolidate
+mv .Jules/palette.md .jules/palette.md
+rmdir .Jules/
+echo ".Jules/" >> .gitignore
+
+# Update workflows
+find .github/workflows -type f -exec sed -i 's/\.Jules/.jules/g' {} \;
+```
+
+### 1.3 Fix Broken GitHub Actions
+
+**Issue:** First-interaction action SHA not found (Issues #217) **Impact:**
+Welcome workflow failing, poor contributor experience
+
+**Actions:**
+
+- [ ] Update `.github/workflows/welcome.yml`
+- [ ] Replace pinned SHA with stable version tag
+- [ ] Test workflow with manual trigger
+- [ ] Close issue #217
+
+**Fix:**
+
+```yaml
+# Current (broken):
+- uses: actions/first-interaction@34f51d6080d53d0bd4d929513ac3bc8072683cf9
+
+# Updated (working):
+- uses: actions/first-interaction@v1.3.0
+```
+
+---
+
+## Phase 2: Documentation Consolidation (Priority: 🟡 HIGH)
+
+**Timeline:** 3-5 days | **Owner:** Documentation Team
+
+### 2.1 Consolidate Duplicate Documentation
+
+**Issue:** Multiple roadmap/planning documents with overlapping content
+
+**Duplicates Identified:**
+
+```
+docs/ROADMAP.md                              (144 lines - primary)
+docs/WORKFLOW_OPTIMIZATION_ROADMAP.md        (duplicate content)
+docs/guides/WORKFLOW_OPTIMIZATION_ROADMAP.md (duplicate location)
+```
+
+**Actions:**
+
+- [ ] Compare content of all three files
+- [ ] Keep `docs/ROADMAP.md` as canonical version
+- [ ] Move workflow-specific content to `docs/guides/workflow-optimization.md`
+- [ ] Add redirect/deprecation notices to old files
+- [ ] Update all internal links
+- [ ] Create `docs/INDEX.md` with all documentation links
+
+### 2.2 Restructure Documentation Hierarchy
+
+**Current Structure Issues:**
+
+- Mixed content at root level
+- Unclear information architecture
+- Difficult to find specific docs
+
+**Proposed Structure:**
+
+```
+docs/
+├── INDEX.md                          # Master index of all documentation
+├── ROADMAP.md                        # Strategic roadmap (keep at root)
+├── guides/                           # How-to guides
+│   ├── workflow-optimization.md
+│   ├── security-best-practices.md
+│   └── contributor-quickstart.md
+├── reference/                        # Reference documentation
+│   ├── ARCHIVAL_STRATEGY.md
+│   ├── API_REFERENCE.md
+│   └── LABEL_REFERENCE.md
+├── workflows/                        # Workflow documentation
+│   ├── BRANCH_STRATEGY.md
+│   ├── CI_CD_PATTERNS.md
+│   └── AUTOMATION_GUIDE.md
+├── audits/                          # Audit reports
+│   ├── README.md
+│   └── YYYY-MM/
+└── architecture/                     # Architecture decisions
+    ├── ADR_INDEX.md
+    └── decisions/
+```
+
+**Actions:**
+
+- [ ] Create `docs/INDEX.md` master documentation index
+- [ ] Reorganize files into logical subdirectories
+- [ ] Update all cross-references and links
+- [ ] Add navigation breadcrumbs to each doc
+- [ ] Update `README.md` to reference `docs/INDEX.md`
+
+### 2.3 Update Root-Level Documentation
+
+**Files to Review/Update:**
+
+- `README.md` - Main entry point, needs cleanup
+- `GOVERNANCE_ANALYSIS.md` - Update last review date
+- `CONTRIBUTING.md` - Add pre-commit fix instructions
+- `SECURITY.md` - Reference new doc structure
+- `SUPPORT.md` - Update support paths
+- `CODE_OF_CONDUCT.md` - Review for completeness
+
+**Actions:**
+
+- [ ] Add badges to `README.md` (build status, security scan, coverage)
+- [ ] Create visual architecture diagram
+- [ ] Add quickstart section with 5-minute setup
+- [ ] Update contact emails in all docs
+- [ ] Add "Last Updated" footer to each policy doc
+- [ ] Create `CHANGELOG.md` for tracking major changes
+
+---
+
+## Phase 3: Code & Script Cleanup (Priority: 🟡 HIGH)
+
+**Timeline:** 5-7 days | **Owner:** Engineering Team
+
+### 3.1 Consolidate Agent Tracking Systems
+
+**Issue:** Multiple agent tracking mechanisms with unclear ownership
+
+**Current State:**
+
+```
+.jules/          # Jules agent tracker (bolt, palette, sentinel)
+.Jules/          # Duplicate case variant
+automation/scripts/mouthpiece_filter.py  # Separate agent tracker?
+```
+
+**Actions:**
+
+- [ ] Document purpose of each agent tracker
+- [ ] Consolidate to single `.jules/` directory
+- [ ] Create `docs/AGENT_TRACKING.md` explaining the system
+- [ ] Add validation tests for agent tracking
+- [ ] Consider creating `/ai_agents/` top-level directory
+
+**Proposed Structure:**
+
+```
+ai_agents/
+├── README.md                    # Agent system overview
+├── jules/                       # Jules orchestrator
+│   ├── tracker.json            # Centralized tracking
+│   ├── bolt.md                 # Performance agent
+│   ├── palette.md              # UX agent
+│   └── sentinel.md             # Security agent
+├── agentsphere/                # AgentSphere system
+│   └── config.yml
+└── docs/
+    └── AGENT_ARCHITECTURE.md
+```
+
+### 3.2 Audit and Optimize Python Scripts
+
+**Scripts in `automation/scripts/`:**
+
+```
+✅ ecosystem_visualizer.py    (27KB) - Core dashboard generator
+✅ web_crawler.py              - Security-critical, recently updated
+✅ sync_labels.py             (12KB) - Label sync automation
+⚠️ auto-docs.py               (17KB) - Needs review
+⚠️ mouthpiece_filter.py       (22KB) - Purpose unclear
+⚠️ aicommit.sh                (9KB)  - Deprecated?
+⚠️ bootstrap-walkthrough-org.sh (17KB) - One-time use?
+```
+
+**Actions:**
+
+- [ ] Add docstrings to all functions lacking them
+- [ ] Run `mypy --strict` on all Python files
+- [ ] Achieve 80%+ test coverage for core scripts
+- [ ] Remove or archive deprecated scripts
+- [ ] Create `automation/scripts/README.md` explaining each script
+- [ ] Add type hints to all function signatures
+- [ ] Consider converting shell scripts to Python for consistency
+
+**Quality Checks:**
+
+```bash
+# Type checking
+mypy --strict automation/scripts/*.py
+
+# Linting
+flake8 automation/scripts/
+pylint automation/scripts/
+
+# Security scan
+bandit -r automation/scripts/
+
+# Test coverage
+pytest --cov=automation/scripts --cov-report=html
+```
+
+### 3.3 Shell Script Cleanup
+
+**Actions:**
+
+- [ ] Run `shellcheck` on all `.sh` files
+- [ ] Add error handling (`set -euo pipefail`)
+- [ ] Add usage/help messages to all scripts
+- [ ] Document required environment variables
+- [ ] Consider migration to Python where appropriate
+
+**Files:**
+
+```
+automation/scripts/aicommit.sh
+automation/scripts/bootstrap-walkthrough-org.sh
+automation/scripts/commit_changes.sh
+automation/scripts/create-rapid-workflow-labels.sh
+automation/scripts/manage_lock.sh
+automation/scripts/op-mcp-env.sh
+automation/scripts/test-draft-to-ready-automation.sh
+sync_labels_gh.sh (root level - move to automation/scripts/)
+setup.sh (root level - move to automation/setup/)
+```
+
+### 3.4 Remove Build Artifacts and Temp Files
+
+**Actions:**
+
+- [ ] Ensure `.gitignore` covers all temp files
+- [ ] Remove any committed `__pycache__`, `.pyc`, `.pytest_cache`
+- [ ] Add cleanup script: `automation/scripts/cleanup.sh`
+- [ ] Add pre-commit hook to prevent future commits of build artifacts
+
+**Cleanup Script:**
+
+```bash
+#!/usr/bin/env bash
+# automation/scripts/cleanup.sh - Remove temporary and build artifacts
+
+set -euo pipefail
+
+echo "🧹 Cleaning temporary files..."
+
+# Python artifacts
+find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+find . -type f -name "*.pyc" -delete
+find . -type f -name "*.pyo" -delete
+find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
+find . -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
+find . -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
+
+# OS artifacts
+find . -type f -name ".DS_Store" -delete
+find . -type f -name "Thumbs.db" -delete
+
+# Editor artifacts
+find . -type f -name "*~" -delete
+find . -type f -name "*.swp" -delete
+
+echo "✅ Cleanup complete"
+```
+
+---
+
+## Phase 4: Workflow Optimization (Priority: 🟢 MEDIUM)
+
+**Timeline:** 1-2 weeks | **Owner:** DevOps Team
+
+### 4.1 Audit All 98 Workflows
+
+**Current State:** 98 workflow files (high number suggests
+duplication/complexity)
+
+**Actions:**
+
+- [ ] Generate workflow inventory: name, purpose, trigger, frequency
+- [ ] Identify duplicate or overlapping workflows
+- [ ] Find unused or deprecated workflows
+- [ ] Measure workflow run costs (Actions minutes)
+- [ ] Document each workflow in `docs/workflows/WORKFLOW_INVENTORY.md`
+
+**Audit Command:**
+
+```bash
+# Generate workflow report
+for file in .github/workflows/*.yml; do
+  echo "---"
+  echo "File: $file"
+  echo "Name: $(yq '.name' $file)"
+  echo "Triggers: $(yq '.on | keys' $file)"
+  echo "Jobs: $(yq '.jobs | keys' $file)"
+done > docs/workflows/WORKFLOW_INVENTORY.md
+```
+
+### 4.2 Fix Workflow Health Issues
+
+**Issue:** Issues #193, #207 report 21 errors and 20 warnings
+
+**Actions:**
+
+- [ ] Review `metrics/health/latest.json`
+- [ ] Fix critical errors preventing workflow execution
+- [ ] Address high-priority warnings
+- [ ] Re-run health check
+- [ ] Close issues #193, #207 when resolved
+
+### 4.3 Consolidate Reusable Workflows
+
+**Goal:** Reduce duplication, improve maintainability
+
+**Common Patterns to Extract:**
+
+- Setup actions (checkout, setup-python, cache)
+- Linting (flake8, eslint, yamllint)
+- Testing (pytest, jest)
+- Security scanning (trivy, gitleaks)
+- Deployment steps
+
+**Actions:**
+
+- [ ] Create `.github/workflows/reusable/` directory
+- [ ] Extract common workflows into reusable templates
+- [ ] Update workflows to use reusable workflows
+- [ ] Document reusable workflow usage in `docs/workflows/REUSABLE_WORKFLOWS.md`
+
+**Example Reusable Workflow:**
+
+```yaml
+# .github/workflows/reusable/python-lint-test.yml
+name: Python Lint and Test
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: "3.11"
+      pytest-args:
+        required: false
+        type: string
+        default: "--cov --cov-report=xml"
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - run: pip install -r requirements.txt
+      - run: flake8 .
+      - run: mypy .
+      - run: pytest ${{ inputs.pytest-args }}
+```
+
+### 4.4 Optimize Workflow Triggers
+
+**Goal:** Reduce unnecessary runs, improve efficiency
+
+**Actions:**
+
+- [ ] Review all `on: push` triggers - should they be `on: pull_request`?
+- [ ] Add path filters where appropriate
+- [ ] Consolidate cron schedules
+- [ ] Implement concurrency groups to cancel redundant runs
+- [ ] Add `workflow_dispatch` for manual testing
+
+**Example Optimization:**
+
+```yaml
+# Before: Runs on every push
+on: push
+
+# After: Runs only on relevant changes
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'requirements.txt'
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+---
+
+## Phase 5: Security & Compliance (Priority: 🔴 CRITICAL)
+
+**Timeline:** 1 week | **Owner:** Security Committee
+
+### 5.1 Address Security Compliance Issues
+
+**From Issue #218 (PR Compliance):**
+
+- 🔴 Public security disclosure risk in security_vulnerability.yml
+- ⚪ Hardcoded URL placeholder in config.yml
+- ⚪ Potential PII collection in bug report template
+
+**Actions:**
+
+- [ ] Remove public security vulnerability form
+- [ ] Direct all security reports to private channel (SECURITY.md)
+- [ ] Replace URL placeholders with actual URLs
+- [ ] Add PII warning to bug report template
+- [ ] Update templates per issue #219 code review feedback
+
+**Template Fixes:**
+
+```yaml
+# .github/ISSUE_TEMPLATE/bug_report.yml
+- type: textarea
+  id: logs
+  attributes:
+    label: Logs
+    description: |
+      If applicable, add relevant log output.
+      ⚠️ **DO NOT include sensitive data:**
+      - Passwords, API keys, tokens
+      - Personal Identifiable Information (PII)
+      - Customer data
+      - Internal system details
+    placeholder: Paste log output here (sanitized)...
+    render: shell
+```
+
+### 5.2 Secret Scanning Validation
+
+**Actions:**
+
+- [ ] Verify `.secrets.baseline` is up-to-date
+- [ ] Run full secret scan: `detect-secrets scan --all-files`
+- [ ] Verify Gitleaks config in `.gitleaks.toml`
+- [ ] Enable GitHub secret scanning alerts
+- [ ] Document secret scanning in `docs/guides/security-best-practices.md`
+
+### 5.3 Dependency Security
+
+**Actions:**
+
+- [ ] Audit all `additional_dependencies` in pre-commit hooks
+- [ ] Pin all GitHub Actions to specific SHAs (not tags)
+- [ ] Enable Dependabot alerts and security updates
+- [ ] Review Dependabot config in `.github/dependabot.yml`
+- [ ] Run `pip-audit` on Python dependencies
+- [ ] Document dependency management in `docs/guides/dependency-management.md`
+
+---
+
+## Phase 6: AI Framework Organization (Priority: 🟢 MEDIUM)
+
+**Timeline:** 1 week | **Owner:** AI Framework Team
+
+### 6.1 Consolidate AI Framework Structure
+
+**Current State:**
+
+```
+ai_framework/
+├── agents/          # Custom agents
+├── chatmodes/       # Chat mode definitions (19 files)
+├── collections/     # Project collections
+├── instructions/    # Instruction sets
+├── prompts/         # Prompt templates
+└── templates/       # Template files
+```
+
+**Actions:**
+
+- [ ] Audit all chatmodes for duplication
+- [ ] Standardize frontmatter format across all `.chatmode.md` files
+- [ ] Create `ai_framework/README.md` documenting structure
+- [ ] Add validation schema for chatmodes/prompts
+- [ ] Create index: `ai_framework/INDEX.md`
+
+### 6.2 Agent Documentation
+
+**Actions:**
+
+- [ ] Document all agent purposes in `ai_framework/agents/README.md`
+- [ ] Create agent interaction diagrams
+- [ ] Add usage examples for each agent
+- [ ] Document agent lifecycle and orchestration
+- [ ] Create agent development guide
+
+### 6.3 Chatmode Cleanup
+
+**Identified Chatmodes:**
+
+```
+bicep-plan.chatmode.md
+implementation-plan.chatmode.md
+plan.chatmode.md
+planner.chatmode.md
+task-planner.chatmode.md
+terraform-azure-planning.chatmode.md
+tech-debt-remediation-plan.chatmode.md
+```
+
+**Actions:**
+
+- [ ] Consolidate similar planning chatmodes
+- [ ] Ensure all have valid frontmatter
+- [ ] Add descriptions and use cases
+- [ ] Test each chatmode works correctly
+- [ ] Archive unused chatmodes
+
+---
+
+## Phase 7: Issue Triage & Resolution (Priority: 🟢 MEDIUM)
+
+**Timeline:** 1 week | **Owner:** Triage Team
+
+### 7.1 Open Issue Review
+
+**Current Open Issues (10 total):**
+
+| #   | Title                             | Labels                         | Priority | Action                            |
+| --- | --------------------------------- | ------------------------------ | -------- | --------------------------------- |
+| 219 | Code Review                       | none                           | Medium   | Review and close                  |
+| 218 | PR Compliance Guide               | bug, docs                      | High     | Fix templates per recommendations |
+| 217 | CI Feedback                       | bug                            | High     | Fix welcome workflow SHA          |
+| 207 | Workflow Health Check             | workflow-health, priority:high | High     | Fix 21 errors                     |
+| 193 | Workflow Health Check (duplicate) | workflow-health                | Medium   | Close as duplicate                |
+| 153 | Unify Org-wide Standards          | docs, enhancement              | High     | Plan implementation               |
+| 152 | Automate Quality via CI/CD        | bug, docs, enhancement         | High     | Align with Phase 4                |
+| 151 | Org-wide Security Policies        | docs, enhancement              | Critical | Align with Phase 5                |
+| 150 | Enforce Issue/PR Best Practices   | bug, docs, enhancement         | High     | Align with completed PRs          |
+| 149 | Team Structure Framework          | bug, docs, enhancement         | Medium   | Align with GOVERNANCE_ANALYSIS.md |
+
+**Actions:**
+
+- [ ] Close duplicate #193
+- [ ] Close #219 after PR review complete
+- [ ] Fix and close #217, #218
+- [ ] Address #207 in Phase 4.2
+- [ ] Create implementation plans for #153, 152, 151, 150, 149
+- [ ] Link issues to relevant roadmap phases
+
+### 7.2 Issue Template Validation
+
+**Actions:**
+
+- [ ] Test all issue templates create valid issues
+- [ ] Validate form validation rules
+- [ ] Check all links work
+- [ ] Ensure labels auto-apply correctly
+- [ ] Document template usage in `docs/guides/issue-templates.md`
+
+---
+
+## Phase 8: Testing & Quality Assurance (Priority: 🟡 HIGH)
+
+**Timeline:** 1 week | **Owner:** QA Team
+
+### 8.1 Achieve Target Test Coverage
+
+**Current State:** Unknown coverage for most scripts
+
+**Target:** 80% code coverage for all Python scripts
+
+**Actions:**
+
+- [ ] Add `pytest.ini` configuration
+- [ ] Create `tests/` directory structure matching `automation/scripts/`
+- [ ] Write missing tests for:
+  - `ecosystem_visualizer.py`
+  - `web_crawler.py` (critical - security)
+  - `sync_labels.py`
+  - `auto-docs.py`
+  - `quota_manager.py`
+- [ ] Add coverage reporting to CI
+- [ ] Block merges below 80% coverage
+
+**Test Structure:**
+
+```
+tests/
+├── unit/
+│   ├── test_web_crawler.py
+│   ├── test_ecosystem_visualizer.py
+│   └── test_sync_labels.py
+├── integration/
+│   ├── test_workflow_orchestration.py
+│   └── test_agent_tracking.py
+├── fixtures/
+│   └── sample_data.json
+└── conftest.py
+```
+
+### 8.2 Add Integration Tests
+
+**Actions:**
+
+- [ ] Test workflow orchestration end-to-end
+- [ ] Test agent tracking system
+- [ ] Test label sync functionality
+- [ ] Test web crawler with mock responses
+- [ ] Add smoke tests for critical paths
+
+### 8.3 Performance Testing
+
+**Actions:**
+
+- [ ] Benchmark web crawler performance
+- [ ] Measure ecosystem_visualizer execution time
+- [ ] Identify slow workflows
+- [ ] Add performance regression tests
+- [ ] Document performance SLAs
+
+---
+
+## Phase 9: Monitoring & Observability (Priority: 🟢 MEDIUM)
+
+**Timeline:** 3-5 days | **Owner:** DevOps Team
+
+### 9.1 Workflow Monitoring
+
+**Actions:**
+
+- [ ] Set up workflow failure notifications
+- [ ] Create dashboard for workflow health
+- [ ] Track Actions minutes usage
+- [ ] Monitor quota manager alerts
+- [ ] Document monitoring setup in `docs/guides/monitoring.md`
+
+### 9.2 Metrics Collection
+
+**Actions:**
+
+- [ ] Centralize metrics in `metrics/` directory
+- [ ] Create standardized metrics format
+- [ ] Add metrics visualization
+- [ ] Track key metrics:
+  - Workflow success/failure rates
+  - PR merge time
+  - Issue resolution time
+  - Security scan findings
+  - Test coverage trends
+
+### 9.3 Alerting
+
+**Actions:**
+
+- [ ] Configure GitHub Actions alerts
+- [ ] Set up Slack/email notifications
+- [ ] Define alert thresholds
+- [ ] Create runbooks for common alerts
+- [ ] Document escalation procedures
+
+---
+
+## Phase 10: Knowledge Transfer & Training (Priority: 🟢 MEDIUM)
+
+**Timeline:** Ongoing | **Owner:** Documentation Team
+
+### 10.1 Create Onboarding Guide
+
+**Actions:**
+
+- [ ] Write `docs/guides/NEW_CONTRIBUTOR_GUIDE.md`
+- [ ] Create video walkthrough
+- [ ] Document development setup
+- [ ] Add troubleshooting section
+- [ ] Create FAQ
+
+### 10.2 Technical Documentation
+
+**Actions:**
+
+- [ ] Architecture decision records (ADRs)
+- [ ] API documentation
+- [ ] Workflow decision tree
+- [ ] Runbook for common tasks
+- [ ] Best practices guide
+
+### 10.3 Training Materials
+
+**Actions:**
+
+- [ ] Create training videos
+- [ ] Write example use cases
+- [ ] Document anti-patterns to avoid
+- [ ] Create interactive tutorials
+- [ ] Set up office hours for Q&A
+
+---
+
+## Success Metrics
+
+### Code Quality
+
+- [ ] 100% pre-commit hooks passing without `--no-verify`
+- [ ] 80%+ test coverage across all Python scripts
+- [ ] Zero high-severity security findings
+- [ ] Zero shellcheck errors
+- [ ] All workflows successfully executing
+
+### Documentation
+
+- [ ] All docs indexed in `docs/INDEX.md`
+- [ ] No broken internal links
+- [ ] All policies have "Last Updated" dates
+- [ ] Contributors can find docs in \<2 clicks
+
+### Automation
+
+- [ ] \<50 total workflows (from 98)
+- [ ] > 80% workflow success rate
+- [ ] \<30 minute average workflow duration
+- [ ] Zero duplicate workflows
+
+### Security
+
+- [ ] All Actions pinned to SHAs
+- [ ] No public security disclosure paths
+- [ ] Zero secrets in codebase
+- [ ] All dependencies vulnerability-free
+
+### Developer Experience
+
+- [ ] \<5 minute local setup time
+- [ ] \<10 minute PR feedback time
+- [ ] \<24 hour issue triage time
+- [ ] Clear escalation paths for blockers
+
+---
+
+## Implementation Timeline
+
+```
+Week 1: Phase 1 (Critical Fixes)
+  ├─ Day 1-2: Pre-commit mdformat fix
+  ├─ Day 3: Directory case sensitivity
+  └─ Day 4: Broken Actions fix
+
+Week 2: Phase 2 (Documentation)
+  ├─ Day 1-2: Consolidate duplicates
+  ├─ Day 3-4: Restructure hierarchy
+  └─ Day 5: Update root docs
+
+Week 3: Phase 3 (Code Cleanup)
+  ├─ Day 1-2: Agent tracking consolidation
+  ├─ Day 3-4: Python script audit
+  └─ Day 5: Shell script cleanup
+
+Week 4: Phase 4 (Workflow Optimization)
+  ├─ Day 1-2: Workflow audit
+  ├─ Day 3: Health issue fixes
+  └─ Day 4-5: Reusable workflow creation
+
+Week 5: Phase 5 (Security & Compliance)
+  ├─ Day 1-2: Template security fixes
+  ├─ Day 3: Secret scanning validation
+  └─ Day 4-5: Dependency security audit
+
+Week 6: Phase 6 (AI Framework)
+  ├─ Day 1-2: Structure consolidation
+  ├─ Day 3: Agent documentation
+  └─ Day 4-5: Chatmode cleanup
+
+Week 7: Phase 7 (Issue Resolution)
+  ├─ Day 1-2: Issue triage
+  ├─ Day 3-4: High-priority fixes
+  └─ Day 5: Template validation
+
+Week 8: Phase 8 (Testing & QA)
+  ├─ Day 1-3: Test coverage
+  ├─ Day 4: Integration tests
+  └─ Day 5: Performance testing
+
+Week 9: Phase 9 (Monitoring)
+  ├─ Day 1-2: Workflow monitoring
+  ├─ Day 3: Metrics collection
+  └─ Day 4-5: Alerting setup
+
+Week 10+: Phase 10 (Knowledge Transfer)
+  └─ Ongoing: Documentation, training, onboarding
+```
+
+---
+
+## Risk Assessment
+
+### High Risk Items
+
+1. **Pre-commit mdformat fix** - Could break existing workflows
+   - Mitigation: Test in separate branch, gradual rollout
+1. **Workflow consolidation** - Could disrupt CI/CD
+   - Mitigation: Keep old workflows until new ones validated
+1. **Security template changes** - Could impact vulnerability reporting
+   - Mitigation: Clear communication, maintain old process during transition
+
+### Medium Risk Items
+
+1. **Directory restructuring** - Could break internal links
+   - Mitigation: Use redirect/deprecation notices, update all refs
+1. **Agent tracking consolidation** - Could lose historical data
+   - Mitigation: Backup before migration, validate data integrity
+
+### Low Risk Items
+
+1. **Documentation updates** - Minimal impact
+1. **Test addition** - No breaking changes
+1. **Monitoring setup** - Additive only
+
+---
+
+## Maintenance Plan
+
+### Daily
+
+- [ ] Monitor workflow failures
+- [ ] Review security alerts
+- [ ] Triage new issues
+
+### Weekly
+
+- [ ] Review PR metrics
+- [ ] Check test coverage trends
+- [ ] Update documentation as needed
+
+### Monthly
+
+- [ ] Workflow efficiency review
+- [ ] Dependency update cycle
+- [ ] Team retrospective
+
+### Quarterly
+
+- [ ] Full security audit
+- [ ] Architecture review
+- [ ] Roadmap update
+- [ ] Policy review (per GOVERNANCE_ANALYSIS.md)
+
+---
+
+## Appendix
+
+### A. File Inventory
+
+**Root Level:**
+
+```
+├── .restructure_plan.txt         # OLD - Can archive after this roadmap
+├── GOVERNANCE_ANALYSIS.md        # ACTIVE - Review quarterly
+├── README.md                     # ACTIVE - Update per Phase 2
+├── QUICK_START_LABELS.md         # ACTIVE - Consolidate into docs/
+├── seed.yaml                     # ACTIVE - Purpose unclear, document
+├── setup.sh                      # ACTIVE - Move to automation/setup/
+├── sync_labels_gh.sh             # ACTIVE - Move to automation/scripts/
+└── _config.yml                   # ACTIVE - Jekyll config, document
+```
+
+**Scripts to Document/Audit:**
+
+```
+automation/scripts/
+├── aicommit.sh                   # Purpose: ? - Document or remove
+├── auto-docs.py                  # Purpose: Auto documentation - Keep, test
+├── bootstrap-walkthrough-org.sh  # Purpose: One-time setup? - Archive?
+├── ecosystem_visualizer.py       # Purpose: Dashboard generator - CRITICAL
+├── mouthpiece_filter.py          # Purpose: ? - Document or remove
+├── quota_manager.py              # Purpose: Quota management - Keep, test
+├── sync_labels.py                # Purpose: Label sync - CRITICAL
+└── web_crawler.py                # Purpose: Web crawling - SECURITY CRITICAL
+```
+
+### B. Contact & Ownership
+
+**Phase Owners:**
+
+- Phase 1-5: @ivviiviivvi/devops + @ivviiviivvi/security
+- Phase 6: @ivviiviivvi/ai-framework
+- Phase 7-8: @ivviiviivvi/engineering
+- Phase 9-10: @ivviiviivvi/documentation
+
+**Escalation:**
+
+- Technical issues → @ivviiviivvi/technical-steering-committee
+- Security concerns → @ivviiviivvi/security
+- Policy questions → @ivviiviivvi/leadership
+
+### C. Related Documents
+
+- [GOVERNANCE_ANALYSIS.md](GOVERNANCE_ANALYSIS.md) - Governance framework
+- [ROADMAP.md](docs/ROADMAP.md) - Strategic product roadmap
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Contribution guidelines
+- [SECURITY.md](SECURITY.md) - Security policies
+- [.restructure_plan.txt](.restructure_plan.txt) - Original restructure plan
+  (superseded)
+
+---
+
+**Status:** 🟡 DRAFT - Awaiting Review **Version:** 1.0.0 **Created:** 2026-01-13
+**Author:** GitHub Copilot CLI (automated analysis) **Next Review:** 2026-02-13
