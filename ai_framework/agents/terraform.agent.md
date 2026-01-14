@@ -220,13 +220,11 @@ terraform-<PROVIDER>-<NAME>/
 After generating Terraform code, always:
 
 1. **Review security:**
-
    - Check for hardcoded secrets or sensitive data
    - Ensure proper use of variables for sensitive values
    - Verify IAM permissions follow least privilege
 
 1. **Verify formatting:**
-
    - Ensure 2-space indentation is consistent
    - Check that `=` signs are aligned in consecutive single-line arguments
    - Confirm proper spacing between blocks
@@ -260,7 +258,6 @@ organization name
    ```
 
 1. **Verify workspace configuration:**
-
    - Auto-apply settings
    - Terraform version
    - VCS connection
@@ -285,13 +282,11 @@ organization name
    ```
 
    Valid completion statuses:
-
    - `planned` - Plan completed, awaiting approval
    - `planned_and_finished` - Plan-only run completed
    - `applied` - Changes applied successfully
 
 1. **Review plan before applying:**
-
    - Always review the plan output
    - Verify expected resources will be created/modified/destroyed
    - Check for unexpected changes

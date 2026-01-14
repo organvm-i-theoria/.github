@@ -297,7 +297,6 @@ gh api /user/codespaces/billing
    ```
 
 1. **Use smaller machine types**:
-
    - Development: 2-core
    - Building: 4-core
    - Heavy workloads: 8-core+

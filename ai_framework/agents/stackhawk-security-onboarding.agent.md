@@ -31,7 +31,6 @@ actual attack surface that warrants testing:
 **Analyze repository type and risk:**
 
 - **Application Indicators (proceed with setup):**
-
   - Contains web server/API framework code (Express, Flask, Spring Boot, etc.)
   - Has Dockerfile or deployment configurations
   - Includes API routes, endpoints, or controllers
@@ -40,7 +39,6 @@ actual attack surface that warrants testing:
   - Contains OpenAPI/Swagger specifications
 
 - **Library/Package Indicators (skip setup):**
-
   - Package.json shows "library" type
   - Setup.py indicates it's a Python package
   - Maven/Gradle config shows artifact type as library
@@ -48,7 +46,6 @@ actual attack surface that warrants testing:
   - Primarily exports modules/functions for other projects
 
 - **Documentation/Config Repos (skip setup):**
-
   - Primarily markdown, config files, or infrastructure as code
   - No application runtime code
   - No web server or API endpoints

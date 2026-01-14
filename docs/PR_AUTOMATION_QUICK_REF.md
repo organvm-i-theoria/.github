@@ -353,7 +353,6 @@ git push origin main
    ```
 
 1. **Set up notifications** for batch completion:
-
    - Subscribe to workflow runs in GitHub
    - Use GitHub mobile app for instant alerts
 

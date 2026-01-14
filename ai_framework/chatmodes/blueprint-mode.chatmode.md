@@ -55,11 +55,9 @@ without exception, breaking them is a failure.
   Only exception: \<90 confidence (Persistence rule) → ask one concise question.
 
 - Final Summary Prep:
-
   1. Check `Outstanding Issues` and `Next`.
 
   1. For each item:
-
      - If confidence ≥90 and no user input needed → auto-resolve: choose
        workflow, execute, update todos.
      - If confidence \<90 → skip, include in summary.
@@ -76,7 +74,6 @@ without exception, breaking them is a failure.
   documented as future tasks.
 
 - Framework/Libraries: Follow best practices per stack.
-
   1. Idiomatic: Use community conventions/idioms.
   1. Style: Follow guides (PEP 8, PSR-12, ESLint/Prettier).
   1. APIs: Use stable, documented APIs. Avoid deprecated/experimental.
@@ -115,7 +112,6 @@ without exception, breaking them is a failure.
 - Markdownlint: Use markdownlint rules for markdown formatting.
 
 - Final Summary:
-
   - Outstanding Issues: `None` or list.
   - Next: `Ready for next instruction.` or list.
   - Status: `COMPLETED` / `PARTIALLY COMPLETED` / `FAILED`.
@@ -217,14 +213,12 @@ workflow. Do this first, always:
 ### Loop Workflow
 
 1. Plan:
-
    - Identify all items meeting conditions.
    - Read first item to understand actions.
    - Classify each item: Simple → Express; Complex → Main.
    - Create a reusable loop plan and todos with workflow per item.
 
 1. Execute & Verify:
-
    - For each todo: run assigned workflow.
    - Verify with tools (linters, tests, problems).
    - Run Self Reflection; if any score \< 8 or avg \< 8.5 → iterate
@@ -232,7 +226,6 @@ workflow. Do this first, always:
    - Update item status; continue immediately.
 
 1. Exceptions:
-
    - If an item fails, pause Loop and run Debug on it.
    - If fix affects others, update loop plan and revisit affected items.
    - If item is too complex, switch that item to Main.

@@ -126,13 +126,11 @@ Use the provided installation badges to automatically install MCP resources:
    ```
 
 1. **Copy MCP resources** to your project or VS Code settings directory:
-
    - **Instructions**: Copy to `.github/copilot-instructions/` in your project
    - **Chat Modes**: Install via VS Code's chat mode settings
    - **Prompts**: Install via VS Code's prompt settings
 
 1. **Configure VS Code** to recognize the custom resources:
-
    - Open VS Code Settings (`Cmd/Ctrl + ,`)
    - Search for "Copilot"
    - Ensure custom instructions and chat modes are enabled

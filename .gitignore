@@ -34,3 +34,6 @@ docs/_site/
 
 # Generated state files
 .github/task_state.json
+
+# Case sensitivity: prevent uppercase Jules directory
+.Jules/

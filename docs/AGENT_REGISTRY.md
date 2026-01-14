@@ -71,18 +71,15 @@ capabilities with domain-specific expertise. Each agent is configured with:
 #### In VS Code / VS Code Insiders
 
 1. **Install an agent**:
-
    - Click the install button in the Quick Reference table above
    - Or download the `*.agent.md` file and add it to your repository
 
 1. **Configure MCP servers** (if required):
-
    - Each agent specifies required MCP servers in its documentation
    - Follow the installation links in the Quick Reference table
    - Configure environment variables as needed
 
 1. **Invoke the agent**:
-
    - Use the `@agent-name` syntax in GitHub Copilot Chat
    - Example: `@terraform create a VPC module`
    - Or assign the agent in the Copilot Coding Agent (CCA)

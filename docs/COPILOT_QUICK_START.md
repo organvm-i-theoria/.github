@@ -32,7 +32,6 @@ Choose your path based on your preferences and project needs:
 **Time**: 5 minutes setup + 5 minutes wait for first build
 
 1. **Install prerequisites**:
-
    - [Docker Desktop](https://www.docker.com/products/docker-desktop)
    - [VS Code](https://code.visualstudio.com/)
    - [Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
@@ -46,7 +45,6 @@ Choose your path based on your preferences and project needs:
    ```
 
 1. **Reopen in container**:
-
    - Press `Cmd/Ctrl + Shift + P`
    - Select "Dev Containers: Reopen in Container"
    - Wait for build to complete
@@ -60,7 +58,6 @@ Choose your path based on your preferences and project needs:
 **Time**: 15 minutes
 
 1. **Install GitHub Copilot**:
-
    - Open VS Code Extensions (`Cmd/Ctrl + Shift + X`)
    - Install "GitHub Copilot" and "GitHub Copilot Chat"
    - Sign in when prompted
@@ -74,7 +71,6 @@ Choose your path based on your preferences and project needs:
    ```
 
 1. **Configure VS Code**:
-
    - Copy settings: `cp .github/.vscode/settings.json ~/.vscode/settings.json`
    - Restart VS Code
 
@@ -89,7 +85,6 @@ Choose your path based on your preferences and project needs:
 1. **Admin**: Ensure this repository is your organization's `.github` repository
 
 1. **Admin**: Verify files are in correct locations:
-
    - Instructions: `instructions/*.instructions.md`
    - Agents: `agents/*.agent.md`
    - Chat modes: `chatmodes/*.chatmode.md`
@@ -136,7 +131,6 @@ Choose your path based on your preferences and project needs:
 ### Test MCP Integration (Optional)
 
 1. **Check if MCP servers are configured**:
-
    - Open VS Code Settings
    - Search for "copilot mcp"
    - Verify servers are listed

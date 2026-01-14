@@ -29,31 +29,26 @@ walkthrough video in just 5 minutes.
 Fill in the workflow parameters:
 
 - **Duration** (30-120 seconds)
-
   - Recommended: 60 seconds for general demos
   - Short demos: 30-45 seconds
   - Detailed walkthroughs: 90-120 seconds
 
 - **Voiceover Style**
-
   - `professional` - Business presentations and client demos
   - `casual` - Team updates and informal explanations
   - `technical` - Deep-dives for developers
 
 - **Focus Areas** (comma-separated)
-
   - Examples: `user authentication, dashboard, data visualization`
   - Be specific: `login form, create post button, user profile page`
 
 - **Start Command** (optional)
-
   - React: `npm start`
   - Flask: `python app.py`
   - Vue: `npm run serve`
   - Leave blank to auto-detect
 
 - **Port** (optional)
-
   - React default: `3000`
   - Flask default: `5000`
   - Vue default: `8080`

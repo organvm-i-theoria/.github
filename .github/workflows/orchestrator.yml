@@ -139,18 +139,18 @@ jobs:
             subscription_name=$(echo "$task" | jq -r '.subscription')
             task_id=$(echo "$task" | jq -r '.id')
             prompt=$(echo "$task" | jq -r '.prompt')
-            
+
             # Check for task deduplication
             TASK_DATA=$(echo "$task" | jq -c '{id, subscription, prompt}')
             DEDUPE_RESULT=$(python3 .github/scripts/task_deduplicator.py check "orchestrated_task" "$TASK_DATA" || echo '{"should_process":false,"reason":"script error"}')
             SHOULD_PROCESS=$(echo "$DEDUPE_RESULT" | jq -r '.should_process')
             REASON=$(echo "$DEDUPE_RESULT" | jq -r '.reason')
-            
+
             if [ "$SHOULD_PROCESS" = "false" ]; then
               echo "⏭️  Skipping duplicate task $task_id: $REASON"
               continue
             fi
-            
+
             # Check quota
             usage=$(python scripts/quota_manager.py get_usage "$subscription_name")
             quota=$(jq -r --arg name "$subscription_name" '.subscriptions[] | select(.name==$name) | .quota' .github/subscriptions.json)

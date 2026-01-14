@@ -168,13 +168,11 @@ For each epic, create detailed user stories with smart features:
 #### Story Details:
 
 - **Acceptance Criteria**:
-
   - Minimum 3-5 specific, testable criteria
   - Use Given/When/Then format when appropriate
   - Include edge cases and error scenarios
 
 - **Definition of Done**:
-
   - Code complete and reviewed
   - Unit tests written and passing
   - Integration tests passing

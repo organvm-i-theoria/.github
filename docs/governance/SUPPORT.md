@@ -1,6 +1,7 @@
 # Support
 
-Thank you for using our project! This document explains how to get help and support.
+Thank you for using our project! This document explains how to get help and
+support.
 
 ## Table of Contents
 
@@ -17,20 +18,20 @@ Thank you for using our project! This document explains how to get help and supp
 Before asking for help, please:
 
 1. ✅ **Search existing resources** - Check if your question has been answered
-2. ✅ **Read the documentation** - Many answers are in the docs
-3. ✅ **Check the FAQ** - Common questions are answered below
-4. ✅ **Search closed issues** - Someone may have had the same problem
+1. ✅ **Read the documentation** - Many answers are in the docs
+1. ✅ **Check the FAQ** - Common questions are answered below
+1. ✅ **Search closed issues** - Someone may have had the same problem
 
 ### When to Use What
 
-| Situation | Where to Go |
-|-----------|-------------|
+| Situation                     | Where to Go                                                              |
+| ----------------------------- | ------------------------------------------------------------------------ |
 | Questions, ideas, discussions | [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions) |
-| Bug reports | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues) |
-| Feature requests | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues) |
-| Security vulnerabilities | [Security Policy](SECURITY.md) |
-| Contributing | [Contributing Guide](CONTRIBUTING.md) |
-| Code of Conduct violations | conduct@ivviiviivvi.com |
+| Bug reports                   | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)           |
+| Feature requests              | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)           |
+| Security vulnerabilities      | [Security Policy](SECURITY.md)                                           |
+| Contributing                  | [Contributing Guide](CONTRIBUTING.md)                                    |
+| Code of Conduct violations    | conduct@ivviiviivvi.com                                                  |
 
 ## GitHub Discussions
 
@@ -67,12 +68,13 @@ Before asking for help, please:
 ### Tutorials and Examples
 
 - **[Examples Repository](examples/)** - Code examples and templates
-- **[Video Tutorials](https://youtube.com/@ivviiviivvi)** - Video walkthroughs (coming soon)
+- **[Video Tutorials](https://youtube.com/@ivviiviivvi)** - Video walkthroughs
+  (coming soon)
 
 ### External Resources
 
 - **Community Q&A** - Stack Overflow support (coming soon)
-- **Community Discussions** - Reddit community (coming soon)  
+- **Community Discussions** - Reddit community (coming soon)
 - **Real-time Chat** - Discord server (coming soon)
 
 ## FAQ
@@ -83,11 +85,13 @@ Before asking for help, please:
 
 **Q: How do I get started with the project?**
 
-A: Follow our [Getting Started Guide](docs/getting-started.md) for installation and setup instructions.
+A: Follow our [Getting Started Guide](docs/getting-started.md) for installation
+and setup instructions.
 
 **Q: What are the system requirements?**
 
-A: 
+A:
+
 - Python 3.11 or higher
 - pip package manager
 - Git for version control
@@ -95,21 +99,24 @@ A:
 
 **Q: Is this project free to use?**
 
-A: Yes, this project is open source and free to use under the [LICENSE](LICENSE) terms.
+A: Yes, this project is open source and free to use under the [LICENSE](LICENSE)
+terms.
 
 #### Installation
 
 **Q: I'm getting installation errors. What should I do?**
 
 A:
+
 1. Ensure you have Python 3.11+ installed: `python --version`
-2. Update pip: `pip install --upgrade pip`
-3. Try installing in a virtual environment
-4. Check [Common Issues](docs/troubleshooting.md) in documentation
+1. Update pip: `pip install --upgrade pip`
+1. Try installing in a virtual environment
+1. Check [Common Issues](docs/troubleshooting.md) in documentation
 
 **Q: How do I update to the latest version?**
 
 A:
+
 ```bash
 git pull origin main
 pip install --upgrade -r requirements.txt
@@ -119,7 +126,9 @@ pip install --upgrade -r requirements.txt
 
 **Q: How do I report a bug?**
 
-A: Use our [Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.yml) and include:
+A: Use our [Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.yml) and
+include:
+
 - Steps to reproduce
 - Expected vs actual behavior
 - Environment details
@@ -127,7 +136,10 @@ A: Use our [Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.yml) and incl
 
 **Q: How do I request a new feature?**
 
-A: Use our [Feature Request Template](.github/ISSUE_TEMPLATE/feature_request.yml) and explain:
+A: Use our
+[Feature Request Template](.github/ISSUE_TEMPLATE/feature_request.yml) and
+explain:
+
 ## Getting Help
 
 Thank you for using this project! If you need help, here are the best ways to
@@ -223,7 +235,9 @@ and describe:
 
 **Q: How can I contribute to the project?**
 
-A: See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions. We welcome:
+A: See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions. We
+welcome:
+
 - Bug reports and fixes
 - Feature implementations
 - Documentation improvements
@@ -232,21 +246,26 @@ A: See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions. We w
 
 **Q: I'm new to open source. How do I start?**
 
-A: 
-1. Look for issues labeled [`good first issue`](https://github.com/ivviiviivvi/.github/labels/good%20first%20issue)
-2. Read [CONTRIBUTING.md](CONTRIBUTING.md)
-3. Ask questions in [Discussions](https://github.com/ivviiviivvi/.github/discussions)
-4. Join our [Discord](https://discord.gg/ivviiviivvi) for real-time help
+A:
+
+1. Look for issues labeled
+   [`good first issue`](https://github.com/ivviiviivvi/.github/labels/good%20first%20issue)
+1. Read [CONTRIBUTING.md](CONTRIBUTING.md)
+1. Ask questions in
+   [Discussions](https://github.com/ivviiviivvi/.github/discussions)
+1. Join our [Discord](https://discord.gg/ivviiviivvi) for real-time help
 
 #### Security
 
 **Q: I found a security vulnerability. Where do I report it?**
 
-A: **Do NOT create a public issue.** Follow our [Security Policy](SECURITY.md) to report privately to security@ivviiviivvi.com.
+A: **Do NOT create a public issue.** Follow our [Security Policy](SECURITY.md)
+to report privately to security@ivviiviivvi.com.
 
 **Q: What is your security response timeline?**
 
 A:
+
 - 24 hours: Acknowledgment
 - 72 hours: Initial assessment
 - 7 days: Detailed response
@@ -257,12 +276,14 @@ A:
 ### When to File an Issue
 
 **File an issue when:**
+
 - ✅ You found a bug in the code
 - ✅ You want to request a new feature
 - ✅ You found a problem in the documentation
 - ✅ You have a specific, actionable suggestion
 
 **Don't file an issue for:**
+
 - ❌ General questions (use Discussions instead)
 - ❌ Support requests (use Discussions)
 - ❌ Security vulnerabilities (use Security Policy)
@@ -273,31 +294,34 @@ A:
 Before filing an issue:
 
 1. **Search existing issues** - It may already be reported
-2. **Check if it's fixed** - Try the latest version
-3. **Gather information** - Collect error messages, logs, screenshots
-4. **Create minimal reproduction** - Simplify the problem
+1. **Check if it's fixed** - Try the latest version
+1. **Gather information** - Collect error messages, logs, screenshots
+1. **Create minimal reproduction** - Simplify the problem
 
 Use appropriate templates:
+
 - [Bug Report](.github/ISSUE_TEMPLATE/bug_report.yml)
 - [Feature Request](.github/ISSUE_TEMPLATE/feature_request.yml)
 - [Task](.github/ISSUE_TEMPLATE/task.yml)
 
 ## Response Times
 
-We aim to respond as quickly as possible, but please be patient. All maintainers are volunteers.
+We aim to respond as quickly as possible, but please be patient. All maintainers
+are volunteers.
 
 ### Expected Response Times
 
-| Type | Initial Response | Resolution |
-|------|------------------|------------|
-| **Critical Security Issues** | 24 hours | 7-30 days |
-| **Critical Bugs** | 1-2 business days | 1-2 weeks |
-| **Bug Reports** | 3-5 business days | 2-4 weeks |
-| **Feature Requests** | 1 week | Variable |
-| **Questions (Discussions)** | 1-3 days | N/A |
-| **Pull Requests** | 2-3 days | 1-2 weeks |
+| Type                         | Initial Response  | Resolution |
+| ---------------------------- | ----------------- | ---------- |
+| **Critical Security Issues** | 24 hours          | 7-30 days  |
+| **Critical Bugs**            | 1-2 business days | 1-2 weeks  |
+| **Bug Reports**              | 3-5 business days | 2-4 weeks  |
+| **Feature Requests**         | 1 week            | Variable   |
+| **Questions (Discussions)**  | 1-3 days          | N/A        |
+| **Pull Requests**            | 2-3 days          | 1-2 weeks  |
 
-**Note**: These are target times, not guarantees. Complex issues may take longer.
+**Note**: These are target times, not guarantees. Complex issues may take
+longer.
 
 ### Status Labels
 
@@ -351,7 +375,8 @@ For enterprise support, training, or consulting:
 
 ### Learning Resources
 
-- **[Awesome List](https://github.com/ivviiviivvi/awesome-ivviiviivvi)** - Curated resources
+- **[Awesome List](https://github.com/ivviiviivvi/awesome-ivviiviivvi)** -
+  Curated resources
 - **[Tutorials](https://tutorials.ivviiviivvi.com)** - Step-by-step guides
 - **[Cookbook](https://cookbook.ivviiviivvi.com)** - Recipes and patterns
 
@@ -365,6 +390,7 @@ For enterprise support, training, or consulting:
 **Need more help?** Contact us at support@ivviiviivvi.com
 
 **Last Updated**: January 12, 2026
+
 ## 🌐 Community Resources
 
 - **GitHub Repository**:

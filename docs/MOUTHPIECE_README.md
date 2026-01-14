@@ -261,25 +261,21 @@ print(result["prompt"])
 ### Core Beliefs
 
 1. **Humans should stay human**
-
    - Preserve natural expression
    - Celebrate imperfection
    - Honor authentic voice
 
 1. **AI should adapt to humans**
-
    - Not the other way around
    - Bridge the communication gap
    - Make technology accessible
 
 1. **Poetry carries meaning**
-
    - Metaphors provide context
    - Emotion conveys priority
    - Imperfection shows authenticity
 
 1. **Structure emerges from understanding**
-
    - Intent reveals requirements
    - Clarity comes from interpretation
    - Organization follows comprehension

@@ -231,25 +231,21 @@ fast client-side search
 **Strategies**:
 
 1. **pages-direct**: Static/frontend apps
-
    - React, Vue, Angular, Static HTML
    - Deploys to GitHub Pages
    - CDN-backed, instant loading
 
 1. **docker**: Backend apps
-
    - Express, Flask, FastAPI, Django
    - Pushes to Docker Hub
    - Embeds in Pages with instructions
 
 1. **codespaces**: Complex apps
-
    - Microservices, full-stack
    - One-click Codespaces environment
    - Full dev environment
 
 1. **documentation-only**: CLI/Libraries
-
    - npm packages, Python libraries
    - Shows installation instructions
    - No visual UI
