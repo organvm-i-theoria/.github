@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - ai_framework/chatmodes/**
+      - automation/scripts/generate_chatmode_inventory.py
       - automation/scripts/validate_chatmode_frontmatter.py
   push:
     branches:
       - main
     paths:
       - ai_framework/chatmodes/**
+      - automation/scripts/generate_chatmode_inventory.py
       - automation/scripts/validate_chatmode_frontmatter.py
 
 jobs:
@@ -22,3 +24,7 @@ jobs:
           python-version: "3.11"
       - name: Validate chatmode frontmatter
         run: python automation/scripts/validate_chatmode_frontmatter.py
+      - name: Verify chatmode inventory is up to date
+        run: |
+          python automation/scripts/generate_chatmode_inventory.py
+          git diff --exit-code ai_framework/chatmodes/INVENTORY.md
