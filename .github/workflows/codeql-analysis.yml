@@ -17,6 +17,7 @@ on:
       - ".github/workflows/codeql-analysis.yml"
   schedule:
     - cron: "0 6 * * 1" # Weekly on Mondays
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
