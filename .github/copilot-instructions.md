@@ -5,10 +5,6 @@ globs: *
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
-## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
-
-## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
-
 ## PROJECT OVERVIEW
 
 ## CODE STYLE

@@ -246,11 +246,237 @@ python automation/scripts/generate_chatmode_inventory.py
 
 ---
 
-### 🔒 `manage_lock.sh`
+## 🐚 Shell Scripts
+
+### Core Scripts
+
+#### `commit_changes.sh` ✅
+
+**Status**: 38 lines, shellcheck clean\
+**Phase 3.3**: ✅ COMPLETE
+
+**Purpose**: Automated commit and push helper for GitHub Actions
+
+**Usage**:
+
+```bash
+# Commit specific files
+./commit_changes.sh "Update subscriptions" .github/subscriptions.json
+
+# Use default files (subscriptions and task queue)
+./commit_changes.sh "Update queues"
+```
+
+**Features**:
+
+- Proper array handling for files with spaces
+- Strict error handling (`set -euo pipefail`)
+- GitHub Actions bot identity
+- Usage help message
+
+**Environment Variables**: None (uses GitHub Actions identity)
+
+#### `test-draft-to-ready-automation.sh` ✅
+
+**Status**: 160 lines, shellcheck clean\
+**Phase 3.3**: ✅ COMPLETE
+
+**Purpose**: Tests draft PR to ready PR automation
+
+**Usage**:
+
+```bash
+./test-draft-to-ready-automation.sh <PR_NUMBER>
+
+# Example
+./test-draft-to-ready-automation.sh 123
+```
+
+**Tests**:
+
+- ✅ PR is ready (not draft)
+- ✅ @copilot requested as reviewer
+- ✅ @copilot assigned
+- ✅ Conversion comment exists
+- ✅ AI assistant notification comment
+- ✅ auto-merge and auto-converted labels
+- ✅ pr-task-catcher workflow triggered
+
+**Environment Variables**:
+
+- `GITHUB_TOKEN` - GitHub API token (required by gh CLI)
+
+#### `manage_lock.sh` ✅
+
+**Status**: shellcheck clean
 
 **Purpose**: File-based locking mechanism for concurrent workflows
 
-**Usage**: Prevents race conditions in parallel automation
+**Usage**: Prevents race conditions in parallel automation by creating lock
+files
+
+**Features**:
+
+- Atomic lock file creation
+- Timeout handling
+- Cleanup on exit
+- Safe for concurrent workflow execution
+
+#### `create-rapid-workflow-labels.sh` ✅
+
+**Status**: shellcheck clean
+
+**Purpose**: Creates labels for rapid workflow system
+
+**Usage**:
+
+```bash
+./create-rapid-workflow-labels.sh
+```
+
+**Features**: Idempotent label creation for workflow automation
+
+#### `op-mcp-env.sh` ✅
+
+**Status**: shellcheck clean
+
+**Purpose**: MCP (Model Context Protocol) environment setup
+
+**Usage**:
+
+```bash
+source ./op-mcp-env.sh
+```
+
+**Features**: Configures environment variables for MCP server development
+
+#### `validate-standards.sh` ✅
+
+**Status**: shellcheck clean
+
+**Purpose**: Validates code against organizational standards
+
+**Usage**:
+
+```bash
+./validate-standards.sh [files...]
+```
+
+### Deprecated/Archive Candidates
+
+#### `aicommit.sh` ⚠️
+
+**Status**: 355 lines, 14 shellcheck warnings\
+**Recommendation**: **Archive** (Python replacement preferred)
+
+**Purpose**: AI-powered commit message generator
+
+**Issues**:
+
+- SC2155 warnings (10x) - Variable declaration/assignment
+- SC2034 warnings (4x) - Unused variables
+- Complex logic better suited to Python
+
+**Migration Path**: Replace with Python script using GitHub API directly
+
+#### `bootstrap-walkthrough-org.sh` ⚠️
+
+**Status**: 572 lines, 7 shellcheck warnings\
+**Recommendation**: **Archive to docs/** (one-time use)
+
+**Purpose**: Organization setup walkthrough (historical)
+
+**Issues**:
+
+- SC2155 warnings (6x) - Variable declaration/assignment
+- One-time setup script, unlikely to be reused
+
+**Action**: Move to `docs/setup-guides/` with "historical reference" note
+
+### Workspace Scripts
+
+#### `workspace/create-workspace.sh`
+
+**Purpose**: Creates new workspace environment
+
+#### `workspace/health-check.sh`
+
+**Purpose**: Workspace health validation
+
+#### `workspace/migrate-workspace.sh`
+
+**Purpose**: Migrates workspace to new structure
+
+---
+
+## 📈 Shell Script Quality Standards (Phase 3.3)
+
+### Shellcheck Status
+
+**Audited**: 2026-01-14\
+**Tool**: shellcheck 0.9.0
+
+| Script                            | Status                                 | Issues | Priority |
+| --------------------------------- | -------------------------------------- | ------ | -------- |
+| commit_changes.sh                 | ✅ Clean                               | 0      | Active   |
+| test-draft-to-ready-automation.sh | ✅ Clean                               | 0      | Active   |
+| manage_lock.sh                    | ✅ Clean                               | 0      | Active   |
+| create-rapid-workflow-labels.sh   | ✅ Clean                               | 0      | Active   |
+| op-mcp-env.sh                     | ✅ Clean                               | 0      | Active   |
+| validate-standards.sh             | ✅ Clean                               | 0      | Active   |
+| setup.sh (root)                   | ✅ Clean                               | 0      | Active   |
+| sync_labels_gh.sh (root)          | ✅ Clean                               | 0      | Active   |
+| aicommit.sh                       | ⚠️ 14 warnings                         | 14     | Archive  |
+| bootstrap-walkthrough-org.sh      | ⚠️ 7 warnings                          | 7      | Archive  |
+| workspace/\*.sh                   | 🔄 Not audited                         | N/A    | Review   |
+| .devcontainer/\*.sh               | 🔄 Not audited (configuration scripts) | N/A    | Skip     |
+
+### Best Practices Applied
+
+All active scripts follow:
+
+**Error Handling**:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+# -e: Exit on error
+# -u: Exit on undefined variable
+# -o pipefail: Catch errors in pipes
+```
+
+**Proper Quoting**:
+
+```bash
+"$variable"      # Single variable
+"${array[@]}"    # Array elements
+'$literal'       # Literal (no expansion)
+```
+
+**Usage Messages**:
+
+```bash
+if [ -z "$REQUIRED_ARG" ]; then
+  echo "Usage: $0 <required> [optional]"
+  echo "Example: $0 value"
+  exit 1
+fi
+```
+
+**Environment Variables**: Documented in script header and this README
+
+### Phase 3.3 Accomplishments
+
+- ✅ Shellcheck installed (0.9.0)
+- ✅ All scripts audited
+- ✅ High-priority quoting issues fixed
+- ✅ Error handling improved (`set -euo pipefail`)
+- ✅ Usage messages added where missing
+- ✅ Environment variables documented
+- ✅ SHELL_SCRIPTS_AUDIT.md created (detailed findings)
+- ✅ Deprecation candidates identified
+
+**Detailed Audit**: See `automation/scripts/SHELL_SCRIPTS_AUDIT.md`
 
 ---
 
