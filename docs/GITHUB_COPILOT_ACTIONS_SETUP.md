@@ -98,14 +98,12 @@ If your organization uses a security gateway that inspects outbound traffic:
    ```
 
 1. **Check firewall configuration:**
-
    - Follow
      [GitHub Copilot Actions Setup Steps](https://gh.io/copilot/actions-setup-steps)
    - Review
      [Firewall Configuration Guide](https://gh.io/copilot/firewall-config)
 
 1. **Review security gateway settings:**
-
    - Ensure AI endpoints are not being blocked by content inspection
    - Disable SSL/TLS interception for AI provider domains
    - Check for DLP (Data Loss Prevention) policies that might interfere
@@ -130,18 +128,15 @@ If your organization uses a security gateway that inspects outbound traffic:
 **Solutions:**
 
 1. **Check rate limits and quotas:**
-
    - Verify you haven't exceeded API rate limits
    - Check your subscription/billing status with AI providers
 
 1. **Validate authentication tokens:**
-
    - Ensure secrets are correctly configured
    - Verify tokens haven't expired
    - Check token permissions are sufficient
 
 1. **Review network latency:**
-
    - Increase timeout values if network latency is high
    - Consider using GitHub-hosted runners in regions closer to AI providers
 

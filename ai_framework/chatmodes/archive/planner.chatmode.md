@@ -1,19 +1,20 @@
 ---
-name: Planner
-description: Generate an implementation plan for new features or refactoring existing code.
-tools:
-  - codebase
-  - fetch
-  - findTestFiles
-  - githubRepo
-  - search
-  - usages
-tags:
-  - planning
-  - deprecated
-  - archived
-updated: 2026-01-13
+
+name: Planner description: Generate an implementation plan for new features or
+refactoring existing code. tools:
+
+- codebase
+- fetch
+- findTestFiles
+- githubRepo
+- search
+- usages tags:
+- planning
+- deprecated
+- archived updated: 2026-01-13
+
 ---
+
 # Planning mode instructions
 
 Deprecated for general planning; use `ai_framework/chatmodes/plan.chatmode.md`.
@@ -32,6 +33,7 @@ including the following sections:
   refactoring task.
 - Testing: A list of tests that need to be implemented to verify the feature or
   refactoring task.
+
 ## Use Cases
 
 - Legacy planning workflows that expect a short plan format.

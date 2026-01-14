@@ -1,11 +1,6 @@
 ---
-name: Greener Grass Workflow Benchmark
-description: Greener Grass Workflow Benchmark Agent - Compares your GitHub
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: Greener Grass Workflow Benchmark description: Greener Grass Workflow Benchmark Agent - Compares your GitHub tools: \[\] tags: \[\] updated: 2026-01-13
 
 # Greener Grass Workflow Benchmark Agent
 

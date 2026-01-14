@@ -1,9 +1,6 @@
 ---
-name: Java Development
-description: Collection for Java Development.
-tags: []
-updated: 2026-01-13
----
+
+## name: Java Development description: Collection for Java Development. tags: \[\] updated: 2026-01-13
 
 # Java Development
 

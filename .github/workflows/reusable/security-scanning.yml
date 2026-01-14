@@ -4,41 +4,41 @@ on:
   workflow_call:
     inputs:
       scan-type:
-        description: "Type of scan (codeql, trivy, semgrep, secrets, all)"
+        description: Type of scan (codeql, trivy, semgrep, secrets, all)
         required: false
         type: string
-        default: "all"
+        default: all
       languages:
         description: "Languages for CodeQL (comma-separated: python,javascript,go,etc)"
         required: false
         type: string
-        default: "python,javascript,typescript,go"
+        default: python,javascript,typescript,go
       severity-threshold:
-        description: "Minimum severity to report (CRITICAL, HIGH, MEDIUM, LOW)"
+        description: Minimum severity to report (CRITICAL, HIGH, MEDIUM, LOW)
         required: false
         type: string
-        default: "MEDIUM"
+        default: MEDIUM
       fail-on-severity:
-        description: "Fail build on this severity or higher"
+        description: Fail build on this severity or higher
         required: false
         type: string
-        default: "HIGH"
+        default: HIGH
       trivy-scan-type:
-        description: "Trivy scan type (fs, image, config, repo)"
+        description: Trivy scan type (fs, image, config, repo)
         required: false
         type: string
-        default: "fs"
+        default: fs
       working-directory:
-        description: "Working directory for scans"
+        description: Working directory for scans
         required: false
         type: string
-        default: "."
+        default: .
     outputs:
       codeql-sarif:
-        description: "Path to CodeQL SARIF results"
+        description: Path to CodeQL SARIF results
         value: ${{ jobs.security-scan.outputs.codeql-sarif }}
       trivy-report:
-        description: "Path to Trivy report"
+        description: Path to Trivy report
         value: ${{ jobs.security-scan.outputs.trivy-report }}
 
 jobs:
@@ -59,7 +59,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # CodeQL Analysis
+        # CodeQL Analysis
       - name: Initialize CodeQL
         if: inputs.scan-type == 'codeql' || inputs.scan-type == 'all'
         uses: github/codeql-action/init@v3
@@ -76,10 +76,10 @@ jobs:
         id: codeql
         uses: github/codeql-action/analyze@v3
         with:
-          category: "/language:${{ inputs.languages }}"
+          category: /language:${{ inputs.languages }}
           output: codeql-results
 
-      # Trivy Security Scan
+        # Trivy Security Scan
       - name: Run Trivy vulnerability scanner
         if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'
         id: trivy
@@ -87,8 +87,8 @@ jobs:
         with:
           scan-type: ${{ inputs.trivy-scan-type }}
           scan-ref: ${{ inputs.working-directory }}
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: sarif
+          output: trivy-results.sarif
           severity: ${{ inputs.severity-threshold }}
           exit-code: ${{ inputs.fail-on-severity == 'CRITICAL' && '1' || '0' }}
 
@@ -96,10 +96,10 @@ jobs:
         if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: "trivy-results.sarif"
-          category: "trivy"
+          sarif_file: trivy-results.sarif
+          category: trivy
 
-      # Semgrep SAST Scan
+        # Semgrep SAST Scan
       - name: Run Semgrep
         if: inputs.scan-type == 'semgrep' || inputs.scan-type == 'all'
         uses: returntocorp/semgrep-action@v1
@@ -115,9 +115,9 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
-          category: "semgrep"
+          category: semgrep
 
-      # Secret Scanning
+        # Secret Scanning
       - name: Run secret scan with detect-secrets
         if: inputs.scan-type == 'secrets' || inputs.scan-type == 'all'
         run: |

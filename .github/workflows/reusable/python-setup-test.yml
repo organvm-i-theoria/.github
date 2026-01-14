@@ -4,46 +4,46 @@ on:
   workflow_call:
     inputs:
       python-version:
-        description: "Python version to use"
+        description: Python version to use
         required: false
         type: string
         default: "3.11"
       requirements-file:
-        description: "Path to requirements file"
+        description: Path to requirements file
         required: false
         type: string
-        default: "requirements.txt"
+        default: requirements.txt
       run-tests:
-        description: "Whether to run tests"
+        description: Whether to run tests
         required: false
         type: boolean
         default: true
       test-command:
-        description: "Command to run tests"
+        description: Command to run tests
         required: false
         type: string
-        default: "pytest --cov=. --cov-report=xml"
+        default: pytest --cov=. --cov-report=xml
       install-dev-deps:
-        description: "Install development dependencies"
+        description: Install development dependencies
         required: false
         type: boolean
         default: false
       cache-dependency-path:
-        description: "Path to cache dependencies"
+        description: Path to cache dependencies
         required: false
         type: string
         default: "**/requirements*.txt"
       working-directory:
-        description: "Working directory for commands"
+        description: Working directory for commands
         required: false
         type: string
-        default: "."
+        default: .
     outputs:
       coverage-report-path:
-        description: "Path to coverage report"
+        description: Path to coverage report
         value: ${{ jobs.setup-test.outputs.coverage-path }}
       test-results-path:
-        description: "Path to test results"
+        description: Path to test results
         value: ${{ jobs.setup-test.outputs.test-path }}
 
 jobs:
@@ -63,7 +63,7 @@ jobs:
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: ${{ inputs.python-version }}
-          cache: "pip"
+          cache: pip
           cache-dependency-path: ${{ inputs.cache-dependency-path }}
 
       - name: Install dependencies

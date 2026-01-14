@@ -1,8 +1,9 @@
 # GitHub Actions Workflow Inventory
 
-**Generated:** 2026-01-14  
-**Total Workflows:** 99  
-**Status:** 🔴 19 YAML syntax errors, 80 working workflows
+**Generated:** 2026-01-14\
+**Total Workflows:** 99\
+**Status:** 🔴 19 YAML syntax
+errors, 80 working workflows
 
 ---
 
@@ -19,23 +20,24 @@
 ### Recommendations
 
 1. **Immediate**: Fix 19 YAML syntax errors (Phase 4.2)
-2. **High Priority**: Add `workflow_dispatch` to all workflows for testing
-3. **Medium Priority**: Split high-complexity workflows into smaller, reusable components
-4. **Low Priority**: Optimize triggers and consolidate duplicates
+1. **High Priority**: Add `workflow_dispatch` to all workflows for testing
+1. **Medium Priority**: Split high-complexity workflows into smaller, reusable
+   components
+1. **Low Priority**: Optimize triggers and consolidate duplicates
 
 ---
 
 ## Workflow Statistics
 
-| Metric | Count |
-|--------|-------|
-| Total Workflows | 99 |
-| With YAML Errors | 19 |
-| Scheduled (cron) | 1 |
-| Manual Dispatch Enabled | 1 |
-| Push Triggers | 1 |
-| Pull Request Triggers | 1 |
-| Undefined Triggers | 78 |
+| Metric                  | Count |
+| ----------------------- | ----- |
+| Total Workflows         | 99    |
+| With YAML Errors        | 19    |
+| Scheduled (cron)        | 1     |
+| Manual Dispatch Enabled | 1     |
+| Push Triggers           | 1     |
+| Pull Request Triggers   | 1     |
+| Undefined Triggers      | 78    |
 
 ---
 
@@ -45,7 +47,8 @@ These workflows have critical YAML syntax errors preventing execution:
 
 ### 1. `branch-lifecycle-management.yml`
 
-- **Error**: `expected alphabetic or numeric character, but found '*'` (line 73, column 2)
+- **Error**: `expected alphabetic or numeric character, but found '*'` (line 73,
+  column 2)
 - **Cause**: Invalid YAML alias or anchor syntax
 - **Priority**: 🔴 HIGH
 
@@ -72,13 +75,19 @@ These workflows have critical YAML syntax errors preventing execution:
 Files affected:
 
 - `gemini_workflow.yml`
+
 - `grok_workflow.yml`
+
 - `openai_workflow.yml`
+
 - `perplexity_workflow.yml`
+
 - `process_queue.yml`
 
 - **Error**: `mapping values are not allowed here` (line 64/81, column 48)
+
 - **Cause**: Likely inline comment or string formatting issue
+
 - **Priority**: 🔴 MEDIUM
 
 ### 10. `manual_reset.yml`
@@ -122,11 +131,16 @@ Files affected:
 Files affected:
 
 - `safeguard-7-staggered-scheduling.yml`
+
 - `safeguard-8-usage-monitoring.yml`
+
 - `task-extraction.yml`
 
-- **Error**: `expected alphabetic or numeric character, but found '*'` (lines 131-373)
+- **Error**: `expected alphabetic or numeric character, but found '*'` (lines
+  131-373)
+
 - **Cause**: Invalid alias/anchor syntax
+
 - **Priority**: 🔴 HIGH
 
 ### 19. `version-control-standards.yml`
@@ -141,15 +155,15 @@ Files affected:
 
 These workflows are large and complex, making them harder to maintain:
 
-| Workflow | Size | Jobs | Complexity Score |
-|----------|------|------|------------------|
-| `create-organizational-content.yml` | ~21KB | 5 | 21,616 |
-| `safeguard-6-admin-approval.yml` | ~20KB | 1 | 20,132 |
-| `draft-to-ready-automation.yml` | ~18KB | 2 | 18,510 |
-| `batch-pr-lifecycle.yml` | ~18KB | 5 | 18,098 |
-| `reconcile-deployments.yml` | ~17KB | 1 | 17,019 |
-| `bio-description-completions.yml` | ~15KB | 1 | 15,474 |
-| `usage-monitoring.yml` | ~15KB | 3 | 15,428 |
+| Workflow                            | Size  | Jobs | Complexity Score |
+| ----------------------------------- | ----- | ---- | ---------------- |
+| `create-organizational-content.yml` | ~21KB | 5    | 21,616           |
+| `safeguard-6-admin-approval.yml`    | ~20KB | 1    | 20,132           |
+| `draft-to-ready-automation.yml`     | ~18KB | 2    | 18,510           |
+| `batch-pr-lifecycle.yml`            | ~18KB | 5    | 18,098           |
+| `reconcile-deployments.yml`         | ~17KB | 1    | 17,019           |
+| `bio-description-completions.yml`   | ~15KB | 1    | 15,474           |
+| `usage-monitoring.yml`              | ~15KB | 3    | 15,428           |
 
 **Recommendation**: Consider splitting these into smaller, reusable workflows.
 
@@ -157,13 +171,13 @@ These workflows are large and complex, making them harder to maintain:
 
 ## Trigger Distribution Analysis
 
-| Trigger Type | Count | Notes |
-|--------------|-------|-------|
-| Unknown/Undefined | 78 | Needs investigation - may be workflow_call or invalid |
-| Push | 1 | commit-tracking.yml |
-| Pull Request | 1 | commit-tracking.yml |
-| Schedule (cron) | 1 | weekly-commit-report.yml |
-| Manual Dispatch | 1 | weekly-commit-report.yml |
+| Trigger Type      | Count | Notes                                                 |
+| ----------------- | ----- | ----------------------------------------------------- |
+| Unknown/Undefined | 78    | Needs investigation - may be workflow_call or invalid |
+| Push              | 1     | commit-tracking.yml                                   |
+| Pull Request      | 1     | commit-tracking.yml                                   |
+| Schedule (cron)   | 1     | weekly-commit-report.yml                              |
+| Manual Dispatch   | 1     | weekly-commit-report.yml                              |
 
 **Issue**: 78 workflows show "unknown" triggers, which likely means:
 
@@ -293,12 +307,12 @@ These workflows are large and complex, making them harder to maintain:
 ### Phase 4.2: Fix YAML Errors (Priority: 🔴 CRITICAL)
 
 1. **Check line-by-line** the 19 workflows with syntax errors
-2. **Common issues**:
+1. **Common issues**:
    - Missing colons after keys
    - Invalid YAML alias/anchor syntax (`*` without proper definition)
    - Inline comments breaking YAML parsing (`: # comment` → `': # comment'`)
    - Indentation errors
-3. **Validate** after fixes: Use `yamllint` or Python's `yaml.safe_load()`
+1. **Validate** after fixes: Use `yamllint` or Python's `yaml.safe_load()`
 
 ### Phase 4.3: Add Manual Dispatch (Priority: 🟡 HIGH)
 
@@ -326,19 +340,20 @@ Move to `.github/workflows/reusable/` directory.
 ### Phase 4.5: Optimize Triggers (Priority: 🟢 LOW)
 
 1. Review `push` triggers - should they be `pull_request`?
-2. Add path filters where appropriate
-3. Implement concurrency groups to cancel redundant runs
+1. Add path filters where appropriate
+1. Implement concurrency groups to cancel redundant runs
 
 ---
 
 ## Next Steps
 
 1. ✅ **Phase 4.1 Complete**: Workflow inventory generated
-2. 🔄 **Phase 4.2 In Progress**: Fix 19 YAML syntax errors
-3. ⏸️ **Phase 4.3 Pending**: Consolidate reusable workflows
-4. ⏸️ **Phase 4.4 Pending**: Optimize workflow triggers
+1. 🔄 **Phase 4.2 In Progress**: Fix 19 YAML syntax errors
+1. ⏸️ **Phase 4.3 Pending**: Consolidate reusable workflows
+1. ⏸️ **Phase 4.4 Pending**: Optimize workflow triggers
 
 ---
 
-**Last Updated:** 2026-01-14  
-**Related Issues:** #193, #207 (21 errors = 19 YAML + 2 other issues)
+**Last Updated:** 2026-01-14\
+**Related Issues:** #193, #207 (21 errors = 19
+YAML + 2 other issues)

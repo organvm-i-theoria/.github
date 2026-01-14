@@ -467,7 +467,8 @@ source ./op-mcp-env.sh
 #### `aicommit.sh` ⚠️
 
 **Status**: 355 lines, 14 shellcheck warnings\
-**Recommendation**: **Archive** (Python replacement preferred)
+**Recommendation**: **Archive**
+(Python replacement preferred)
 
 **Purpose**: AI-powered commit message generator
 
@@ -482,7 +483,8 @@ source ./op-mcp-env.sh
 #### `bootstrap-walkthrough-org.sh` ⚠️
 
 **Status**: 572 lines, 7 shellcheck warnings\
-**Recommendation**: **Archive to docs/** (one-time use)
+**Recommendation**: **Archive to
+docs/** (one-time use)
 
 **Purpose**: Organization setup walkthrough (historical)
 

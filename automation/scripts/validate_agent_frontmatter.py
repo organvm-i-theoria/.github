@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import argparse
 import re
+from pathlib import Path
 
 AGENTS_DIR = Path("ai_framework/agents")
 REQUIRED_KEYS = {"name", "description"}

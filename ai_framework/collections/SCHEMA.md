@@ -1,9 +1,6 @@
 ---
-name: Schema
-description: Collection for MCP server development in Python.
-tags: []
-updated: 2026-01-13
----
+
+## name: Schema description: Collection for MCP server development in Python. tags: \[\] updated: 2026-01-13
 
 # Collection Frontmatter Schema
 

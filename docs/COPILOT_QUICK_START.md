@@ -273,8 +273,10 @@ Browse all 26+ agents: [Agent Registry](AGENT_REGISTRY.md)
 - [`CSharpExpert`](../ai_framework/agents/CSharpExpert.agent.md) - C# and .NET
 - [`terraform`](../ai_framework/agents/terraform.agent.md) - Infrastructure
 - [`security-audit`](../ai_framework/agents/security-audit.agent.md) - Security
-- [`adr-generator`](../ai_framework/agents/adr-generator.agent.md) - Documentation
-- [`workflow-optimizer`](../ai_framework/agents/workflow-optimizer.agent.md) - CI/CD
+- [`adr-generator`](../ai_framework/agents/adr-generator.agent.md) -
+  Documentation
+- [`workflow-optimizer`](../ai_framework/agents/workflow-optimizer.agent.md) -
+  CI/CD
 
 ---
 
@@ -325,7 +327,8 @@ Curated bundles of instructions, prompts, and chat modes organized by theme:
 
 ### How to Install
 
-1. **Browse collections**: [`collections/`](../ai_framework/collections/) directory
+1. **Browse collections**: [`collections/`](../ai_framework/collections/)
+   directory
 1. **Open a collection file**: e.g., `python-mcp-development.md`
 1. **Click install badges**: Each component has an "Install in VS Code" badge
 1. **Or install manually**: Copy files to your project
@@ -407,13 +410,13 @@ For full environment customization:
 
 ### Resource Directories
 
-| Directory                           | Contents                                              |
-| ----------------------------------- | ----------------------------------------------------- |
-| [`agents/`](../ai_framework/agents/)             | 26+ custom agents for specialized tasks               |
+| Directory                                                                            | Contents                                              |
+| ------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| [`agents/`](../ai_framework/agents/)                                                 | 26+ custom agents for specialized tasks               |
 | [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/) | 100+ custom instructions for languages and frameworks |
 | [`prompts/`](https://github.com/github/awesome-copilot/tree/main/prompts/)           | Reusable prompts for common tasks                     |
-| [`chatmodes/`](../ai_framework/chatmodes/)       | Specialized AI personas                               |
-| [`collections/`](../ai_framework/collections/)   | Curated bundles by theme                              |
+| [`chatmodes/`](../ai_framework/chatmodes/)                                           | Specialized AI personas                               |
+| [`collections/`](../ai_framework/collections/)                                       | Curated bundles by theme                              |
 
 ### Quick References
 

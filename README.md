@@ -15,10 +15,14 @@ for the ivviiviivvi GitHub organization.
 
 1. **Read the basics:** [CONTRIBUTING.md](CONTRIBUTING.md) +
    [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-2. **Browse documentation:** [Documentation Index](docs/INDEX.md) - All docs in
+
+1. **Browse documentation:** [Documentation Index](docs/INDEX.md) - All docs in
    one place
-3. **Set up environment:** [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
-4. **Clone and explore:**
+
+1. **Set up environment:**
+   [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
+
+1. **Clone and explore:**
 
    ```bash
    git clone https://github.com/ivviiviivvi/.github.git
@@ -26,7 +30,7 @@ for the ivviiviivvi GitHub organization.
    pre-commit install  # Enable quality gates
    ```
 
-5. **Make your first contribution:** See open
+1. **Make your first contribution:** See open
    [good first issues](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 **Need help?** Check [SUPPORT.md](SUPPORT.md) or
@@ -36,22 +40,34 @@ for the ivviiviivvi GitHub organization.
 
 ## 📚 Documentation
 
-**⭐ New:** [Complete Documentation Index](docs/INDEX.md) - Browse all 133+ docs organized by category
+**⭐ New:** [Complete Documentation Index](docs/INDEX.md) - Browse all 133+ docs
+organized by category
 
 ### Core Policies
 
-- **[SECURITY.md](docs/governance/SECURITY.md)** - Security vulnerability reporting and response procedures
-- **[CONTRIBUTING.md](docs/governance/CONTRIBUTING.md)** - Guidelines for contributing to our projects
-- **[CODE_OF_CONDUCT.md](docs/governance/CODE_OF_CONDUCT.md)** - Community standards and enforcement (Contributor Covenant 2.1)
-- **[SUPPORT.md](docs/governance/SUPPORT.md)** - How to get help and support resources
-- **[GOVERNANCE_ANALYSIS.md](GOVERNANCE_ANALYSIS.md)** - Governance framework and decision-making processes
+- **[SECURITY.md](docs/governance/SECURITY.md)** - Security vulnerability
+  reporting and response procedures
+- **[CONTRIBUTING.md](docs/governance/CONTRIBUTING.md)** - Guidelines for
+  contributing to our projects
+- **[CODE_OF_CONDUCT.md](docs/governance/CODE_OF_CONDUCT.md)** - Community
+  standards and enforcement (Contributor Covenant 2.1)
+- **[SUPPORT.md](docs/governance/SUPPORT.md)** - How to get help and support
+  resources
+- **[GOVERNANCE_ANALYSIS.md](GOVERNANCE_ANALYSIS.md)** - Governance framework
+  and decision-making processes
 
 ### Quick Links
 
-- 📖 [Quick Start Guides](docs/INDEX.md#quick-start) - Get up to speed in 15 minutes
+- 📖 [Quick Start Guides](docs/INDEX.md#quick-start) - Get up to speed in 15
+  minutes
+
 - 🎯 [Workflow Guides](docs/INDEX.md#guides) - Best practices and automation
-- 🔒 [Security Documentation](docs/guides/security-best-practices.md) - Comprehensive security guide (850+ lines)
-- 🤖 [AI Framework](docs/INDEX.md#ai-framework) - Agents, instructions, and MCP servers
+
+- 🔒 [Security Documentation](docs/guides/security-best-practices.md) -
+  Comprehensive security guide (850+ lines)
+
+- 🤖 [AI Framework](docs/INDEX.md#ai-framework) - Agents, instructions, and MCP
+  servers
 
 - **Default community health files** that apply to all repositories
 

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 AGENTS_DIR = Path("ai_framework/agents")
 OUTPUT = Path("ai_framework/agents/INVENTORY.md")

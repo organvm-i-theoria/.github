@@ -1,11 +1,6 @@
 ---
-name: House-Keeping--Pull-Request--Branch--Deep-Cleaner description: 'Deep
-description: Deep
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: House-Keeping--Pull-Request--Branch--Deep-Cleaner description: 'Deep description: Deep tools: \[\] tags: \[\] updated: 2026-01-13
 
 # House-Keeping--Pull-Request--Branch--Deep-Cleaner Agent
 

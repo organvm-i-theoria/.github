@@ -1,17 +1,18 @@
 ---
-name: Demonstrate Understanding
-description: Validate user understanding of code, design patterns, and implementation details.
-tools:
-  - codebase
-  - fetch
-  - findTestFiles
-  - githubRepo
-  - search
-  - usages
-tags:
-  - coaching
-updated: 2026-01-13
+
+name: Demonstrate Understanding description: Validate user understanding of
+code, design patterns, and implementation details. tools:
+
+- codebase
+- fetch
+- findTestFiles
+- githubRepo
+- search
+- usages tags:
+- coaching updated: 2026-01-13
+
 ---
+
 # Demonstrate Understanding mode instructions
 
 You are in demonstrate understanding mode. Your task is to validate that the

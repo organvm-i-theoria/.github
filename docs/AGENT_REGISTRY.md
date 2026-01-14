@@ -25,8 +25,8 @@ specialized agents that extend GitHub Copilot's capabilities.
 
 ## Quick Reference
 
-| Agent                                                                         | Category                     | Description                                                                                        | MCP Servers   | File Path                                                                                                                                 |
-| ----------------------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Agent                                                                         | Category                     | Description                                                                                        | MCP Servers   | File Path                                                                                                                                              |
+| ----------------------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | [ADR Generator](#adr-generator)                                               | Documentation & Analysis     | Creates comprehensive Architectural Decision Records                                               | None          | [agents/adr-generator.agent.md](../ai_framework/agents/adr-generator.agent.md)                                                                         |
 | [Amplitude Experiment](#amplitude-experiment-implementation)                  | Development & Operations     | Deploys feature experiments using Amplitude MCP                                                    | None          | [agents/amplitude-experiment-implementation.agent.md](../ai_framework/agents/amplitude-experiment-implementation.agent.md)                             |
 | [Arm Migration](#arm-migration-agent)                                         | Infrastructure & DevOps      | Migrates x86 workloads to Arm infrastructure                                                       | custom-mcp    | [agents/arm-migration.agent.md](../ai_framework/agents/arm-migration.agent.md)                                                                         |
@@ -151,7 +151,8 @@ verification.
 
 **Related Workflows**: None
 
-**Documentation**: [agents/jfrog-sec.agent.md](../ai_framework/agents/jfrog-sec.agent.md)
+**Documentation**:
+[agents/jfrog-sec.agent.md](../ai_framework/agents/jfrog-sec.agent.md)
 
 ---
 
@@ -334,7 +335,8 @@ DevOps automation.
 - Infrastructure deployment pipelines
 - Terraform plan/apply automation
 
-**Documentation**: [agents/terraform.agent.md](../ai_framework/agents/terraform.agent.md)
+**Documentation**:
+[agents/terraform.agent.md](../ai_framework/agents/terraform.agent.md)
 
 ---
 

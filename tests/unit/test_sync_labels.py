@@ -16,11 +16,11 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "automation" / "scripts"))
 
 # Mock PyGithub before import
-sys.modules['github'] = MagicMock()
-sys.modules['github.Github'] = MagicMock()
-sys.modules['github.GithubException'] = MagicMock()
-sys.modules['github.Label'] = MagicMock()
-sys.modules['github.Repository'] = MagicMock()
+sys.modules["github"] = MagicMock()
+sys.modules["github.Github"] = MagicMock()
+sys.modules["github.GithubException"] = MagicMock()
+sys.modules["github.Label"] = MagicMock()
+sys.modules["github.Repository"] = MagicMock()
 
 from sync_labels import LABEL_DEFINITIONS, get_existing_labels, sync_labels_to_repo
 
@@ -49,12 +49,16 @@ class TestLabelDefinitions:
 
     def test_priority_labels_exist(self):
         """Test priority labels are defined"""
-        priority_labels = [k for k in LABEL_DEFINITIONS.keys() if "priority" in k.lower()]
+        priority_labels = [
+            k for k in LABEL_DEFINITIONS.keys() if "priority" in k.lower()
+        ]
         assert len(priority_labels) >= 4  # critical, high, medium, low
 
     def test_category_labels_exist(self):
         """Test category labels are defined"""
-        category_labels = [k for k in LABEL_DEFINITIONS.keys() if "category" in k.lower()]
+        category_labels = [
+            k for k in LABEL_DEFINITIONS.keys() if "category" in k.lower()
+        ]
         assert len(category_labels) >= 3  # Multiple categories
 
     def test_standard_labels_exist(self):
@@ -77,12 +81,14 @@ class TestGetExistingLabels:
     @pytest.fixture
     def mock_label(self):
         """Create mock label"""
+
         def _create_label(name, color, description):
             label = MagicMock()
             label.name = name
             label.color = color
             label.description = description
             return label
+
         return _create_label
 
     def test_retrieves_all_labels(self, mock_repo, mock_label):
@@ -91,9 +97,9 @@ class TestGetExistingLabels:
             mock_label("bug", "d73a4a", "Bug reports"),
             mock_label("enhancement", "a2eeef", "Feature requests"),
         ]
-        
+
         labels = get_existing_labels(mock_repo)
-        
+
         assert len(labels) == 2
         assert "bug" in labels
         assert "enhancement" in labels
@@ -101,16 +107,17 @@ class TestGetExistingLabels:
     def test_handles_empty_labels(self, mock_repo):
         """Test handling of repository with no labels"""
         mock_repo.get_labels.return_value = []
-        
+
         labels = get_existing_labels(mock_repo)
-        
+
         assert labels == {}
 
     def test_handles_api_error(self, mock_repo):
         """Test handling of GitHub API errors"""
         from github import GithubException
+
         mock_repo.get_labels.side_effect = GithubException(404, "Not Found")
-        
+
         with pytest.raises(GithubException):
             get_existing_labels(mock_repo)
 
@@ -129,20 +136,22 @@ class TestSyncLabelsToRepo:
     @pytest.fixture
     def mock_label(self):
         """Create mock label"""
+
         def _create_label(name, color, description):
             label = MagicMock()
             label.name = name
             label.color = color
             label.description = description or ""
             return label
+
         return _create_label
 
     def test_creates_missing_labels(self, mock_repo, mock_label):
         """Test creation of labels that don't exist"""
         mock_repo.get_labels.return_value = []
-        
+
         stats = sync_labels_to_repo(mock_repo, dry_run=False)
-        
+
         assert stats["created"] > 0
         assert mock_repo.create_label.called
 
@@ -151,9 +160,9 @@ class TestSyncLabelsToRepo:
         existing_label = mock_label("bug", "000000", "Old description")
         existing_label.edit = MagicMock()
         mock_repo.get_labels.return_value = [existing_label]
-        
+
         stats = sync_labels_to_repo(mock_repo, dry_run=False)
-        
+
         # Should update the label
         assert stats.get("updated", 0) > 0 or existing_label.edit.called
 
@@ -163,22 +172,22 @@ class TestSyncLabelsToRepo:
         existing = mock_label(
             "bug",
             LABEL_DEFINITIONS["bug"]["color"],
-            LABEL_DEFINITIONS["bug"]["description"]
+            LABEL_DEFINITIONS["bug"]["description"],
         )
         mock_repo.get_labels.return_value = [existing]
         existing.edit = MagicMock()
-        
+
         stats = sync_labels_to_repo(mock_repo, dry_run=False)
-        
+
         # Should not edit if already correct
         assert stats.get("unchanged", 0) > 0
 
     def test_dry_run_does_not_modify(self, mock_repo):
         """Test dry-run mode doesn't make changes"""
         mock_repo.get_labels.return_value = []
-        
+
         stats = sync_labels_to_repo(mock_repo, dry_run=True)
-        
+
         # Should not call create or edit in dry-run
         assert not mock_repo.create_label.called
         # But should report what would be done
@@ -189,9 +198,9 @@ class TestSyncLabelsToRepo:
         mock_repo.get_labels.return_value = [
             mock_label("bug", "d73a4a", "Bugs"),  # Will update description
         ]
-        
+
         stats = sync_labels_to_repo(mock_repo, dry_run=False)
-        
+
         assert "created" in stats
         assert "updated" in stats
         assert "unchanged" in stats
@@ -208,7 +217,7 @@ class TestCommandLineArguments:
         parser = argparse.ArgumentParser()
         parser.add_argument("--org", required=True)
         parser.add_argument("--token")
-        
+
         parsed = parser.parse_args(args)
         assert parsed.org == "test-org"
 
@@ -218,7 +227,7 @@ class TestCommandLineArguments:
         parser = argparse.ArgumentParser()
         parser.add_argument("--org", required=True)
         parser.add_argument("--token")
-        
+
         parsed = parser.parse_args(args)
         assert parsed.token == "ghp_token"
 
@@ -228,7 +237,7 @@ class TestCommandLineArguments:
         parser = argparse.ArgumentParser()
         parser.add_argument("--org", required=True)
         parser.add_argument("--dry-run", action="store_true")
-        
+
         parsed = parser.parse_args(args)
         assert parsed.dry_run is True
 
@@ -253,38 +262,40 @@ class TestBatchOperations:
     def test_syncs_to_all_repositories(self, mock_github, mock_org):
         """Test syncing labels to all repositories"""
         # Create mock repositories
-        repos = [MagicMock(name=f"repo-{i}", full_name=f"org/repo-{i}") for i in range(3)]
+        repos = [
+            MagicMock(name=f"repo-{i}", full_name=f"org/repo-{i}") for i in range(3)
+        ]
         for repo in repos:
             repo.get_labels.return_value = []
-        
+
         mock_org.get_repos.return_value = repos
         mock_github.get_organization.return_value = mock_org
-        
+
         # Sync to all repos
         total_stats = {"created": 0, "updated": 0, "unchanged": 0}
         for repo in repos:
             stats = sync_labels_to_repo(repo, dry_run=False)
             for key in total_stats:
                 total_stats[key] += stats.get(key, 0)
-        
+
         assert total_stats["created"] >= 0
 
     def test_handles_individual_repo_failures(self, mock_github, mock_org):
         """Test handling of failures in individual repositories"""
         from github import GithubException
-        
+
         repos = [MagicMock(name=f"repo-{i}") for i in range(3)]
         repos[1].get_labels.side_effect = GithubException(403, "Forbidden")
         repos[0].get_labels.return_value = []
         repos[2].get_labels.return_value = []
-        
+
         failed_repos = []
         for repo in repos:
             try:
                 sync_labels_to_repo(repo, dry_run=False)
             except GithubException:
                 failed_repos.append(repo.name)
-        
+
         assert len(failed_repos) == 1
         assert "repo-1" in failed_repos
 
@@ -319,20 +330,20 @@ class TestEndToEndSync:
     def test_complete_sync_workflow(self):
         """Test complete sync from auth to completion"""
         # Mock the entire workflow
-        with patch('sync_labels.Github') as mock_github_class:
+        with patch("sync_labels.Github") as mock_github_class:
             mock_gh = MagicMock()
             mock_org = MagicMock()
             mock_repo = MagicMock()
-            
+
             mock_repo.name = "test-repo"
             mock_repo.get_labels.return_value = []
             mock_org.get_repos.return_value = [mock_repo]
             mock_gh.get_organization.return_value = mock_org
             mock_github_class.return_value = mock_gh
-            
+
             # Would run main sync logic here
             stats = sync_labels_to_repo(mock_repo, dry_run=True)
-            
+
             assert stats is not None
             assert "created" in stats
 
@@ -343,25 +354,25 @@ class TestErrorRecovery:
     def test_recovers_from_rate_limiting(self):
         """Test handling of GitHub API rate limiting"""
         from github import GithubException
-        
+
         mock_repo = MagicMock()
         mock_repo.get_labels.side_effect = GithubException(
-            403, 
-            "Rate limit exceeded",
-            headers={"X-RateLimit-Remaining": "0"}
+            403, "Rate limit exceeded", headers={"X-RateLimit-Remaining": "0"}
         )
-        
+
         with pytest.raises(GithubException) as exc_info:
             get_existing_labels(mock_repo)
-        
+
         assert "403" in str(exc_info.value) or "Rate" in str(exc_info.value)
 
     def test_handles_network_errors(self):
         """Test handling of network connectivity errors"""
         import requests
-        
+
         mock_repo = MagicMock()
-        mock_repo.get_labels.side_effect = requests.exceptions.ConnectionError("Network error")
-        
+        mock_repo.get_labels.side_effect = requests.exceptions.ConnectionError(
+            "Network error"
+        )
+
         with pytest.raises(requests.exceptions.ConnectionError):
             get_existing_labels(mock_repo)

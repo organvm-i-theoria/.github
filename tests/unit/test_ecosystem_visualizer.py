@@ -29,12 +29,9 @@ class TestEcosystemVisualizer:
     def test_initializes_with_valid_report(self, tmp_path):
         """Test initialization with valid report data"""
         report_file = tmp_path / "report.json"
-        report_data = {
-            "timestamp": "2024-01-14T00:00:00Z",
-            "workflows": []
-        }
+        report_data = {"timestamp": "2024-01-14T00:00:00Z", "workflows": []}
         report_file.write_text(json.dumps(report_data))
-        
+
         viz = EcosystemVisualizer(report_path=report_file)
         assert viz.report_path == report_file
         assert viz.report_data == report_data
@@ -53,22 +50,27 @@ class TestWorkflowCategorization:
     def viz(self):
         return EcosystemVisualizer()
 
-    @pytest.mark.parametrize("workflow_name,expected_category", [
-        ("safeguard-1-rate-limiting.yml", "🛡️"),
-        ("security-scanning.yml", "🔐"),
-        ("codeql-analysis.yml", "🔐"),
-        ("reusable-python-test.yml", "♻️"),
-        ("gemini_workflow.yml", "🤖"),
-        ("jules-agent.yml", "🤖"),
-        ("ci-test.yml", "🚀"),
-        ("deploy-to-production.yml", "🚀"),
-        ("pr-batch-merge.yml", "🔀"),
-        ("schedule-daily-report.yml", "⏱️"),
-        ("health-check.yml", "💓"),
-        ("monitor-metrics.yml", "💓"),
-        ("random-workflow.yml", "⚙️"),  # Default category
-    ])
-    def test_categorizes_workflow_correctly(self, viz, workflow_name, expected_category):
+    @pytest.mark.parametrize(
+        "workflow_name,expected_category",
+        [
+            ("safeguard-1-rate-limiting.yml", "🛡️"),
+            ("security-scanning.yml", "🔐"),
+            ("codeql-analysis.yml", "🔐"),
+            ("reusable-python-test.yml", "♻️"),
+            ("gemini_workflow.yml", "🤖"),
+            ("jules-agent.yml", "🤖"),
+            ("ci-test.yml", "🚀"),
+            ("deploy-to-production.yml", "🚀"),
+            ("pr-batch-merge.yml", "🔀"),
+            ("schedule-daily-report.yml", "⏱️"),
+            ("health-check.yml", "💓"),
+            ("monitor-metrics.yml", "💓"),
+            ("random-workflow.yml", "⚙️"),  # Default category
+        ],
+    )
+    def test_categorizes_workflow_correctly(
+        self, viz, workflow_name, expected_category
+    ):
         """Test workflow categorization based on name patterns"""
         category = viz._categorize_workflow(workflow_name)
         assert category == expected_category
@@ -90,7 +92,7 @@ class TestRelativePathCalculation:
         """Test path calculation when output is at root"""
         output_path = Path("dashboard.md")
         target = ".github/workflows/"
-        
+
         result = viz._calculate_relative_path(output_path, target)
         assert result == ".github/workflows/"
 
@@ -98,7 +100,7 @@ class TestRelativePathCalculation:
         """Test path calculation when output is in subdirectory"""
         output_path = Path("reports/dashboard.md")
         target = ".github/workflows/"
-        
+
         result = viz._calculate_relative_path(output_path, target)
         assert result == "../.github/workflows/"
 
@@ -106,7 +108,7 @@ class TestRelativePathCalculation:
         """Test path calculation when output is deeply nested"""
         output_path = Path("reports/archives/2024/dashboard.md")
         target = ".github/workflows/"
-        
+
         result = viz._calculate_relative_path(output_path, target)
         assert result == "../../../.github/workflows/"
 
@@ -114,7 +116,7 @@ class TestRelativePathCalculation:
         """Test path calculation for current directory"""
         output_path = Path(".")
         target = ".github/workflows/"
-        
+
         result = viz._calculate_relative_path(output_path, target)
         assert target in result
 
@@ -132,9 +134,9 @@ class TestMermaidDiagramGeneration:
             {"name": "ci-test.yml", "category": "🚀"},
             {"name": "security-scan.yml", "category": "🔐"},
         ]
-        
+
         diagram = viz._generate_mermaid_diagram(workflows)
-        
+
         assert "graph TD" in diagram or "flowchart" in diagram
         assert "ci-test" in diagram
         assert "security-scan" in diagram
@@ -146,9 +148,9 @@ class TestMermaidDiagramGeneration:
             {"name": f"workflow-{i}.yml", "category": "🚀"}
             for i in range(viz.MAX_DIAGRAM_WORKFLOWS + 5)
         ]
-        
+
         diagram = viz._generate_mermaid_diagram(workflows)
-        
+
         # Should not include all workflows
         workflow_count = sum(1 for w in workflows if w["name"] in diagram)
         assert workflow_count <= viz.MAX_DIAGRAM_WORKFLOWS
@@ -156,7 +158,7 @@ class TestMermaidDiagramGeneration:
     def test_handles_empty_workflow_list(self, viz):
         """Test diagram generation with no workflows"""
         diagram = viz._generate_mermaid_diagram([])
-        
+
         assert diagram is not None
         # Should have basic structure even if empty
 
@@ -175,9 +177,9 @@ class TestWorkflowListing:
             {"name": "ci-2.yml", "path": ".github/workflows/ci-2.yml"},
             {"name": "security-1.yml", "path": ".github/workflows/security-1.yml"},
         ]
-        
+
         grouped = viz._group_workflows_by_category(workflows)
-        
+
         assert "🚀" in grouped  # CI category
         assert "🔐" in grouped  # Security category
         assert len(grouped["🚀"]) == 2
@@ -186,7 +188,7 @@ class TestWorkflowListing:
     def test_sorts_categories(self, viz):
         """Test that categories are sorted in expected order"""
         categories = viz.WORKFLOW_CATEGORIES.keys()
-        
+
         # Should start with safeguards
         assert list(categories)[0] == "🛡️"
 
@@ -205,13 +207,10 @@ class TestDashboardGeneration:
                 {
                     "name": "ci-test.yml",
                     "path": ".github/workflows/ci-test.yml",
-                    "triggers": ["push", "pull_request"]
+                    "triggers": ["push", "pull_request"],
                 }
             ],
-            "metrics": {
-                "total_workflows": 1,
-                "active_workflows": 1
-            }
+            "metrics": {"total_workflows": 1, "active_workflows": 1},
         }
         report_file.write_text(json.dumps(report_data))
         return EcosystemVisualizer(report_path=report_file)
@@ -219,9 +218,9 @@ class TestDashboardGeneration:
     def test_generates_dashboard_with_metadata(self, viz_with_data, tmp_path):
         """Test dashboard includes metadata section"""
         output_path = tmp_path / "dashboard.md"
-        
+
         dashboard = viz_with_data.generate_dashboard(output_path)
-        
+
         assert "test-org" in dashboard
         assert "2024-01-14" in dashboard
         assert "Workflows" in dashboard
@@ -229,18 +228,18 @@ class TestDashboardGeneration:
     def test_includes_mermaid_diagram(self, viz_with_data, tmp_path):
         """Test dashboard includes Mermaid diagram"""
         output_path = tmp_path / "dashboard.md"
-        
+
         dashboard = viz_with_data.generate_dashboard(output_path)
-        
+
         assert "```mermaid" in dashboard
         assert "ci-test" in dashboard
 
     def test_includes_workflow_lists(self, viz_with_data, tmp_path):
         """Test dashboard includes workflow listings"""
         output_path = tmp_path / "dashboard.md"
-        
+
         dashboard = viz_with_data.generate_dashboard(output_path)
-        
+
         assert "ci-test.yml" in dashboard
         assert "🚀" in dashboard  # CI/CD category
 
@@ -262,7 +261,7 @@ class TestTechnologyDetection:
               - uses: actions/setup-python@v4
               - run: pytest
         """
-        
+
         technologies = viz._detect_technologies(workflow_content)
         assert "Python" in technologies or "pytest" in technologies
 
@@ -275,7 +274,7 @@ class TestTechnologyDetection:
               - uses: actions/setup-node@v3
               - run: npm install
         """
-        
+
         technologies = viz._detect_technologies(workflow_content)
         assert "Node.js" in technologies or "npm" in technologies
 
@@ -287,7 +286,7 @@ class TestTechnologyDetection:
             steps:
               - uses: docker/build-push-action@v4
         """
-        
+
         technologies = viz._detect_technologies(workflow_content)
         assert "Docker" in technologies
 
@@ -306,15 +305,15 @@ class TestEndToEndVisualization:
             "workflows": [
                 {"name": "ci.yml", "path": ".github/workflows/ci.yml"},
                 {"name": "security.yml", "path": ".github/workflows/security.yml"},
-            ]
+            ],
         }
         report_file.write_text(json.dumps(report_data))
-        
+
         # Execute
         viz = EcosystemVisualizer(report_path=report_file)
         output_path = tmp_path / "dashboard.md"
         dashboard = viz.generate_dashboard(output_path)
-        
+
         # Verify
         assert dashboard is not None
         assert "test-org" in dashboard
@@ -331,7 +330,7 @@ class TestErrorHandling:
         """Test handling of malformed JSON report"""
         report_file = tmp_path / "bad.json"
         report_file.write_text("{ invalid json }")
-        
+
         with pytest.raises(json.JSONDecodeError):
             viz = EcosystemVisualizer(report_path=report_file)
 
@@ -339,7 +338,7 @@ class TestErrorHandling:
         """Test handling of empty report data"""
         report_file = tmp_path / "empty.json"
         report_file.write_text(json.dumps({}))
-        
+
         viz = EcosystemVisualizer(report_path=report_file)
         assert viz.report_data == {}
 
@@ -347,7 +346,7 @@ class TestErrorHandling:
         """Test handling of report missing required fields"""
         report_file = tmp_path / "incomplete.json"
         report_file.write_text(json.dumps({"timestamp": "2024-01-14"}))
-        
+
         viz = EcosystemVisualizer(report_path=report_file)
         # Should not crash, but may have limited functionality
         assert viz.report_data is not None
