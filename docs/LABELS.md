@@ -43,10 +43,20 @@ These labels categorize the type of issue or PR:
   - Color: `#a2eeef`
   - Description: New feature or request
 
+- **feature-request** 💡
+
+  - Color: `#84b6eb`
+  - Description: Feature request from users or stakeholders
+
 - **documentation** 📚
 
   - Color: `#0075ca`
   - Description: Improvements or additions to documentation
+
+- **best-practices** 🧭
+
+  - Color: `#0e8a16`
+  - Description: Best practices review or improvement
 
 - **security** 🔒
 
@@ -73,6 +83,11 @@ These labels categorize the type of issue or PR:
   - Color: `#f9d0c4`
   - Description: Performance improvements
 
+- **tech-debt** 🧱
+
+  - Color: `#f9d0c4`
+  - Description: Technical debt cleanup or remediation
+
 - **refactoring** 🔨
 
   - Color: `#fbca04`
@@ -88,6 +103,11 @@ These labels categorize the type of issue or PR:
   - Color: `#f9c513`
   - Description: Accessibility improvements
 
+- **walkthrough** 🧭
+
+  - Color: `#c2e0c6`
+  - Description: Walkthrough request or guided setup
+
 ## Status Labels
 
 These labels track the current state:
@@ -96,6 +116,11 @@ These labels track the current state:
 
   - Color: `#fbca04`
   - Description: Needs triage and initial assessment
+
+- **needs-triage** 📝
+
+  - Color: `#fbca04`
+  - Description: Needs triage and initial review
 
 - **in-progress** 🔄
 
@@ -111,6 +136,11 @@ These labels track the current state:
 
   - Color: `#6f42c1`
   - Description: Waiting for code review
+
+- **review** 🔍
+
+  - Color: `#6f42c1`
+  - Description: Review requested or in progress
 
 - **approved** ✔️
 
@@ -151,6 +181,16 @@ These labels help categorize the area of work:
   - Color: `#bfdadc`
   - Description: Configuration changes
 
+- **devops** 🛠️
+
+  - Color: `#1d76db`
+  - Description: DevOps or CI/CD operations
+
+- **infrastructure** 🏗️
+
+  - Color: `#0e8a16`
+  - Description: Infrastructure or platform changes
+
 - **dependencies** 📦
 
   - Color: `#0366d6`
@@ -164,6 +204,16 @@ These labels help categorize the area of work:
 ## Community Labels
 
 These labels help community engagement:
+
+- **community** 🤝
+
+  - Color: `#bfd4f2`
+  - Description: Community engagement or health
+
+- **health-check** ✅
+
+  - Color: `#cfd3d7`
+  - Description: Community or repository health check
 
 - **good-first-issue** 👶
 

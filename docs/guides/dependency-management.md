@@ -59,26 +59,32 @@ This guide establishes standards for dependency management across all projects i
 ### Pinning Formats
 
 **Exact Version** (most restrictive):
+
 ```
 package==1.2.3
 ```
+
 - **Use for**: Production dependencies, CI/CD
 - **Benefit**: Maximum reproducibility
 - **Risk**: Miss important patches
 
 **Compatible Version** (semantic):
+
 ```
 package~=1.2.3  # Python (>=1.2.3, <1.3.0)
 package^1.2.3   # npm (>=1.2.3, <2.0.0)
 ```
+
 - **Use for**: Libraries, development tools
 - **Benefit**: Allows patch updates
 - **Risk**: Breaking changes in patches
 
 **Range** (flexible):
+
 ```
 package>=1.2.0,<2.0.0
 ```
+
 - **Use for**: Framework plugins, broad compatibility
 - **Benefit**: Most flexible
 - **Risk**: Unpredictable behavior
@@ -86,6 +92,7 @@ package>=1.2.0,<2.0.0
 ### Recommended Strategy
 
 **Production Code:**
+
 ```txt
 # requirements.txt (Python)
 Django==4.2.7
@@ -94,6 +101,7 @@ psycopg2-binary==2.9.9
 ```
 
 **Development Tools:**
+
 ```txt
 # requirements-dev.txt
 pytest~=7.4.0
@@ -102,6 +110,7 @@ flake8~=6.1.0
 ```
 
 **CI/CD:**
+
 ```yaml
 # .github/workflows/ci.yml
 - uses: actions/setup-python@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/setup-python@v5.0.0
@@ -179,6 +188,7 @@ When Dependabot creates a PR:
    - Major updates: Manual review required
 
 4. **Merge Strategy**:
+
    ```
    # Batch similar updates
    git checkout -b deps/weekly-updates
@@ -238,6 +248,7 @@ repos:
 Some hooks require `additional_dependencies`:
 
 **✅ CORRECT** (pinned versions):
+
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v1.7.1
@@ -249,6 +260,7 @@ Some hooks require `additional_dependencies`:
 ```
 
 **❌ WRONG** (unpinned):
+
 ```yaml
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v1.7.1
@@ -377,6 +389,7 @@ Be extra cautious with third-party actions:
 ### Python
 
 **requirements.txt** (production):
+
 ```txt
 # Core dependencies
 Django==4.2.7
@@ -392,6 +405,7 @@ celery==5.3.4
 ```
 
 **requirements-dev.txt** (development):
+
 ```txt
 # Testing
 pytest==7.4.3
@@ -409,6 +423,7 @@ ipdb==0.13.13
 ```
 
 **setup.py / pyproject.toml**:
+
 ```toml
 [project]
 dependencies = [
@@ -426,6 +441,7 @@ dev = [
 ### Node.js / npm
 
 **package.json**:
+
 ```json
 {
   "dependencies": {
@@ -445,6 +461,7 @@ dev = [
 ```
 
 **package-lock.json**:
+
 - Always commit `package-lock.json`
 - Ensures exact versions across environments
 - Run `npm ci` in CI/CD (not `npm install`)
@@ -452,6 +469,7 @@ dev = [
 ### Go
 
 **go.mod**:
+
 ```go
 module github.com/ivviiviivvi/example
 
@@ -469,6 +487,7 @@ require (
 ```
 
 **Updating:**
+
 ```bash
 # Update all dependencies
 go get -u ./...
@@ -532,21 +551,25 @@ npm audit fix --force
 ### Security Update Policy
 
 **🔴 CRITICAL** (CVE 9.0-10.0):
+
 - Fix immediately (within hours)
 - Emergency deployment if needed
 - Notify users if exposed
 
 **🟠 HIGH** (CVE 7.0-8.9):
+
 - Fix within 24-48 hours
 - Include in next regular release
 - Update documentation
 
 **🟡 MEDIUM** (CVE 4.0-6.9):
+
 - Fix within 1 week
 - Batch with other updates
 - Test thoroughly
 
 **🟢 LOW** (CVE 0.1-3.9):
+
 - Fix in next maintenance cycle
 - Monitor for exploitation
 - Document for users
@@ -573,21 +596,25 @@ Document dependencies with known issues that can't be immediately fixed:
 ### Weekly Update Cycle
 
 **Monday:**
+
 - Review Dependabot PRs from previous week
 - Merge approved updates
 - Create manual PRs for pinned dependencies
 
 **Tuesday-Wednesday:**
+
 - Test merged updates in staging
 - Monitor for issues
 - Rollback if needed
 
 **Thursday:**
+
 - Deploy to production
 - Monitor metrics
 - Document any issues
 
 **Friday:**
+
 - Review security advisories
 - Plan manual updates if needed
 - Update documentation
@@ -595,6 +622,7 @@ Document dependencies with known issues that can't be immediately fixed:
 ### Monthly Security Audit
 
 1. **Scan All Dependencies:**
+
    ```bash
    # Python
    pip-audit
@@ -612,6 +640,7 @@ Document dependencies with known issues that can't be immediately fixed:
    - Document exceptions
 
 3. **Update Pinned Actions:**
+
    ```bash
    ratchet update .github/workflows/*.yml
    git diff .github/workflows/
@@ -619,6 +648,7 @@ Document dependencies with known issues that can't be immediately fixed:
    ```
 
 4. **Audit Pre-commit Hooks:**
+
    ```bash
    pre-commit autoupdate
    pre-commit run --all-files
@@ -640,6 +670,7 @@ For critical security vulnerabilities:
    - Create incident ticket
 
 2. **Quick Fix:**
+
    ```bash
    # Update dependency
    pip install package-name==fixed.version
