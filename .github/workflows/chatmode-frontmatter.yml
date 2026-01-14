@@ -31,6 +31,7 @@ on:
       - automation/scripts/validate_agent_frontmatter.py
       - automation/scripts/validate_collection_frontmatter.py
       - automation/scripts/validate_chatmode_frontmatter.py
+  workflow_dispatch:
 
 jobs:
   validate:
