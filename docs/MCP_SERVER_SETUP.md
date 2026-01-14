@@ -194,9 +194,9 @@ Each language has a complete development toolkit including:
 #### Python
 
 - **Collection**:
-  [`collections/python-mcp-development.md`](../collections/python-mcp-development.md)
+  [`collections/python-mcp-development.md`](../ai_framework/collections/python-mcp-development.md)
 - **Chat Mode**:
-  [`chatmodes/python-mcp-expert.chatmode.md`](../chatmodes/python-mcp-expert.chatmode.md)
+  [`chatmodes/python-mcp-expert.chatmode.md`](../ai_framework/chatmodes/python-mcp-expert.chatmode.md)
 - **Instructions**:
   [`instructions/python-mcp-server.instructions.md`](../instructions/python-mcp-server.instructions.md)
 - **Prompt**:
@@ -220,9 +220,9 @@ uv run mcp dev server.py
 #### TypeScript
 
 - **Collection**:
-  [`collections/typescript-mcp-development.md`](../collections/typescript-mcp-development.md)
+  [`collections/typescript-mcp-development.md`](../ai_framework/collections/typescript-mcp-development.md)
 - **Chat Mode**:
-  [`chatmodes/typescript-mcp-expert.chatmode.md`](../chatmodes/typescript-mcp-expert.chatmode.md)
+  [`chatmodes/typescript-mcp-expert.chatmode.md`](../ai_framework/chatmodes/typescript-mcp-expert.chatmode.md)
 - **Instructions**:
   [`instructions/typescript-mcp-server.instructions.md`](../instructions/typescript-mcp-server.instructions.md)
 - **Prompt**:
@@ -247,9 +247,9 @@ node build/index.js
 #### Java
 
 - **Collection**:
-  [`collections/java-mcp-development.md`](../collections/java-mcp-development.md)
+  [`collections/java-mcp-development.md`](../ai_framework/collections/java-mcp-development.md)
 - **Chat Mode**:
-  [`chatmodes/java-mcp-expert.chatmode.md`](../chatmodes/java-mcp-expert.chatmode.md)
+  [`chatmodes/java-mcp-expert.chatmode.md`](../ai_framework/chatmodes/java-mcp-expert.chatmode.md)
 - **Instructions**:
   [`instructions/java-mcp-server.instructions.md`](../instructions/java-mcp-server.instructions.md)
 - **Prompt**:
@@ -260,9 +260,9 @@ node build/index.js
 #### C# (.NET)
 
 - **Collection**:
-  [`collections/csharp-mcp-development.md`](../collections/csharp-mcp-development.md)
+  [`collections/csharp-mcp-development.md`](../ai_framework/collections/csharp-mcp-development.md)
 - **Chat Mode**:
-  [`chatmodes/csharp-mcp-expert.chatmode.md`](../chatmodes/csharp-mcp-expert.chatmode.md)
+  [`chatmodes/csharp-mcp-expert.chatmode.md`](../ai_framework/chatmodes/csharp-mcp-expert.chatmode.md)
 - **Instructions**:
   [`instructions/csharp-mcp-server.instructions.md`](../instructions/csharp-mcp-server.instructions.md)
 - **Prompt**:
@@ -287,9 +287,9 @@ dotnet run
 #### Go
 
 - **Collection**:
-  [`collections/go-mcp-development.md`](../collections/go-mcp-development.md)
+  [`collections/go-mcp-development.md`](../ai_framework/collections/go-mcp-development.md)
 - **Chat Mode**:
-  [`chatmodes/go-mcp-expert.chatmode.md`](../chatmodes/go-mcp-expert.chatmode.md)
+  [`chatmodes/go-mcp-expert.chatmode.md`](../ai_framework/chatmodes/go-mcp-expert.chatmode.md)
 - **Instructions**:
   [`instructions/go-mcp-server.instructions.md`](../instructions/go-mcp-server.instructions.md)
 - **Prompt**:
@@ -410,7 +410,7 @@ This agent uses MCP servers to:
 ### Example: Agent with MCP Server
 
 See
-[`agents/octopus-deploy-release-notes-mcp.agent.md`](../agents/octopus-deploy-release-notes-mcp.agent.md)
+[`agents/octopus-deploy-release-notes-mcp.agent.md`](../ai_framework/agents/octopus-deploy-release-notes-mcp.agent.md)
 for a real-world example of an agent that integrates with an MCP server.
 
 **Architecture:**

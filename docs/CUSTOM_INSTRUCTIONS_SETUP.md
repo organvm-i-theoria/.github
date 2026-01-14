@@ -562,7 +562,7 @@ raise ProcessingError(f"Invalid data format: {e}")
   instructions
 - [Agent Architecture Guide](AGENT_ARCHITECTURE_GUIDE.md) - Using instructions
   with agents
-- [Collections](../collections/) - Bundled instructions by theme
+- [Collections](../ai_framework/collections/) - Bundled instructions by theme
 
 ### Templates
 

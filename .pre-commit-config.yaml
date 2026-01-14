@@ -148,18 +148,28 @@ repos:
     hooks:
       - id: bandit
         args: [-c, .bandit]
-        files:
-          \.py$
+        files: \.py$
 
-          # Dependency security checks
+  # Dependency security checks
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
     rev: v1.4.2
     hooks:
       - id: python-safety-dependencies-check
-        files:
-          requirements.*\.txt$
+        files: requirements.*\.txt$
 
-          # Terraform (if used)
+  # Python testing (Phase 8)
+  - repo: local
+    hooks:
+      - id: pytest-check
+        name: pytest-check
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: false
+        args: [tests/, -v, --tb=short, --maxfail=1]
+        stages: [pre-push]
+
+  # Terraform (if used)
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.105.0
     hooks:

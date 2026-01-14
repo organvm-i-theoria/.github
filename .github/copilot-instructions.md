@@ -335,5 +335,4 @@ Key tasks:
 1. **4.1 Audit All Workflows** - Generate workflow inventory
 2. **4.2 Fix Workflow Health Issues** - Issues #193, #207 (21 errors, 20 warnings)
 3. **4.3 Consolidate Reusable Workflows** - Reduce duplication
-4. **4.4 Optimize Workflow Triggers**
-- Reduce unnecessary runs
+4. **4.4 Optimize Workflow Triggers** - Reduce unnecessary runs

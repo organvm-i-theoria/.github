@@ -157,7 +157,7 @@ pip install black flake8 pytest mypy
 
 **Collections to install**:
 
-- [Python MCP Development](../collections/python-mcp-development.md)
+- [Python MCP Development](../ai_framework/collections/python-mcp-development.md)
 
 **Test it**:
 
@@ -179,8 +179,8 @@ files
 
 **Collections to install**:
 
-- [TypeScript MCP Development](../collections/typescript-mcp-development.md)
-- [Frontend Web Dev](../collections/frontend-web-dev.md)
+- [TypeScript MCP Development](../ai_framework/collections/typescript-mcp-development.md)
+- [Frontend Web Dev](../ai_framework/collections/frontend-web-dev.md)
 
 **Test it**:
 
@@ -203,8 +203,8 @@ sdk install maven
 
 **Collections to install**:
 
-- [Java MCP Development](../collections/java-mcp-development.md)
-- [Java Development](../collections/java-development.md)
+- [Java MCP Development](../ai_framework/collections/java-mcp-development.md)
+- [Java Development](../ai_framework/collections/java-development.md)
 
 ### C# / .NET 🔷
 
@@ -220,8 +220,8 @@ bash dotnet-install.sh --version latest
 
 **Collections to install**:
 
-- [C# MCP Development](../collections/csharp-mcp-development.md)
-- [C#/.NET Development](../collections/csharp-dotnet-development.md)
+- [C# MCP Development](../ai_framework/collections/csharp-mcp-development.md)
+- [C#/.NET Development](../ai_framework/collections/csharp-dotnet-development.md)
 
 ### More Languages
 
@@ -270,11 +270,11 @@ Browse all 26+ agents: [Agent Registry](AGENT_REGISTRY.md)
 
 **Popular agents**:
 
-- [`CSharpExpert`](../agents/CSharpExpert.agent.md) - C# and .NET
-- [`terraform`](../agents/terraform.agent.md) - Infrastructure
-- [`security-audit`](../agents/security-audit.agent.md) - Security
-- [`adr-generator`](../agents/adr-generator.agent.md) - Documentation
-- [`workflow-optimizer`](../agents/workflow-optimizer.agent.md) - CI/CD
+- [`CSharpExpert`](../ai_framework/agents/CSharpExpert.agent.md) - C# and .NET
+- [`terraform`](../ai_framework/agents/terraform.agent.md) - Infrastructure
+- [`security-audit`](../ai_framework/agents/security-audit.agent.md) - Security
+- [`adr-generator`](../ai_framework/agents/adr-generator.agent.md) - Documentation
+- [`workflow-optimizer`](../ai_framework/agents/workflow-optimizer.agent.md) - CI/CD
 
 ---
 
@@ -303,7 +303,7 @@ Specialized AI personas for different roles and contexts:
 
 ### Available Chat Modes
 
-Browse: [`chatmodes/`](../chatmodes/) directory
+Browse: [`chatmodes/`](../ai_framework/chatmodes/) directory
 
 **Popular modes**:
 
@@ -325,7 +325,7 @@ Curated bundles of instructions, prompts, and chat modes organized by theme:
 
 ### How to Install
 
-1. **Browse collections**: [`collections/`](../collections/) directory
+1. **Browse collections**: [`collections/`](../ai_framework/collections/) directory
 1. **Open a collection file**: e.g., `python-mcp-development.md`
 1. **Click install badges**: Each component has an "Install in VS Code" badge
 1. **Or install manually**: Copy files to your project
@@ -409,11 +409,11 @@ For full environment customization:
 
 | Directory                           | Contents                                              |
 | ----------------------------------- | ----------------------------------------------------- |
-| [`agents/`](../agents/)             | 26+ custom agents for specialized tasks               |
+| [`agents/`](../ai_framework/agents/)             | 26+ custom agents for specialized tasks               |
 | [`instructions/`](../instructions/) | 100+ custom instructions for languages and frameworks |
 | [`prompts/`](../prompts/)           | Reusable prompts for common tasks                     |
-| [`chatmodes/`](../chatmodes/)       | Specialized AI personas                               |
-| [`collections/`](../collections/)   | Curated bundles by theme                              |
+| [`chatmodes/`](../ai_framework/chatmodes/)       | Specialized AI personas                               |
+| [`collections/`](../ai_framework/collections/)   | Curated bundles by theme                              |
 
 ### Quick References
 
