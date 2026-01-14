@@ -321,6 +321,7 @@ pytest --cov=automation/scripts --cov-report=html
 **Scripts Audited:** 18 shell scripts across the repository
 
 **Shellcheck Results:**
+
 - ✅ **Clean (0 issues):** 8 scripts
 - 🔧 **Fixed:** 2 scripts (commit_changes.sh, test-draft-to-ready-automation.sh)
 - ⚠️ **Archive Candidates:** 2 scripts (aicommit.sh, bootstrap-walkthrough-org.sh)
@@ -377,14 +378,41 @@ sync_labels_gh.sh (root level)                    ✅ 0 issues
 
 ---
 
-### 3.4 Remove Build Artifacts and Temp Files
+### 3.4 Remove Build Artifacts and Temp Files ✅ COMPLETED
+
+**Phase 3.4 Completed:** 2026-01-14 | **Commit:** TBD
+
+**Artifacts Cleaned**:
+
+- ✅ `tests/__pycache__/` - 1 directory deleted
+- ✅ `.pytest_cache/` - 1 directory deleted
+- ✅ `.mypy_cache/` - 1 directory deleted
+- ✅ `*.pyc` files - None found (already clean)
+
+**Phase 3.4 Accomplishments**:
+
+- ✅ **Enhanced .gitignore**: Added comprehensive patterns
+  - Python: `*.py[cod]`, `*.pyo`, `*.egg-info/`, `.pytest_cache/`, `.mypy_cache/`, `.coverage`, `htmlcov/`
+  - Editor: `*~`, `*.swp`, `*.swo`, `.vscode/.ropeproject`, `.idea/`
+  - OS: `Thumbs.db`, `Desktop.ini`
+- ✅ **Created cleanup.sh**: 145 lines, shellcheck clean
+  - Dry-run mode (`--dry-run`)
+  - Verbose mode (`--verbose`)
+  - Color-coded output
+  - Comprehensive help (`--help`)
+  - Handles Python, OS, and editor artifacts
+- ✅ **Pre-commit hook**: Added artifact prevention to `.pre-commit-config.yaml`
+  - Excludes build artifacts from large file checks
+  - Prevents committing common artifact patterns
+- ✅ **Documentation**: Updated `automation/scripts/README.md` with cleanup.sh section
+- ✅ **Tested**: Ran cleanup script, removed 3 artifact directories
 
 **Actions:**
 
-- [ ] Ensure `.gitignore` covers all temp files
-- [ ] Remove any committed `__pycache__`, `.pyc`, `.pytest_cache`
-- [ ] Add cleanup script: `automation/scripts/cleanup.sh`
-- [ ] Add pre-commit hook to prevent future commits of build artifacts
+- [x] Ensure `.gitignore` covers all temp files
+- [x] Remove any committed `__pycache__`, `.pyc`, `.pytest_cache`
+- [x] Add cleanup script: `automation/scripts/cleanup.sh`
+- [x] Add pre-commit hook to prevent future commits of build artifacts
 
 **Cleanup Script:**
 

@@ -250,6 +250,46 @@ python automation/scripts/generate_chatmode_inventory.py
 
 ### Core Scripts
 
+#### `cleanup.sh` ✅
+
+**Status**: 145 lines, shellcheck clean\
+**Phase 3.4**: ✅ COMPLETE
+
+**Purpose**: Remove temporary files and build artifacts from the workspace
+
+**Features**:
+
+- 🐍 Python artifacts (`__pycache__`, `*.pyc`, `.pytest_cache`, `.mypy_cache`)
+- 💻 OS artifacts (`.DS_Store`, `Thumbs.db`, `Desktop.ini`)
+- ✏️ Editor artifacts (`*~`, `*.swp`, `*.swo`)
+- 🔍 Dry-run mode to preview deletions
+- 📊 Verbose mode for detailed output
+- 🎨 Color-coded output
+- ✅ Safe to run anytime
+
+**Usage**:
+
+```bash
+# Normal cleanup
+./automation/scripts/cleanup.sh
+
+# Preview what would be deleted
+./automation/scripts/cleanup.sh --dry-run
+
+# Show all deleted files
+./automation/scripts/cleanup.sh --verbose
+
+# Help
+./automation/scripts/cleanup.sh --help
+```
+
+**Exit Codes**:
+
+- `0` - Success
+- `1` - Error or unknown option
+
+---
+
 #### `commit_changes.sh` ✅
 
 **Status**: 38 lines, shellcheck clean\
