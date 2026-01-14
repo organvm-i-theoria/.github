@@ -8,6 +8,7 @@ on:
     types: [opened, labeled, ready_for_review]
   pull_request_review:
     types: [submitted]
+  workflow_dispatch:
 
 permissions:
   contents: write
