@@ -1,22 +1,23 @@
 ---
-name: Refine Issue
-description: Refine requirements with acceptance criteria, technical considerations, and NFRs.
-tools:
-  - list_issues
-  - githubRepo
-  - search
-  - add_issue_comment
-  - create_issue
-  - create_issue_comment
-  - update_issue
-  - delete_issue
-  - get_issue
-  - search_issues
-tags:
-  - planning
-  - triage
-updated: 2026-01-13
+
+name: Refine Issue description: Refine requirements with acceptance criteria,
+technical considerations, and NFRs. tools:
+
+- list_issues
+- githubRepo
+- search
+- add_issue_comment
+- create_issue
+- create_issue_comment
+- update_issue
+- delete_issue
+- get_issue
+- search_issues tags:
+- planning
+- triage updated: 2026-01-13
+
 ---
+
 # Refine Requirement or Issue Chat Mode
 
 When activated, this mode allows GitHub Copilot to analyze an existing issue and

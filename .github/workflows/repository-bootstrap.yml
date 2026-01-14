@@ -386,22 +386,22 @@ jobs:
             # Create PR body
             cat > /tmp/pr_body.md <<-'EOF'
             This PR adds standard workflow templates from the organization's `.github` repository.
-            
+
             ## Templates Added
-            
+
             EOF
             for template_info in "${TEMPLATES[@]}"; do
               IFS=':' read -r TEMPLATE DESC <<< "$template_info"
               echo "- **$TEMPLATE**: $DESC" >> /tmp/pr_body.md
             done
             cat >> /tmp/pr_body.md <<-'EOF'
-            
+
             ## Next Steps
-            
+
             1. Review the workflows and customize as needed
             2. Add any required secrets to the repository settings
             3. Update workflow triggers based on your needs
-            
+
             ---
             *Automated by repository-bootstrap workflow*
             EOF

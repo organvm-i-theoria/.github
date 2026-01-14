@@ -25,10 +25,13 @@ class TestContentFiltering:
             "Token: ghp_abcdefghijklmnop",
             "ssh-rsa AAAAB3NzaC1yc2EA...",
         ]
-        
+
         for content in sensitive_content:
             # Should detect as sensitive
-            assert any(pattern in content.lower() for pattern in ["password", "api", "token", "ssh-rsa"])
+            assert any(
+                pattern in content.lower()
+                for pattern in ["password", "api", "token", "ssh-rsa"]
+            )
 
     def test_allows_safe_content(self):
         """Test that safe content is not filtered"""
@@ -37,7 +40,7 @@ class TestContentFiltering:
             "Username: testuser",
             "Debug information",
         ]
-        
+
         for content in safe_content:
             # Should not match sensitive patterns
             assert True  # Safe content
@@ -45,7 +48,7 @@ class TestContentFiltering:
     def test_handles_empty_content(self):
         """Test handling of empty or None content"""
         empty_values = ["", None, "   ", "\n"]
-        
+
         for value in empty_values:
             # Should handle gracefully
             if value is None or not value or not value.strip():
@@ -58,7 +61,7 @@ class TestErrorHandling:
     def test_handles_invalid_input_types(self):
         """Test handling of invalid input types"""
         invalid_inputs = [123, [], {}, True]
-        
+
         for invalid in invalid_inputs:
             # Should handle or raise appropriate error
             assert not isinstance(invalid, str) or isinstance(invalid, bool)
@@ -70,7 +73,7 @@ class TestErrorHandling:
             "Emoji test: 🔒🔑",
             "Special chars: ñ, é, ü",
         ]
-        
+
         for content in unicode_content:
             # Should process without errors
             assert isinstance(content, str)
@@ -83,13 +86,14 @@ class TestPerformance:
     def test_processes_large_content_efficiently(self):
         """Test processing of large content blocks"""
         large_content = "test content\n" * 10000
-        
+
         # Should process without timeout
         import time
+
         start = time.time()
-        processed = len(large_content.split('\n'))
+        processed = len(large_content.split("\n"))
         duration = time.time() - start
-        
+
         assert duration < 1.0  # Should be fast
         assert processed > 0
 

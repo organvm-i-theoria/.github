@@ -322,17 +322,84 @@ When encountering a large number of stashed changes and ongoing issues:
 - Owner: Engineering Team
 
 The phase includes:
-1. **3.1 Consolidate Agent Tracking Systems** - Document purpose of agent trackers, consolidate to single .jules/ directory, create docs, add validation tests
-2. **3.2 Audit and Optimize Python Scripts** - Add docstrings, run mypy --strict, achieve 80%+ test coverage, remove deprecated scripts, create README
-3. **3.3 Shell Script Cleanup** - Run shellcheck, add error handling, add usage/help messages, document env vars
-4. **3.4 Remove Build Artifacts** - Ensure .gitignore covers temp files, create cleanup script, add pre-commit hook
+1. **3.1 Consolidate Agent Tracking Systems** - Document purpose of agent
+   trackers, consolidate to single .jules/ directory, create docs, add
+   validation tests
+2. **3.2 Audit and Optimize Python Scripts** - Add docstrings, run mypy
+   --strict, achieve 80%+ test coverage, remove deprecated scripts, create
+   README
+3. **3.3 Shell Script Cleanup** - Run shellcheck, add error handling, add
+   usage/help messages, document env vars
+4. **3.4 Remove Build Artifacts** - Ensure .gitignore covers temp files, create
+   cleanup script, add pre-commit hook
 
-#### Phase 4: Workflow Optimization (Priority: 🟢 MEDIUM)
+## Phase 4: Workflow Optimization (Priority: 🟢 MEDIUM)
 - Timeline: 1-2 weeks
 - Owner: DevOps Team
 
 Key tasks:
 1. **4.1 Audit All Workflows** - Generate workflow inventory
-2. **4.2 Fix Workflow Health Issues** - Issues #193, #207 (21 errors, 20 warnings)
+2. **4.2 Fix Workflow Health Issues** - Issues #193, #207 (21 errors, 20
+   warnings)
 3. **4.3 Consolidate Reusable Workflows** - Reduce duplication
 4. **4.4 Optimize Workflow Triggers** - Reduce unnecessary runs
+5. **4.5 Documentation & Migration** - Create reusable workflows guide, migrate
+   workflows
+
+#### Phase 5: Security & Compliance (Priority: 🔴 HIGH)
+- Timeline: 1 week
+- Owner: Security Committee
+1. **5.1 Security Fixes** - Eliminate public security disclosure, enhance PII
+   protection
+2. **5.2 Secret Scanning** - Verify no secrets, create comprehensive security
+   guide
+3. **5.3 Dependency Security** - Audit all dependencies, create dependency
+   management guide
+
+## GitHub Copilot Enhancement Resources
+
+**New to GitHub Copilot customizations?** This organization provides
+comprehensive enhancements:
+
+- 📘 [**Quick Start Guide**](../docs/COPILOT_QUICK_START.md) - Get up and running
+  in 15 minutes
+- 🔧 [**Custom Instructions Setup**](../docs/CUSTOM_INSTRUCTIONS_SETUP.md) -
+  Configure coding standards (100+ available)
+- 🔌 [**MCP Server Setup**](../docs/MCP_SERVER_SETUP.md) - Extend Copilot with
+  Model Context Protocol (11 languages)
+- 💻
+  [**Development Environment Setup**](../docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
+  \- Optimize your dev environment
+- 📚 [**Complete Index**](../docs/COPILOT_ENHANCEMENTS_INDEX.md) - Browse all
+  resources
+
+---
+
+The following instructions are only to be applied when performing a code review.
+
+## README updates
+
+- [ ] The new file should be added to the `README.md`.
+
+## Prompt file guide
+
+**Only apply to files that end in `.prompt.md`**
+
+- [ ] The prompt has markdown front matter.
+- [ ] The prompt has a `mode` field specified of either `agent` or `ask`.
+- [ ] The prompt has a `description` field.
+- [ ] The `description` field is not empty.
+- [ ] The `description` field value is wrapped in single quotes.
+- [ ] The file name is lower case, with words separated by hyphens.
+- [ ] Encourage the use of `tools`, but it's not required.
+- [ ] Strongly encourage the use of `model` to specify the model that the prompt
+      is optimised for.
+
+## Instruction file guide
+
+**Only apply to files that end in `.instructions.md`**
+
+- [ ] The instruction has markdown front matter.
+- [ ] The instruction has a `description` field.
+- [ ] The `description` field is not empty.
+- [ ] The `description` field value is wrapped in single quotes.

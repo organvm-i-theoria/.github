@@ -1,11 +1,6 @@
 ---
-name: Data Forensics
-description: Data Forensics Agent - Investigates data issues, security
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: Data Forensics description: Data Forensics Agent - Investigates data issues, security tools: \[\] tags: \[\] updated: 2026-01-13
 
 # Data Forensics Agent
 

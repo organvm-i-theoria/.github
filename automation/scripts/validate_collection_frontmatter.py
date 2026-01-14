@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import argparse
 import re
+from pathlib import Path
 
 COLLECTIONS_DIR = Path("ai_framework/collections")
 REQUIRED_KEYS = {"name", "description"}

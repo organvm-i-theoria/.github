@@ -1,11 +1,6 @@
 ---
-name: Completionism Specialist
-description: Completionism Specialist Agent - Ensures every field, form,
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: Completionism Specialist description: Completionism Specialist Agent - Ensures every field, form, tools: \[\] tags: \[\] updated: 2026-01-13
 
 # Completionism Specialist Agent
 

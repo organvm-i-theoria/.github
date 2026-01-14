@@ -1,34 +1,35 @@
 ---
-name: Implementation Plan
-description: Generate an implementation plan for new features or refactoring existing code.
-tools:
-  - codebase
-  - usages
-  - vscodeAPI
-  - think
-  - problems
-  - changes
-  - testFailure
-  - terminalSelection
-  - terminalLastCommand
-  - openSimpleBrowser
-  - fetch
-  - findTestFiles
-  - searchResults
-  - githubRepo
-  - extensions
-  - edit/editFiles
-  - runNotebooks
-  - search
-  - new
-  - runCommands
-  - runTasks
-tags:
-  - planning
-  - deprecated
-  - archived
-updated: 2026-01-13
+
+name: Implementation Plan description: Generate an implementation plan for new
+features or refactoring existing code. tools:
+
+- codebase
+- usages
+- vscodeAPI
+- think
+- problems
+- changes
+- testFailure
+- terminalSelection
+- terminalLastCommand
+- openSimpleBrowser
+- fetch
+- findTestFiles
+- searchResults
+- githubRepo
+- extensions
+- edit/editFiles
+- runNotebooks
+- search
+- new
+- runCommands
+- runTasks tags:
+- planning
+- deprecated
+- archived updated: 2026-01-13
+
 ---
+
 # Implementation Plan Generation Mode
 
 Deprecated for general planning; use `ai_framework/chatmodes/plan.chatmode.md`.
@@ -205,6 +206,7 @@ tags: [Optional: List of relevant tags or categories, e.g., `feature`, `upgrade`
 [Link to related spec 1]
 [Link to relevant external documentation]
 ```
+
 ## Use Cases
 
 - Deterministic implementation plans for AI-to-AI execution.

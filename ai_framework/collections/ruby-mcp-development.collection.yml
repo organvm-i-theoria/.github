@@ -4,7 +4,6 @@ description: Complete toolkit for building Model Context Protocol servers in Rub
 tags: []
 updated: 2026-01-13
 ---
-
 id: ruby-mcp-development
 name: Ruby MCP Server Development
 description: Complete toolkit for building Model Context Protocol servers in Ruby using the official MCP Ruby SDK gem with Rails integration support.

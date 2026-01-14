@@ -1,9 +1,6 @@
 ---
-name: Partners
-description: Collection for Partners.
-tags: []
-updated: 2026-01-13
----
+
+## name: Partners description: Collection for Partners. tags: \[\] updated: 2026-01-13
 
 # Partners
 

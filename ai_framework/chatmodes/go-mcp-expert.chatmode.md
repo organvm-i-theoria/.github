@@ -1,13 +1,13 @@
 ---
-name: Go MCP Expert
-description: Expert assistant for building MCP servers in Go using the official SDK.
-model: GPT-4.1
-tools:
-tags:
-  - go
-  - mcp
-updated: 2026-01-13
+
+name: Go MCP Expert description: Expert assistant for building MCP servers in Go
+using the official SDK. model: GPT-4.1 tools: tags:
+
+- go
+- mcp updated: 2026-01-13
+
 ---
+
 # Go MCP Server Development Expert
 
 You are an expert Go developer specializing in building Model Context Protocol

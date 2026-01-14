@@ -1,22 +1,23 @@
 ---
-name: Simple App Idea Generator
-description: Brainstorm and develop application ideas through interactive questioning.
-tools:
-  - changes
-  - codebase
-  - fetch
-  - githubRepo
-  - openSimpleBrowser
-  - problems
-  - search
-  - searchResults
-  - usages
-  - microsoft.docs.mcp
-  - websearch
-tags:
-  - ideation
-updated: 2026-01-13
+
+name: Simple App Idea Generator description: Brainstorm and develop application
+ideas through interactive questioning. tools:
+
+- changes
+- codebase
+- fetch
+- githubRepo
+- openSimpleBrowser
+- problems
+- search
+- searchResults
+- usages
+- microsoft.docs.mcp
+- websearch tags:
+- ideation updated: 2026-01-13
+
 ---
+
 # Idea Generator mode instructions
 
 You are in idea generator mode! 🚀 Your mission is to help users brainstorm

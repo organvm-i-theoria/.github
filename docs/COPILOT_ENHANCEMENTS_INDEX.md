@@ -65,8 +65,9 @@ Coding standards that apply automatically:
 - **Platforms**: Azure, AWS, Google Cloud, Vercel, Netlify
 - **Tools**: Docker, Kubernetes, Terraform, Ansible, GitHub Actions
 
-**Browse**: [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/) | **Setup**:
-[Custom Instructions Setup](CUSTOM_INSTRUCTIONS_SETUP.md)
+**Browse**:
+[`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
+| **Setup**: [Custom Instructions Setup](CUSTOM_INSTRUCTIONS_SETUP.md)
 
 ### MCP Servers
 
@@ -86,8 +87,8 @@ Model Context Protocol integration for 11 languages:
 | Kotlin         | ✅        | ✅     | ✅           | ✅         |
 | Power Platform | ✅        | ✅     | ✅           | ✅         |
 
-**Browse**: MCP chat modes in [`chatmodes/`](../ai_framework/chatmodes/) | **Setup**:
-[MCP Server Setup](MCP_SERVER_SETUP.md)
+**Browse**: MCP chat modes in [`chatmodes/`](../ai_framework/chatmodes/) |
+**Setup**: [MCP Server Setup](MCP_SERVER_SETUP.md)
 
 ### Prompts
 
@@ -98,8 +99,9 @@ Reusable commands for common tasks:
 - **Testing**: Test suite generation, fixture creation, mocking helpers
 - **Refactoring**: Code modernization, pattern application, optimization
 
-**Browse**: [`prompts/`](https://github.com/github/awesome-copilot/tree/main/prompts/) | **Learn**:
-[Prompts Documentation](README.prompts.md)
+**Browse**:
+[`prompts/`](https://github.com/github/awesome-copilot/tree/main/prompts/) |
+**Learn**: [Prompts Documentation](README.prompts.md)
 
 ### Chat Modes
 
@@ -148,26 +150,34 @@ Curated bundles organized by theme:
 
 ### By Language
 
-- **Python**: [MCP Development](../ai_framework/collections/python-mcp-development.md) |
+- **Python**:
+  [MCP Development](../ai_framework/collections/python-mcp-development.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/python.instructions.md)
 - **TypeScript**:
   [MCP Development](../ai_framework/collections/typescript-mcp-development.md) |
-  [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/typescript.instructions.md)
-- **Java**: [MCP Development](../ai_framework/collections/java-mcp-development.md) |
+  [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/typescript-5-es2022.instructions.md)
+- **Java**:
+  [MCP Development](../ai_framework/collections/java-mcp-development.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/java.instructions.md)
-- **C#**: [MCP Development](../ai_framework/collections/csharp-mcp-development.md) |
+- **C#**:
+  [MCP Development](../ai_framework/collections/csharp-mcp-development.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/csharp.instructions.md)
 - **Go**: [MCP Development](../ai_framework/collections/go-mcp-development.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/go.instructions.md)
-- **Rust**: [MCP Development](../ai_framework/collections/rust-mcp-development.md) |
+- **Rust**:
+  [MCP Development](../ai_framework/collections/rust-mcp-development.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/rust.instructions.md)
 
 ### By Technology
 
-- **React**: [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/react.instructions.md)
-- **Angular**: [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/angular.instructions.md)
-- **Azure**: [Collection](../ai_framework/collections/azure-cloud-development.md)
-- **Docker**: [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/docker.instructions.md)
+- **React**:
+  [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/reactjs.instructions.md)
+- **Angular**:
+  [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/angular.instructions.md)
+- **Azure**:
+  [Collection](../ai_framework/collections/azure-cloud-development.md)
+- **Docker**:
+  [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/containerization-docker-best-practices.instructions.md)
 - **Terraform**: [Agent](../ai_framework/agents/terraform.agent.md) |
   [Instructions](https://github.com/github/awesome-copilot/blob/main/instructions/terraform.instructions.md)
 

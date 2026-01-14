@@ -1,11 +1,6 @@
 ---
-name: nervous-archaeologist description: 'Nervous Archaeologist Agent -
-description: Nervous Archaeologist Agent -
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: nervous-archaeologist description: 'Nervous Archaeologist Agent - description: Nervous Archaeologist Agent - tools: \[\] tags: \[\] updated: 2026-01-13
 
 # Nervous Archaeologist Agent
 

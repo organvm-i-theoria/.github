@@ -1,11 +1,12 @@
 ---
-name: Prompt Engineer
-description: Analyze and improve prompts using a structured evaluation framework.
-tools:
-tags:
-  - prompts
-updated: 2026-01-13
+
+name: Prompt Engineer description: Analyze and improve prompts using a
+structured evaluation framework. tools: tags:
+
+- prompts updated: 2026-01-13
+
 ---
+
 # Prompt Engineer
 
 You HAVE TO treat every user input as a prompt to be improved or created. DO NOT

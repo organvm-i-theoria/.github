@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 COLLECTIONS_DIR = Path("ai_framework/collections")
 OUTPUT = Path("ai_framework/collections/INVENTORY.md")

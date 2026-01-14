@@ -66,9 +66,7 @@ class TestJulesJournalFormat:
             dates = [date for date, _ in entries]
 
             duplicates = [date for date in dates if dates.count(date) > 1]
-            assert not duplicates, (
-                f"{filename} has duplicate dates: {set(duplicates)}"
-            )
+            assert not duplicates, f"{filename} has duplicate dates: {set(duplicates)}"
 
     def test_learning_action_pairs(self):
         """Verify each journal entry has Learning and Action sections"""
@@ -77,21 +75,27 @@ class TestJulesJournalFormat:
             content = filepath.read_text()
 
             # Split by entry headers
-            entries = re.split(r"^##\s+\d{4}-\d{2}-\d{2}\s+-\s+\[.+?\]\s*$", content, flags=re.MULTILINE)
+            entries = re.split(
+                r"^##\s+\d{4}-\d{2}-\d{2}\s+-\s+\[.+?\]\s*$",
+                content,
+                flags=re.MULTILINE,
+            )
 
             for i, entry in enumerate(entries[1:], 1):  # Skip preamble
                 entry_lower = entry.lower()
 
                 # Check for Learning section
-                assert "**learning:**" in entry_lower or "learning:" in entry_lower, (
-                    f"{filename} entry {i} missing Learning section"
-                )
+                assert (
+                    "**learning:**" in entry_lower or "learning:" in entry_lower
+                ), f"{filename} entry {i} missing Learning section"
 
                 # Check for Action section
-                assert "**action:**" in entry_lower or "action:" in entry_lower or \
-                       "**prevention:**" in entry_lower or "prevention:" in entry_lower, (
-                    f"{filename} entry {i} missing Action/Prevention section"
-                )
+                assert (
+                    "**action:**" in entry_lower
+                    or "action:" in entry_lower
+                    or "**prevention:**" in entry_lower
+                    or "prevention:" in entry_lower
+                ), f"{filename} entry {i} missing Action/Prevention section"
 
     def test_chronological_order(self):
         """Verify journal entries are in chronological order (newest first)"""
@@ -103,9 +107,9 @@ class TestJulesJournalFormat:
             dates = [datetime.strptime(date, "%Y-%m-%d") for date, _ in entries]
 
             # Check if sorted in reverse chronological order (newest first)
-            assert dates == sorted(dates, reverse=True), (
-                f"{filename} entries not in chronological order (newest first)"
-            )
+            assert dates == sorted(
+                dates, reverse=True
+            ), f"{filename} entries not in chronological order (newest first)"
 
 
 class TestTaskDeduplication:
@@ -121,9 +125,9 @@ class TestTaskDeduplication:
     def test_deduplicator_is_executable(self):
         """Verify script has proper shebang and is executable"""
         content = self.SCRIPT_PATH.read_text()
-        assert content.startswith("#!/usr/bin/env python3"), (
-            "task_deduplicator.py missing proper shebang"
-        )
+        assert content.startswith(
+            "#!/usr/bin/env python3"
+        ), "task_deduplicator.py missing proper shebang"
 
     def test_state_file_structure(self):
         """Verify task_state.json has correct structure if it exists"""
@@ -190,9 +194,9 @@ class TestAgentMetadata:
 
             frontmatter = match.group(1)
             # Basic validation - should contain name or description
-            assert "name:" in frontmatter or "description:" in frontmatter, (
-                f"{agent_file.name} frontmatter missing name/description"
-            )
+            assert (
+                "name:" in frontmatter or "description:" in frontmatter
+            ), f"{agent_file.name} frontmatter missing name/description"
 
     def test_agent_descriptions(self):
         """Ensure all agents have non-empty descriptions"""
@@ -207,16 +211,12 @@ class TestAgentMetadata:
 
                 # Extract description
                 desc_match = re.search(
-                    r"description:\s*['\"]?(.+?)['\"]?\s*$",
-                    frontmatter,
-                    re.MULTILINE
+                    r"description:\s*['\"]?(.+?)['\"]?\s*$", frontmatter, re.MULTILINE
                 )
 
                 if desc_match:
                     description = desc_match.group(1).strip()
-                    assert description, (
-                        f"{agent_file.name} has empty description"
-                    )
+                    assert description, f"{agent_file.name} has empty description"
 
     def test_readme_agents_sync(self):
         """Verify README.agents.md is in sync with agent files"""
@@ -252,8 +252,7 @@ class TestAgentMetadata:
         # Extract agent references from README
         readme_content = self.AGENT_README.read_text()
         referenced_agents = re.findall(
-            r"\.\./ai_framework/agents/([a-zA-Z0-9_-]+\.agent\.md)",
-            readme_content
+            r"\.\./ai_framework/agents/([a-zA-Z0-9_-]+\.agent\.md)", readme_content
         )
 
         orphaned = []
@@ -261,9 +260,9 @@ class TestAgentMetadata:
             if ref_agent not in agent_files:
                 orphaned.append(ref_agent)
 
-        assert not orphaned, (
-            f"README.agents.md references non-existent agents: {orphaned}"
-        )
+        assert (
+            not orphaned
+        ), f"README.agents.md references non-existent agents: {orphaned}"
 
 
 class TestMouthpieceFilter:
@@ -278,17 +277,15 @@ class TestMouthpieceFilter:
     def test_has_proper_shebang(self):
         """Verify script has proper shebang"""
         content = self.SCRIPT_PATH.read_text()
-        assert content.startswith("#!/usr/bin/env python3"), (
-            "mouthpiece_filter.py missing proper shebang"
-        )
+        assert content.startswith(
+            "#!/usr/bin/env python3"
+        ), "mouthpiece_filter.py missing proper shebang"
 
     def test_has_docstring(self):
         """Verify script has module-level docstring"""
         content = self.SCRIPT_PATH.read_text()
         # Check for triple-quoted docstring near the top
-        assert '"""' in content[:500], (
-            "mouthpiece_filter.py missing module docstring"
-        )
+        assert '"""' in content[:500], "mouthpiece_filter.py missing module docstring"
 
     def test_regex_precompilation(self):
         """Verify regex patterns are pre-compiled (Bolt's learning)"""
@@ -299,9 +296,9 @@ class TestMouthpieceFilter:
 
         # Should use _PATTERN naming convention
         pattern_names = re.findall(r"(_[A-Z_]+)\s*=\s*re\.compile\(", content)
-        assert len(pattern_names) > 0, (
-            "No class-level pre-compiled patterns following _PATTERN convention"
-        )
+        assert (
+            len(pattern_names) > 0
+        ), "No class-level pre-compiled patterns following _PATTERN convention"
 
 
 if __name__ == "__main__":

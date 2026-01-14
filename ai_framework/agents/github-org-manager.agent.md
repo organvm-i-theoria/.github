@@ -1,11 +1,6 @@
 ---
-name: Github Org Manager
-description: AI GitHub Organization Manager - Assists with implementing the
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: Github Org Manager description: AI GitHub Organization Manager - Assists with implementing the tools: \[\] tags: \[\] updated: 2026-01-13
 
 # GitHub Organization Manager Agent
 

@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## \[Unreleased\]
 
 ### Added
 
@@ -35,7 +35,7 @@ and this project adheres to
 - `.Jules/` directory (consolidated to `.jules/`)
 - Unused imports and variables from Python scripts
 
-## [1.0.0] - 2026-01-13
+## \[1.0.0\] - 2026-01-13
 
 ### Added
 
@@ -65,7 +65,6 @@ and this project adheres to
 ---
 
 **Note:** This changelog started on January 14, 2026, following the successful
-merge of PRs #180-227. Previous changes are consolidated in the [1.0.0] entry.
+merge of PRs #180-227. Previous changes are consolidated in the \[1.0.0\] entry.
 
-For detailed commit history, see:
-`git log --oneline --decorate --graph`
+For detailed commit history, see: `git log --oneline --decorate --graph`

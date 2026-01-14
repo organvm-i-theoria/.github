@@ -19,13 +19,13 @@ Use this guide when creating or updating agents in `ai_framework/agents/`.
 
 ```markdown
 ---
-name: {{Agent Name}}
-description: {{One-sentence purpose}}
+name: { { Agent Name } }
+description: { { One-sentence purpose } }
 tools:
-  - {{tool_1}}
+  - { { tool_1 } }
 tags:
-  - {{tag_1}}
-updated: {{YYYY-MM-DD}}
+  - { { tag_1 } }
+updated: { { YYYY-MM-DD } }
 ---
 
 # {{Agent Name}}

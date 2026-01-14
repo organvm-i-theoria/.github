@@ -4,7 +4,6 @@ description: Meta prompts that help you discover and generate curated GitHub Cop
 tags: []
 updated: 2026-01-13
 ---
-
 id: awesome-copilot
 name: Awesome Copilot
 description: Meta prompts that help you discover and generate curated GitHub Copilot chat modes, collections, instructions, prompts, and agents.

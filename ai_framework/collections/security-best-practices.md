@@ -1,9 +1,6 @@
 ---
-name: Security Best Practices
-description: Collection for Security Best Practices.
-tags: []
-updated: 2026-01-13
----
+
+## name: Security Best Practices description: Collection for Security Best Practices. tags: \[\] updated: 2026-01-13
 
 # Security & Code Quality
 

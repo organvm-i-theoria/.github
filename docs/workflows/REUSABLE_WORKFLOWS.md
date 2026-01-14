@@ -1,10 +1,14 @@
 # Reusable Workflows Guide
 
-> **Comprehensive guide to using the organization's reusable workflows and composite actions**
+> **Comprehensive guide to using the organization's reusable workflows and
+> composite actions**
 
 ## Overview
 
-This organization provides **7 reusable workflows and composite actions** that standardize common CI/CD patterns across all repositories. These workflows reduce duplication, improve maintainability, and ensure consistent quality standards.
+This organization provides **7 reusable workflows and composite actions** that
+standardize common CI/CD patterns across all repositories. These workflows
+reduce duplication, improve maintainability, and ensure consistent quality
+standards.
 
 ---
 
@@ -25,23 +29,23 @@ This organization provides **7 reusable workflows and composite actions** that s
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `python-version` | No | `3.11` | Python version (3.9, 3.10, 3.11, 3.12) |
-| `python-version-matrix` | No | `""` | JSON array for matrix builds: `["3.10", "3.11", "3.12"]` |
-| `requirements-file` | No | `requirements.txt` | Path to requirements file |
-| `install-command` | No | `pip install -r {requirements-file}` | Custom install command |
-| `test-command` | No | `pytest` | Test execution command |
-| `pytest-args` | No | `--cov --cov-report=xml` | pytest arguments |
-| `cache-dependency-path` | No | `requirements*.txt` | Dependency files for caching |
+| Input                   | Required | Default                              | Description                                              |
+| ----------------------- | -------- | ------------------------------------ | -------------------------------------------------------- |
+| `python-version`        | No       | `3.11`                               | Python version (3.9, 3.10, 3.11, 3.12)                   |
+| `python-version-matrix` | No       | `""`                                 | JSON array for matrix builds: `["3.10", "3.11", "3.12"]` |
+| `requirements-file`     | No       | `requirements.txt`                   | Path to requirements file                                |
+| `install-command`       | No       | `pip install -r {requirements-file}` | Custom install command                                   |
+| `test-command`          | No       | `pytest`                             | Test execution command                                   |
+| `pytest-args`           | No       | `--cov --cov-report=xml`             | pytest arguments                                         |
+| `cache-dependency-path` | No       | `requirements*.txt`                  | Dependency files for caching                             |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
-| `python-version` | Python version used |
-| `test-result` | Test execution result (success/failure) |
-| `coverage-report-path` | Path to coverage report |
+| Output                 | Description                             |
+| ---------------------- | --------------------------------------- |
+| `python-version`       | Python version used                     |
+| `test-result`          | Test execution result (success/failure) |
+| `coverage-report-path` | Path to coverage report                 |
 
 **Example Usage:**
 
@@ -81,24 +85,24 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `node-version` | No | `20` | Node.js version (16, 18, 20, 21) |
-| `node-version-matrix` | No | `""` | JSON array for matrix builds |
-| `package-manager` | No | `npm` | Package manager: npm, yarn, or pnpm |
-| `install-command` | No | `{package-manager} ci` | Install command |
-| `build-command` | No | `{package-manager} run build` | Build command |
-| `test-command` | No | `{package-manager} test` | Test command |
-| `lint-command` | No | `{package-manager} run lint` | Lint command |
-| `cache-dependency-path` | No | `package-lock.json` | Lockfile for caching |
+| Input                   | Required | Default                       | Description                         |
+| ----------------------- | -------- | ----------------------------- | ----------------------------------- |
+| `node-version`          | No       | `20`                          | Node.js version (16, 18, 20, 21)    |
+| `node-version-matrix`   | No       | `""`                          | JSON array for matrix builds        |
+| `package-manager`       | No       | `npm`                         | Package manager: npm, yarn, or pnpm |
+| `install-command`       | No       | `{package-manager} ci`        | Install command                     |
+| `build-command`         | No       | `{package-manager} run build` | Build command                       |
+| `test-command`          | No       | `{package-manager} test`      | Test command                        |
+| `lint-command`          | No       | `{package-manager} run lint`  | Lint command                        |
+| `cache-dependency-path` | No       | `package-lock.json`           | Lockfile for caching                |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
+| Output         | Description          |
+| -------------- | -------------------- |
 | `node-version` | Node.js version used |
-| `build-result` | Build result |
-| `test-result` | Test result |
+| `build-result` | Build result         |
+| `test-result`  | Test result          |
 
 **Example Usage:**
 
@@ -140,32 +144,32 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `image-name` | Yes | - | Image name (e.g., `myorg/myapp`) |
-| `dockerfile` | No | `Dockerfile` | Path to Dockerfile |
-| `context` | No | `.` | Build context path |
-| `platforms` | No | `linux/amd64,linux/arm64` | Target platforms |
-| `push` | No | `true` | Push image to registry |
-| `registry` | No | `docker.io` | Container registry |
-| `tags` | No | Auto-generated | Custom image tags (newline-separated) |
-| `build-args` | No | `""` | Build arguments (newline-separated) |
-| `cache-from` | No | `type=registry` | Cache source |
-| `cache-to` | No | `type=inline` | Cache destination |
+| Input        | Required | Default                   | Description                           |
+| ------------ | -------- | ------------------------- | ------------------------------------- |
+| `image-name` | Yes      | -                         | Image name (e.g., `myorg/myapp`)      |
+| `dockerfile` | No       | `Dockerfile`              | Path to Dockerfile                    |
+| `context`    | No       | `.`                       | Build context path                    |
+| `platforms`  | No       | `linux/amd64,linux/arm64` | Target platforms                      |
+| `push`       | No       | `true`                    | Push image to registry                |
+| `registry`   | No       | `docker.io`               | Container registry                    |
+| `tags`       | No       | Auto-generated            | Custom image tags (newline-separated) |
+| `build-args` | No       | `""`                      | Build arguments (newline-separated)   |
+| `cache-from` | No       | `type=registry`           | Cache source                          |
+| `cache-to`   | No       | `type=inline`             | Cache destination                     |
 
 **Secrets:**
 
-| Secret | Required | Description |
-|--------|----------|-------------|
-| `registry-username` | Yes | Registry username |
-| `registry-password` | Yes | Registry password/token |
+| Secret              | Required | Description             |
+| ------------------- | -------- | ----------------------- |
+| `registry-username` | Yes      | Registry username       |
+| `registry-password` | Yes      | Registry password/token |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
-| `image-digest` | Image digest |
-| `image-tags` | Image tags (JSON array) |
+| Output         | Description             |
+| -------------- | ----------------------- |
+| `image-digest` | Image digest            |
+| `image-tags`   | Image tags (JSON array) |
 
 **Example Usage:**
 
@@ -210,29 +214,29 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `operation` | Yes | - | Operation: `list`, `merge`, `review`, `comment`, `auto-merge` |
-| `pr-number` | No | Auto-detected | PR number (auto-detects from context) |
-| `pr-filters` | No | `""` | Filters for list operation (e.g., `--state open --label bug`) |
-| `merge-method` | No | `squash` | Merge method: `squash`, `merge`, `rebase` |
-| `auto-merge` | No | `false` | Enable auto-merge |
-| `comment-body` | No | `""` | Comment text |
-| `review-event` | No | `APPROVE` | Review event: `APPROVE`, `REQUEST_CHANGES`, `COMMENT` |
-| `review-body` | No | `""` | Review comment text |
+| Input          | Required | Default       | Description                                                   |
+| -------------- | -------- | ------------- | ------------------------------------------------------------- |
+| `operation`    | Yes      | -             | Operation: `list`, `merge`, `review`, `comment`, `auto-merge` |
+| `pr-number`    | No       | Auto-detected | PR number (auto-detects from context)                         |
+| `pr-filters`   | No       | `""`          | Filters for list operation (e.g., `--state open --label bug`) |
+| `merge-method` | No       | `squash`      | Merge method: `squash`, `merge`, `rebase`                     |
+| `auto-merge`   | No       | `false`       | Enable auto-merge                                             |
+| `comment-body` | No       | `""`          | Comment text                                                  |
+| `review-event` | No       | `APPROVE`     | Review event: `APPROVE`, `REQUEST_CHANGES`, `COMMENT`         |
+| `review-body`  | No       | `""`          | Review comment text                                           |
 
 **Secrets:**
 
-| Secret | Required | Description |
-|--------|----------|-------------|
-| `github-token` | No | GitHub token (defaults to `GITHUB_TOKEN`) |
+| Secret         | Required | Description                               |
+| -------------- | -------- | ----------------------------------------- |
+| `github-token` | No       | GitHub token (defaults to `GITHUB_TOKEN`) |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
+| Output    | Description                  |
+| --------- | ---------------------------- |
 | `pr-list` | PR list (for list operation) |
-| `result` | Operation result |
+| `result`  | Operation result             |
 
 **Example Usage:**
 
@@ -280,21 +284,21 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `scan-type` | Yes | - | Scan type: `codeql`, `trivy`, `semgrep`, `secrets`, `all` |
-| `languages` | No | Auto-detected | CodeQL languages (comma-separated) |
-| `trivy-scan-type` | No | `fs` | Trivy scan type: `fs`, `image`, `config`, `repo` |
-| `trivy-severity` | No | `CRITICAL,HIGH` | Severity levels to report |
-| `semgrep-config` | No | `auto` | Semgrep configuration |
-| `secrets-baseline` | No | `.secrets.baseline` | Secrets baseline file path |
+| Input              | Required | Default             | Description                                               |
+| ------------------ | -------- | ------------------- | --------------------------------------------------------- |
+| `scan-type`        | Yes      | -                   | Scan type: `codeql`, `trivy`, `semgrep`, `secrets`, `all` |
+| `languages`        | No       | Auto-detected       | CodeQL languages (comma-separated)                        |
+| `trivy-scan-type`  | No       | `fs`                | Trivy scan type: `fs`, `image`, `config`, `repo`          |
+| `trivy-severity`   | No       | `CRITICAL,HIGH`     | Severity levels to report                                 |
+| `semgrep-config`   | No       | `auto`              | Semgrep configuration                                     |
+| `secrets-baseline` | No       | `.secrets.baseline` | Secrets baseline file path                                |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
+| Output         | Description              |
+| -------------- | ------------------------ |
 | `codeql-sarif` | CodeQL SARIF report path |
-| `trivy-report` | Trivy report path |
+| `trivy-report` | Trivy report path        |
 
 **Example Usage:**
 
@@ -306,7 +310,7 @@ on:
     branches: [main]
   pull_request:
   schedule:
-    - cron: '0 0 * * 0'  # Weekly
+    - cron: "0 0 * * 0" # Weekly
 
 jobs:
   codeql:
@@ -352,20 +356,20 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `operation` | Yes | - | Operation: `upload` or `download` |
-| `artifact-name` | Yes | - | Artifact name |
-| `artifact-path` | Yes | - | Path to upload/download |
-| `retention-days` | No | `30` | Retention period (1-90 days) |
-| `if-no-files-found` | No | `warn` | Behavior: `warn`, `error`, `ignore` |
-| `compression-level` | No | `6` | Compression level (0-9) |
+| Input               | Required | Default | Description                         |
+| ------------------- | -------- | ------- | ----------------------------------- |
+| `operation`         | Yes      | -       | Operation: `upload` or `download`   |
+| `artifact-name`     | Yes      | -       | Artifact name                       |
+| `artifact-path`     | Yes      | -       | Path to upload/download             |
+| `retention-days`    | No       | `30`    | Retention period (1-90 days)        |
+| `if-no-files-found` | No       | `warn`  | Behavior: `warn`, `error`, `ignore` |
+| `compression-level` | No       | `6`     | Compression level (0-9)             |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
-| `artifact-id` | Artifact ID (upload) |
+| Output          | Description              |
+| --------------- | ------------------------ |
+| `artifact-id`   | Artifact ID (upload)     |
 | `download-path` | Download path (download) |
 
 **Example Usage:**
@@ -420,18 +424,18 @@ jobs:
 
 **Inputs:**
 
-| Input | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `fetch-depth` | No | `1` | Number of commits to fetch |
-| `token` | No | `github.token` | GitHub token |
-| `submodules` | No | `false` | Checkout submodules |
-| `lfs` | No | `false` | Checkout LFS files |
-| `ref` | No | `""` | Branch/tag/commit to checkout |
+| Input         | Required | Default        | Description                   |
+| ------------- | -------- | -------------- | ----------------------------- |
+| `fetch-depth` | No       | `1`            | Number of commits to fetch    |
+| `token`       | No       | `github.token` | GitHub token                  |
+| `submodules`  | No       | `false`        | Checkout submodules           |
+| `lfs`         | No       | `false`        | Checkout LFS files            |
+| `ref`         | No       | `""`           | Branch/tag/commit to checkout |
 
 **Outputs:**
 
-| Output | Description |
-|--------|-------------|
+| Output       | Description            |
+| ------------ | ---------------------- |
 | `commit-sha` | Checked out commit SHA |
 
 **Example Usage:**
@@ -447,7 +451,7 @@ jobs:
     steps:
       - uses: ivviiviivvi/.github/.github/actions/checkout@main
         with:
-          fetch-depth: 0  # Full history
+          fetch-depth: 0 # Full history
           submodules: true
 
       - name: Run tests
@@ -539,15 +543,15 @@ jobs:
    git checkout -b migrate-to-reusable-workflows
    ```
 
-2. **Update 1-2 workflows first:**
+1. **Update 1-2 workflows first:**
    - Start with simple, non-critical workflows
    - Verify they run successfully
 
-3. **Gradually migrate remaining workflows:**
+1. **Gradually migrate remaining workflows:**
    - Update 3-5 workflows at a time
    - Test thoroughly before merging
 
-4. **Monitor workflow runs:**
+1. **Monitor workflow runs:**
    - Check Actions tab for any failures
    - Compare run times (should be similar or faster)
 
@@ -571,11 +575,11 @@ This repository uses [organization reusable workflows](https://github.com/ivviiv
 
 ### Code Reduction
 
-| Repository Type | Before | After | Savings |
-|-----------------|--------|-------|---------|
-| Python project | 50 lines/workflow | 8-12 lines | 76-84% |
-| Node.js project | 45 lines/workflow | 8-12 lines | 73-82% |
-| Docker project | 60 lines/workflow | 15-20 lines | 67-75% |
+| Repository Type | Before            | After       | Savings |
+| --------------- | ----------------- | ----------- | ------- |
+| Python project  | 50 lines/workflow | 8-12 lines  | 76-84%  |
+| Node.js project | 45 lines/workflow | 8-12 lines  | 73-82%  |
+| Docker project  | 60 lines/workflow | 15-20 lines | 67-75%  |
 
 ### Maintenance
 
@@ -655,9 +659,9 @@ on:
   workflow_dispatch:
     inputs:
       test-mode:
-        description: 'Enable test mode'
+        description: "Enable test mode"
         required: false
-        default: 'false'
+        default: "false"
 ```
 
 ---
@@ -671,15 +675,18 @@ on:
 
 ### Internal Resources
 
-- **[Workflow Optimization Guide](./WORKFLOW_OPTIMIZATION.md)** - Performance tips
-- **[Security Best Practices](../SECURITY_BEST_PRACTICES.md)** - Security guidelines
+- **[Workflow Optimization Guide](./WORKFLOW_OPTIMIZATION.md)** - Performance
+  tips
+- **[Security Best Practices](../SECURITY_BEST_PRACTICES.md)** - Security
+  guidelines
 - **[Contributing Guide](../../CONTRIBUTING.md)** - How to contribute
 
 ---
 
 ## 🤝 Contributing
 
-Have ideas for new reusable workflows? See our [Contributing Guide](../../CONTRIBUTING.md).
+Have ideas for new reusable workflows? See our
+[Contributing Guide](../../CONTRIBUTING.md).
 
 **Common workflow patterns to contribute:**
 
@@ -710,18 +717,19 @@ Have ideas for new reusable workflows? See our [Contributing Guide](../../CONTRI
 **Workflows:**
 
 1. ✅ Python Setup & Test
-2. ✅ Node.js Setup & Build
-3. ✅ Docker Build & Push
-4. ✅ GitHub CLI PR Operations
-5. ✅ Security Scanning
-6. ✅ Artifact Management
-7. ✅ Checkout Composite Action
+1. ✅ Node.js Setup & Build
+1. ✅ Docker Build & Push
+1. ✅ GitHub CLI PR Operations
+1. ✅ Security Scanning
+1. ✅ Artifact Management
+1. ✅ Checkout Composite Action
 
 ---
 
 **Questions or Issues?**
 
-- 📖 [View Examples](https://github.com/ivviiviivvi/.github/tree/main/.github/workflows/reusable)
+- 📖
+  [View Examples](https://github.com/ivviiviivvi/.github/tree/main/.github/workflows/reusable)
 - 💬 [Open a Discussion](https://github.com/orgs/ivviiviivvi/discussions)
 - 🐛 [Report an Issue](https://github.com/ivviiviivvi/.github/issues)
 

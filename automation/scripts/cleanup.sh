@@ -58,9 +58,9 @@ delete_items() {
     local pattern="$1"
     local type="$2"
     local description="$3"
-    
+
     echo -e "${YELLOW}🔍 Searching for $description...${NC}"
-    
+
     if [ "$type" = "d" ]; then
         # Directories
         local items

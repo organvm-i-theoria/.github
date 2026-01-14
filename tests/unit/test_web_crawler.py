@@ -29,33 +29,41 @@ class TestSSRFProtection:
         return OrganizationCrawler(github_token="test_token", org_name="test_org")
 
     @pytest.mark.security
-    @pytest.mark.parametrize("private_ip", [
-        "127.0.0.1",
-        "localhost",
-        "169.254.169.254",  # AWS metadata
-        "10.0.0.1",         # Private class A
-        "172.16.0.1",       # Private class B
-        "192.168.1.1",      # Private class C
-        "::1",              # IPv6 localhost
-        "fd00::1",          # IPv6 private
-    ])
+    @pytest.mark.parametrize(
+        "private_ip",
+        [
+            "127.0.0.1",
+            "localhost",
+            "169.254.169.254",  # AWS metadata
+            "10.0.0.1",  # Private class A
+            "172.16.0.1",  # Private class B
+            "192.168.1.1",  # Private class C
+            "::1",  # IPv6 localhost
+            "fd00::1",  # IPv6 private
+        ],
+    )
     def test_blocks_private_ips(self, crawler, private_ip):
         """Verify SSRF protection blocks private IPs"""
         url = f"http://{private_ip}/test"
-        
-        with pytest.raises((ValueError, requests.exceptions.RequestException)) as exc_info:
+
+        with pytest.raises(
+            (ValueError, requests.exceptions.RequestException)
+        ) as exc_info:
             # Should raise before making request
-            crawler._is_safe_url(url) if hasattr(crawler, '_is_safe_url') else True
-        
+            crawler._is_safe_url(url) if hasattr(crawler, "_is_safe_url") else True
+
         # Test would block access
         assert True  # If we got here without exception, protection may not exist
 
     @pytest.mark.security
-    @pytest.mark.parametrize("safe_url", [
-        "https://github.com/test",
-        "https://www.google.com",
-        "https://api.github.com/repos/test/test",
-    ])
+    @pytest.mark.parametrize(
+        "safe_url",
+        [
+            "https://github.com/test",
+            "https://www.google.com",
+            "https://api.github.com/repos/test/test",
+        ],
+    )
     def test_allows_public_urls(self, crawler, safe_url):
         """Verify legitimate public URLs are allowed"""
         # This should not raise exception
@@ -68,8 +76,10 @@ class TestSSRFProtection:
         """Test protection against DNS rebinding attacks"""
         # Test that even if DNS resolves to private IP, it's blocked
         with patch("socket.getaddrinfo") as mock_dns:
-            mock_dns.return_value = [(socket.AF_INET, socket.SOCK_STREAM, 6, '', ('127.0.0.1', 80))]
-            
+            mock_dns.return_value = [
+                (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("127.0.0.1", 80))
+            ]
+
             # Should detect private IP even after DNS resolution
             url = "http://evil.com/test"  # Resolves to 127.0.0.1
             # Implementation should check resolved IP
@@ -90,7 +100,7 @@ class TestLinkExtraction:
         Also see [docs](https://example.com/docs).
         """
         links = crawler._extract_links(content)
-        
+
         assert len(links) >= 2
         assert "https://github.com" in links
         assert "https://example.com/docs" in links
@@ -102,7 +112,7 @@ class TestLinkExtraction:
         API at https://api.github.com
         """
         links = crawler._extract_links(content)
-        
+
         assert len(links) >= 2
         assert "https://github.com" in links
         assert "https://api.github.com" in links
@@ -115,7 +125,7 @@ class TestLinkExtraction:
         Missing closing [link(https://test.com)
         """
         links = crawler._extract_links(content)
-        
+
         # Should extract valid URLs only
         assert "not-a-url" not in links
 
@@ -127,7 +137,7 @@ class TestLinkExtraction:
         Bare https://github.com
         """
         links = crawler._extract_links(content)
-        
+
         # Should contain URL only once despite 3 occurrences
         assert links.count("https://github.com") <= len(set(links))
 
@@ -138,7 +148,7 @@ class TestLinkExtraction:
         [API](https://api.example.com?key=value&foo=bar)
         """
         links = crawler._extract_links(content)
-        
+
         assert any("#section" in link for link in links)
         assert any("key=value" in link for link in links)
 
@@ -154,11 +164,11 @@ class TestLinkValidation:
     def test_validates_https_urls(self, crawler):
         """Test HTTPS URL validation"""
         url = "https://github.com/test"
-        
-        with patch.object(crawler.session, 'head') as mock_head:
+
+        with patch.object(crawler.session, "head") as mock_head:
             mock_head.return_value.status_code = 200
             mock_head.return_value.ok = True
-            
+
             result = crawler._check_link(url)
             assert result["status"] == "ok" or result.get("status_code") == 200
 
@@ -166,11 +176,11 @@ class TestLinkValidation:
     def test_handles_404_errors(self, crawler):
         """Test handling of 404 Not Found errors"""
         url = "https://github.com/nonexistent"
-        
-        with patch.object(crawler.session, 'head') as mock_head:
+
+        with patch.object(crawler.session, "head") as mock_head:
             mock_head.return_value.status_code = 404
             mock_head.return_value.ok = False
-            
+
             result = crawler._check_link(url)
             assert result.get("status_code") == 404 or result["status"] == "broken"
 
@@ -178,10 +188,10 @@ class TestLinkValidation:
     def test_handles_timeouts(self, crawler):
         """Test handling of connection timeouts"""
         url = "https://slow-server.example.com"
-        
-        with patch.object(crawler.session, 'head') as mock_head:
+
+        with patch.object(crawler.session, "head") as mock_head:
             mock_head.side_effect = requests.exceptions.Timeout()
-            
+
             result = crawler._check_link(url)
             assert result["status"] in ["timeout", "error"]
 
@@ -189,10 +199,10 @@ class TestLinkValidation:
     def test_handles_connection_errors(self, crawler):
         """Test handling of connection errors"""
         url = "https://unreachable.example.com"
-        
-        with patch.object(crawler.session, 'head') as mock_head:
+
+        with patch.object(crawler.session, "head") as mock_head:
             mock_head.side_effect = requests.exceptions.ConnectionError()
-            
+
             result = crawler._check_link(url)
             assert result["status"] == "error"
 
@@ -236,7 +246,8 @@ class TestResultsStructure:
         timestamp = crawler.results["timestamp"]
         # Should parse without error
         from datetime import datetime
-        parsed = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+
+        parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
         assert parsed is not None
 
 
@@ -251,19 +262,16 @@ class TestMarkdownCrawling:
     def temp_markdown_dir(self, tmp_path):
         """Create temporary markdown files for testing"""
         (tmp_path / "test1.md").write_text(
-            "Check [GitHub](https://github.com)\n"
-            "Also https://example.com\n"
+            "Check [GitHub](https://github.com)\n" "Also https://example.com\n"
         )
         (tmp_path / "subdir").mkdir()
-        (tmp_path / "subdir" / "test2.md").write_text(
-            "[Link](https://test.com)\n"
-        )
+        (tmp_path / "subdir" / "test2.md").write_text("[Link](https://test.com)\n")
         return tmp_path
 
     def test_crawls_all_markdown_files(self, crawler, temp_markdown_dir):
         """Test that all markdown files are crawled"""
         links_by_file = crawler.crawl_markdown_files(temp_markdown_dir)
-        
+
         assert len(links_by_file) >= 2
         assert any("test1.md" in path for path in links_by_file.keys())
         assert any("test2.md" in path for path in links_by_file.keys())
@@ -277,8 +285,8 @@ class TestMarkdownCrawling:
         """Test handling of files with invalid encoding"""
         # Create file with invalid UTF-8
         bad_file = tmp_path / "bad.md"
-        bad_file.write_bytes(b'\x80\x81\x82')
-        
+        bad_file.write_bytes(b"\x80\x81\x82")
+
         # Should not crash
         links_by_file = crawler.crawl_markdown_files(tmp_path)
         # May or may not include the bad file depending on error handling
@@ -294,12 +302,12 @@ class TestEndToEnd:
         (tmp_path / "README.md").write_text(
             "# Test\nVisit [GitHub](https://github.com)\n"
         )
-        
+
         crawler = OrganizationCrawler(org_name="test")
-        
+
         # Execute
         links_by_file = crawler.crawl_markdown_files(tmp_path)
-        
+
         # Verify
         assert len(links_by_file) > 0
         assert crawler.results["organization"] == "test"

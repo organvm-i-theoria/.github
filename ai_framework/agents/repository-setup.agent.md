@@ -1,11 +1,6 @@
 ---
-name: Repository Setup
-description: Repository Setup Agent - Automates the creation and configuration
-tools: []
-tags: []
-updated: 2026-01-13
----
 
+## name: Repository Setup description: Repository Setup Agent - Automates the creation and configuration tools: \[\] tags: \[\] updated: 2026-01-13
 
 # Repository Setup Agent
 

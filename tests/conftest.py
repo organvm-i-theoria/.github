@@ -52,12 +52,9 @@ def sample_workflow_data():
         "jobs": {
             "test": {
                 "runs-on": "ubuntu-latest",
-                "steps": [
-                    {"uses": "actions/checkout@v4"},
-                    {"run": "pytest"}
-                ]
+                "steps": [{"uses": "actions/checkout@v4"}, {"run": "pytest"}],
             }
-        }
+        },
     }
 
 
@@ -90,21 +87,17 @@ Check out https://api.github.com/repos for more info.
 def sample_label_data():
     """Sample label data for testing sync_labels.py"""
     return [
-        {
-            "name": "bug",
-            "color": "d73a4a",
-            "description": "Something isn't working"
-        },
+        {"name": "bug", "color": "d73a4a", "description": "Something isn't working"},
         {
             "name": "enhancement",
             "color": "a2eeef",
-            "description": "New feature or request"
+            "description": "New feature or request",
         },
         {
             "name": "documentation",
             "color": "0075ca",
-            "description": "Improvements or additions to documentation"
-        }
+            "description": "Improvements or additions to documentation",
+        },
     ]
 
 
@@ -113,18 +106,18 @@ def temp_project_dir(tmp_path):
     """Create temporary project directory structure"""
     project = tmp_path / "test-project"
     project.mkdir()
-    
+
     # Create .github structure
     github_dir = project / ".github"
     github_dir.mkdir()
-    
+
     workflows_dir = github_dir / "workflows"
     workflows_dir.mkdir()
-    
+
     # Create sample files
     (project / "README.md").write_text("# Test Project\n")
     (workflows_dir / "ci.yml").write_text("name: CI\non: push\n")
-    
+
     return project
 
 
@@ -136,7 +129,7 @@ def sample_agent_metadata():
         "version": "1.0.0",
         "description": "Test agent for unit tests",
         "capabilities": ["test", "validate"],
-        "created_at": "2024-01-14T00:00:00Z"
+        "created_at": "2024-01-14T00:00:00Z",
     }
 
 
@@ -148,10 +141,10 @@ def mock_requests_session(monkeypatch):
     session.get.return_value.ok = True
     session.post.return_value.status_code = 201
     session.post.return_value.ok = True
-    
+
     def mock_session_init(*args, **kwargs):
         return session
-    
+
     monkeypatch.setattr("requests.Session", mock_session_init)
     return session
 
@@ -174,34 +167,30 @@ def capture_output(capsys):
 # Markers configuration
 def pytest_configure(config):
     """Configure custom markers"""
-    config.addinivalue_line(
-        "markers", "unit: Unit tests (fast, isolated)"
-    )
+    config.addinivalue_line("markers", "unit: Unit tests (fast, isolated)")
     config.addinivalue_line(
         "markers", "integration: Integration tests (slower, external dependencies)"
     )
-    config.addinivalue_line(
-        "markers", "security: Security-focused tests"
-    )
-    config.addinivalue_line(
-        "markers", "performance: Performance benchmarks"
-    )
-    config.addinivalue_line(
-        "markers", "slow: Tests that take >1s to run"
-    )
+    config.addinivalue_line("markers", "security: Security-focused tests")
+    config.addinivalue_line("markers", "performance: Performance benchmarks")
+    config.addinivalue_line("markers", "slow: Tests that take >1s to run")
 
 
 # Performance tracking
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_setup(item):
     """Track test performance"""
-    item.start_time = pytest.time.time() if hasattr(pytest, 'time') else 0
+    item.start_time = pytest.time.time() if hasattr(pytest, "time") else 0
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_runtest_teardown(item):
     """Mark slow tests"""
-    if hasattr(item, 'start_time'):
-        duration = (pytest.time.time() if hasattr(pytest, 'time') else 0) - item.start_time
-        if duration > 1.0 and 'slow' not in [m.name for m in item.iter_markers()]:
-            print(f"\n⚠️  Test {item.nodeid} took {duration:.2f}s (consider marking as slow)")
+    if hasattr(item, "start_time"):
+        duration = (
+            pytest.time.time() if hasattr(pytest, "time") else 0
+        ) - item.start_time
+        if duration > 1.0 and "slow" not in [m.name for m in item.iter_markers()]:
+            print(
+                f"\n⚠️  Test {item.nodeid} took {duration:.2f}s (consider marking as slow)"
+            )

@@ -1,13 +1,14 @@
 ---
-name: HLBPA
-description: High-level architectural documentation and review
-assistant.
-tools:
-  - \
-tags:
-  - architecture
-updated: 2026-01-13
+
+name: HLBPA description: High-level architectural documentation and review
+assistant. tools:
+
+- \
+  tags:
+- architecture updated: 2026-01-13
+
 ---
+
 # High-Level Big Picture Architect (HLBPA)
 
 Your primary goal is to provide high-level architectural documentation and

@@ -106,7 +106,9 @@ Before setting up custom instructions, ensure you have:
 Each instruction file has an "Install in VS Code" badge that automatically
 installs it:
 
-1. Browse the [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/) directory
+1. Browse the
+   [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
+   directory
 1. Open an instruction file (e.g., `python.instructions.md`)
 1. Click the **"Install in VS Code"** badge at the top
 1. Follow the VS Code prompts to complete installation
@@ -134,7 +136,7 @@ To apply instructions to a specific repository:
 
    # Or copy specific instructions
    cp /path/to/.github/instructions/python.instructions.md .github/copilot-instructions/
-   cp /path/to/.github/instructions/react.instructions.md .github/copilot-instructions/
+   cp /path/to/.github/instructions/reactjs.instructions.md .github/copilot-instructions/
    ```
 
 1. **Commit and push**:
@@ -173,7 +175,7 @@ To apply instructions globally for your user account:
       "file": "/path/to/instructions/python.instructions.md"
     },
     {
-      "file": "/path/to/instructions/react.instructions.md"
+      "file": "/path/to/instructions/reactjs.instructions.md"
     }
   ]
 }
@@ -258,7 +260,9 @@ languages, tools, and platforms.
 
 ### By Technology
 
-The [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/) directory contains instructions for:
+The
+[`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
+directory contains instructions for:
 
 - **109 technologies** across multiple domains
 - **Languages**: Python, TypeScript, Java, C#, Go, Rust, Ruby, PHP, Swift,
@@ -269,7 +273,8 @@ The [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instru
 - **Tools**: Docker, Kubernetes, Terraform, Ansible, GitHub Actions
 - **Databases**: PostgreSQL, MongoDB, MySQL, Redis, Elasticsearch
 
-**Browse all instructions:** [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
+**Browse all instructions:**
+[`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
 
 ---
 
@@ -557,7 +562,8 @@ raise ProcessingError(f"Invalid data format: {e}")
 
 ### Organization Resources
 
-- [Instructions Directory](https://github.com/github/awesome-copilot/tree/main/instructions/) - Browse all 100+ instructions
+- [Instructions Directory](https://github.com/github/awesome-copilot/tree/main/instructions/)
+  \- Browse all 100+ instructions
 - [Instructions Documentation](README.instructions.md) - Detailed guide to
   instructions
 - [Agent Architecture Guide](AGENT_ARCHITECTURE_GUIDE.md) - Using instructions
@@ -566,12 +572,12 @@ raise ProcessingError(f"Invalid data format: {e}")
 
 ### Templates
 
-- [Instruction Template](https://github.com/github/awesome-copilot/blob/main/instructions/TEMPLATE.instructions.md) - Blank
-  template for new instructions
-- [Python Template](https://github.com/github/awesome-copilot/blob/main/instructions/python.instructions.md) - Example Python
-  instructions
-- [TypeScript Template](https://github.com/github/awesome-copilot/blob/main/instructions/typescript.instructions.md) - Example
-  TypeScript instructions
+- [Instruction Template](https://github.com/github/awesome-copilot/blob/main/instructions/instructions.instructions.md)
+  \- Blank template for new instructions
+- [Python Template](https://github.com/github/awesome-copilot/blob/main/instructions/python.instructions.md)
+  \- Example Python instructions
+- [TypeScript Template](https://github.com/github/awesome-copilot/blob/main/instructions/typescript-5-es2022.instructions.md)
+  \- Example TypeScript instructions
 
 ### Community
 
@@ -585,7 +591,8 @@ raise ProcessingError(f"Invalid data format: {e}")
 
 ## Next Steps
 
-1. **Browse available instructions** in the [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
+1. **Browse available instructions** in the
+   [`instructions/`](https://github.com/github/awesome-copilot/tree/main/instructions/)
    directory
 1. **Install instructions** for your primary technologies
 1. **Test with Copilot** on a sample project
