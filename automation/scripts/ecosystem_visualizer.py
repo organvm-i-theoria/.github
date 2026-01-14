@@ -37,6 +37,46 @@ class EcosystemVisualizer:
         '⚙️': 'Utility & Other'
     }
 
+    # Technology icons mapping
+    TECHNOLOGY_ICONS = {
+        'python': '🐍',
+        'javascript': '💛',
+        'typescript': '💙',
+        'docker': '🐳',
+        'terraform': '🏗️',
+        'go': '🐹',
+        'rust': '🦀',
+        'java': '☕',
+        'kotlin': '🎯',
+        'swift': '🐦',
+        'c++': 'Ⓜ️',
+        'c#': '#️⃣',
+        'ruby': '💎',
+        'php': '🐘',
+        'html': '🌐',
+        'css': '🎨',
+        'shell': '🐚',
+        'bash': '🐚',
+        'powershell': '⚡',
+        'markdown': '📝',
+        'yaml': '📜',
+        'json': '📋',
+        'xml': '📑',
+        'sql': '🗃️',
+        'node.js': '🟩',
+        'react': '⚛️',
+        'vue': '💚',
+        'angular': '🅰️',
+        'aws': '☁️',
+        'azure': '☁️',
+        'gcp': '☁️',
+        'linux': '🐧',
+        'windows': '🪟',
+        'macos': '🍎',
+        'android': '🤖',
+        'ios': '📱'
+    }
+
     # Pre-compile regex patterns for performance
     # Order matters: first match wins
     WORKFLOW_PATTERNS = [
@@ -503,6 +543,14 @@ graph TD
                 for emoji in self.WORKFLOW_CATEGORIES.keys():
                     grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
 
+                for workflow in workflows:
+                    emoji, category_name = self._classify_workflow(workflow)
+                    key = f"{emoji} {category_name}"
+                    if key in grouped:
+                        grouped[key].append(workflow)
+                    else:
+                        grouped.setdefault("⚙️ Utility & Other", []).append(workflow)
+
                 # Count active categories
                 active_categories = sum(1 for items in grouped.values() if items)
 
@@ -516,12 +564,6 @@ graph TD
                         for w in items:
                              parts.append(f"| `{w}` | [View]({workflow_path}{w}) |\n")
                         parts.append("\n")
-
-                    # Store for grouped display later
-                    grouped[f"{emoji} {category_name}"].append(workflow)
-
-                    # Link to the workflow file with calculated relative path
-                    parts.append(f"| {i} | {emoji} | `{workflow}` | [View]({workflow_path}{workflow}) |\n")
 
                 parts.append("\n</details>\n")
             else:
