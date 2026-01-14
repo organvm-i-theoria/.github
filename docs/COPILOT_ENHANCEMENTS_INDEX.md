@@ -51,7 +51,7 @@ Specialized AI assistants for specific domains:
 - **Documentation**: ADR Generator, Completionism Specialist
 - **Operations**: PagerDuty Responder, Dynatrace Expert, LaunchDarkly Cleanup
 
-**Browse**: [`agents/`](../agents/) | **Learn**:
+**Browse**: [`agents/`](../ai_framework/agents/) | **Learn**:
 [Agent Architecture Guide](AGENT_ARCHITECTURE_GUIDE.md)
 
 ### Custom Instructions (100+)
@@ -86,7 +86,7 @@ Model Context Protocol integration for 11 languages:
 | Kotlin         | ✅        | ✅     | ✅           | ✅         |
 | Power Platform | ✅        | ✅     | ✅           | ✅         |
 
-**Browse**: MCP chat modes in [`chatmodes/`](../chatmodes/) | **Setup**:
+**Browse**: MCP chat modes in [`chatmodes/`](../ai_framework/chatmodes/) | **Setup**:
 [MCP Server Setup](MCP_SERVER_SETUP.md)
 
 ### Prompts
@@ -109,7 +109,7 @@ Specialized AI personas for different contexts:
 - **Role-Based**: Architect, DBA, DevOps Engineer, Security Expert
 - **Domain-Specific**: MCP development, Cloud architecture, API design
 
-**Browse**: [`chatmodes/`](../chatmodes/) | **Learn**:
+**Browse**: [`chatmodes/`](../ai_framework/chatmodes/) | **Learn**:
 [Chat Modes Documentation](README.chatmodes.md)
 
 ### Collections
@@ -123,7 +123,7 @@ Curated bundles organized by theme:
 - **Operations**: DevOps OnCall, Database Management
 - **Specialized**: Edge AI Tasks, Clojure Interactive Programming
 
-**Browse**: [`collections/`](../collections/) | **Learn**:
+**Browse**: [`collections/`](../ai_framework/collections/) | **Learn**:
 [Collections Documentation](README.collections.md)
 
 ---
@@ -148,27 +148,27 @@ Curated bundles organized by theme:
 
 ### By Language
 
-- **Python**: [MCP Development](../collections/python-mcp-development.md) |
+- **Python**: [MCP Development](../ai_framework/collections/python-mcp-development.md) |
   [Instructions](../instructions/python.instructions.md)
 - **TypeScript**:
-  [MCP Development](../collections/typescript-mcp-development.md) |
+  [MCP Development](../ai_framework/collections/typescript-mcp-development.md) |
   [Instructions](../instructions/typescript.instructions.md)
-- **Java**: [MCP Development](../collections/java-mcp-development.md) |
+- **Java**: [MCP Development](../ai_framework/collections/java-mcp-development.md) |
   [Instructions](../instructions/java.instructions.md)
-- **C#**: [MCP Development](../collections/csharp-mcp-development.md) |
+- **C#**: [MCP Development](../ai_framework/collections/csharp-mcp-development.md) |
   [Instructions](../instructions/csharp.instructions.md)
-- **Go**: [MCP Development](../collections/go-mcp-development.md) |
+- **Go**: [MCP Development](../ai_framework/collections/go-mcp-development.md) |
   [Instructions](../instructions/go.instructions.md)
-- **Rust**: [MCP Development](../collections/rust-mcp-development.md) |
+- **Rust**: [MCP Development](../ai_framework/collections/rust-mcp-development.md) |
   [Instructions](../instructions/rust.instructions.md)
 
 ### By Technology
 
 - **React**: [Instructions](../instructions/react.instructions.md)
 - **Angular**: [Instructions](../instructions/angular.instructions.md)
-- **Azure**: [Collection](../collections/azure-cloud-development.md)
+- **Azure**: [Collection](../ai_framework/collections/azure-cloud-development.md)
 - **Docker**: [Instructions](../instructions/docker.instructions.md)
-- **Terraform**: [Agent](../agents/terraform.agent.md) |
+- **Terraform**: [Agent](../ai_framework/agents/terraform.agent.md) |
   [Instructions](../instructions/terraform.instructions.md)
 
 ---

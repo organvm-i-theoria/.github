@@ -1030,7 +1030,7 @@ def setup_agent_logging(agent_name: str, level: int = logging.DEBUG):
 
 **Internal Resources:**
 
-- [Agent Examples](../agents/)
+- [Agent Examples](../ai_framework/agents/)
 - [MCP Server Documentation](https://modelcontextprotocol.io/)
 - [GitHub Copilot Documentation](https://docs.github.com/copilot)
 
