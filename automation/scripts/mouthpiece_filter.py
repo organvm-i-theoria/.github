@@ -74,36 +74,6 @@ class MouthpieceFilter:
         re.IGNORECASE,
     )
     _PARAGRAPH_SPLIT = re.compile(r"\n\s*\n")
-    # Compile regex patterns once for better performance
-    _CAPITALIZED_WORDS = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
-    _DOUBLE_QUOTES = re.compile(r'"([^"]+)"')
-    _SINGLE_QUOTES = re.compile(r"'([^']+)'")
-    _TECHNICAL_TERMS_DOT_UNDERSCORE = re.compile(r"\b\w+[._]\w+\b")
-    _CAMEL_CASE = re.compile(r"\b[a-z]+[A-Z]\w+\b")
-    _SENTENCE_SPLIT = re.compile(r"[.!?]+")
-    _QUESTIONS = re.compile(r"([^.!?]*\?)")
-    _STEPS = re.compile(
-        r"\b(?:step\s+)?\d+[\.:)]|\bfirst\b|\bsecond\b|\bthen\b|\bfinally\b"
-    )
-    _PARAGRAPHS = re.compile(r"\n\s*\n")
-    # Compile regex patterns once for performance
-    # Capitalized words (potential proper nouns or important concepts)
-    _CAPITALIZED_WORDS = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
-    # Quoted terms
-    _QUOTED_DOUBLE = re.compile(r'"([^"]+)"')
-    _QUOTED_SINGLE = re.compile(r"'([^']+)'")
-    # Technical-looking terms (contains underscores, dots, or mixed case)
-    _TECH_TERMS_MIXED = re.compile(r"\b\w+[._]\w+\b")
-    _TECH_TERMS_CAMEL = re.compile(r"\b[a-z]+[A-Z]\w+\b")  # camelCase
-    # Sentence splitters
-    _SENTENCE_SPLITTER = re.compile(r"[.!?]+")
-    _PARAGRAPH_SPLITTER = re.compile(r"\n\s*\n")
-    # Questions
-    _QUESTIONS = re.compile(r"([^.!?]*\?)")
-    # Steps
-    _STEPS = re.compile(
-        r"\b(?:step\s+)?\d+[\.:)]|\bfirst\b|\bsecond\b|\bthen\b|\bfinally\b"
-    )
 
     def __init__(self, config: Optional[Dict] = None):
         """Initialize the filter with optional configuration."""
@@ -222,20 +192,13 @@ class MouthpieceFilter:
         # Technical-looking terms (contains underscores, dots, or mixed case)
         concepts.extend(self._TECHNICAL_TERMS_MIXED.findall(text))
         concepts.extend(self._TECHNICAL_TERMS_CAMEL.findall(text))
-        concepts.extend(self._DOUBLE_QUOTES.findall(text))
-        concepts.extend(self._SINGLE_QUOTES.findall(text))
 
-        # Technical-looking terms (contains underscores, dots, or mixed case)
-        concepts.extend(self._TECHNICAL_TERMS_DOT_UNDERSCORE.findall(text))
-        concepts.extend(self._CAMEL_CASE.findall(text))
-
-        return list(set(concepts))  # Remove duplicates
+        return sorted(list(set(concepts)))  # Remove duplicates and sort for stability
 
     def _extract_metaphors(self, text: str) -> List[str]:
         """Extract metaphorical language that adds color and meaning."""
         metaphors = []
         sentences = self._SENTENCE_SPLIT.split(text)
-        sentences = self._SENTENCE_SPLITTER.split(text)
 
         for sentence in sentences:
             if self._METAPHOR_PATTERN.search(sentence):
@@ -338,7 +301,6 @@ class MouthpieceFilter:
         """Extract questions from the text."""
         # Find sentences ending with question marks
         questions = self._QUESTIONS_PATTERN.findall(text)
-        questions = self._QUESTIONS.findall(text)
         return [q.strip() for q in questions if q.strip()]
 
     def _extract_structure(self, text: str, analysis: Dict) -> Dict[str, any]:
@@ -392,7 +354,6 @@ class MouthpieceFilter:
         """Check if the text contains step-by-step information."""
         # Look for numbered lists or step indicators
         return bool(self._STEPS_PATTERN.search(text))
-        return bool(self._STEPS.search(text.lower()))
 
     def _identify_sections(self, text: str) -> List[str]:
         """Identify logical sections in the text."""
@@ -400,7 +361,6 @@ class MouthpieceFilter:
 
         # Split by double newlines or paragraph indicators
         paragraphs = self._PARAGRAPH_SPLIT.split(text)
-        paragraphs = self._PARAGRAPHS.split(text)
 
         for i, para in enumerate(paragraphs):
             if para.strip():
