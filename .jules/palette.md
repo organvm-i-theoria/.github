@@ -1,6 +1,6 @@
 # Palette's Journal
 
-## 2025-12-17 - \[Mermaid Diagram Styling\]
+## 2025-12-17 - [Mermaid Diagram Styling]
 
 **Learning:** Mermaid diagrams in GitHub Markdown can be styled using `classDef`
 and `:::className` syntax. This allows for creating visually distinct layers in
@@ -8,7 +8,7 @@ generated documentation without needing image generation tools. **Action:**
 Apply this pattern to all future script-generated Mermaid diagrams to improve
 readability and visual hierarchy.
 
-## 2025-12-19 - \[Markdown Table Consistency\]
+## 2025-12-19 - [Markdown Table Consistency]
 
 **Learning:** Dynamically generated Markdown tables must maintain consistent
 column counts across all rows, including the header separator. Partial rows at
@@ -17,14 +17,14 @@ match the header's column count. **Action:** Always calculate the required
 number of columns from the header or expected layout and pad subsequent rows
 with empty cells to preserve table structure.
 
-## 2025-12-20 - \[Collapsible Sections in Reports\]
+## 2025-12-20 - [Collapsible Sections in Reports]
 
 **Learning:** Large lists in Markdown reports (like technology coverage or
 workflow lists) can overwhelm the user and make navigation difficult.
 **Action:** Wrap long lists in HTML `<details>` and `<summary>` tags to make
 them collapsible by default, improving the initial scanability of the report.
 
-## 2025-12-21 - \[Alert Grouping in Dashboards\]
+## 2025-12-21 - [Alert Grouping in Dashboards]
 
 **Learning:** Repetitive alerts in health dashboards (e.g., multiple "Missing
 Critical Workflow" alerts) create visual noise and reduce the impact of the
@@ -32,3 +32,8 @@ message. Grouping them by category significantly improves readability.
 **Action:** When generating reports with potential duplicate or categorical
 alerts, implement a grouping logic to display the category once as a header and
 list individual items underneath.
+
+## 2025-10-16 - [CLI Visual Hierarchy]
+
+**Learning:** The organization's CLI tools (like `mouthpiece_filter.py`) produce raw text output that makes it hard to distinguish between metadata, input, and results.
+**Action:** Apply a consistent "Header (Bold Color) -> Content (Neutral/Highlight)" pattern with emoji indicators to all future CLI tools to improve scannability without adding dependencies.

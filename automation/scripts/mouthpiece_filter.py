@@ -24,6 +24,20 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 
+class Colors:
+    """ANSI color codes for terminal output."""
+
+    HEADER = "\033[95m"
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+
+
 class MouthpieceFilter:
     """
     The Mouthpiece Filter transforms natural human writing into AI-optimized prompts.
@@ -519,45 +533,64 @@ class MouthpieceFilter:
             "concept_count": len(analysis["concepts"]),
         }
 
-    def format_output(self, result: Dict, format_type: str = "full") -> str:
+    def format_output(
+        self, result: Dict, format_type: str = "full", colorize: bool = True
+    ) -> str:
         """Format the result for display."""
         if format_type == "prompt_only":
             return result["prompt"]
         elif format_type == "json":
             return json.dumps(result, indent=2)
         else:  # full
+            # Setup colors
+            if colorize:
+                BLUE = Colors.BLUE
+                CYAN = Colors.CYAN
+                GREEN = Colors.GREEN
+                YELLOW = Colors.YELLOW
+                BOLD = Colors.BOLD
+                ENDC = Colors.ENDC
+            else:
+                BLUE = CYAN = GREEN = YELLOW = BOLD = ENDC = ""
+
             output = []
-            output.append("=" * 80)
-            output.append("MOUTHPIECE FILTER - TRANSFORMATION RESULT")
-            output.append("=" * 80)
+            output.append(f"{BLUE}{'=' * 80}{ENDC}")
+            output.append(
+                f"{BOLD}{CYAN}🎨 MOUTHPIECE FILTER - TRANSFORMATION RESULT{ENDC}"
+            )
+            output.append(f"{BLUE}{'=' * 80}{ENDC}")
             output.append("")
 
             if result["metadata"]:
-                output.append("Metadata:")
-                output.append(f"  Intent: {result['metadata']['intent']}")
-                output.append(f"  Tone: {result['metadata']['tone']}")
-                output.append(f"  Complexity: {result['metadata']['complexity']}")
+                output.append(f"{BOLD}📊 Metadata:{ENDC}")
                 output.append(
-                    f"  Concepts found: {result['metadata']['concept_count']}"
+                    f"  🎯 Intent:     {GREEN}{result['metadata']['intent']}{ENDC}"
+                )
+                output.append(f"  🎭 Tone:       {YELLOW}{result['metadata']['tone']}{ENDC}")
+                output.append(
+                    f"  🧠 Complexity: {CYAN}{result['metadata']['complexity']}{ENDC}"
+                )
+                output.append(
+                    f"  💡 Concepts:   {BLUE}{result['metadata']['concept_count']}{ENDC}"
                 )
                 output.append("")
 
-            output.append("-" * 80)
-            output.append("OPTIMIZED PROMPT:")
-            output.append("-" * 80)
+            output.append(f"{BLUE}{'-' * 80}{ENDC}")
+            output.append(f"{BOLD}🚀 OPTIMIZED PROMPT:{ENDC}")
+            output.append(f"{BLUE}{'-' * 80}{ENDC}")
             output.append("")
             output.append(result["prompt"])
             output.append("")
 
             if result.get("analysis") and result["analysis"].get("metaphors"):
-                output.append("-" * 80)
-                output.append("PRESERVED POETRY:")
-                output.append("-" * 80)
+                output.append(f"{BLUE}{'-' * 80}{ENDC}")
+                output.append(f"{BOLD}✨ PRESERVED POETRY:{ENDC}")
+                output.append(f"{BLUE}{'-' * 80}{ENDC}")
                 for metaphor in result["analysis"]["metaphors"]:
-                    output.append(f"  • {metaphor}")
+                    output.append(f"  • {CYAN}{metaphor}{ENDC}")
                 output.append("")
 
-            output.append("=" * 80)
+            output.append(f"{BLUE}{'=' * 80}{ENDC}")
 
             return "\n".join(output)
 
@@ -627,14 +660,18 @@ Examples:
     filter = MouthpieceFilter(config)
     result = filter.transform(text)
 
+    # Determine if we should colorize
+    # Colorize if not writing to file, or if explicity requested (could add a flag later)
+    colorize = not bool(args.output)
+
     # Format output
-    output = filter.format_output(result, args.format)
+    output = filter.format_output(result, args.format, colorize=colorize)
 
     # Write or print
     if args.output:
         with open(args.output, "w") as f:
             f.write(output)
-        print(f"Output written to {args.output}")
+        print(f"✨ Output written to {args.output}", file=sys.stderr)
     else:
         print(output)
 
