@@ -1,8 +1,9 @@
 name: Process Task Queue
 
 on:
-  schedule:
-    - cron: 0 * * * * # Runs every hour
+  # DISABLED: Preventing notification spam after cleanup
+  # schedule:
+  #   - cron: 0 * * * * # Runs every hour
   workflow_dispatch:
 
 concurrency:
