@@ -6,6 +6,7 @@ Implements AI-GH-06: Ecosystem Integration & Architecture Monitoring
 
 import json
 import re
+import urllib.parse
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -107,6 +108,21 @@ class EcosystemVisualizer:
             parent_refs = "../" * depth
             return f"{parent_refs}{target_path}"
 
+    def _sanitize_mermaid_label(self, text: str) -> str:
+        """Sanitize text for use in Mermaid labels"""
+        if not text:
+            return ""
+        # Escape quotes and brackets to prevent injection
+        return text.replace('"', "#quot;").replace("[", "#91;").replace("]", "#93;")
+
+    def _sanitize_markdown_cell(self, text: str) -> str:
+        """Sanitize text for use in Markdown table cells"""
+        if not text:
+            return ""
+        # Escape pipes to prevent table breakage
+        # Replace newlines as they break tables
+        return text.replace("|", "\\|").replace("\n", " ")
+
     def generate_mermaid_diagram(self, output_path: Optional[Path] = None) -> str:
         """Generate Mermaid diagram of the ecosystem"""
 
@@ -148,9 +164,13 @@ graph TD
         displayed_workflows = workflows[: self.MAX_DIAGRAM_WORKFLOWS]
         for i, workflow in enumerate(displayed_workflows):
             workflow_id = f"WF{i}"
-            parts.append(f"        {workflow_id}[{workflow}]:::workflow\n")
+            # Sanitize label and use quotes
+            safe_label = self._sanitize_mermaid_label(workflow)
+            parts.append(f'        {workflow_id}["{safe_label}"]:::workflow\n')
+
             # Add click event to open workflow file
-            click_target = f"{workflow_path}{workflow}"
+            # URL encode the path to handle special characters
+            click_target = urllib.parse.quote(f"{workflow_path}{workflow}")
             parts.append(
                 f'        click {workflow_id} "{click_target}" ' f'"View Workflow"\n'
             )
@@ -577,6 +597,12 @@ graph TD
                 for emoji in self.WORKFLOW_CATEGORIES.keys():
                     grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
 
+                for workflow in workflows:
+                    emoji, category = self._classify_workflow(workflow)
+                    key = f"{emoji} {category}"
+                    if key in grouped:
+                        grouped[key].append(workflow)
+
                 # Count active categories
                 active_categories = sum(
                     1 for items in grouped.values() if len(items) > 0
@@ -594,8 +620,12 @@ graph TD
                         parts.append(f"### {label}\n\n")
                         parts.append("| Workflow | Action |\n|---|---|\n")
                         for w in items:
+                            # Sanitize workflow name for table
+                            safe_w = self._sanitize_markdown_cell(w)
+                            # URL encode the link
+                            safe_url = urllib.parse.quote(f"{workflow_path}{w}")
                             parts.append(
-                                f"| `{w}` | " f"[View]({workflow_path}{w}) |\n"
+                                f"| `{safe_w}` | " f"[View]({safe_url}) |\n"
                             )
                         parts.append("\n")
 

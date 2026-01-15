@@ -26,3 +26,9 @@ the status code matters (after a failed HEAD request), explicitly set
 body. **Prevention:** For status checks on untrusted URLs, always use
 `preload_content=False` and ensure the connection is released via
 `response.release_conn()` or `response.close()`.
+
+## 2025-05-15 - [Prevent Injection in Mermaid Diagrams]
+
+**Vulnerability:** Code Injection in `automation/scripts/ecosystem_visualizer.py`. The script interpolated unsanitized workflow names into Mermaid diagram definitions and Markdown tables. A malicious workflow filename (e.g., `foo"; click WF0 "javascript:alert(1)`) could inject arbitrary nodes, styles, or click events into the diagram, potentially leading to XSS or misleading visualizations.
+**Learning:** Mermaid diagrams are defined by text syntax where characters like `"` and `]` have special meaning. Simply formatting strings into the definition is unsafe if the input is untrusted. Markdown tables are also vulnerable to injection via `|` and newlines.
+**Prevention:** Sanitize all untrusted inputs before interpolating them into Mermaid definitions. Escape quotes (`#quot;`), brackets, and other control characters. For Markdown tables, escape pipes (`\|`) and remove newlines. Use URL encoding for links.
