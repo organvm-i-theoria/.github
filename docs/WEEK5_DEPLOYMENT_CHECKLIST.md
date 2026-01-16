@@ -466,8 +466,8 @@ If only one priority level has issues (e.g., P0 @channel spamming):
 
 **Critical Issues:**
 
-- GitHub down: Check https://www.githubstatus.com
-- Slack down: Check https://status.slack.com
+- GitHub down: Check <https://www.githubstatus.com>
+- Slack down: Check <https://status.slack.com>
 - Both systems operational but integration failing: Contact @workflow-team
   immediately
 
