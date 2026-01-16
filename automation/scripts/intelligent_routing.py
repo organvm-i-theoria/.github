@@ -16,6 +16,8 @@ Environment Variables:
     GITHUB_TOKEN: GitHub API token with repo access
 """
 
+from utils import ConfigLoader, GitHubAPIClient, setup_logger
+from models import RoutingConfig, RoutingDecision, RoutingFactorScores
 import argparse
 import sys
 from datetime import datetime, timedelta, timezone
@@ -24,9 +26,6 @@ from typing import Dict, List, Optional
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
-
-from models import RoutingConfig, RoutingDecision, RoutingFactorScores
-from utils import ConfigLoader, GitHubAPIClient, setup_logger
 
 
 class IntelligentRouter:
@@ -200,7 +199,8 @@ class IntelligentRouter:
 
         try:
             # Get user's commits in last 90 days
-            since = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+            since = (datetime.now(timezone.utc) -
+                     timedelta(days=90)).isoformat()
             endpoint = f"/repos/{owner}/{repo}/commits"
             params = {"author": username, "since": since, "per_page": 100}
             commits = self.client.get(endpoint, params=params)
@@ -240,7 +240,8 @@ class IntelligentRouter:
             return min(1.0, score)
 
         except Exception as e:
-            self.logger.warning(f"Error calculating expertise for {username}: {e}")
+            self.logger.warning(
+                f"Error calculating expertise for {username}: {e}")
             return 0.5  # Default middle score on error
 
     def _calculate_workload(self, owner: str, repo: str, username: str) -> float:
@@ -273,7 +274,8 @@ class IntelligentRouter:
             return score
 
         except Exception as e:
-            self.logger.warning(f"Error calculating workload for {username}: {e}")
+            self.logger.warning(
+                f"Error calculating workload for {username}: {e}")
             return 0.5
 
     def _calculate_response_time(
@@ -289,7 +291,8 @@ class IntelligentRouter:
         """
         try:
             # Get recent closed issues assigned to user
-            since = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
+            since = (datetime.now(timezone.utc) -
+                     timedelta(days=30)).isoformat()
             endpoint = f"/repos/{owner}/{repo}/issues"
             params = {
                 "assignee": username,
@@ -322,7 +325,9 @@ class IntelligentRouter:
                             commented = datetime.fromisoformat(
                                 comment["created_at"].replace("Z", "+00:00")
                             )
-                            response_time = (commented - created).total_seconds() / 3600  # hours
+                            response_time = (
+                                # hours
+                                commented - created).total_seconds() / 3600
                             total_response_time += response_time
                             count += 1
                             break  # First comment only
@@ -420,7 +425,8 @@ class IntelligentRouter:
         """
         try:
             # Get issues closed by user in last 90 days
-            since = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+            since = (datetime.now(timezone.utc) -
+                     timedelta(days=90)).isoformat()
             endpoint = f"/repos/{owner}/{repo}/issues"
             params = {
                 "assignee": username,
@@ -437,8 +443,9 @@ class IntelligentRouter:
             completed = 0
             for issue in closed_issues[:30]:  # Sample recent 30
                 # Check if closed with resolution (not stale, not duplicate, etc.)
-                labels = {label["name"].lower() for label in issue.get("labels", [])}
-                
+                labels = {label["name"].lower()
+                          for label in issue.get("labels", [])}
+
                 # Consider completed if no negative labels
                 negative_labels = {"wontfix", "duplicate", "invalid", "stale"}
                 if not labels & negative_labels:
@@ -627,7 +634,8 @@ def main():
     )
     parser.add_argument("--owner", required=True, help="Repository owner")
     parser.add_argument("--repo", required=True, help="Repository name")
-    parser.add_argument("--issue", required=True, type=int, help="Issue number")
+    parser.add_argument("--issue", required=True,
+                        type=int, help="Issue number")
     parser.add_argument(
         "--assign",
         action="store_true",
@@ -651,7 +659,8 @@ def main():
         config_loader = ConfigLoader()
         try:
             config_dict = config_loader.load("routing.yml")
-            config = RoutingConfig(**config_dict.get("intelligent_routing", {}))
+            config = RoutingConfig(
+                **config_dict.get("intelligent_routing", {}))
         except FileNotFoundError:
             logger.warning("No routing config found, using defaults")
             config = RoutingConfig()
@@ -673,11 +682,16 @@ def main():
         print(f"Fallback Used: {'Yes' if result.fallback_used else 'No'}")
 
         print(f"\nFactor Scores:")
-        print(f"  • Expertise: {result.scores.expertise:.3f} (weight: {config.factors['expertise']})")
-        print(f"  • Workload: {result.scores.workload:.3f} (weight: {config.factors['workload']})")
-        print(f"  • Response Time: {result.scores.response_time:.3f} (weight: {config.factors['response_time']})")
-        print(f"  • Availability: {result.scores.availability:.3f} (weight: {config.factors['availability']})")
-        print(f"  • Performance: {result.scores.performance:.3f} (weight: {config.factors['performance']})")
+        print(
+            f"  • Expertise: {result.scores.expertise:.3f} (weight: {config.factors['expertise']})")
+        print(
+            f"  • Workload: {result.scores.workload:.3f} (weight: {config.factors['workload']})")
+        print(
+            f"  • Response Time: {result.scores.response_time:.3f} (weight: {config.factors['response_time']})")
+        print(
+            f"  • Availability: {result.scores.availability:.3f} (weight: {config.factors['availability']})")
+        print(
+            f"  • Performance: {result.scores.performance:.3f} (weight: {config.factors['performance']})")
 
         if result.alternatives:
             print(f"\nAlternative Assignees:")
