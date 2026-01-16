@@ -15,27 +15,27 @@ maintenance:
 
   # Preferred maintenance windows
   preferred_hours:
-    - 2  # 2 AM
-    - 3  # 3 AM
-    - 4  # 4 AM
+    - 2 # 2 AM
+    - 3 # 3 AM
+    - 4 # 4 AM
 
   preferred_days:
-    - 6  # Saturday
-    - 0  # Sunday (0=Monday, 6=Sunday)
+    - 6 # Saturday
+    - 0 # Sunday (0=Monday, 6=Sunday)
 
   # Dates to avoid (holidays, releases, etc.)
   # Format: YYYY-MM-DD
   avoid_dates:
-    - "2026-12-25"  # Christmas
-    - "2026-01-01"  # New Year
+    - "2026-12-25" # Christmas
+    - "2026-01-01" # New Year
     # Add organization-specific dates
 
   # Dependency Updates
   dependency_updates:
     enabled: true
-    frequency: "weekly"  # Options: daily, weekly, monthly
-    auto_merge: false  # Auto-merge after testing
-    auto_merge_minor: true  # Auto-merge minor/patch updates only
+    frequency: "weekly" # Options: daily, weekly, monthly
+    auto_merge: false # Auto-merge after testing
+    auto_merge_minor: true # Auto-merge minor/patch updates only
     test_before_merge: true
     rollback_on_failure: true
 
@@ -46,45 +46,45 @@ maintenance:
 
     # Update strategies
     strategies:
-      security: "immediate"  # Security updates ASAP
-      major: "manual"  # Major versions need review
-      minor: "auto"  # Auto-merge minor versions
-      patch: "auto"  # Auto-merge patches
+      security: "immediate" # Security updates ASAP
+      major: "manual" # Major versions need review
+      minor: "auto" # Auto-merge minor versions
+      patch: "auto" # Auto-merge patches
 
   # Cleanup Tasks
   cleanup:
     enabled: true
-    frequency: "daily"  # How often to check for cleanup
+    frequency: "daily" # How often to check for cleanup
 
     # Stale branch cleanup
     stale_branches:
       enabled: true
-      days: 30  # Delete branches older than 30 days
+      days: 30 # Delete branches older than 30 days
       exclude_patterns:
         - "main"
         - "master"
         - "develop"
         - "release/*"
         - "hotfix/*"
-      require_pr_merged: true  # Only delete if PR was merged
+      require_pr_merged: true # Only delete if PR was merged
 
     # Old artifacts cleanup
     old_artifacts:
       enabled: true
-      days: 90  # Delete artifacts older than 90 days
-      keep_latest: 5  # Always keep N latest artifacts
+      days: 90 # Delete artifacts older than 90 days
+      keep_latest: 5 # Always keep N latest artifacts
 
     # Workflow run cleanup
     old_workflow_runs:
       enabled: true
       days: 90
-      keep_failed: true  # Keep failed runs for debugging
+      keep_failed: true # Keep failed runs for debugging
 
     # Cache cleanup
     cache_cleanup:
       enabled: true
-      max_size_gb: 10  # Maximum cache size
-      strategy: "lru"  # Least recently used
+      max_size_gb: 10 # Maximum cache size
+      strategy: "lru" # Least recently used
 
   # Optimization Tasks
   optimization:
@@ -136,8 +136,8 @@ maintenance:
 
       github:
         enabled: true
-        create_issue: false  # Create tracking issue
-        create_discussion: true  # Create discussion post
+        create_issue: false # Create tracking issue
+        create_discussion: true # Create discussion post
 
     # Notification templates
     templates:
@@ -145,26 +145,26 @@ maintenance:
         title: "🔧 Scheduled Maintenance: {{ task_type }}"
         message: |
           Scheduled maintenance will begin in {{ minutes }} minutes.
-          
+
           **Type:** {{ task_type }}
           **Start:** {{ start_time }}
           **Duration:** {{ duration }} minutes
           **Impact:** {{ impact_level }}
-          
+
           **Tasks:**
           {{ tasks }}
-          
+
           **Reasoning:** {{ reasoning }}
 
       after:
         title: "✅ Maintenance Complete: {{ task_type }}"
         message: |
           Scheduled maintenance has completed successfully.
-          
+
           **Type:** {{ task_type }}
           **Duration:** {{ actual_duration }} minutes
           **Tasks Completed:** {{ completed_tasks }}
-          
+
           **Results:**
           {{ results }}
 
@@ -194,7 +194,7 @@ ml_config:
 
   # Model configuration
   model:
-    type: "time_series"  # Options: time_series, pattern_matching
+    type: "time_series" # Options: time_series, pattern_matching
     update_frequency: "weekly"
 
 # Risk Management
@@ -202,8 +202,8 @@ risk_management:
   # Risk assessment for tasks
   risk_levels:
     dependency_update:
-      security: "low"  # Security updates are well-tested
-      major: "high"  # Major version changes
+      security: "low" # Security updates are well-tested
+      major: "high" # Major version changes
       minor: "medium"
       patch: "low"
 
@@ -282,7 +282,7 @@ audit:
 # Task-Specific Configuration
 tasks:
   dependency_update:
-    max_concurrent: 5  # Max PRs to merge at once
+    max_concurrent: 5 # Max PRs to merge at once
     test_timeout_minutes: 30
     required_checks:
       - "test"
@@ -290,8 +290,8 @@ tasks:
       - "security-scan"
 
   cleanup:
-    batch_size: 10  # Process N items at a time
-    dry_run_first: true  # Always do dry run first
+    batch_size: 10 # Process N items at a time
+    dry_run_first: true # Always do dry run first
 
   optimization:
     backup_before: true

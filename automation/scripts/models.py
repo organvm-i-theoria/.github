@@ -272,9 +272,11 @@ class MaintenanceTask(BaseModel):
     task_type: str = Field(..., description="Type of task")
     description: str = Field(..., description="Task description")
     priority: Priority = Field(..., description="Task priority")
-    estimated_duration: int = Field(..., ge=1, description="Duration in minutes")
+    estimated_duration: int = Field(..., ge=1,
+                                    description="Duration in minutes")
     risk_level: RiskLevel = Field(..., description="Risk level")
-    details: Dict = Field(default_factory=dict, description="Additional details")
+    details: Dict = Field(default_factory=dict,
+                          description="Additional details")
 
 
 class MaintenanceWindow(BaseModel):
@@ -503,6 +505,69 @@ class AuditLogEntry(BaseModel):
     token_preview: Optional[str] = Field(
         None, description="First 8 chars of token used"
     )
+
+    class Config:
+        """Pydantic configuration."""
+
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+# =============================================================================
+# Enhanced Analytics Models
+# =============================================================================
+
+
+class AnalyticsConfig(BaseModel):
+    """Configuration for enhanced analytics ML model."""
+
+    enabled: bool = True
+    default_model: str = "random_forest"
+    min_confidence: float = Field(0.6, ge=0.0, le=1.0)
+    min_accuracy: float = Field(0.85, ge=0.0, le=1.0)
+    training_lookback_days: int = Field(90, ge=1)
+    retrain_schedule: str = "weekly"
+
+    class Config:
+        """Example analytics config."""
+
+        schema_extra = {
+            "example": {
+                "enabled": True,
+                "default_model": "random_forest",
+                "min_confidence": 0.6,
+                "min_accuracy": 0.85,
+                "training_lookback_days": 90,
+                "retrain_schedule": "weekly",
+            }
+        }
+
+
+class AnalyticsPrediction(BaseModel):
+    """Prediction result from ML model."""
+
+    pr_number: int
+    prediction: str = Field(...,
+                            description="Prediction outcome (merge/close)")
+    confidence: float = Field(..., ge=0.0, le=1.0)
+    model_name: str
+    features: Dict[str, float] = Field(default_factory=dict)
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
+
+    class Config:
+        """Pydantic configuration."""
+
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class FeatureImportance(BaseModel):
+    """Feature importance analysis from ML model."""
+
+    model_name: str
+    features: Dict[str, float] = Field(..., description="Feature scores")
+    top_features: List[str] = Field(
+        default_factory=list, description="Top N features"
+    )
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         """Pydantic configuration."""
