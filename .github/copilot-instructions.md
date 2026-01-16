@@ -52,11 +52,11 @@ globs: *
   - When pre-commit hooks fail, address the issues systematically:
     1. **Shell Scripts:** Ensure shell scripts have executable permissions
        (`chmod +x script_name.py`).
-    1. **YAML Formatting:** Check `.bandit` for YAML syntax errors.
-    1. **Markdown Formatting:** Use `mdformat` to fix markdown issues.
-    1. **Python Linting:** Resolve `flake8` and `mypy` errors.
-    1. **Shell Linting:** Address `shellcheck` issues.
-    1. **Configuration Issues:** Resolve issues reported by `bandit` and
+    2. **YAML Formatting:** Check `.bandit` for YAML syntax errors.
+    3. **Markdown Formatting:** Use `mdformat` to fix markdown issues.
+    4. **Python Linting:** Resolve `flake8` and `mypy` errors.
+    5. **Shell Linting:** Address `shellcheck` issues.
+    6. **Configuration Issues:** Resolve issues reported by `bandit` and
        `detect-secrets`.
   - For `detect-secrets` issues, try running `pre-commit autoupdate`.
   - If ESLint reports missing configuration, create an `.eslintrc.json` file.

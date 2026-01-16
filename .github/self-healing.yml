@@ -146,12 +146,12 @@ notifications:
       message: |
         Transient failure detected in {{ workflow_name }}.
         Attempting automatic retry {{ retry_count }}/{{ max_retries }}.
-        
+
         **Repository:** {{ repository }}
         **Run ID:** {{ run_id }}
         **Branch:** {{ branch }}
         **Confidence:** {{ confidence }}%
-        
+
         [View Run]({{ run_url }})
 
     dependency:
@@ -159,11 +159,11 @@ notifications:
       message: |
         Dependency failure detected in {{ workflow_name }}.
         Waiting for upstream dependencies before retry.
-        
+
         **Repository:** {{ repository }}
         **Run ID:** {{ run_id }}
         **Wait Time:** {{ wait_time }}s
-        
+
         [View Run]({{ run_url }})
 
     permanent:
@@ -171,18 +171,18 @@ notifications:
       message: |
         Permanent failure detected in {{ workflow_name }}.
         Manual intervention required.
-        
+
         **Repository:** {{ repository }}
         **Run ID:** {{ run_id }}
         **Branch:** {{ branch }}
         **Priority:** {{ priority }}
         **Confidence:** {{ confidence }}%
-        
+
         **Reason:** {{ reason }}
-        
+
         **Failed Jobs:**
         {{ failed_jobs }}
-        
+
         [View Run]({{ run_url }})
         [View Issue]({{ issue_url }})
 
@@ -190,11 +190,11 @@ notifications:
       title: "✅ Workflow Recovered: {{ workflow_name }}"
       message: |
         Workflow {{ workflow_name }} recovered after {{ retry_count }} retries.
-        
+
         **Repository:** {{ repository }}
         **Run ID:** {{ run_id }}
         **Strategy:** {{ strategy }}
-        
+
         [View Run]({{ run_url }})
 
 # Issue tracking configuration
@@ -211,8 +211,8 @@ issue_tracking:
   assign_to:
     p0: ["oncall-engineer"]
     p1: ["team-lead"]
-    p2: []  # No auto-assign
-    p3: []  # No auto-assign
+    p2: [] # No auto-assign
+    p3: [] # No auto-assign
 
   # Issue templates
   title_template: "🔧 Workflow Failure: {{ workflow_name }} ({{ failure_type }})"
@@ -242,12 +242,12 @@ advanced:
 
   # Max total retry time (seconds)
   # Give up after this much total time spent retrying
-  max_total_retry_time: 3600  # 1 hour
+  max_total_retry_time: 3600 # 1 hour
 
   # Jitter for retry delays
   # Adds randomness to prevent thundering herd
   retry_jitter: true
-  jitter_factor: 0.1  # ±10% randomness
+  jitter_factor: 0.1 # ±10% randomness
 
 # Workflow-specific overrides
 workflow_overrides:

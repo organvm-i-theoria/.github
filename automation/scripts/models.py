@@ -266,6 +266,17 @@ class SelfHealingConfig(BaseModel):
 # =============================================================================
 
 
+class MaintenanceTask(BaseModel):
+    """Individual maintenance task."""
+
+    task_type: str = Field(..., description="Type of task")
+    description: str = Field(..., description="Task description")
+    priority: Priority = Field(..., description="Task priority")
+    estimated_duration: int = Field(..., ge=1, description="Duration in minutes")
+    risk_level: RiskLevel = Field(..., description="Risk level")
+    details: Dict = Field(default_factory=dict, description="Additional details")
+
+
 class MaintenanceWindow(BaseModel):
     """Predicted maintenance window."""
 
@@ -275,12 +286,16 @@ class MaintenanceWindow(BaseModel):
     impact_score: float = Field(
         ..., ge=0.0, le=1.0, description="Impact score (lower is better)"
     )
-    confidence: float = Field(..., ge=0.0, le=1.0,
-                              description="Prediction confidence")
+    confidence: float = Field(
+        ..., ge=0.0, le=1.0, description="Prediction confidence"
+    )
     alternatives: List[Dict] = Field(
         default_factory=list, description="Alternative time windows"
     )
     reasoning: str = Field(..., description="Scheduling rationale")
+    tasks: List[MaintenanceTask] = Field(
+        default_factory=list, description="Tasks to perform"
+    )
 
     class Config:
         """Pydantic configuration."""
@@ -308,7 +323,7 @@ class MaintenanceConfig(BaseModel):
 
     cleanup_enabled: bool = True
     cleanup_frequency: str = "daily"
-    stale_branches_days: int = 30
+    stale_branch_days: int = 30
     old_artifacts_days: int = 90
 
     optimization_enabled: bool = True

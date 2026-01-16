@@ -14,6 +14,14 @@ Environment Variables:
     GITHUB_TOKEN: GitHub API token with repo and workflow access
 """
 
+from utils import ConfigLoader, GitHubAPIClient, setup_logger
+from models import (
+    FailureClassification,
+    FailureType,
+    Priority,
+    SelfHealingConfig,
+    SelfHealingResult,
+)
 import argparse
 import sys
 import time
@@ -22,15 +30,6 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 sys.path.insert(0, str(Path(__file__).parent))
-
-from models import (
-    FailureClassification,
-    FailureType,
-    Priority,
-    SelfHealingConfig,
-    SelfHealingResult,
-)
-from utils import ConfigLoader, GitHubAPIClient, setup_logger
 
 
 class SelfHealingEngine:
@@ -94,7 +93,8 @@ class SelfHealingEngine:
         strategy = self._determine_strategy(classification)
 
         # Execute healing strategy
-        result = self._execute_strategy(owner, repo, run, classification, strategy)
+        result = self._execute_strategy(
+            owner, repo, run, classification, strategy)
 
         self.logger.info(
             f"Healing {'successful' if result.healed else 'unsuccessful'}: "
@@ -161,7 +161,7 @@ class SelfHealingEngine:
             "ETIMEDOUT",
         ]
 
-        # Check for dependency failure patterns  
+        # Check for dependency failure patterns
         dependency_patterns = [
             "dependency",
             "required check",
@@ -186,24 +186,24 @@ class SelfHealingEngine:
 
         # Analyze workflow name and job names for patterns
         workflow_name = run.get("name", "").lower()
-        
+
         # Check run conclusion and duration
         if run["conclusion"] == "timed_out":
             failure_type = FailureType.TRANSIENT
             confidence = 0.8
             reason = "Workflow timed out - likely transient"
-        
+
         # Check for multiple recent failures (indicates permanent issue)
         elif self._has_consecutive_failures(run):
             failure_type = FailureType.PERMANENT
             confidence = 0.7
             reason = "Multiple consecutive failures"
-        
+
         # Check failed step names for patterns
         else:
             for step_info in failed_steps:
                 step_name = step_info["step"].lower()
-                
+
                 # Check patterns
                 if any(p in step_name for p in transient_patterns):
                     failure_type = FailureType.TRANSIENT
@@ -231,7 +231,8 @@ class SelfHealingEngine:
             confidence=confidence,
             reason=reason,
             priority=priority,
-            failed_jobs=[job["name"] for job in jobs if job["conclusion"] == "failure"],
+            failed_jobs=[job["name"]
+                         for job in jobs if job["conclusion"] == "failure"],
             timestamp=datetime.now(timezone.utc),
         )
 
@@ -240,14 +241,14 @@ class SelfHealingEngine:
         try:
             owner, repo = run["repository"]["full_name"].split("/")
             workflow_id = run["workflow_id"]
-            
+
             # Get recent runs for this workflow
             endpoint = f"/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs"
             params = {"per_page": 10, "status": "completed"}
             response = self.client.get(endpoint, params=params)
-            
+
             recent_runs = response.get("workflow_runs", [])
-            
+
             # Count consecutive failures before this run
             consecutive_failures = 0
             for recent_run in recent_runs:
@@ -257,9 +258,9 @@ class SelfHealingEngine:
                     consecutive_failures += 1
                 else:
                     break
-            
+
             return consecutive_failures >= self.config.max_consecutive_failures
-            
+
         except Exception as e:
             self.logger.warning(f"Error checking consecutive failures: {e}")
             return False
@@ -269,7 +270,7 @@ class SelfHealingEngine:
     ) -> Priority:
         """Determine priority based on workflow and failure type."""
         workflow_name = run.get("name", "").lower()
-        
+
         # P0: Critical workflows or permanent failures in production
         if any(
             keyword in workflow_name
@@ -278,15 +279,15 @@ class SelfHealingEngine:
             if failure_type == FailureType.PERMANENT:
                 return Priority.P0
             return Priority.P1
-        
+
         # P1: Main branch or permanent failures
         if run.get("head_branch") == "main":
             return Priority.P1
-        
+
         # P2: Dependency or transient failures
         if failure_type in [FailureType.DEPENDENCY, FailureType.TRANSIENT]:
             return Priority.P2
-        
+
         # P3: Everything else
         return Priority.P3
 
@@ -363,7 +364,7 @@ class SelfHealingEngine:
             Healing result
         """
         retry_count = self._get_retry_count(owner, repo, run["id"])
-        
+
         if retry_count >= self.config.max_retry_attempts:
             self.logger.warning(
                 f"Max retry attempts ({self.config.max_retry_attempts}) reached"
@@ -387,7 +388,7 @@ class SelfHealingEngine:
         delay = self.config.initial_retry_delay * (
             self.config.retry_backoff_multiplier ** retry_count
         )
-        
+
         self.logger.info(
             f"Retry {retry_count + 1}/{self.config.max_retry_attempts} "
             f"after {delay}s delay"
@@ -396,14 +397,14 @@ class SelfHealingEngine:
         if self.config.enable_auto_retry:
             # Re-run the workflow
             success = self._rerun_workflow(owner, repo, run["id"])
-            
+
             actions = [
                 f"Classified as transient failure (confidence: {classification.confidence:.2f})",
                 f"Retry attempt {retry_count + 1}/{self.config.max_retry_attempts}",
                 f"Applied {delay}s exponential backoff",
                 f"Workflow {'re-run successfully' if success else 're-run failed'}",
             ]
-            
+
             return SelfHealingResult(
                 run_id=run["id"],
                 repository=f"{owner}/{repo}",
@@ -448,7 +449,7 @@ class SelfHealingEngine:
             Healing result
         """
         wait_time = self.config.dependency_wait_time
-        
+
         self.logger.info(
             f"Waiting {wait_time}s for dependencies before retry"
         )
@@ -462,13 +463,13 @@ class SelfHealingEngine:
             # In production, would check dependency status before retrying
             # For now, just wait and retry
             time.sleep(min(wait_time, 5))  # Cap at 5s for demo
-            
+
             success = self._rerun_workflow(owner, repo, run["id"])
-            
+
             actions.append(
                 f"Workflow {'re-run successfully' if success else 're-run failed'}"
             )
-            
+
             return SelfHealingResult(
                 run_id=run["id"],
                 repository=f"{owner}/{repo}",
@@ -525,7 +526,8 @@ class SelfHealingEngine:
 
         # Create issue for tracking
         if self.config.create_issues_for_failures:
-            issue_number = self._create_failure_issue(owner, repo, run, classification)
+            issue_number = self._create_failure_issue(
+                owner, repo, run, classification)
             if issue_number:
                 actions.append(f"Created tracking issue #{issue_number}")
 
@@ -600,7 +602,7 @@ class SelfHealingEngine:
                 f"🔧 Workflow Failure: {run['name']} "
                 f"({classification.failure_type.value})"
             )
-            
+
             body = f"""## Workflow Failure Report
 
 **Workflow:** {run['name']}
@@ -641,13 +643,13 @@ class SelfHealingEngine:
                     "auto-generated",
                 ],
             }
-            
+
             response = self.client.post(endpoint, data)
             issue_number = response["number"]
-            
+
             self.logger.info(f"Created failure issue #{issue_number}")
             return issue_number
-            
+
         except Exception as e:
             self.logger.error(f"Failed to create issue: {e}")
             return None
@@ -682,7 +684,8 @@ def main():
         default=".github/self-healing.yml",
         help="Configuration file path",
     )
-    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--debug", action="store_true",
+                        help="Enable debug logging")
 
     args = parser.parse_args()
 
