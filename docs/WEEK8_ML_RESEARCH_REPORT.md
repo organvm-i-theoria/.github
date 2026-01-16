@@ -35,11 +35,13 @@ This research successfully developed a proof-of-concept machine learning system 
 ### Data Collection
 
 **Historical Data:**
+
 - 90 days of workflow execution history
 - GitHub Actions API via `gh` CLI
 - Features: temporal, workflow, and repository metadata
 
 **Sample Size:**
+
 - Training: ~700 workflow runs (70%)
 - Validation: ~150 runs (15%)
 - Test: ~150 runs (15%)
@@ -49,16 +51,19 @@ This research successfully developed a proof-of-concept machine learning system 
 ### Feature Engineering
 
 **Temporal Features:**
+
 - `hour_of_day` (0-23)
 - `day_of_week` (0-6, Monday=0)
 - `is_weekend` (binary)
 
 **Workflow Features:**
+
 - `workflow_id` (unique identifier)
 - `workflow_name_hash` (deterministic hash)
 - `event_hash` (trigger event type)
 
 **Repository Features:**
+
 - `run_number` (sequential execution count)
 - `run_attempt` (retry count)
 
@@ -67,6 +72,7 @@ This research successfully developed a proof-of-concept machine learning system 
 **Algorithm:** RandomForestClassifier
 
 **Rationale:**
+
 - Handles non-linear relationships
 - Robust to outliers
 - Provides feature importance
@@ -74,6 +80,7 @@ This research successfully developed a proof-of-concept machine learning system 
 - Interpretable results
 
 **Hyperparameters:**
+
 ```python
 n_estimators=100       # Number of trees
 max_depth=10          # Tree depth limit
@@ -105,6 +112,7 @@ Actual Success   142      3      (98% correctly identified)
 ```
 
 **Interpretation:**
+
 - **High precision (89%)**: When model predicts failure, it's correct 89% of the time
 - **Good recall (62%)**: Model catches 62% of actual failures
 - **Few false positives**: Only 3 false alarms out of 145 successes (2%)
@@ -125,16 +133,19 @@ Actual Success   142      3      (98% correctly identified)
 ### Key Insights
 
 **Temporal Patterns:**
+
 1. **2-4 AM UTC** (highest risk): Automated scheduled runs during low activity
 2. **Monday mornings** (elevated risk): Weekend changes deployed
 3. **Friday afternoons** (moderate risk): End-of-week rushed commits
 
 **Workflow Patterns:**
+
 1. **First run after code change**: 3.2x higher failure rate
 2. **Retry attempts**: 85% failure rate on second attempt
 3. **Manual triggers**: 1.8x higher failure rate than automated
 
 **Recommendations:**
+
 - Avoid critical deployments during 2-4 AM UTC window
 - Increase monitoring on Monday mornings
 - Review workflows requiring retries (potential flakiness)
@@ -147,6 +158,7 @@ Actual Success   142      3      (98% correctly identified)
 ### Features Implemented
 
 **Real-Time Risk Display:**
+
 - Top 5 high-risk workflows
 - Color-coded risk levels (green/yellow/orange/red)
 - Failure probability percentages
@@ -154,12 +166,14 @@ Actual Success   142      3      (98% correctly identified)
 - Auto-refresh every 5 minutes
 
 **Risk Levels:**
+
 - **LOW** (<5% probability): Green ✅
 - **MEDIUM** (5-15%): Yellow ⚠️
 - **HIGH** (15-30%): Orange 🔶
 - **CRITICAL** (>30%): Red 🔴
 
 **Model Metrics Display:**
+
 - Current accuracy
 - Precision and recall
 - Training sample count
@@ -172,6 +186,7 @@ Actual Success   142      3      (98% correctly identified)
 **Integration:** Dashboard API endpoint `/api/predictions/high-risk`
 
 **Sample Output:**
+
 ```
 🔮 Predictive Analytics          Model Accuracy: 74.3%
 
@@ -198,6 +213,7 @@ Actual Success   142      3      (98% correctly identified)
 ### Scripts & Components
 
 **1. `predict_workflow_failures.py` (502 lines)**
+
 - Data collection from GitHub Actions API
 - Feature extraction and preprocessing
 - Model training with RandomForest
@@ -206,6 +222,7 @@ Actual Success   142      3      (98% correctly identified)
 - Model persistence (pickle format)
 
 **Usage:**
+
 ```bash
 # Collect 90 days of data
 python3 predict_workflow_failures.py --collect --days 90
@@ -221,6 +238,7 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ```
 
 **2. `PredictiveWidget.tsx` (205 lines)**
+
 - React component for dashboard
 - Real-time prediction display
 - Risk level visualization
@@ -228,6 +246,7 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 - Responsive design
 
 **3. `PredictiveWidget.css` (312 lines)**
+
 - GitHub-themed styling
 - Color-coded risk levels
 - Mobile-responsive layout
@@ -240,12 +259,14 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Phase 1: Silent Monitoring (Week 1)
 
 **Actions:**
+
 - Deploy prediction script to production
 - Run daily predictions via cron
 - Log predictions without alerts
 - Compare predictions to actual outcomes
 
 **Success Criteria:**
+
 - Prediction API response time <5 seconds
 - Zero crashes or errors
 - Prediction logs complete and parseable
@@ -253,12 +274,14 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Phase 2: Dashboard Integration (Week 2)
 
 **Actions:**
+
 - Add widget to main dashboard
 - Enable real-time predictions
 - Team-only access (alpha testing)
 - Gather user feedback
 
 **Success Criteria:**
+
 - Dashboard load time <2 seconds
 - Widget updates every 5 minutes
 - Positive team feedback (>7/10)
@@ -266,11 +289,13 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Phase 3: Alerting (Week 3)
 
 **Actions:**
+
 - Enable Slack notifications for CRITICAL risk
 - Daily digest of HIGH risk workflows
 - Integrate with on-call rotation
 
 **Success Criteria:**
+
 - Alert delivery rate >99%
 - False positive rate <10%
 - Response time to alerts <30 minutes
@@ -278,12 +303,14 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Phase 4: Model Refinement (Week 4)
 
 **Actions:**
+
 - Collect production prediction accuracy data
 - Retrain model with additional features
 - A/B test new model vs. baseline
 - Optimize alerting thresholds
 
 **Success Criteria:**
+
 - Accuracy improvement >5%
 - False positive rate <5%
 - Team adoption >80%
@@ -312,18 +339,21 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Future Enhancements
 
 **Short-Term (Month 3):**
+
 - Add commit diff analysis (code churn metrics)
 - Integrate external service health checks
 - Implement prediction explanations (SHAP values)
 - Expand to multiple repositories
 
 **Medium-Term (Months 4-6):**
+
 - Real-time prediction updates (streaming)
 - Auto-remediation for predicted failures
 - Integration with incident management
 - Advanced feature engineering (NLP on commit messages)
 
 **Long-Term (6+ months):**
+
 - Deep learning models (LSTM for time series)
 - Transfer learning across repositories
 - Anomaly detection for unusual patterns
@@ -347,6 +377,7 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Expected Benefits (Annual)
 
 **Failure Prevention:**
+
 - Current failure rate: 4.8% (60 failures/year)
 - Model can predict: ~37 failures (62% recall)
 - Time saved per prevented failure: 2 hours
@@ -354,12 +385,14 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 - **Value:** $11,100/year
 
 **Reduced Downtime:**
+
 - Average incident duration: 30 minutes
 - Incidents prevented: ~37/year
 - **Downtime reduced:** 18.5 hours/year
 - **Value (team productivity):** $13,875/year
 
 **Improved Reliability:**
+
 - Better service availability
 - Increased stakeholder confidence
 - Reduced alert fatigue
@@ -368,6 +401,7 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 **Total Annual Benefit:** $30,000-$35,000
 
 **ROI:**
+
 - First year: 163-207% (after development cost)
 - Subsequent years: 347% (ongoing benefit)
 
@@ -408,12 +442,14 @@ python3 predict_workflow_failures.py --high-risk --threshold 0.15
 ### Resource Requirements
 
 **Ongoing (Monthly):**
+
 - Model retraining: 4 hours
 - Monitoring & maintenance: 8 hours
 - User support: 4 hours
 - **Total:** 16 hours/month (~$2,400/month)
 
 **Infrastructure:**
+
 - ML model storage: ~10 MB
 - Prediction cache: ~1 GB
 - API compute: Negligible (existing infrastructure)
