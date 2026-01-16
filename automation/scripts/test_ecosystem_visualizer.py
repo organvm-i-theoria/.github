@@ -355,6 +355,37 @@ class TestEcosystemVisualizer(unittest.TestCase):
         self.assertEqual(emoji, "🔐")
         self.assertEqual(category, "Security")
 
+    def test_auto_populate_technologies(self):
+        """Test that technologies are auto-populated from repository health data"""
+        report_data = {
+            "timestamp": "2025-12-25T02:37:00",
+            "organization": "TestOrg",
+            "ecosystem_map": {
+                "workflows": [],
+                "technologies": [],  # Empty technologies
+            },
+            "repository_health": {
+                "repositories": [
+                    {"name": "repo1", "language": "Python"},
+                    {"name": "repo2", "language": "Rust"},
+                    {"name": "repo3", "language": "Python"},  # Duplicate
+                    {"name": "repo4", "language": None},  # No language
+                ]
+            },
+        }
+
+        with open(self.report_path, "w") as f:
+            json.dump(report_data, f)
+
+        visualizer = EcosystemVisualizer(self.report_path)
+        em = visualizer.report_data.get("ecosystem_map", {})
+        technologies = em.get("technologies", [])
+
+        self.assertIn("Python", technologies)
+        self.assertIn("Rust", technologies)
+        self.assertEqual(len(technologies), 2)
+        self.assertEqual(technologies, sorted(["Python", "Rust"]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -55,7 +55,32 @@ class EcosystemVisualizer:
     ]
 
     # Technology icons (extendable)
-    TECHNOLOGY_ICONS: Dict[str, str] = {}
+    TECHNOLOGY_ICONS: Dict[str, str] = {
+        "python": "🐍",
+        "typescript": "📘",
+        "javascript": "💛",
+        "rust": "🦀",
+        "go": "🐹",
+        "shell": "🐚",
+        "html": "🌐",
+        "css": "🎨",
+        "docker": "🐳",
+        "kubernetes": "☸️",
+        "terraform": "🏗️",
+        "jupyter notebook": "📓",
+        "swift": "🐦",
+        "kotlin": "☕",
+        "java": "☕",
+        "c#": "#️⃣",
+        "c++": "➕",
+        "ruby": "💎",
+        "php": "🐘",
+        "g-code": "🖨️",
+        "vue": "🟢",
+        "react": "⚛️",
+        "angular": "🅰️",
+        "svelte": "🔥",
+    }
 
     def __init__(self, report_path: Optional[Path] = None):
         self.report_path = report_path
@@ -64,6 +89,24 @@ class EcosystemVisualizer:
         if report_path and report_path.exists():
             with open(report_path) as f:
                 self.report_data = json.load(f)
+
+        # Auto-populate technologies if missing but repository data exists
+        if self.report_data:
+            em = self.report_data.get("ecosystem_map", {})
+            if not em.get("technologies") and "repository_health" in self.report_data:
+                repos = self.report_data["repository_health"].get("repositories", [])
+                languages = set()
+                for repo in repos:
+                    lang = repo.get("language")
+                    if lang:
+                        languages.add(lang)
+
+                if languages:
+                    if "ecosystem_map" not in self.report_data:
+                        self.report_data["ecosystem_map"] = {}
+                    self.report_data["ecosystem_map"]["technologies"] = sorted(
+                        list(languages)
+                    )
 
     def _calculate_relative_path(self, output_path: Path, target_path: str) -> str:
         """
@@ -576,6 +619,15 @@ graph TD
                 grouped: Dict[str, List[str]] = {}
                 for emoji in self.WORKFLOW_CATEGORIES.keys():
                     grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
+
+                for workflow in workflows:
+                    emoji, category = self._classify_workflow(workflow)
+                    key = f"{emoji} {category}"
+                    if key in grouped:
+                        grouped[key].append(workflow)
+                    else:
+                        # Fallback just in case
+                        grouped[f"⚙️ {self.WORKFLOW_CATEGORIES['⚙️']}"].append(workflow)
 
                 # Count active categories
                 active_categories = sum(
