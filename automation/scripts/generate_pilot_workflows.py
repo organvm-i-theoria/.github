@@ -318,7 +318,8 @@ jobs:
         print(f"\n📁 Workflows generated in: {output_path.absolute()}")
         print("\n📝 Next steps:")
         print(f"1. Review generated workflows in {output_path}")
-        print(f"2. Copy to {self.repo['owner']}/{self.repo['name']}/.github/workflows/")
+        print(
+            f"2. Copy to {self.repo['owner']}/{self.repo['name']}/.github/workflows/")
         print("3. Test in passive mode (dry-run)")
         print("4. Activate gradually per deployment plan")
 
