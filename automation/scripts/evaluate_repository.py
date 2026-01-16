@@ -107,8 +107,8 @@ class RepositoryEvaluator:
         try:
             subprocess.run(
                ['gh', 'api', f'repos/{self.repo}/contents/{filepath}'],
-                capture_output = True,
-                check = True
+                capture_output=True,
+                check=True
             )
                 return True
             except subprocess.CalledProcessError:
@@ -116,7 +116,7 @@ class RepositoryEvaluator:
 
             def get_commit_activity(self) -> int:
             """Get number of commits in the last week."""
-            result= self.run_gh_command([
+            result = self.run_gh_command([
             'api',
             f'repos/{self.repo}/commits',
             '--jq', 'length',
@@ -143,7 +143,7 @@ class RepositoryEvaluator:
     def calculate_documentation_score(self, has_codeowners: bool,
                                     has_contributing: bool) -> float:
                                      """Calculate documentation score (0-100)."""
-                                     score= 0
+                                     score = 0
                                      if has_codeowners:
                                      score += 50  # CODEOWNERS is critical
                                      if has_contributing:
