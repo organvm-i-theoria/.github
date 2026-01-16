@@ -1,0 +1,168 @@
+name: Email Digest
+
+on:
+  schedule:
+    # Weekly on Monday at 9:00 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      recipients:
+        description: 'Additional recipients (comma-separated emails)'
+        required: false
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  generate-digest:
+    name: Generate Weekly Digest
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install jinja2 requests python-dateutil
+      
+      - name: Collect workflow metrics
+        id: metrics
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get last week's date range
+          END_DATE=$(date -u +%Y-%m-%d)
+          START_DATE=$(date -u -d '7 days ago' +%Y-%m-%d)
+          
+          echo "Date range: $START_DATE to $END_DATE"
+          
+          # Get workflow runs from last week
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/runs?created=>=${START_DATE}&per_page=100" \
+            > workflow_runs.json
+          
+          # Calculate metrics
+          TOTAL_RUNS=$(jq '.workflow_runs | length' workflow_runs.json)
+          SUCCESSFUL=$(jq '[.workflow_runs[] | select(.conclusion == "success")] | length' workflow_runs.json)
+          FAILED=$(jq '[.workflow_runs[] | select(.conclusion == "failure")] | length' workflow_runs.json)
+          
+          if [ "$TOTAL_RUNS" -gt 0 ]; then
+            SUCCESS_RATE=$(echo "scale=1; $SUCCESSFUL * 100 / $TOTAL_RUNS" | bc)
+          else
+            SUCCESS_RATE="0.0"
+          fi
+          
+          # Get issue and PR counts
+          ISSUES_OPENED=$(gh issue list --repo "${{ github.repository }}" \
+            --state all --search "created:>=$START_DATE" --json number --jq '. | length')
+          ISSUES_CLOSED=$(gh issue list --repo "${{ github.repository }}" \
+            --state closed --search "closed:>=$START_DATE" --json number --jq '. | length')
+          
+          PRS_OPENED=$(gh pr list --repo "${{ github.repository }}" \
+            --state all --search "created:>=$START_DATE" --json number --jq '. | length')
+          PRS_MERGED=$(gh pr list --repo "${{ github.repository }}" \
+            --state merged --search "merged:>=$START_DATE" --json number --jq '. | length')
+          
+          # Get stale items
+          STALE_MARKED=$(gh issue list --repo "${{ github.repository }}" \
+            --label "stale" --json number --jq '. | length')
+          
+          # Save metrics to file
+          cat > metrics.json <<EOF
+          {
+            "period": {
+              "start": "$START_DATE",
+              "end": "$END_DATE"
+            },
+            "workflows": {
+              "totalRuns": $TOTAL_RUNS,
+              "successful": $SUCCESSFUL,
+              "failed": $FAILED,
+              "successRate": $SUCCESS_RATE
+            },
+            "issues": {
+              "opened": $ISSUES_OPENED,
+              "closed": $ISSUES_CLOSED
+            },
+            "pullRequests": {
+              "opened": $PRS_OPENED,
+              "merged": $PRS_MERGED
+            },
+            "stale": {
+              "marked": $STALE_MARKED
+            }
+          }
+          EOF
+          
+          echo "Metrics collected:"
+          cat metrics.json
+      
+      - name: Get notable events
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get failed workflow runs
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/runs?status=failure&per_page=5" \
+            | jq '.workflow_runs[] | {name: .name, conclusion: .conclusion, html_url: .html_url, created_at: .created_at}' \
+            | jq -s '.' > notable_events.json
+          
+          echo "Notable events:"
+          cat notable_events.json
+      
+      - name: Generate HTML email
+        run: |
+          python3 automation/scripts/generate_email_digest.py \
+            --metrics metrics.json \
+            --events notable_events.json \
+            --output email_digest.html
+      
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: '📊 Weekly Workflow Digest - ${{ github.repository }}'
+          to: ${{ secrets.DIGEST_RECIPIENTS }},${{ github.event.inputs.recipients }}
+          from: GitHub Workflows <noreply@github.com>
+          html_body: file://email_digest.html
+          content_type: text/html
+      
+      - name: Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: email-digest-${{ github.run_id }}
+          path: |
+            email_digest.html
+            metrics.json
+            notable_events.json
+          retention-days: 90
+      
+      - name: Post summary to Slack
+        if: always()
+        uses: ./.github/actions/slack-notify
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          priority: 'P3'
+          title: 'Weekly Email Digest Sent'
+          message: |
+            Weekly workflow digest has been sent to stakeholders.
+            
+            Success Rate: ${{ steps.metrics.outputs.success-rate }}%
+            Total Runs: ${{ steps.metrics.outputs.total-runs }}
+          workflow-url: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          repository: ${{ github.repository }}
