@@ -42,6 +42,7 @@ The Batch Repository Onboarding system enables parallel onboarding of multiple G
 | **Rollback Success** | 100% | 100% | ✅ Perfect |
 
 **Concurrency Performance:**
+
 - Concurrency=1: 6.07s per repo (baseline)
 - Concurrency=3: 5.78s per repo (optimal, 5% faster) ⭐
 - Concurrency=5: 5.89s per repo (aggressive)
@@ -49,6 +50,7 @@ The Batch Repository Onboarding system enables parallel onboarding of multiple G
 **Recommended**: Use concurrency=3 for production (validated, safe, fast)
 
 **Scalability** (projected based on 5.78s/repo @ concurrency=3):
+
 - 5 repos: ~11.6s total
 - 10 repos: ~23.1s total
 - 15 repos: ~34.7s total
