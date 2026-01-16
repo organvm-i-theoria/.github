@@ -95,6 +95,7 @@ python3 automation/scripts/batch_onboard_repositories.py \
 - [ ] Deployment completed successfully
 
 **Expected Results:**
+
 - Duration: <20s (3 repos × 5.78s + overhead)
 - Success rate: 100%
 - Rollback count: 0
@@ -211,6 +212,7 @@ python3 automation/scripts/batch_onboard_repositories.py \
 - [ ] Performance within targets
 
 **Expected Results:**
+
 - Duration: <50s (8 repos × 5.78s + overhead)
 - Success rate: 100%
 - Rollback count: 0
@@ -255,6 +257,7 @@ python3 automation/scripts/batch_onboard_repositories.py \
 - [ ] Performance metrics collected
 
 **Expected Results:**
+
 - Duration: <75s (12 repos × 5.78s + overhead)
 - Success rate: 100%
 - Rollback count: 0
