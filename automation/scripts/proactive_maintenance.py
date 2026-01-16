@@ -19,14 +19,7 @@ Environment Variables:
     GITHUB_TOKEN: GitHub API token with repo access
 """
 
-import argparse
-import sys
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-
-sys.path.insert(0, str(Path(__file__).parent))
-
+from utils import ConfigLoader, GitHubAPIClient, setup_logger
 from models import (
     MaintenanceConfig,
     MaintenanceTask,
@@ -34,7 +27,13 @@ from models import (
     Priority,
     RiskLevel,
 )
-from utils import ConfigLoader, GitHubAPIClient, setup_logger
+import argparse
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+
+sys.path.insert(0, str(Path(__file__).parent))
 
 
 class MaintenanceScheduler:
@@ -140,7 +139,8 @@ class MaintenanceScheduler:
     def _get_commit_activity(self, owner: str, repo: str) -> List[Dict]:
         """Get recent commit activity."""
         try:
-            since = (datetime.now(timezone.utc) - timedelta(days=28)).isoformat()
+            since = (datetime.now(timezone.utc) -
+                     timedelta(days=28)).isoformat()
             endpoint = f"/repos/{owner}/{repo}/commits"
             params = {"since": since, "per_page": 100}
             commits = self.client.get(endpoint, params=params)
@@ -163,7 +163,8 @@ class MaintenanceScheduler:
     def _get_issue_activity(self, owner: str, repo: str) -> List[Dict]:
         """Get recent issue/PR activity."""
         try:
-            since = (datetime.now(timezone.utc) - timedelta(days=28)).isoformat()
+            since = (datetime.now(timezone.utc) -
+                     timedelta(days=28)).isoformat()
             endpoint = f"/repos/{owner}/{repo}/issues"
             params = {"since": since, "state": "all", "per_page": 100}
             issues = self.client.get(endpoint, params=params)
@@ -292,7 +293,8 @@ class MaintenanceScheduler:
                             priority=Priority.P2,
                             estimated_duration=10,
                             risk_level=RiskLevel.LOW,
-                            details={"pr_number": pr["number"], "title": pr["title"]},
+                            details={
+                                "pr_number": pr["number"], "title": pr["title"]},
                         )
                     )
 
@@ -326,7 +328,8 @@ class MaintenanceScheduler:
                     commit_endpoint = f"/repos/{owner}/{repo}/commits/{branch['commit']['sha']}"
                     commit = self.client.get(commit_endpoint)
                     commit_date = datetime.fromisoformat(
-                        commit["commit"]["author"]["date"].replace("Z", "+00:00")
+                        commit["commit"]["author"]["date"].replace(
+                            "Z", "+00:00")
                     )
 
                     if commit_date < cutoff:
@@ -598,7 +601,8 @@ def main():
         action="store_true",
         help="Actually schedule the maintenance (default: dry run)",
     )
-    parser.add_argument("--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("--debug", action="store_true",
+                        help="Enable debug logging")
 
     args = parser.parse_args()
 
@@ -634,7 +638,8 @@ def main():
         print(f"\n{'='*70}")
         print(f"Scheduled Window")
         print(f"{'='*70}")
-        print(f"Start Time: {window.scheduled_time.strftime('%Y-%m-%d %H:%M UTC')}")
+        print(
+            f"Start Time: {window.scheduled_time.strftime('%Y-%m-%d %H:%M UTC')}")
         print(f"Duration: {window.duration_minutes} minutes")
         print(f"Impact Score: {window.impact_score:.2f} (lower is better)")
         print(f"Confidence: {window.confidence:.0%}")
@@ -670,7 +675,8 @@ def main():
         if args.schedule:
             logger.info("Scheduling maintenance window...")
             # In production, would create calendar event, send notifications, etc.
-            print(f"✅ Maintenance scheduled for {window.scheduled_time.isoformat()}")
+            print(
+                f"✅ Maintenance scheduled for {window.scheduled_time.isoformat()}")
 
         sys.exit(0)
 
