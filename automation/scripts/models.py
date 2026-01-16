@@ -199,17 +199,39 @@ class RoutingConfig(BaseModel):
 class FailureClassification(BaseModel):
     """Failure classification result."""
 
-    workflow_id: str = Field(..., description="Workflow identifier")
-    run_id: str = Field(..., description="Workflow run ID")
+    run_id: int = Field(..., description="Workflow run ID")
+    workflow_name: str = Field(..., description="Workflow name")
+    failure_type: FailureType = Field(..., description="Failure type")
+    confidence: float = Field(
+        ..., ge=0.0, le=1.0, description="Classification confidence"
+    )
+    reason: str = Field(..., description="Classification reason")
+    priority: Priority = Field(..., description="Failure priority")
+    failed_jobs: List[str] = Field(
+        default_factory=list, description="List of failed job names"
+    )
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
-    classification: FailureType = Field(..., description="Failure type")
-    should_retry: bool = Field(..., description="Whether to retry")
-    retry_delay: int = Field(..., ge=0, description="Retry delay in seconds")
-    max_attempts: int = Field(
-        default=3, ge=1, description="Maximum retry attempts")
-    reason: str = Field(..., description="Classification reason")
-    suggested_action: str = Field(..., description="Suggested action to take")
+    class Config:
+        """Pydantic configuration."""
+
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class SelfHealingResult(BaseModel):
+    """Self-healing attempt result."""
+
+    run_id: int = Field(..., description="Workflow run ID")
+    repository: str = Field(..., description="Repository full name")
+    classification: FailureClassification
+    strategy: str = Field(..., description="Healing strategy used")
+    healed: bool = Field(..., description="Whether healing was successful")
+    resolution: str = Field(..., description="Resolution description")
+    retry_count: int = Field(..., ge=0, description="Number of retries")
+    actions_taken: List[str] = Field(
+        default_factory=list, description="List of actions taken"
+    )
+    timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
         """Pydantic configuration."""
@@ -221,29 +243,22 @@ class SelfHealingConfig(BaseModel):
     """Self-healing configuration."""
 
     enabled: bool = True
-    max_attempts: int = Field(default=3, ge=1, le=10)
-    initial_delay: int = Field(
-        default=2, ge=1, description="Initial delay in seconds")
-    max_delay: int = Field(
-        default=60, ge=1, description="Maximum delay in seconds")
-    backoff_factor: float = Field(
-        default=2.0, ge=1.0, description="Backoff multiplier")
-    jitter: bool = Field(
-        default=True, description="Add random jitter to delays")
-    notify_after_attempts: int = Field(default=2, ge=1)
-
-    transient_patterns: List[str] = Field(
-        default=[
-            "Network timeout",
-            "Rate limit exceeded",
-            "Temporary failure",
-            "Connection refused",
-        ]
+    enable_auto_retry: bool = True
+    max_retry_attempts: int = Field(default=3, ge=1, le=10)
+    initial_retry_delay: int = Field(
+        default=60, ge=1, description="Initial retry delay in seconds"
     )
-
-    dependency_patterns: List[str] = Field(
-        default=["Waiting for", "Blocked by", "Requires"]
+    retry_backoff_multiplier: float = Field(
+        default=2.0, ge=1.0, description="Backoff multiplier"
     )
+    max_consecutive_failures: int = Field(
+        default=3, ge=1, description="Max failures before marking permanent"
+    )
+    dependency_wait_time: int = Field(
+        default=300, ge=1, description="Wait time for dependencies in seconds"
+    )
+    create_issues_for_failures: bool = True
+    send_notifications: bool = True
 
 
 # =============================================================================

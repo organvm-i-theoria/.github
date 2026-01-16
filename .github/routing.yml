@@ -15,11 +15,11 @@ intelligent_routing:
   # Routing factor weights (must sum to 1.0)
   # Adjust these based on what's most important for your team
   factors:
-    expertise: 0.35      # Historical contributions and domain knowledge (35%)
-    workload: 0.25       # Current assignment load (25%)
-    response_time: 0.20  # Speed of response (20%)
-    availability: 0.15   # Recent activity (15%)
-    performance: 0.05    # Success rate (5%)
+    expertise: 0.35 # Historical contributions and domain knowledge (35%)
+    workload: 0.25 # Current assignment load (25%)
+    response_time: 0.20 # Speed of response (20%)
+    availability: 0.15 # Recent activity (15%)
+    performance: 0.05 # Success rate (5%)
 
   # Maximum assignments per user before heavily penalizing workload score
   # Default: 10 concurrent assignments
@@ -69,16 +69,16 @@ advanced:
 
   # Notify assignee when assigned via intelligent routing
   notify_assignee: true
-  notification_channel: "slack"  # Options: slack, email, github
+  notification_channel: "slack" # Options: slack, email, github
 
   # Log detailed routing decisions for analysis
   detailed_logging: true
-  log_alternatives: true  # Log top 5 alternative assignees
+  log_alternatives: true # Log top 5 alternative assignees
 
   # A/B testing configuration
   ab_testing:
     enabled: false
-    control_group_percentage: 50  # % of assignments using old method
+    control_group_percentage: 50 # % of assignments using old method
     experiment_duration_days: 30
 
 # Branch-specific overrides
@@ -105,7 +105,7 @@ branch_overrides:
       response_time: 0.35
       availability: 0.20
       performance: 0.05
-    exempt_labels: []  # Override global exempt labels
+    exempt_labels: [] # Override global exempt labels
 
 # Label-specific routing
 label_routing:
@@ -152,31 +152,31 @@ notifications:
     title: "🎯 Intelligent Routing Assignment"
     body: |
       You've been assigned to {{ issue_type }} #{{ issue_number }} via intelligent routing.
-      
+
       **Repository:** {{ repository }}
       **Title:** {{ title }}
       **Assignment Score:** {{ score }} ({{ confidence }}% confidence)
-      
+
       **Why you were selected:**
       - Expertise: {{ expertise_score }}
       - Current Workload: {{ workload_score }}
       - Response Time: {{ response_time_score }}
       - Availability: {{ availability_score }}
       - Performance: {{ performance_score }}
-      
+
       **Alternative assignees:** {{ alternatives }}
-      
+
       [View Issue]({{ url }})
 
   fallback:
     title: "⚠️ Fallback Assignment"
     body: |
       You've been assigned to {{ issue_type }} #{{ issue_number }} using fallback strategy.
-      
+
       **Repository:** {{ repository }}
       **Strategy Used:** {{ strategy }}
       **Reason:** {{ reason }}
-      
+
       [View Issue]({{ url }})
 
 # Audit and Compliance
@@ -192,7 +192,7 @@ audit:
     - repository
     - assignee
     - score
-    - scores  # Individual factor scores
+    - scores # Individual factor scores
     - confidence
     - fallback_used
     - alternatives
@@ -200,5 +200,5 @@ audit:
   # Export audit logs for analysis
   export:
     enabled: true
-    format: "json"  # Options: json, csv
+    format: "json" # Options: json, csv
     destination: ".github/audit/routing/"
