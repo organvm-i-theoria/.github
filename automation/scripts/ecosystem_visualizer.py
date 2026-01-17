@@ -559,7 +559,27 @@ graph TD
                 else:
                     workflow_path = ".github/workflows/"
 
-                summary = f"View all {len(workflows)} workflows"
+                # Assign workflows to categories (first match wins)
+                # Grouping is now done efficiently
+                grouped: Dict[str, List[str]] = {}
+                for emoji in self.WORKFLOW_CATEGORIES.keys():
+                    grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
+
+                for workflow in workflows:
+                    emoji, category = self._classify_workflow(workflow)
+                    key = f"{emoji} {category}"
+                    grouped[key].append(workflow)
+
+                # Count active categories
+                active_categories = sum(
+                    1 for items in grouped.values() if len(items) > 0
+                )
+
+                # UX Improvement: Detailed summary with stats
+                summary = (
+                    f"View all {len(workflows)} workflows across "
+                    f"{active_categories} categories"
+                )
                 parts.append(f"<details>\n<summary>{summary}</summary>\n\n")
 
                 # UX Improvement: Single source of truth for legend,
@@ -570,23 +590,6 @@ graph TD
                 ]
                 legend_string = " · ".join(legend_items)
                 parts.append(f"> **Legend:** {legend_string}\n\n")
-
-                # Assign workflows to categories (first match wins)
-                # Grouping is now done efficiently
-                grouped: Dict[str, List[str]] = {}
-                for emoji in self.WORKFLOW_CATEGORIES.keys():
-                    grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
-
-                # Count active categories
-                active_categories = sum(
-                    1 for items in grouped.values() if len(items) > 0
-                )
-
-                summary = (
-                    f"View all {len(workflows)} workflows across "
-                    f"{active_categories} categories"
-                )
-                parts.append(f"<details>\n<summary>{summary}</summary>\n\n")
 
                 # Render categories
                 for label, items in grouped.items():
