@@ -41,7 +41,7 @@
 
 ```
 Title: master-org-token-011726
-Token: ***REDACTED-TOKEN***
+Token: [REDACTED - stored in 1Password]
 ```
 
 **Agent Response**: Systematic problem-solving
@@ -111,7 +111,7 @@ $ op item get "master-org-token-011726" --fields password
 
 # With --reveal
 $ op item get "master-org-token-011726" --fields password --reveal
-***REDACTED-TOKEN***
+[REDACTED - token successfully retrieved]
 ```
 
 **Root Cause**: 1Password CLI conceals secrets by default for security
