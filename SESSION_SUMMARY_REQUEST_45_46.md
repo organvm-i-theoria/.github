@@ -159,7 +159,7 @@ cmd = ["op", "item", "get", item_name, "--fields", field, "--reveal"]
 
 **Problem**: `validate_labels.py` uses `gh` CLI, which was using wrong token
 
-**Discovery**: 
+**Discovery**:
 
 ```bash
 $ gh auth status
@@ -167,7 +167,7 @@ $ gh auth status
 - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
 ```
 
-**Solution**: 
+**Solution**:
 
 ```bash
 $ unset GITHUB_TOKEN
