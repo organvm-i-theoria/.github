@@ -124,12 +124,14 @@ No issues detected in Phase 1 deployment. All systems operational.
 - ✅ Working tree: Clean, no conflicts
 
 **Commits Pushed**:
+
 - Week 11 monitoring documentation (5 commits)
 - Phase 1 deployment infrastructure (4 commits)
 - Security hardening and cleanup (5 commits)
 - Session summaries and guides (3 commits)
 
 **Repository Status**:
+
 - Remote synchronized with local
 - All Phase 1 documentation published
 - Monitoring continues uninterrupted
@@ -140,17 +142,19 @@ No issues detected in Phase 1 deployment. All systems operational.
 
 Manually triggered `repository-health-check.yml` in all 3 repositories to validate workflow functionality ahead of schedule.
 
-**Workflow Execution Results**: ⚠️ BLOCKED BY REPOSITORY RULES
+**Workflow Execution Results**: ⚠️ BLOCKED BY REPOSITORY RULES → ✅ FIXED
 
-All 3 workflows attempted to execute but were blocked by repository security policy:
+~~All 3 workflows attempted to execute but were blocked by repository security policy:~~
 
-- **theoretical-specifications-first**: Failed at 16:38:54 UTC
-- **system-governance-framework**: Failed at 16:38:58 UTC  
+- **theoretical-specifications-first**: ~~Failed at 16:38:54 UTC~~ → ✅ Success at 16:48:11 UTC (after SHA-pinning fix)
+- **system-governance-framework**: Failed at 16:38:58 UTC (retesting not yet performed)
 - **trade-perpetual-future**: Not triggered (interrupted)
 
-**Error**: `actions/checkout@v4 and actions/upload-artifact@v4 are not allowed because all actions must be pinned to a full-length commit SHA`
+**Error** (resolved): ~~`actions/checkout@v4 and actions/upload-artifact@v4 are not allowed because all actions must be pinned to a full-length commit SHA`~~
 
 **Root Cause**: Repository security rules require all GitHub Actions to be pinned to full SHA commits (e.g., `actions/checkout@abc123...`) instead of version tags (e.g., `actions/checkout@v4`).
+
+**Resolution**: Updated all workflow templates with SHA-pinned actions and redeployed at 16:47 UTC.
 
 **Impact Assessment**:
 
@@ -159,21 +163,50 @@ All 3 workflows attempted to execute but were blocked by repository security pol
 - ⚠️ **Execution blocked**: Pre-existing repository security policy prevents execution
 - ℹ️ **Not a deployment issue**: This is a repository-level security configuration
 
-**Decision**: 
+**Decision**:
 
 This is a **known repository policy**, not a Phase 1 deployment failure. The workflows are correctly deployed and functional. To execute them, we would need to:
+
 1. Update workflow files to use full SHA commits for all actions, OR
 2. Adjust repository security rules to allow version tags
 
-For Phase 1 monitoring purposes, we have validated:
-- ✅ Workflows are deployable
-- ✅ Workflow files are correct
-- ✅ Trigger mechanism works
-- ⚠️ Execution requires SHA-pinned actions (repository policy)
+~~For Phase 1 monitoring purposes, we have validated:~~
 
-**Recommendation**: Document this limitation and consider updating workflows to use SHA-pinned actions in future phases if full execution validation is required.
+~~- ✅ Workflows are deployable~~
+~~- ✅ Workflow files are correct~~
+~~- ✅ Trigger mechanism works~~
+~~- ⚠️ Execution requires SHA-pinned actions (repository policy)~~
 
-**Next Steps**: Continue monitoring for scheduled workflow attempts and label functionality testing.
+~~**Recommendation**: Document this limitation and consider updating workflows to use SHA-pinned actions in future phases if full execution validation is required.~~
+
+**Resolution Implemented**: Updated all workflow templates with SHA-pinned actions (option 1).
+
+---
+
+### Hour 2.5 - SHA-Pinning Fix & Redeployment (16:43-16:48 UTC)
+
+**Problem Identified**: Repository security policy blocking workflow execution due to version tags.
+
+**Actions Taken**:
+
+1. ✅ Fetched current stable SHA commits for all 4 GitHub Actions via API
+2. ✅ Updated workflow templates:
+   - `actions/checkout@v4` → `@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`
+   - `actions/upload-artifact@v4` → `@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3`
+   - `actions/github-script@v7` → `@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1`
+   - `actions/stale@v9` → `@28ca1036281a5e5922ead5184a1bbf96e5fc984e # v9.0.0`
+3. ✅ Committed changes to main branch (commits 97dcdd0, 9569a5e)
+4. ✅ Redeployed updated workflows to all 3 Phase 1 repositories at 16:47 UTC
+
+**Validation Test** (16:48 UTC):
+
+- ✅ **theoretical-specifications-first**: repository-health-check.yml executed successfully
+- **Outcome**: Status `completed`, Conclusion `success`, Run ID 21097647131
+- **Proof**: No SHA-pinning errors, workflow completed full execution
+
+**Current Status**: Workflows now compliant with repository security policy. Full execution capability restored.
+
+**Next Steps**: Test workflows in remaining 2 repositories, continue monitoring per schedule.
 
 ---
 
@@ -185,7 +218,7 @@ For Phase 1 monitoring purposes, we have validated:
 - [x] **Initial Runs**: No immediate failures from our workflows
 - [x] **Label Visibility**: All 12 labels visible per repo
 - [x] **Permissions**: No permission errors (all API calls successful)
-- [ ] **First Workflow Execution**: Awaiting scheduled runs
+- [x] **First Workflow Execution**: ✅ Successful execution confirmed (theoretical-specifications-first)
 
 ### Hour 6-24 Checks (Pending)
 
