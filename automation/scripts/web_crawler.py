@@ -20,7 +20,7 @@ from typing import Dict, List, Optional
 import requests
 import urllib3
 from requests.adapters import HTTPAdapter
-from secret_manager import get_secret_with_fallback
+from secret_manager import get_secret
 
 # Disable warnings globally
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -44,12 +44,11 @@ class OrganizationCrawler:
         org_name: Optional[str] = None,
         max_workers: int = 10,
     ):
-        # Securely retrieve token from 1Password CLI or environment
+        # Securely retrieve token from 1Password CLI only
         if github_token is None:
-            github_token = get_secret_with_fallback(
+            github_token = get_secret(
                 "batch-label-deployment-011726",
-                "password",
-                env_var="GITHUB_TOKEN"
+                "password"
             )
         self.github_token = github_token
         self.org_name = (

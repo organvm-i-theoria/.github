@@ -18,9 +18,9 @@ Requirements:
 import argparse
 import os
 import sys
-
-from secret_manager import get_secret_with_fallback
 from typing import Dict, List, Optional
+
+from secret_manager import get_secret
 
 try:
     from github import Github, GithubException
@@ -44,8 +44,10 @@ LABEL_DEFINITIONS = {
         "color": "ff6b6b",  # Light red/pink
         "description": "High priority",
     },
-    "priority: medium": {"color": "ffa500", "description": "Medium priority"},  # Orange
-    "priority: low": {"color": "0e8a16", "description": "Low priority"},  # Green
+    # Orange
+    "priority: medium": {"color": "ffa500", "description": "Medium priority"},
+    # Green
+    "priority: low": {"color": "0e8a16", "description": "Low priority"},
     # Type Labels (without prefix)
     "bug": {"color": "d73a4a", "description": "Something isn't working"},  # Red
     "enhancement": {
@@ -56,7 +58,8 @@ LABEL_DEFINITIONS = {
         "color": "0075ca",  # Blue
         "description": "Improvements or additions to documentation",
     },
-    "security": {"color": "d93f0b", "description": "Security related"},  # Orange-red
+    # Orange-red
+    "security": {"color": "d93f0b", "description": "Security related"},
     "task": {"color": "d4c5f9", "description": "General task or work item"},  # Purple
     "question": {
         "color": "d876e3",  # Pink
@@ -64,9 +67,11 @@ LABEL_DEFINITIONS = {
     },
     # Status Labels (without prefix)
     "triage": {"color": "fbca04", "description": "Needs triage"},  # Yellow
-    "in-progress": {"color": "0052cc", "description": "Work in progress"},  # Blue
+    # Blue
+    "in-progress": {"color": "0052cc", "description": "Work in progress"},
     "blocked": {"color": "b60205", "description": "Blocked by dependency"},  # Red
-    "needs-review": {"color": "6f42c1", "description": "Ready for review"},  # Purple
+    # Purple
+    "needs-review": {"color": "6f42c1", "description": "Ready for review"},
     "approved": {
         "color": "0e8a16",  # Green
         "description": "Approved and ready to merge",
@@ -105,7 +110,8 @@ LABEL_DEFINITIONS = {
         "color": "cfd3d7",  # Gray
         "description": "This issue or pull request already exists",
     },
-    "invalid": {"color": "e4e669", "description": "This doesn't seem right"},  # Yellow
+    # Yellow
+    "invalid": {"color": "e4e669", "description": "This doesn't seem right"},
 }
 
 
@@ -136,7 +142,8 @@ class LabelSyncManager:
         try:
             org = self.github.get_organization(org_name)
             repos = list(org.get_repos())
-            print(f"Found {len(repos)} repositories in organization '{org_name}'")
+            print(
+                f"Found {len(repos)} repositories in organization '{org_name}'")
             return repos
         except GithubException as e:
             print(f"Error accessing organization '{org_name}': {e}")
@@ -179,7 +186,8 @@ class LabelSyncManager:
                     # Label exists - check if update needed
                     existing_label = existing_labels[label_name]
                     needs_update = (
-                        existing_label.color.lower() != label_config["color"].lower()
+                        existing_label.color.lower(
+                        ) != label_config["color"].lower()
                         or (existing_label.description or "").strip()
                         != (label_config["description"] or "").strip()
                     )
@@ -314,16 +322,16 @@ Examples:
         """,
     )
 
-    parser.add_argument("--org", required=True, help="GitHub organization name")
+    parser.add_argument("--org", required=True,
+                        help="GitHub organization name")
 
     parser.add_argument(
         "--token",
-        default=get_secret_with_fallback(
+        default=get_secret(
             "batch-label-deployment-011726",
-            "password",
-            env_var="GITHUB_TOKEN"
+            "password"
         ),
-        help="GitHub token (from 1Password CLI or GITHUB_TOKEN env var)",
+        help="GitHub token from 1Password CLI (optional if stored correctly)",
     )
 
     parser.add_argument(

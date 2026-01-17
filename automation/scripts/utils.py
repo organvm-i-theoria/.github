@@ -18,9 +18,8 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import requests
-
-from secret_manager import get_secret_with_fallback
 import yaml
+from secret_manager import get_secret
 
 # =============================================================================
 # Logging Configuration
@@ -202,19 +201,18 @@ class GitHubAPIClient:
         Initialize GitHub API client.
 
         Args:
-            token: GitHub API token (retrieved from 1Password CLI or env)
+            token: GitHub API token (retrieved from 1Password CLI)
         """
-        # Securely retrieve token from 1Password CLI or environment
+        # Securely retrieve token from 1Password CLI only
         if token is None:
-            token = get_secret_with_fallback(
+            token = get_secret(
                 "batch-label-deployment-011726",
-                "password",
-                env_var="GITHUB_TOKEN"
+                "password"
             )
         self.token = token
         if not self.token:
             raise ValueError(
-                "GitHub token required (store in 1Password or set GITHUB_TOKEN)")
+                "GitHub token required - store in 1Password")
 
         self.base_url = "https://api.github.com"
         self.session = requests.Session()

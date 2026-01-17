@@ -2,31 +2,50 @@
 """
 Universal Secret Manager for GitHub Copilot Automation
 
-Securely retrieves secrets from 1Password CLI instead of environment variables.
-Prevents plaintext secrets in files or environment.
+Securely retrieves secrets from 1Password CLI ONLY.
+No environment variable fallback - proper security, no compromises.
+
+For CI/CD: Use 1Password Service Accounts, not environment variables.
 
 Supported secret types:
 - GitHub tokens (personal access tokens, app tokens)
-- API keys (third-party services)
+- API keys (third-party services)  
 - Passwords (databases, services)
 - SSH keys
 - Certificates
 - Any other sensitive credentials
 
 Usage:
-    from secret_manager import get_secret, get_github_token
+    from secret_manager import get_secret, ensure_github_token
     
-    # GitHub token
-    token = get_github_token()
+    # GitHub token (most common)
+    token = ensure_github_token()
     
     # Generic secret
-    api_key = get_secret("my-api-key-item", "credential")
+    api_key = ensure_secret("my-api-key-item", "credential")
     
     # Database password
-    db_pass = get_secret("prod-database", "password")
+    db_pass = ensure_secret("prod-database", "password")
+
+CI/CD Integration:
+    Use 1Password Service Accounts - NOT environment variables.
+    
+    GitHub Actions Example:
+        - uses: 1password/install-cli-action@v1
+        
+        - name: Deploy
+          env:
+            OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          run: python3 automation/scripts/batch_onboard_repositories.py
+    
+    The OP_SERVICE_ACCOUNT_TOKEN is a service account credential that
+    authenticates the 1Password CLI. Your actual secrets stay in 1Password
+    and are never exposed as environment variables.
+    
+    Learn more:
+    https://developer.1password.com/docs/service-accounts/
 """
 
-import os
 import subprocess
 import sys
 from typing import Optional
@@ -38,7 +57,7 @@ def get_secret(
     vault: str = "Private"
 ) -> Optional[str]:
     """
-    Get any secret from 1Password CLI.
+    Get secret from 1Password CLI.
 
     Args:
         item_name: Name of the 1Password item
@@ -49,10 +68,11 @@ def get_secret(
         The secret value, or None if not found
 
     Security:
-        - Secret retrieved from encrypted 1Password vault
+        - Retrieved from encrypted 1Password vault only
         - Only exists in memory during execution
         - No plaintext files created
         - Auto-cleared when process exits
+        - NO environment variable fallback
 
     Examples:
         >>> api_key = get_secret("datadog-api-key", "credential")
@@ -60,7 +80,6 @@ def get_secret(
         >>> ssh_key = get_secret("deploy-key", "private key")
     """
     try:
-        # Try 1Password CLI first
         cmd = ["op", "item", "get", item_name, "--fields", field]
         if vault != "Private":
             cmd.extend(["--vault", vault])
@@ -72,66 +91,33 @@ def get_secret(
             check=True
         )
         secret = result.stdout.strip()
-        if secret:
-            return secret
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass
+        return secret if secret else None
 
-    return None
+    except subprocess.CalledProcessError as e:
+        error_msg = e.stderr.strip() if e.stderr else "unknown error"
+        print(f"❌ 1Password CLI error: {error_msg}", file=sys.stderr)
+        return None
 
-
-def get_secret_with_fallback(
-    item_name: str,
-    field: str = "password",
-    env_var: Optional[str] = None,
-    vault: str = "Private"
-) -> Optional[str]:
-    """
-    Get secret from 1Password CLI with environment variable fallback.
-
-    Args:
-        item_name: Name of the 1Password item
-        field: Field to retrieve
-        env_var: Environment variable to check as fallback
-        vault: Vault name
-
-    Returns:
-        The secret value, or None if not found
-
-    Examples:
-        >>> token = get_secret_with_fallback(
-        ...     "github-token",
-        ...     "password",
-        ...     env_var="GITHUB_TOKEN"
-        ... )
-    """
-    # Try 1Password CLI first
-    secret = get_secret(item_name, field, vault)
-    if secret:
-        return secret
-
-    # Fallback to environment variable
-    if env_var:
-        secret = os.environ.get(env_var)
-        if secret:
-            return secret
-
-    return None
+    except FileNotFoundError:
+        print("❌ 1Password CLI not installed", file=sys.stderr)
+        print(
+            "   Install: https://developer.1password.com/docs/cli/get-started/",
+            file=sys.stderr
+        )
+        return None
 
 
 def ensure_secret(
     item_name: str,
     field: str = "password",
-    env_var: Optional[str] = None,
     vault: str = "Private"
 ) -> str:
     """
-    Get secret or exit if not available.
+    Get secret from 1Password or exit if unavailable.
 
     Args:
         item_name: Name of the 1Password item
         field: Field to retrieve
-        env_var: Environment variable to check as fallback
         vault: Vault name
 
     Returns:
@@ -140,24 +126,16 @@ def ensure_secret(
     Raises:
         SystemExit: If secret cannot be retrieved
     """
-    secret = get_secret_with_fallback(item_name, field, env_var, vault)
+    secret = get_secret(item_name, field, vault)
     if not secret:
-        print(f"❌ Secret '{item_name}' not found", file=sys.stderr)
-        print("", file=sys.stderr)
-        print("Options:", file=sys.stderr)
-        print("  1. Store in 1Password:", file=sys.stderr)
-        print(f'     op item create --category=password --title="{item_name}" '
-              f'--vault="{vault}" {field}="your-secret"', file=sys.stderr)
-        print("", file=sys.stderr)
-        if env_var:
-            print("  2. Export environment variable:", file=sys.stderr)
-            print(f'     export {env_var}="your-secret"', file=sys.stderr)
-            print("", file=sys.stderr)
+        _print_secret_error(item_name, field, vault)
         sys.exit(1)
     return secret
 
 
-def get_github_token(item_name: str = "batch-label-deployment-011726") -> Optional[str]:
+def get_github_token(
+    item_name: str = "batch-label-deployment-011726"
+) -> Optional[str]:
     """
     Get GitHub token from 1Password CLI.
 
@@ -166,49 +144,15 @@ def get_github_token(item_name: str = "batch-label-deployment-011726") -> Option
 
     Returns:
         The GitHub token, or None if not found
-
-    Security:
-        - Token retrieved from encrypted 1Password vault
-        - Only exists in memory during execution
-        - No plaintext files created
-        - Auto-cleared when process exits
     """
-    try:
-        # Try 1Password CLI first
-        result = subprocess.run(
-            ["op", "item", "get", item_name, "--fields", "password"],
-            capture_output=True,
-            text=True,
-            check=True
-        )
-        token = result.stdout.strip()
-        if token:
-            return token
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass
-
-    # Fallback to environment variable (for CI/CD or manual export)
-    token = os.environ.get("GITHUB_TOKEN")
-    if token:
-        return token
-
-    # No token found
-    print("❌ GitHub token not found", file=sys.stderr)
-    print("", file=sys.stderr)
-    print("Options:", file=sys.stderr)
-    print("  1. Store in 1Password:", file=sys.stderr)
-    print(
-        f'     op item create --category=password --title="{item_name}" --vault="Private" password="ghp_xxx"', file=sys.stderr)
-    print("", file=sys.stderr)
-    print("  2. Export environment variable:", file=sys.stderr)
-    print('     export GITHUB_TOKEN="ghp_xxx"', file=sys.stderr)
-    print("", file=sys.stderr)
-    return None
+    return get_secret(item_name, "password")
 
 
-def ensure_github_token(item_name: str = "batch-label-deployment-011726") -> str:
+def ensure_github_token(
+    item_name: str = "batch-label-deployment-011726"
+) -> str:
     """
-    Get GitHub token or exit if not available.
+    Get GitHub token from 1Password or exit if unavailable.
 
     Args:
         item_name: Name of the 1Password item containing the token
@@ -219,14 +163,92 @@ def ensure_github_token(item_name: str = "batch-label-deployment-011726") -> str
     Raises:
         SystemExit: If token cannot be retrieved
     """
-    token = get_github_token(item_name)
-    if not token:
-        sys.exit(1)
-    return token
+    return ensure_secret(item_name, "password")
+
+
+def _print_secret_error(item_name: str, field: str, vault: str) -> None:
+    """Print detailed error message when secret retrieval fails."""
+    print("", file=sys.stderr)
+    print("=" * 80, file=sys.stderr)
+    print("SECRET RETRIEVAL FAILED", file=sys.stderr)
+    print("=" * 80, file=sys.stderr)
+    print("", file=sys.stderr)
+    print(
+        f"Could not retrieve: {item_name} (field: {field}, vault: {vault})",
+        file=sys.stderr
+    )
+    print("", file=sys.stderr)
+
+    print("LOCAL DEVELOPMENT:", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  1. Install 1Password CLI:", file=sys.stderr)
+    print(
+        "     https://developer.1password.com/docs/cli/get-started/",
+        file=sys.stderr
+    )
+    print("", file=sys.stderr)
+    print("  2. Authenticate with desktop app:", file=sys.stderr)
+    print(
+        "     https://developer.1password.com/docs/cli/app-integration/",
+        file=sys.stderr
+    )
+    print("", file=sys.stderr)
+    print("  3. Create the secret in 1Password:", file=sys.stderr)
+    print(
+        f'     op item create --category=password --title="{item_name}" \\',
+        file=sys.stderr
+    )
+    print(
+        f'       --vault="{vault}" {field}="your-secret"',
+        file=sys.stderr
+    )
+    print("", file=sys.stderr)
+
+    print("CI/CD (GitHub Actions, GitLab CI, etc.):", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  1. Create a 1Password Service Account:", file=sys.stderr)
+    print(
+        "     https://developer.1password.com/docs/service-accounts/",
+        file=sys.stderr
+    )
+    print("", file=sys.stderr)
+    print("  2. Grant access to required vaults", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  3. Add service account token to CI/CD secrets:", file=sys.stderr)
+    print("     Secret name: OP_SERVICE_ACCOUNT_TOKEN", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  4. Use in GitHub Actions:", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("     - uses: 1password/install-cli-action@v1", file=sys.stderr)
+    print("     ", file=sys.stderr)
+    print("     - name: Run deployment", file=sys.stderr)
+    print("       env:", file=sys.stderr)
+    print(
+        "         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}",
+        file=sys.stderr
+    )
+    print("       run: python3 automation/scripts/your_script.py", file=sys.stderr)
+    print("", file=sys.stderr)
+
+    print("WHY NO ENVIRONMENT VARIABLES?", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  - Visible in process listings (ps aux)", file=sys.stderr)
+    print("  - Inherited by all child processes", file=sys.stderr)
+    print("  - Can be accidentally logged", file=sys.stderr)
+    print("  - Persist in shell history", file=sys.stderr)
+    print("  - Included in crash dumps", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("  1Password Service Accounts are secure AND convenient.", file=sys.stderr)
+    print("  No compromises.", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("=" * 80, file=sys.stderr)
 
 
 if __name__ == "__main__":
     # Test the secret manager
+    print("Testing 1Password CLI integration...")
+    print("")
+
     token = get_github_token()
     if token:
         print("✅ Token retrieved successfully")
@@ -234,4 +256,11 @@ if __name__ == "__main__":
         print(f"   Prefix: {token[:7]}...")
     else:
         print("❌ Failed to retrieve token")
+        print("")
+        print("This is expected if:")
+        print("- 1Password CLI is not installed")
+        print("- Not authenticated with 1Password")
+        print("- Token item doesn't exist")
+        print("")
+        print("Run with ensure_github_token() to see full error message.")
         sys.exit(1)
