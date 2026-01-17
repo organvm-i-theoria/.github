@@ -90,8 +90,7 @@ class ConfigLoader:
         config_path = self.config_dir / filename
 
         if not config_path.exists():
-            raise FileNotFoundError(
-                f"Configuration file not found: {config_path}")
+            raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
         self.logger.info(f"Loading configuration from {config_path}")
 
@@ -283,8 +282,7 @@ class GitHubAPIClient:
                     )
                     time.sleep(delay)
                 else:
-                    self.logger.error(
-                        f"Request timeout after {max_attempts} attempts")
+                    self.logger.error(f"Request timeout after {max_attempts} attempts")
                     raise
 
             except requests.exceptions.HTTPError as e:
@@ -522,8 +520,7 @@ def retry_with_backoff(
 
             if attempt < max_attempts:
                 delay = min(
-                    max_delay, initial_delay *
-                    (backoff_factor ** (attempt - 1))
+                    max_delay, initial_delay * (backoff_factor ** (attempt - 1))
                 )
                 if jitter:
                     delay += random.uniform(0, 1)

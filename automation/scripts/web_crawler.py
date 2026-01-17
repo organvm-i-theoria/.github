@@ -56,8 +56,7 @@ class OrganizationCrawler:
 
         # Optimize connection pool size to match workers
         # Default is 10, which bottlenecks if max_workers > 10
-        adapter = HTTPAdapter(pool_connections=max_workers,
-                              pool_maxsize=max_workers)
+        adapter = HTTPAdapter(pool_connections=max_workers, pool_maxsize=max_workers)
         self.session.mount("https://", adapter)
         self.session.mount("http://", adapter)
 
@@ -75,8 +74,7 @@ class OrganizationCrawler:
         )
 
         if self.github_token:
-            self.session.headers.update(
-                {"Authorization": f"token {self.github_token}"})
+            self.session.headers.update({"Authorization": f"token {self.github_token}"})
 
         self.results = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -161,8 +159,7 @@ class OrganizationCrawler:
                         print(f"  ⚠️  {link} (rate limited)")
                     else:
                         results["broken"] += 1
-                        results["broken_links"].append(
-                            {"url": link, "status": status})
+                        results["broken_links"].append({"url": link, "status": status})
                         print(f"  ✗ {link} (HTTP {status})")
                 except Exception as exc:
                     results["broken"] += 1
@@ -534,8 +531,7 @@ class OrganizationCrawler:
 
         # Check for repositories without recent activity
         if "repositories" in health:
-            stale_repos = [r for r in health["repositories"]
-                           if not r["is_active"]]
+            stale_repos = [r for r in health["repositories"] if not r["is_active"]]
             if stale_repos:
                 blind_spots.append(
                     {
@@ -724,8 +720,7 @@ def main():
     """Main entry point"""
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="GitHub Organization Health Crawler")
+    parser = argparse.ArgumentParser(description="GitHub Organization Health Crawler")
     parser.add_argument(
         "--base-dir",
         type=Path,
@@ -788,8 +783,7 @@ def main():
         print(f"Active Repositories: {rh.get('active_repos', 0)}")
 
     print(f"Blind Spots Identified: {len(results.get('blind_spots', []))}")
-    print(
-        f"Shatter Points Identified: {len(results.get('shatter_points', []))}")
+    print(f"Shatter Points Identified: {len(results.get('shatter_points', []))}")
 
     print("\n✨ Organization is coming to life!")
 

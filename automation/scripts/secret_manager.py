@@ -82,8 +82,7 @@ def get_secret(
         if vault != "Private":
             cmd.extend(["--vault", vault])
 
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, check=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         secret = result.stdout.strip()
         return secret if secret else None
 
