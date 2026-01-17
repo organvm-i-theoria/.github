@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import yaml
+from secret_manager import ensure_github_token
 
 
 class LabelValidator:
@@ -40,6 +41,19 @@ class LabelValidator:
         try:
             with open(self.config_path, "r") as f:
                 config = yaml.safe_load(f)
+
+            # Convert dict format labels to list format
+            if isinstance(config.get("labels"), dict):
+                labels_dict = config["labels"]
+                config["labels"] = [
+                    {
+                        "name": name,
+                        "color": props.get("color", ""),
+                        "description": props.get("description", "")
+                    }
+                    for name, props in labels_dict.items()
+                ]
+
             return config
         except Exception as e:
             print(f"❌ Error loading config: {e}")
@@ -270,6 +284,9 @@ class LabelValidator:
 
 def main():
     """Main entry point."""
+    # Ensure GitHub token is available (from 1Password or env)
+    _ = ensure_github_token()  # noqa: F841
+
     parser = argparse.ArgumentParser(
         description="Validate labels in repositories before workflow deployment"
     )

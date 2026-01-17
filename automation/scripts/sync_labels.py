@@ -18,6 +18,8 @@ Requirements:
 import argparse
 import os
 import sys
+
+from secret_manager import get_secret_with_fallback
 from typing import Dict, List, Optional
 
 try:
@@ -316,8 +318,12 @@ Examples:
 
     parser.add_argument(
         "--token",
-        default=os.getenv("GITHUB_TOKEN"),
-        help="GitHub personal access token (or set GITHUB_TOKEN env var)",
+        default=get_secret_with_fallback(
+            "batch-label-deployment-011726",
+            "password",
+            env_var="GITHUB_TOKEN"
+        ),
+        help="GitHub token (from 1Password CLI or GITHUB_TOKEN env var)",
     )
 
     parser.add_argument(

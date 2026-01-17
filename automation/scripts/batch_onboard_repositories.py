@@ -35,6 +35,7 @@ import yaml
 try:
     import aiohttp
     from github import Auth, Github, GithubException
+    from secret_manager import ensure_github_token
 except ImportError:
     print("Error: Required packages not installed.")
     print("Install with: pip install PyGithub aiohttp pyyaml")
@@ -572,10 +573,10 @@ async def main():
 
     args = parser.parse_args()
 
-    # Get GitHub token
-    github_token = os.getenv("GITHUB_TOKEN")
+    # Get GitHub token securely from 1Password CLI (or fallback to env)
+    github_token = ensure_github_token()
     if not github_token:
-        logger.error("GITHUB_TOKEN environment variable not set")
+        logger.error("Could not retrieve GitHub token")
         sys.exit(1)
 
     # Load or create configuration

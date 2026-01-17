@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 import yaml
+from secret_manager import ensure_github_token
 
 
 class CheckResult:
@@ -284,12 +285,12 @@ class PreDeploymentChecker:
 
         repositories = self.config.get("repositories", [])
         labels_config = self.config.get("labels", [])
-        
+
         # Handle both list and dict formats
         if isinstance(labels_config, list):
             required_labels = {
-                label.get("name", "") 
-                for label in labels_config 
+                label.get("name", "")
+                for label in labels_config
                 if isinstance(label, dict)
             }
         elif isinstance(labels_config, dict):
@@ -301,7 +302,7 @@ class PreDeploymentChecker:
                 "Invalid labels configuration format",
                 f"Expected list or dict, got {type(labels_config).__name__}",
             )
-        
+
         repos_missing_labels = []
 
         for repo in repositories:
@@ -317,8 +318,8 @@ class PreDeploymentChecker:
                 labels_data = json.loads(stdout)
                 if isinstance(labels_data, list):
                     existing_labels = {
-                        label.get("name", "") 
-                        for label in labels_data 
+                        label.get("name", "")
+                        for label in labels_data
                         if isinstance(label, dict)
                     }
                     missing = required_labels - existing_labels
@@ -449,6 +450,9 @@ class PreDeploymentChecker:
 
 def main():
     """Main entry point."""
+    # Ensure GitHub token is available (from 1Password or env)
+    _ = ensure_github_token()  # noqa: F841
+
     parser = argparse.ArgumentParser(
         description="Pre-deployment checklist for Week 11 deployment"
     )
