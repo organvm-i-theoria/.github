@@ -78,11 +78,12 @@ def get_secret(
         >>> ssh_key = get_secret("deploy-key", "private key")
     """
     try:
-        cmd = ["op", "item", "get", item_name, "--fields", field]
+        cmd = ["op", "item", "get", item_name, "--fields", field, "--reveal"]
         if vault != "Private":
             cmd.extend(["--vault", vault])
 
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, check=True)
         secret = result.stdout.strip()
         return secret if secret else None
 
@@ -124,7 +125,7 @@ def ensure_secret(
     return secret
 
 
-def get_github_token(item_name: str = "batch-label-deployment-011726") -> Optional[str]:
+def get_github_token(item_name: str = "master-org-token-011726") -> Optional[str]:
     """
     Get GitHub token from 1Password CLI.
 
@@ -137,7 +138,7 @@ def get_github_token(item_name: str = "batch-label-deployment-011726") -> Option
     return get_secret(item_name, "password")
 
 
-def ensure_github_token(item_name: str = "batch-label-deployment-011726") -> str:
+def ensure_github_token(item_name: str = "master-org-token-011726") -> str:
     """
     Get GitHub token from 1Password or exit if unavailable.
 

@@ -90,7 +90,8 @@ class ConfigLoader:
         config_path = self.config_dir / filename
 
         if not config_path.exists():
-            raise FileNotFoundError(f"Configuration file not found: {config_path}")
+            raise FileNotFoundError(
+                f"Configuration file not found: {config_path}")
 
         self.logger.info(f"Loading configuration from {config_path}")
 
@@ -204,7 +205,7 @@ class GitHubAPIClient:
         """
         # Securely retrieve token from 1Password CLI only
         if token is None:
-            token = get_secret("batch-label-deployment-011726", "password")
+            token = get_secret("master-org-token-011726", "password")
         self.token = token
         if not self.token:
             raise ValueError("GitHub token required - store in 1Password")
@@ -213,7 +214,7 @@ class GitHubAPIClient:
         self.session = requests.Session()
         self.session.headers.update(
             {
-                "Authorization": f"Bearer {self.token}",
+                "Authorization": f"token {self.token}",
                 "Accept": "application/vnd.github.v3+json",
                 "X-GitHub-Api-Version": "2022-11-28",
             }
@@ -282,7 +283,8 @@ class GitHubAPIClient:
                     )
                     time.sleep(delay)
                 else:
-                    self.logger.error(f"Request timeout after {max_attempts} attempts")
+                    self.logger.error(
+                        f"Request timeout after {max_attempts} attempts")
                     raise
 
             except requests.exceptions.HTTPError as e:
@@ -520,7 +522,8 @@ def retry_with_backoff(
 
             if attempt < max_attempts:
                 delay = min(
-                    max_delay, initial_delay * (backoff_factor ** (attempt - 1))
+                    max_delay, initial_delay *
+                    (backoff_factor ** (attempt - 1))
                 )
                 if jitter:
                     delay += random.uniform(0, 1)
