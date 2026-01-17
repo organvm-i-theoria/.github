@@ -7,6 +7,7 @@ Usage:
 """
 
 import argparse
+import html
 import json
 from datetime import datetime
 from pathlib import Path
@@ -341,16 +342,20 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
     if events:
         event_items = []
         for event in events[:5]:  # Top 5 events
+            # Sanitize inputs to prevent XSS/HTML injection
+            safe_name = html.escape(event.get('name', 'Unknown'))
+            safe_url = html.escape(event.get('html_url', '#'))
+
             event_items.append(EVENT_ITEM_TEMPLATE.format(
-                name=event['name'],
-                url=event['html_url'],
+                name=safe_name,
+                url=safe_url,
                 time_ago=format_time_ago(event['created_at'])
             ))
         events_html = EVENTS_SECTION_TEMPLATE.format(
             events="\n".join(event_items))
 
     # Generate HTML
-    html = EMAIL_TEMPLATE.format(
+    html_content = EMAIL_TEMPLATE.format(
         period_start=period_start,
         period_end=period_end,
         summary=summary,
@@ -375,7 +380,7 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
     )
 
     # Write to file
-    output_file.write_text(html)
+    output_file.write_text(html_content)
     print(f"Email digest generated: {output_file}")
 
 
