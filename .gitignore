@@ -54,6 +54,9 @@ Desktop.ini
 # Generated state files
 .github/task_state.json
 
+# SpecStory conversation history (contains sensitive data)
+.specstory/
+
 # Case sensitivity: prevent uppercase Jules directory
 .Jules/
 node_modules/
