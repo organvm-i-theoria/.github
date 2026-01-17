@@ -142,8 +142,7 @@ class LabelSyncManager:
         try:
             org = self.github.get_organization(org_name)
             repos = list(org.get_repos())
-            print(
-                f"Found {len(repos)} repositories in organization '{org_name}'")
+            print(f"Found {len(repos)} repositories in organization '{org_name}'")
             return repos
         except GithubException as e:
             print(f"Error accessing organization '{org_name}': {e}")
@@ -186,8 +185,7 @@ class LabelSyncManager:
                     # Label exists - check if update needed
                     existing_label = existing_labels[label_name]
                     needs_update = (
-                        existing_label.color.lower(
-                        ) != label_config["color"].lower()
+                        existing_label.color.lower() != label_config["color"].lower()
                         or (existing_label.description or "").strip()
                         != (label_config["description"] or "").strip()
                     )
@@ -322,15 +320,11 @@ Examples:
         """,
     )
 
-    parser.add_argument("--org", required=True,
-                        help="GitHub organization name")
+    parser.add_argument("--org", required=True, help="GitHub organization name")
 
     parser.add_argument(
         "--token",
-        default=get_secret(
-            "batch-label-deployment-011726",
-            "password"
-        ),
+        default=get_secret("batch-label-deployment-011726", "password"),
         help="GitHub token from 1Password CLI (optional if stored correctly)",
     )
 

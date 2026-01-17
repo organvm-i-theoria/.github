@@ -90,8 +90,7 @@ class ConfigLoader:
         config_path = self.config_dir / filename
 
         if not config_path.exists():
-            raise FileNotFoundError(
-                f"Configuration file not found: {config_path}")
+            raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
         self.logger.info(f"Loading configuration from {config_path}")
 
@@ -205,14 +204,10 @@ class GitHubAPIClient:
         """
         # Securely retrieve token from 1Password CLI only
         if token is None:
-            token = get_secret(
-                "batch-label-deployment-011726",
-                "password"
-            )
+            token = get_secret("batch-label-deployment-011726", "password")
         self.token = token
         if not self.token:
-            raise ValueError(
-                "GitHub token required - store in 1Password")
+            raise ValueError("GitHub token required - store in 1Password")
 
         self.base_url = "https://api.github.com"
         self.session = requests.Session()
@@ -287,8 +282,7 @@ class GitHubAPIClient:
                     )
                     time.sleep(delay)
                 else:
-                    self.logger.error(
-                        f"Request timeout after {max_attempts} attempts")
+                    self.logger.error(f"Request timeout after {max_attempts} attempts")
                     raise
 
             except requests.exceptions.HTTPError as e:
@@ -315,7 +309,8 @@ class GitHubAPIClient:
                 else:
                     # Don't retry 4xx errors (except 429)
                     self.logger.error(
-                        f"HTTP {e.response.status_code}: {e.response.text}")
+                        f"HTTP {e.response.status_code}: {e.response.text}"
+                    )
                     raise
 
             except requests.exceptions.RequestException as e:
@@ -524,8 +519,9 @@ def retry_with_backoff(
             last_exception = e
 
             if attempt < max_attempts:
-                delay = min(max_delay, initial_delay *
-                            (backoff_factor ** (attempt - 1)))
+                delay = min(
+                    max_delay, initial_delay * (backoff_factor ** (attempt - 1))
+                )
                 if jitter:
                     delay += random.uniform(0, 1)
 

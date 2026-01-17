@@ -9,7 +9,7 @@ For CI/CD: Use 1Password Service Accounts, not environment variables.
 
 Supported secret types:
 - GitHub tokens (personal access tokens, app tokens)
-- API keys (third-party services)  
+- API keys (third-party services)
 - Passwords (databases, services)
 - SSH keys
 - Certificates
@@ -17,31 +17,31 @@ Supported secret types:
 
 Usage:
     from secret_manager import get_secret, ensure_github_token
-    
+
     # GitHub token (most common)
     token = ensure_github_token()
-    
+
     # Generic secret
     api_key = ensure_secret("my-api-key-item", "credential")
-    
+
     # Database password
     db_pass = ensure_secret("prod-database", "password")
 
 CI/CD Integration:
     Use 1Password Service Accounts - NOT environment variables.
-    
+
     GitHub Actions Example:
         - uses: 1password/install-cli-action@v1
-        
+
         - name: Deploy
           env:
             OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           run: python3 automation/scripts/batch_onboard_repositories.py
-    
+
     The OP_SERVICE_ACCOUNT_TOKEN is a service account credential that
     authenticates the 1Password CLI. Your actual secrets stay in 1Password
     and are never exposed as environment variables.
-    
+
     Learn more:
     https://developer.1password.com/docs/service-accounts/
 """
@@ -52,9 +52,7 @@ from typing import Optional
 
 
 def get_secret(
-    item_name: str,
-    field: str = "password",
-    vault: str = "Private"
+    item_name: str, field: str = "password", vault: str = "Private"
 ) -> Optional[str]:
     """
     Get secret from 1Password CLI.
@@ -84,12 +82,7 @@ def get_secret(
         if vault != "Private":
             cmd.extend(["--vault", vault])
 
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            check=True
-        )
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         secret = result.stdout.strip()
         return secret if secret else None
 
@@ -102,15 +95,13 @@ def get_secret(
         print("❌ 1Password CLI not installed", file=sys.stderr)
         print(
             "   Install: https://developer.1password.com/docs/cli/get-started/",
-            file=sys.stderr
+            file=sys.stderr,
         )
         return None
 
 
 def ensure_secret(
-    item_name: str,
-    field: str = "password",
-    vault: str = "Private"
+    item_name: str, field: str = "password", vault: str = "Private"
 ) -> str:
     """
     Get secret from 1Password or exit if unavailable.
@@ -133,9 +124,7 @@ def ensure_secret(
     return secret
 
 
-def get_github_token(
-    item_name: str = "batch-label-deployment-011726"
-) -> Optional[str]:
+def get_github_token(item_name: str = "batch-label-deployment-011726") -> Optional[str]:
     """
     Get GitHub token from 1Password CLI.
 
@@ -148,9 +137,7 @@ def get_github_token(
     return get_secret(item_name, "password")
 
 
-def ensure_github_token(
-    item_name: str = "batch-label-deployment-011726"
-) -> str:
+def ensure_github_token(item_name: str = "batch-label-deployment-011726") -> str:
     """
     Get GitHub token from 1Password or exit if unavailable.
 
@@ -175,41 +162,34 @@ def _print_secret_error(item_name: str, field: str, vault: str) -> None:
     print("", file=sys.stderr)
     print(
         f"Could not retrieve: {item_name} (field: {field}, vault: {vault})",
-        file=sys.stderr
+        file=sys.stderr,
     )
     print("", file=sys.stderr)
 
     print("LOCAL DEVELOPMENT:", file=sys.stderr)
     print("", file=sys.stderr)
     print("  1. Install 1Password CLI:", file=sys.stderr)
-    print(
-        "     https://developer.1password.com/docs/cli/get-started/",
-        file=sys.stderr
-    )
+    print("     https://developer.1password.com/docs/cli/get-started/", file=sys.stderr)
     print("", file=sys.stderr)
     print("  2. Authenticate with desktop app:", file=sys.stderr)
     print(
         "     https://developer.1password.com/docs/cli/app-integration/",
-        file=sys.stderr
+        file=sys.stderr,
     )
     print("", file=sys.stderr)
     print("  3. Create the secret in 1Password:", file=sys.stderr)
     print(
         f'     op item create --category=password --title="{item_name}" \\',
-        file=sys.stderr
+        file=sys.stderr,
     )
-    print(
-        f'       --vault="{vault}" {field}="your-secret"',
-        file=sys.stderr
-    )
+    print(f'       --vault="{vault}" {field}="your-secret"', file=sys.stderr)
     print("", file=sys.stderr)
 
     print("CI/CD (GitHub Actions, GitLab CI, etc.):", file=sys.stderr)
     print("", file=sys.stderr)
     print("  1. Create a 1Password Service Account:", file=sys.stderr)
     print(
-        "     https://developer.1password.com/docs/service-accounts/",
-        file=sys.stderr
+        "     https://developer.1password.com/docs/service-accounts/", file=sys.stderr
     )
     print("", file=sys.stderr)
     print("  2. Grant access to required vaults", file=sys.stderr)
@@ -225,7 +205,7 @@ def _print_secret_error(item_name: str, field: str, vault: str) -> None:
     print("       env:", file=sys.stderr)
     print(
         "         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}",
-        file=sys.stderr
+        file=sys.stderr,
     )
     print("       run: python3 automation/scripts/your_script.py", file=sys.stderr)
     print("", file=sys.stderr)

@@ -1,10 +1,12 @@
 # Universal Secret Management Guide
 
-> **Secure credential management using 1Password CLI ONLY - no environment variable fallback**
+> **Secure credential management using 1Password CLI ONLY - no environment
+> variable fallback**
 
 ## Overview
 
-This organization uses **1Password CLI** as the **exclusive** secret manager for all automation scripts, workflows, and deployments. This approach:
+This organization uses **1Password CLI** as the **exclusive** secret manager for
+all automation scripts, workflows, and deployments. This approach:
 
 - ✅ Eliminates plaintext secrets in files
 - ✅ Eliminates environment variable security risks
@@ -12,7 +14,8 @@ This organization uses **1Password CLI** as the **exclusive** secret manager for
 - ✅ Centralizes secret management
 - ✅ Provides secure CI/CD integration via 1Password Service Accounts
 
-**Security Philosophy**: No compromises. Secrets are retrieved from 1Password CLI only, never from environment variables or files.
+**Security Philosophy**: No compromises. Secrets are retrieved from 1Password
+CLI only, never from environment variables or files.
 
 ## ✅ Current Coverage
 
@@ -24,27 +27,27 @@ All production scripts now use `secret_manager.py` with **1Password CLI ONLY**:
    - GitHub token via `ensure_github_token()`
    - 1Password CLI only, no environment variables
 
-2. **`validate_labels.py`** ✅ - Label validation and deployment
+1. **`validate_labels.py`** ✅ - Label validation and deployment
    - GitHub token via `ensure_github_token()`
    - 1Password CLI only, no environment variables
 
-3. **`pre_deployment_checklist.py`** ✅ - Pre-deployment validation
+1. **`pre_deployment_checklist.py`** ✅ - Pre-deployment validation
    - GitHub token via `ensure_github_token()`
    - 1Password CLI only, no environment variables
 
-4. **`web_crawler.py`** ✅ - Organization health monitoring
+1. **`web_crawler.py`** ✅ - Organization health monitoring
    - GitHub token via `get_secret()`
    - 1Password CLI only, no environment variables
 
-5. **`utils.py`** ✅ - GitHub API client utilities
+1. **`utils.py`** ✅ - GitHub API client utilities
    - GitHub token via `get_secret()`
    - 1Password CLI only, no environment variables
 
-6. **`sync_labels.py`** ✅ - Label synchronization
+1. **`sync_labels.py`** ✅ - Label synchronization
    - GitHub token via `get_secret()`
    - 1Password CLI only, no environment variables
 
-7. **`DEPLOY_PHASE1.sh`** ✅ - Phase 1 deployment orchestration
+1. **`DEPLOY_PHASE1.sh`** ✅ - Phase 1 deployment orchestration
    - Delegates token management to Python scripts
    - No token handling in shell script
 
@@ -94,28 +97,27 @@ steps:
       # Then scripts use get_secret() as normal
       python3 automation/scripts/batch_onboard_repositories.py
 ```
-   from secret_manager import get_secret_with_fallback
-   self.token = token or get_secret_with_fallback(
-       "batch-label-deployment-011726",
-       "password",
-       env_var="GITHUB_TOKEN"
-   )
-   ```
+
+from secret_manager import get_secret_with_fallback self.token = token or
+get_secret_with_fallback( "batch-label-deployment-011726", "password",
+env_var="GITHUB_TOKEN" )
+
+````
 
 3. **`sync_labels.py`** (Line 319)
 
-   ```python
-   # Current:
-   default=os.getenv("GITHUB_TOKEN")
-   
-   # Should be:
-   from secret_manager import get_secret_with_fallback
-   default=get_secret_with_fallback(
-       "batch-label-deployment-011726",
-       "password",
-       env_var="GITHUB_TOKEN"
-   )
-   ```
+```python
+# Current:
+default=os.getenv("GITHUB_TOKEN")
+
+# Should be:
+from secret_manager import get_secret_with_fallback
+default=get_secret_with_fallback(
+    "batch-label-deployment-011726",
+    "password",
+    env_var="GITHUB_TOKEN"
+)
+````
 
 ### Medium Priority
 
@@ -123,7 +125,7 @@ steps:
    - Documents `GITHUB_TOKEN` requirement
    - Should use `secret_manager.py`
 
-2. **Shell scripts** in `automation/scripts/`
+1. **Shell scripts** in `automation/scripts/`
    - Should delegate to Python wrappers
    - Or use `op` CLI directly
 
@@ -137,21 +139,21 @@ steps:
 
 ### Threat Protection
 
-| Threat | Mitigation |
-|--------|-----------|
-| **Plaintext secrets in code** | ✅ Blocked - No secrets in source files |
-| **Secrets in version control** | ✅ Blocked - Only in encrypted 1Password |
-| **Secrets in environment** | ⚠️ Fallback only (for CI/CD) |
-| **Secrets in logs** | ✅ Protected - Never printed |
-| **Memory dumps** | ⚠️ Brief exposure (process lifetime only) |
-| **Disk persistence** | ✅ Blocked - No plaintext files created |
+| Threat                         | Mitigation                                |
+| ------------------------------ | ----------------------------------------- |
+| **Plaintext secrets in code**  | ✅ Blocked - No secrets in source files   |
+| **Secrets in version control** | ✅ Blocked - Only in encrypted 1Password  |
+| **Secrets in environment**     | ⚠️ Fallback only (for CI/CD)              |
+| **Secrets in logs**            | ✅ Protected - Never printed              |
+| **Memory dumps**               | ⚠️ Brief exposure (process lifetime only) |
+| **Disk persistence**           | ✅ Blocked - No plaintext files created   |
 
 ### Secret Lifecycle
 
 1. **Storage**: Encrypted in 1Password vault
-2. **Retrieval**: Via 1Password CLI (`op item get`)
-3. **Usage**: Exists only in process memory
-4. **Cleanup**: Auto-cleared when process exits
+1. **Retrieval**: Via 1Password CLI (`op item get`)
+1. **Usage**: Exists only in process memory
+1. **Cleanup**: Auto-cleared when process exits
 
 ### Access Control
 
@@ -168,7 +170,8 @@ steps:
 
 To integrate a new script:
 
-- [ ] Import secret manager: `from secret_manager import get_secret_with_fallback`
+- [ ] Import secret manager:
+      `from secret_manager import get_secret_with_fallback`
 - [ ] Replace `os.environ.get()` or `os.getenv()` calls
 - [ ] Use appropriate function:
   - `get_secret()` - Basic retrieval
@@ -247,9 +250,9 @@ if ssh_key:
     key_path = Path("/tmp/deploy_key")
     key_path.write_text(ssh_key)
     key_path.chmod(0o600)
-    
+
     # Use key...
-    
+
     # Clean up
     key_path.unlink()
 ```
@@ -264,7 +267,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up secrets
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOYMENT_TOKEN }}
@@ -282,10 +285,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install 1Password CLI
         uses: 1password/install-cli-action@v1
-      
+
       - name: Deploy with 1Password
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
@@ -325,10 +328,11 @@ jobs:
 
 **Solutions**:
 
-1. Enable desktop app integration: <https://developer.1password.com/docs/cli/app-integration/>
-2. Sign in manually: `op account add`
-3. Use service account: `export OP_SERVICE_ACCOUNT_TOKEN="your-token"`
-4. Fallback to environment variable: `export GITHUB_TOKEN="your-token"`
+1. Enable desktop app integration:
+   <https://developer.1password.com/docs/cli/app-integration/>
+1. Sign in manually: `op account add`
+1. Use service account: `export OP_SERVICE_ACCOUNT_TOKEN="your-token"`
+1. Fallback to environment variable: `export GITHUB_TOKEN="your-token"`
 
 ### "Secret not found"
 
@@ -346,13 +350,13 @@ jobs:
      password="ghp_xxxxx"
    ```
 
-2. Verify item exists:
+1. Verify item exists:
 
    ```bash
    op item get "batch-label-deployment-011726"
    ```
 
-3. Check vault permissions
+1. Check vault permissions
 
 ### "Token has insufficient permissions"
 
@@ -365,7 +369,7 @@ jobs:
    - `workflow` - Update GitHub Actions workflows
    - `admin:org` - For organization-level operations
 
-2. Update in 1Password:
+1. Update in 1Password:
 
    ```bash
    op item edit "batch-label-deployment-011726" password="new-token"
@@ -373,19 +377,19 @@ jobs:
 
 ## 📊 Coverage Status
 
-| Component | Status | Priority |
-|-----------|--------|----------|
-| `batch_onboard_repositories.py` | ✅ Integrated | - |
-| `validate_labels.py` | ✅ Integrated | - |
-| `pre_deployment_checklist.py` | ✅ Integrated | - |
-| `web_crawler.py` | ✅ Integrated | - |
-| `utils.py` | ✅ Integrated | - |
-| `sync_labels.py` | ✅ Integrated | - |
-| `DEPLOY_PHASE1.sh` | ✅ Integrated | - |
-| `secret_manager.py` | ✅ Complete | - |
-| `intelligent_routing.py` | ⚠️ Optional | Low |
-| Other shell scripts | ⚠️ Needs review | Low |
-| Test files | ✅ OK (dummy tokens) | Low |
+| Component                       | Status               | Priority |
+| ------------------------------- | -------------------- | -------- |
+| `batch_onboard_repositories.py` | ✅ Integrated        | -        |
+| `validate_labels.py`            | ✅ Integrated        | -        |
+| `pre_deployment_checklist.py`   | ✅ Integrated        | -        |
+| `web_crawler.py`                | ✅ Integrated        | -        |
+| `utils.py`                      | ✅ Integrated        | -        |
+| `sync_labels.py`                | ✅ Integrated        | -        |
+| `DEPLOY_PHASE1.sh`              | ✅ Integrated        | -        |
+| `secret_manager.py`             | ✅ Complete          | -        |
+| `intelligent_routing.py`        | ⚠️ Optional          | Low      |
+| Other shell scripts             | ⚠️ Needs review      | Low      |
+| Test files                      | ✅ OK (dummy tokens) | Low      |
 
 **Overall Coverage**: **100%** of production scripts integrated ✅
 
@@ -433,13 +437,14 @@ jobs:
 When adding new automation:
 
 1. Always use `secret_manager.py` for credentials
-2. Never commit plaintext secrets
-3. Document secret requirements
-4. Test both 1Password and env var fallback
-5. Update this guide
+1. Never commit plaintext secrets
+1. Document secret requirements
+1. Test both 1Password and env var fallback
+1. Update this guide
 
 ---
 
-**Last Updated**: 2026-01-17  
-**Maintainer**: @ivviiviivvi  
-**Status**: Active Development
+**Last Updated**: 2026-01-17\
+**Maintainer**: @ivviiviivvi\
+**Status**: Active
+Development
