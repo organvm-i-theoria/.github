@@ -3,7 +3,6 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "workspace",
   "workspaceFolder": "/workspace",
-
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20",
@@ -30,7 +29,6 @@
       "version": "latest"
     }
   },
-
   "customizations": {
     "vscode": {
       "extensions": [
@@ -64,7 +62,6 @@
         "editor.rulers": [80, 120],
         "editor.bracketPairColorization.enabled": true,
         "editor.guides.bracketPairs": true,
-
         "files.associations": {
           "*.yml": "yaml",
           "*.yaml": "yaml",
@@ -83,7 +80,6 @@
           "**/dist/**": true,
           "**/build/**": true
         },
-
         "search.exclude": {
           "**/node_modules": true,
           "**/dist": true,
@@ -92,10 +88,8 @@
           "**/.venv": true,
           "**/coverage": true
         },
-
         "javascript.updateImportsOnFileMove.enabled": "always",
         "typescript.updateImportsOnFileMove.enabled": "always",
-
         "python.formatting.provider": "none",
         "[python]": {
           "editor.defaultFormatter": "ms-python.black-formatter",
@@ -113,12 +107,10 @@
         ],
         "python.testing.pytestEnabled": true,
         "python.testing.unittestEnabled": false,
-
         "git.autofetch": true,
         "git.confirmSync": false,
         "git.enableSmartCommit": true,
         "gitlens.hovers.currentLine.over": "line",
-
         "terminal.integrated.defaultProfile.linux": "bash",
         "terminal.integrated.profiles.linux": {
           "bash": {
@@ -129,14 +121,12 @@
             "path": "zsh"
           }
         },
-
         "eslint.validate": [
           "javascript",
           "javascriptreact",
           "typescript",
           "typescriptreact"
         ],
-
         "github.copilot.enable": {
           "*": true,
           "yaml": true,
@@ -146,7 +136,6 @@
       }
     }
   },
-
   "forwardPorts": [3000, 5000, 8000, 8080, 9090, 3001],
   "portsAttributes": {
     "3000": {
@@ -158,18 +147,13 @@
       "onAutoForward": "silent"
     }
   },
-
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-
   "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && if [ -n \"$GITHUB_TOKEN\" ]; then unset GITHUB_TOKEN; fi",
-
   "remoteUser": "vscode",
-
   "mounts": [
     "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
     "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached"
   ],
-
   "containerEnv": {
     "WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
   }
