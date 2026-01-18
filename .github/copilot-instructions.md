@@ -1,7 +1,6 @@
 ---
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
----
+
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -118,7 +117,7 @@ globs: *
          - venv/
        ```
     1. **Create ESLint Configuration (if missing):** If ESLint reports a missing
-       configuration, create an `.eslintrc.json` file:
+       configuration, create an `.eslintrc.eslintrc.json` file:
        ```json
        {
          "env": {
@@ -200,6 +199,39 @@ globs: *
     `git commit --no-verify -m "commit message"`.
   - **Use this with caution and only for non-functional changes.**
 
+- **Master Org Token Security and Contextual Awareness:**
+  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
+    being accessed by multiple repositories, raising security and access
+    management concerns.
+  - **Investigation Steps:**
+    1. **Token Identification:** Identify all instances where the
+       "master-org-token-011726" or "master-org-personal-access-token" is
+       referenced.
+    1. **Usage Analysis:** Analyze how the token is being used across the
+       organization, including in GitHub workflows, scripts, and documentation.
+    1. **Scope Determination:** Determine the scope of the issue by identifying
+       all affected repositories and resources.
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
+       configured with the token.
+  - **Resolution Guidelines:**
+    - **Comprehensive Analysis Document:** Create a detailed analysis document
+      to address the contextual awareness issue, outlining the token's usage,
+      affected areas, and proposed solutions.
+    - **Token Rotation:** Rotate the "master-org-token-011726" PAT to mitigate
+      potential security risks.
+    - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
+      and limit token scopes to only the necessary permissions.
+    - **Access Management Review:** Review and update access management policies
+      to ensure proper control over sensitive resources.
+  - **Reference Documentation:**
+    - See
+      [MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md](../docs/MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md)
+      for comprehensive analysis
+    - See [TOKEN_REGISTRY.md](../docs/TOKEN_REGISTRY.md) for token management
+      guidelines
+    - **Migration Plan:** Replace single master token with purpose-specific
+      tokens by 2026-02-18
+
 - **Repository Cleanup Guidelines:**
   - When cleaning the remote repository, review all deleted branches one at a
     time to ensure no valuable code is lost.
@@ -238,72 +270,272 @@ globs: *
 - **Link Checking**
   - When checking the links in files, use the tool to validate they are working
     and remove any non-functional links.
+
 - **Branch Review and Deletion**
   - Before deleting remote branches, perform a thorough review to prevent data
     loss:
-    1.  **List all remote branches:** Use `git branch -r` to identify all remote
-        branches.
-    2.  **For each remote branch:**
-        a.  **Examine the branch's commit history:** Use `git log --oneline
-            --graph --decorate -20` or similar to understand the work done.
-        b.  **Identify valuable commits:** Check if commits contain unique and
-            valuable code or configurations.
-        c.  **Cherry-pick or merge:** If valuable commits are found, cherry-pick
-            them into the main branch or another appropriate branch.
-        d.  **Confirm successful integration:** Verify the changes are now safely
-            integrated into the main branch.
-        e.  **Delete remote branch:** Use `git push origin --delete branch_name` to
-            delete the remote branch.
-    3.  **Verify Clean State:** Use `git fetch --prune && git branch -r` to
-        update the local list of remote branches and remove any that have been
-        deleted.
+    1. **List all remote branches:** Use `git branch -r` to identify all remote
+       branches.
+    1. **For each remote branch:** a. **Examine the branch's commit history:**
+       Use `git log --oneline     --graph --decorate -20` or similar to
+       understand the work done. b. **Identify valuable commits:** Check if
+       commits contain unique and valuable code or configurations. c.
+       **Cherry-pick or merge:** If valuable commits are found, cherry-pick them
+       into the main branch or another appropriate branch. d. **Confirm
+       successful integration:** Verify the changes are now safely integrated
+       into the main branch. e. **Delete remote branch:** Use
+       `git push origin --delete branch_name` to delete the remote branch.
+    1. **Verify Clean State:** Use `git fetch --prune && git branch -r` to
+       update the local list of remote branches and remove any that have been
+       deleted.
+
+- **Master Org Token Security and Contextual Awareness:**
+  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
+    being accessed by multiple repositories, raising security and access
+    management concerns.
+  - **Investigation Steps:**
+    1. **Token Identification:** Identify all instances where the
+       "master-org-token-011726" or "master-org-personal-access-token" is
+       referenced.
+    1. **Usage Analysis:** Analyze how the token is being used across the
+       organization, including in GitHub workflows, scripts, and documentation.
+    1. **Scope Determination:** Determine the scope of the issue by identifying
+       all affected repositories and resources.
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
+       configured with the token.
+  - **Resolution Guidelines:**
+    - **Comprehensive Analysis Document:** Create a detailed analysis document
+      to address the contextual awareness issue, outlining the token's usage,
+      affected areas, and proposed solutions.
+    - **Token Rotation:** Rotate the "master-org-token-011726" PAT to mitigate
+      potential security risks.
+    - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
+      and limit token scopes to only the necessary permissions.
+    - **Access Management Review:** Review and update access management policies
+      to ensure proper control over sensitive resources.
 
 ## FINAL DOs AND DON'Ts
 
-## GitHub Copilot Enhancement Resources
+- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
+  to create organization projects, use a Personal Access Token (PAT) instead.
 
-**New to GitHub Copilot customizations?** This organization provides
-comprehensive enhancements:
+- Single select options in GitHub Projects require a non-null "description"
+  field in the GraphQL API request. Ensure that the script populating the single
+  select options include this field. See `configure-github-projects.py` for an
+  example.
 
-- 📘 [**Quick Start Guide**](../docs/COPILOT_QUICK_START.md) - Get up and running
-  in 15 minutes
-- 🔧 [**Custom Instructions Setup**](../docs/CUSTOM_INSTRUCTIONS_SETUP.md) -
-  Configure coding standards (100+ available)
-- 🔌 [**MCP Server Setup**](../docs/MCP_SERVER_SETUP.md) - Extend Copilot with
-  Model Context Protocol (11 languages)
-- 💻
-  [**Development Environment Setup**](../docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
-  \- Optimize your dev environment
-- 📚 [**Complete Index**](../docs/COPILOT_ENHANCEMENTS_INDEX.md) - Browse all
-  resources
+- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
+  reserved value" error can occur if you attempt to create fields that have
+  names that are already reserved by GitHub. Avoid creating fields named
+  "Status" or "Type" as these are often pre-defined or reserved.
 
----
+- To avoid the error where custom field creation fails with "Variable $input of
+  type CreateProjectV2FieldInput! was provided invalid value for
+  singleSelectOptions.X.description (Expected value to not be null)", ensure
+  that the python script includes logic to add an empty description to each
+  options: e.g.,
 
-The following instructions are only to be applied when performing a code review.
+  ```python
+  # Add empty description to each option (required by API)
+  options_with_desc = [
+      {**opt, "description": ""} for opt in options
+  ]
 
-## README updates
+  variables = {
+      "input": {
+          "projectId": project_id,
+          "dataType": "SINGLE_SELECT",
+          "name": name,
+          "singleSelectOptions": options_with_desc
+  ```
 
-- [ ] The new file should be added to the `README.md`.
-- [ ] The "Workflow System" section should be updated with the new information.
+Here's the updated `PROJECTS_CONFIG` section in the
+`configure-github-projects.py` file:
 
-## Prompt file guide
+```python
+# Project configurations
+PROJECTS_CONFIG = {
+    "ai-framework": {
+        "title": "🤖 AI Framework Development",
+        "description": """Development and maintenance of the AI framework including:
+- 26+ specialized agents
+- MCP servers for 11 programming languages
+- 100+ custom instructions
+- Chat modes and collections
+- Automated tracking of agent lifecycle, testing, and deployment
 
-**Only apply to files that end in `.prompt.md`**
+**Key Areas:**
+- Agent development and testing
+- MCP server implementation
+- Custom instructions authoring
+- Chat mode configuration
+- Framework enhancements and bug fixes""",
+        "fields": {
+            "Status": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🎯 Planned", "color": "GRAY", "description": ""},
+                    {"name": "🔬 Research", "color": "BLUE", "description": ""},
+                    {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
+                    {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
+                    {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
+                    {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
+                    {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
+                    {"name": "📝 Documentation", "color": "BLUE", "description": ""},
+                    {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
+                    {"name": "✔️ Completed", "color": "GREEN", "description": ""}
+                ]
+            },
+            "Priority": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🔥 Critical", "color": "RED", "description": ""},
+                    {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                    {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                    {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                ]
+            },
+            "Type": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
+                    {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
+                    {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
+                    {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
+                    {"name": "📦 Collection", "color": "ORANGE", "description": ""},
+                    {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
+                    {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
+                ]
+            },
+            "Language": {
+                "type": "single_select",
+                "options": [
+                    {"name": "Python", "color": "BLUE", "description": ""},
+                    {"name": "TypeScript", "color": "BLUE", "description": ""},
+                    {"name": "Java", "color": "RED", "description": ""},
+                    {"name": "C#", "color": "PURPLE", "description": ""},
+                    {"name": "Go", "color": "BLUE", "description": ""},
+                    {"name": "Rust", "color": "ORANGE", "description": ""},
+                    {"name": "Multi-Language", "color": "GRAY", "description": ""}
+                ]
+            },
+            "Complexity": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🟢 Simple", "color": "GREEN", "description": ""},
+                    {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
+                    {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
+                    {"name": "🔴 Major", "color": "RED", "description": ""}
+                ]
+            },
+            "Dependencies": {"type": "text"},
+            "Testing Status": {
+                "type": "single_select",
+                "options": [
+                    {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
+                    {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
+                    {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
+                    {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
+                ]
+            }
+        }
+    },
+    "documentation": {
+        "title": "📚 Documentation &amp; Knowledge",
+        "description": """Documentation ecosystem management across 133+ files:
+- Setup guides and quick starts
+- Architecture documentation
+- API references and technical guides
+- Tutorials and learning resources
+- Policy documents
 
-- [ ] The prompt has markdown front matter.
-- [ ] The prompt has a `mode` field specified of either \`agent\` or \`ask\`.
-- [ ] The prompt has a \`description\` field.
-- [ ] The \`description\` field is not empty.
-- [ ] The \`description\` field value is wrapped in single quotes.
-- [ ] Encourage the use of \`tools\`, but it's not required.
-- [ ] Strongly encourage the use of \`model\` to specify the model that the
-      prompt is optimised for.
+**Coverage:**
+- Core organizational policies
+- Workflow system documentation
+- AI framework guides
+- Development environment setup
+- Security and compliance docs""",
+        "fields": {
+            "Status": {
+                "type": "single_select",
+                "options": [
+                    {"name": "📋 Backlog", "color": "GRAY", "description": ""},
+                    {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
+                    {"name": "👀 Review", "color": "ORANGE", "description": ""},
+                    {"name": "🔄 Revision", "color": "BLUE", "description": ""},
+                    {"name": "✅ Approved", "color": "GREEN", "description": ""},
+                    {"name": "📤 Published", "color": "GREEN", "description": ""},
+                    {"name": "🔄 Needs Update", "color": "RED", "description": ""}
+                ]
+            },
+            "Priority": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🔥 Urgent", "color": "RED", "description": ""},
+                    {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                    {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                    {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                ]
+            },
+            "Document Type": {
+                "type": "single_select",
+                "options": [
+                    {"name": "📖 Guide", "color": "BLUE", "description": ""},
+                    {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
+                    {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
+                    {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
+                    {"name": "📋 Policy", "color": "RED", "description": ""},
+                    {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
+                ]
+            },
+            "Completeness": {
+                "type": "single_select",
+                "options": [
+                    {"name": "🔴 Outline Only", "color": "RED", "description": ""},
+                    {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
+                    {"name": "🟢 Complete", "color": "GREEN", "description": ""},
+                    {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
+                ]
+            },
+            "Last Updated": {"type": "date"},
+            "Next Review Date": {"type": "date"},
+            "Word Count": {"type": "number"}
+        }
+    }
+}
+```
 
-## Instruction file guide
+## FINAL DOs AND DON'Ts
 
-**Only apply to files that end in `.instructions.md`**
+- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
+  to create organization projects, use a Personal Access Token (PAT) instead.
 
-- [ ] The instruction has markdown front matter.
-- [ ] The instruction has a \`description\` field.
-- [ ] The \`description\` field is not empty.
-- [ ] The \`description\` field value is wrapped in single quotes.
+- Single select options in GitHub Projects require a non-null "description"
+  field in the GraphQL API request. Ensure that the script populating the single
+  select options include this field. See `configure-github-projects.py` for an
+  example.
+
+- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
+  reserved value" error can occur if you attempt to create fields that have
+  names that are already reserved by GitHub. Avoid creating fields named
+  "Status" or "Type" as these are often pre-defined or reserved.
+
+- To avoid the error where custom field creation fails with "Variable $input of
+  type CreateProjectV2FieldInput! was provided invalid value for
+  singleSelectOptions.X.description (Expected value to not be null)", ensure
+  that the python script includes logic to add an empty description to each
+  options: e.g.,
+
+  ```python
+  # Add empty description to each option (required by API)
+  options_with_desc = [
+      {**opt, "description": ""} for opt in options
+  ]
+
+  variables = {
+      "input": {
+          "projectId": project_id,
+          "dataType": "SINGLE_SELECT",
+          "name": name,
+          "singleSelectOptions": options_with_desc
+  ```

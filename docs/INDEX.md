@@ -83,6 +83,23 @@ New to this repository? Start here:
 - [PR_AUTOMATION_GUIDE.md](guides/PR_AUTOMATION_GUIDE.md) - PR automation
 - [PR_AUTOMATION_QUICK_REF.md](guides/PR_AUTOMATION_QUICK_REF.md) - Quick ref
 
+### GitHub Projects ⭐ NEW
+
+- [GITHUB_PROJECTS_IMPLEMENTATION.md](GITHUB_PROJECTS_IMPLEMENTATION.md) - ⭐
+  Complete implementation plan (3,500+ lines)
+- [GITHUB_PROJECTS_DEPLOYMENT.md](GITHUB_PROJECTS_DEPLOYMENT.md) - ⭐ Deployment
+  checklist (step-by-step)
+- [GITHUB_PROJECTS_CONFIGURATION.md](GITHUB_PROJECTS_CONFIGURATION.md) -
+  Step-by-step setup
+- [GITHUB_PROJECTS_QUICKREF.md](GITHUB_PROJECTS_QUICKREF.md) - ⭐ Quick reference
+  card
+- [GITHUB_PROJECTS_VISUAL.md](GITHUB_PROJECTS_VISUAL.md) - Visual diagrams and
+  ASCII art
+- [../scripts/README_PROJECTS.md](../scripts/README_PROJECTS.md) - Scripts and
+  automation
+- [../scripts/1PASSWORD_QUICK_START.md](../scripts/1PASSWORD_QUICK_START.md) - ⭐
+  1Password CLI deployment guide
+
 ### Advanced Automation ⭐ Week 9 Complete
 
 - [WEEK_9_ADVANCED_AUTOMATION.md](WEEK_9_ADVANCED_AUTOMATION.md) - ⭐ Complete
@@ -122,8 +139,8 @@ New to this repository? Start here:
   - 100% test pass rate (5/5 tests passed)
   - Performance 97% under target (0.43s per repo)
   - Zero critical or major issues
-- [WEEK_10_DAY4_INTEGRATION_PLAN.md](WEEK_10_DAY4_INTEGRATION_PLAN.md) - ⭐
-  **IN PROGRESS** Day 4 integration testing
+- [WEEK_10_DAY4_INTEGRATION_PLAN.md](WEEK_10_DAY4_INTEGRATION_PLAN.md) - ⭐ **IN
+  PROGRESS** Day 4 integration testing
   - Real execution with multiple repositories
   - Rollback mechanism validation
   - Performance benchmarking
