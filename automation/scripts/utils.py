@@ -207,17 +207,15 @@ class GitHubAPIClient:
             try:
                 # Try to get token from gh CLI (most common case)
                 import subprocess
+
                 result = subprocess.run(
-                    ["gh", "auth", "token"],
-                    capture_output=True,
-                    text=True,
-                    check=True
+                    ["gh", "auth", "token"], capture_output=True, text=True, check=True
                 )
                 token = result.stdout.strip()
             except (subprocess.CalledProcessError, FileNotFoundError):
                 # Fall back to 1Password if gh CLI not available
                 token = get_secret("org-label-sync-token", "password")
-        
+
         self.token = token
         if not self.token:
             raise ValueError(

@@ -1,6 +1,4 @@
----
-
-## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
+______________________________________________________________________
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -23,14 +21,42 @@
 - Implement early quality gates at each transition.
 - Ensure clear ownership for every item.
 - Automate processes using GitHub Actions.
+- **Semantic Versioning (SemVer):** Use MAJOR.MINOR.PATCH format for versioning:
+  - MAJOR version: for incompatible API changes
+  - MINOR version: for backwards-compatible functionality additions
+  - PATCH version: for backwards-compatible bug fixes
 
 ## REFERENCE EXAMPLES
 
 ## PROJECT DOCUMENTATION & CONTEXT SYSTEM
 
+- **Schema.org Implementation:** ✅ **DEPLOYED** - Schema.org structured data is
+  fully implemented:
+
+  - Schema files located in `.schema-org/` directory
+  - Organization, repository, AI framework, and documentation schemas
+  - Automated validation via `scripts/validate-schema-org.py`
+  - GitHub workflow for continuous validation
+  - Version synchronization with semver
+  - See [SCHEMA_ORG_SEMVER_GUIDE.md](../docs/SCHEMA_ORG_SEMVER_GUIDE.md) for
+    details
+
+- **Semantic Versioning (SemVer):** ✅ **DEPLOYED** - Organization-wide semver
+  implementation:
+
+  - VERSION file as source of truth (currently: 1.0.0)
+  - package.json with version and scripts
+  - Automated version sync via `scripts/sync-version.js`
+  - Version bump workflows in GitHub Actions
+  - Follows MAJOR.MINOR.PATCH format
+  - Conventional commits for version determination
+  - See
+    [docs/reference/SEMANTIC_VERSIONING.md](../docs/reference/SEMANTIC_VERSIONING.md)
+
 ## DEBUGGING
 
 - **Git Commit Issues:**
+
   - If commits are blocked due to pre-commit hook failures, especially with
     `mypy`, check for issues related to the `types-all` dependency in
     `.pre-commit-config-rapid.yaml`.
@@ -50,6 +76,7 @@
     Then, retry the commit.
 
 - **Pre-commit Hook Failures:**
+
   - When pre-commit hooks fail, address the issues systematically:
     1. **Shell Scripts:** Ensure shell scripts have executable permissions
        (`chmod +x script_name.py`).
@@ -85,6 +112,7 @@
     (use with caution).
 
 - **Comprehensive Pre-commit Troubleshooting:**
+
   - If facing multiple pre-commit failures, follow these steps:
     1. **Identify the Issues:** Carefully examine the pre-commit output to
        pinpoint the specific errors. These often include:
@@ -146,6 +174,7 @@
        **Use this as a last resort.**
 
 - **Pre-commit Hook Dependency Conflict:**
+
   - When pre-commit hooks fail due to dependency conflicts, especially with
     `mdformat`, update to a compatible version that works with GFM plugins.
   - Specifically, ensure that the `mdformat` hook in
@@ -185,6 +214,7 @@
        `fix: update mdformat to v0.7.17 for gfm plugin compatibility - Update mdformat from 1.0.0 to 0.7.17 - Maintains compatibility with mdformat-gfm>=0.3.5 - Fixes pre-commit hook dependency conflict - Resolves CLEANUP_ROADMAP Phase 1.1 - Closes #[issue-number] The previous version (1.0.0) was incompatible with mdformat-gfm plugins, forcing developers to use --no-verify and bypass quality gates. Testing: - ✅ pre-commit run --all-files passes - ✅ mdformat hook executes successfully - ✅ All markdown files formatted correctly`.
 
 - **Directory Case Sensitivity Issues:**
+
   - To prevent future merge conflicts, standardize directory casing.
   - Consolidate directories to lowercase. Example: Consolidate `Jules` to
     `jules`.
@@ -192,12 +222,14 @@
   - Add the uppercase directory name to `.gitignore`.
 
 - **Bypassing Pre-commit Hooks:**
+
   - If pre-commit hooks are blocking commits, and the changes are minor (e.g.,
     formatting), you may bypass them temporarily using
     `git commit --no-verify -m "commit message"`.
   - **Use this with caution and only for non-functional changes.**
 
 - **Master Org Token Security and Contextual Awareness:**
+
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -229,65 +261,201 @@
       guidelines
     - **Migration Plan:** Replace single master token with purpose-specific
       tokens by 2026-02-18
+    - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
 
-- **Repository Cleanup Guidelines:**
-  - When cleaning the remote repository, review all deleted branches one at a
-    time to ensure no valuable code is lost.
-  - **Cleaning the Remote Repository:**
-    1. **List all open PRs:** Use \`gh pr list --state open\` to identify
-       currently open pull requests.
-    1. **List all remote branches:** Use \`git branch -r\` to identify all
-       remote branches.
-    1. **Review PRs:** Examine each open PR to determine if it should be merged,
-       closed, or requires additional work.
-    1. **Review Branches:** Assess each remote branch to determine if it can be
-       deleted (e.g., if it has been merged or is stale).
-    1. **Close Unnecessary PRs:** Close PRs that are no longer needed,
-       especially automated PRs with failing checks.
+## FINAL DOs AND DON'Ts
 
-- **Deleting Remote Branches:**
-  - To delete remote branches, use the command: \`git push origin --delete
-    branch_name\` for each branch to be deleted.
-  - Before deleting, ensure that the branch is not required or that the changes
-    have been merged.
+- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
+  to create organization projects, use a Personal Access Token (PAT) instead.
 
-- **Verifying Clean State:**
-  - To verify a clean state after branch deletion, use: \`git fetch --prune &&
-    git branch -r\` to update the local list of remote branches and remove any
-    that have been deleted.
+- Single select options in GitHub Projects require a non-null "description"
+  field in the GraphQL API request. Ensure that the script populating the single
+  select options include this field. See `configure-github-projects.py` for an
+  example.
 
-- **Handling Commits Ahead:**
-  - When a branch appears to be significantly ahead (e.g., 580+ commits),
-    investigate to determine the nature of these commits. Often, these commits
-    may consist of bulk automated changes rather than unique work.
-  - Use \`git reflog --all --date=iso | grep -E "(branch_name)" | head -30\` to
-    review the history of the branch.
-  - Use \`git show 5e86f6b --stat\` (replace 5e86f6b with the commit id) to
-    inspect changes associated with a specific commit.
+- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
+  reserved value" error can occur if you attempt to create fields that have
+  names that are already reserved by GitHub. Avoid creating fields named
+  "Status" or "Type" as these are often pre-defined or reserved.
 
-- **Link Checking**
-  - When checking the links in files, use the tool to validate they are working
-    and remove any non-functional links.
+- To avoid the error where custom field creation fails with "Variable $input of
+  type CreateProjectV2FieldInput! was provided invalid value for
+  singleSelectOptions.X.description (Expected value to not be null)", ensure
+  that the python script includes logic to add an empty description to each
+  options: e.g.,
 
-- **Branch Review and Deletion**
-  - Before deleting remote branches, perform a thorough review to prevent data
-    loss:
-    1. **List all remote branches:** Use `git branch -r` to identify all remote
-       branches.
-    1. **For each remote branch:** a. **Examine the branch's commit history:**
-       Use `git log --oneline     --graph --decorate -20` or similar to
-       understand the work done. b. **Identify valuable commits:** Check if
-       commits contain unique and valuable code or configurations. c.
-       **Cherry-pick or merge:** If valuable commits are found, cherry-pick them
-       into the main branch or another appropriate branch. d. **Confirm
-       successful integration:** Verify the changes are now safely integrated
-       into the main branch. e. **Delete remote branch:** Use
-       `git push origin --delete branch_name` to delete the remote branch.
-    1. **Verify Clean State:** Use `git fetch --prune && git branch -r` to
-       update the local list of remote branches and remove any that have been
-       deleted.
+  ```python
+  # Add empty description to each option (required by API)
+  options_with_desc = [
+      {**opt, "description": ""} for opt in options
+  ]
+
+  variables = {
+      "input": {
+          "projectId": project_id,
+          "dataType": "SINGLE_SELECT",
+          "name": name,
+          "singleSelectOptions": options_with_desc
+  ```
+
+- Here's the updated `PROJECTS_CONFIG` section in the
+  `configure-github-projects.py` file:
+
+  ```python
+  # Project configurations
+  PROJECTS_CONFIG = {
+      "ai-framework": {
+          "title": "🤖 AI Framework Development",
+          "description": """Development and maintenance of the AI framework including:
+  - 26+ specialized agents
+  - MCP servers for 11 programming languages
+  - 100+ custom instructions
+  - Chat modes and collections
+  - Automated tracking of agent lifecycle, testing, and deployment
+
+  **Key Areas:**
+  - Agent development and testing
+  - MCP server implementation
+  - Custom instructions authoring
+  - Chat mode configuration
+  - Framework enhancements and bug fixes""",
+          "fields": {
+              "Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🎯 Planned", "color": "GRAY", "description": ""},
+                      {"name": "🔬 Research", "color": "BLUE", "description": ""},
+                      {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
+                      {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
+                      {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
+                      {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
+                      {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
+                      {"name": "📝 Documentation", "color": "BLUE", "description": ""},
+                      {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
+                      {"name": "✔️ Completed", "color": "GREEN", "description": ""}
+                  ]
+              },
+              "Priority": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔥 Critical", "color": "RED", "description": ""},
+                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Type": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
+                      {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
+                      {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
+                      {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
+                      {"name": "📦 Collection", "color": "ORANGE", "description": ""},
+                      {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
+                      {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
+                  ]
+              },
+              "Language": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "Python", "color": "BLUE", "description": ""},
+                      {"name": "TypeScript", "color": "BLUE", "description": ""},
+                      {"name": "Java", "color": "RED", "description": ""},
+                      {"name": "C#", "color": "PURPLE", "description": ""},
+                      {"name": "Go", "color": "BLUE", "description": ""},
+                      {"name": "Rust", "color": "ORANGE", "description": ""},
+                      {"name": "Multi-Language", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Complexity": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🟢 Simple", "color": "GREEN", "description": ""},
+                      {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
+                      {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
+                      {"name": "🔴 Major", "color": "RED", "description": ""}
+                  ]
+              },
+              "Dependencies": {"type": "text"},
+              "Testing Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
+                      {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
+                      {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
+                      {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
+                  ]
+              }
+          }
+      },
+      "documentation": {
+          "title": "📚 Documentation &amp; Knowledge",
+          "description": """Documentation ecosystem management across 133+ files:
+  - Setup guides and quick starts
+  - Architecture documentation
+  - API references and technical guides
+  - Tutorials and learning resources
+  - Policy documents
+
+  **Coverage:**
+  - Core organizational policies
+  - Workflow system documentation
+  - AI framework guides
+  - Development environment setup
+  - Security and compliance docs""",
+          "fields": {
+              "Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "📋 Backlog", "color": "GRAY", "description": ""},
+                      {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
+                      {"name": "👀 Review", "color": "ORANGE", "description": ""},
+                      {"name": "🔄 Revision", "color": "BLUE", "description": ""},
+                      {"name": "✅ Approved", "color": "GREEN", "description": ""},
+                      {"name": "📤 Published", "color": "GREEN", "description": ""},
+                      {"name": "🔄 Needs Update", "color": "RED", "description": ""}
+                  ]
+              },
+              "Priority": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔥 Urgent", "color": "RED", "description": ""},
+                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Document Type": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "📖 Guide", "color": "BLUE", "description": ""},
+                      {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
+                      {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
+                      {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
+                      {"name": "📋 Policy", "color": "RED", "description": ""},
+                      {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
+                  ]
+              },
+              "Completeness": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔴 Outline Only", "color": "RED", "description": ""},
+                      {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
+                      {"name": "🟢 Complete", "color": "GREEN", "description": ""},
+                      {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
+                  ]
+              },
+              "Last Updated": {"type": "date"},
+              "Next Review Date": {"type": "date"},
+              "Word Count": {"type": "number"}
+          }
+      }
+  }
+  ```
 
 - **Master Org Token Security and Contextual Awareness:**
+
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -311,6 +479,15 @@
       and limit token scopes to only the necessary permissions.
     - **Access Management Review:** Review and update access management policies
       to ensure proper control over sensitive resources.
+  - **Reference Documentation:**
+    - See
+      [MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md](../docs/MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md)
+      for comprehensive analysis
+    - See [TOKEN_REGISTRY.md](../docs/TOKEN_REGISTRY.md) for token management
+      guidelines
+    - **Migration Plan:** Replace single master token with purpose-specific
+      tokens by 2026-02-18
+    - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
 
 ## FINAL DOs AND DON'Ts
 
@@ -347,193 +524,193 @@
           "singleSelectOptions": options_with_desc
   ```
 
-Here's the updated `PROJECTS_CONFIG` section in the
-`configure-github-projects.py` file:
-
-```python
-# Project configurations
-PROJECTS_CONFIG = {
-    "ai-framework": {
-        "title": "🤖 AI Framework Development",
-        "description": """Development and maintenance of the AI framework including:
-- 26+ specialized agents
-- MCP servers for 11 programming languages
-- 100+ custom instructions
-- Chat modes and collections
-- Automated tracking of agent lifecycle, testing, and deployment
-
-**Key Areas:**
-- Agent development and testing
-- MCP server implementation
-- Custom instructions authoring
-- Chat mode configuration
-- Framework enhancements and bug fixes""",
-        "fields": {
-            "Status": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🎯 Planned", "color": "GRAY", "description": ""},
-                    {"name": "🔬 Research", "color": "BLUE", "description": ""},
-                    {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
-                    {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
-                    {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
-                    {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
-                    {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
-                    {"name": "📝 Documentation", "color": "BLUE", "description": ""},
-                    {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
-                    {"name": "✔️ Completed", "color": "GREEN", "description": ""}
-                ]
-            },
-            "Priority": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🔥 Critical", "color": "RED", "description": ""},
-                    {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                    {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                    {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                ]
-            },
-            "Type": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
-                    {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
-                    {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
-                    {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
-                    {"name": "📦 Collection", "color": "ORANGE", "description": ""},
-                    {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
-                    {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
-                ]
-            },
-            "Language": {
-                "type": "single_select",
-                "options": [
-                    {"name": "Python", "color": "BLUE", "description": ""},
-                    {"name": "TypeScript", "color": "BLUE", "description": ""},
-                    {"name": "Java", "color": "RED", "description": ""},
-                    {"name": "C#", "color": "PURPLE", "description": ""},
-                    {"name": "Go", "color": "BLUE", "description": ""},
-                    {"name": "Rust", "color": "ORANGE", "description": ""},
-                    {"name": "Multi-Language", "color": "GRAY", "description": ""}
-                ]
-            },
-            "Complexity": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🟢 Simple", "color": "GREEN", "description": ""},
-                    {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
-                    {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
-                    {"name": "🔴 Major", "color": "RED", "description": ""}
-                ]
-            },
-            "Dependencies": {"type": "text"},
-            "Testing Status": {
-                "type": "single_select",
-                "options": [
-                    {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
-                    {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
-                    {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
-                    {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
-                ]
-            }
-        }
-    },
-    "documentation": {
-        "title": "📚 Documentation &amp; Knowledge",
-        "description": """Documentation ecosystem management across 133+ files:
-- Setup guides and quick starts
-- Architecture documentation
-- API references and technical guides
-- Tutorials and learning resources
-- Policy documents
-
-**Coverage:**
-- Core organizational policies
-- Workflow system documentation
-- AI framework guides
-- Development environment setup
-- Security and compliance docs""",
-        "fields": {
-            "Status": {
-                "type": "single_select",
-                "options": [
-                    {"name": "📋 Backlog", "color": "GRAY", "description": ""},
-                    {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
-                    {"name": "👀 Review", "color": "ORANGE", "description": ""},
-                    {"name": "🔄 Revision", "color": "BLUE", "description": ""},
-                    {"name": "✅ Approved", "color": "GREEN", "description": ""},
-                    {"name": "📤 Published", "color": "GREEN", "description": ""},
-                    {"name": "🔄 Needs Update", "color": "RED", "description": ""}
-                ]
-            },
-            "Priority": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🔥 Urgent", "color": "RED", "description": ""},
-                    {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                    {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                    {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                ]
-            },
-            "Document Type": {
-                "type": "single_select",
-                "options": [
-                    {"name": "📖 Guide", "color": "BLUE", "description": ""},
-                    {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
-                    {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
-                    {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
-                    {"name": "📋 Policy", "color": "RED", "description": ""},
-                    {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
-                ]
-            },
-            "Completeness": {
-                "type": "single_select",
-                "options": [
-                    {"name": "🔴 Outline Only", "color": "RED", "description": ""},
-                    {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
-                    {"name": "🟢 Complete", "color": "GREEN", "description": ""},
-                    {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
-                ]
-            },
-            "Last Updated": {"type": "date"},
-            "Next Review Date": {"type": "date"},
-            "Word Count": {"type": "number"}
-        }
-    }
-}
-```
-
-## FINAL DOs AND DON'Ts
-
-- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
-  to create organization projects, use a Personal Access Token (PAT) instead.
-
-- Single select options in GitHub Projects require a non-null "description"
-  field in the GraphQL API request. Ensure that the script populating the single
-  select options include this field. See `configure-github-projects.py` for an
-  example.
-
-- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
-  reserved value" error can occur if you attempt to create fields that have
-  names that are already reserved by GitHub. Avoid creating fields named
-  "Status" or "Type" as these are often pre-defined or reserved.
-
-- To avoid the error where custom field creation fails with "Variable $input of
-  type CreateProjectV2FieldInput! was provided invalid value for
-  singleSelectOptions.X.description (Expected value to not be null)", ensure
-  that the python script includes logic to add an empty description to each
-  options: e.g.,
+- Here's the updated `PROJECTS_CONFIG` section in the
+  `configure-github-projects.py` file:
 
   ```python
-  # Add empty description to each option (required by API)
-  options_with_desc = [
-      {**opt, "description": ""} for opt in options
-  ]
+  # Project configurations
+  PROJECTS_CONFIG = {
+      "ai-framework": {
+          "title": "🤖 AI Framework Development",
+          "description": """Development and maintenance of the AI framework including:
+  - 26+ specialized agents
+  - MCP servers for 11 programming languages
+  - 100+ custom instructions
+  - Chat modes and collections
+  - Automated tracking of agent lifecycle, testing, and deployment
 
-  variables = {
-      "input": {
-          "projectId": project_id,
-          "dataType": "SINGLE_SELECT",
-          "name": name,
-          "singleSelectOptions": options_with_desc
+  **Key Areas:**
+  - Agent development and testing
+  - MCP server implementation
+  - Custom instructions authoring
+  - Chat mode configuration
+  - Framework enhancements and bug fixes""",
+          "fields": {
+              "Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🎯 Planned", "color": "GRAY", "description": ""},
+                      {"name": "🔬 Research", "color": "BLUE", "description": ""},
+                      {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
+                      {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
+                      {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
+                      {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
+                      {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
+                      {"name": "📝 Documentation", "color": "BLUE", "description": ""},
+                      {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
+                      {"name": "✔️ Completed", "color": "GREEN", "description": ""}
+                  ]
+              },
+              "Priority": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔥 Critical", "color": "RED", "description": ""},
+                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Type": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
+                      {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
+                      {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
+                      {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
+                      {"name": "📦 Collection", "color": "ORANGE", "description": ""},
+                      {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
+                      {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
+                  ]
+              },
+              "Language": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "Python", "color": "BLUE", "description": ""},
+                      {"name": "TypeScript", "color": "BLUE", "description": ""},
+                      {"name": "Java", "color": "RED", "description": ""},
+                      {"name": "C#", "color": "PURPLE", "description": ""},
+                      {"name": "Go", "color": "BLUE", "description": ""},
+                      {"name": "Rust", "color": "ORANGE", "description": ""},
+                      {"name": "Multi-Language", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Complexity": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🟢 Simple", "color": "GREEN", "description": ""},
+                      {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
+                      {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
+                      {"name": "🔴 Major", "color": "RED", "description": ""}
+                  ]
+              },
+              "Dependencies": {"type": "text"},
+              "Testing Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
+                      {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
+                      {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
+                      {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
+                  ]
+              }
+          }
+      },
+      "documentation": {
+          "title": "📚 Documentation &amp; Knowledge",
+          "description": """Documentation ecosystem management across 133+ files:
+  - Setup guides and quick starts
+  - Architecture documentation
+  - API references and technical guides
+  - Tutorials and learning resources
+  - Policy documents
+
+  **Coverage:**
+  - Core organizational policies
+  - Workflow system documentation
+  - AI framework guides
+  - Development environment setup
+  - Security and compliance docs""",
+          "fields": {
+              "Status": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "📋 Backlog", "color": "GRAY", "description": ""},
+                      {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
+                      {"name": "👀 Review", "color": "ORANGE", "description": ""},
+                      {"name": "🔄 Revision", "color": "BLUE", "description": ""},
+                      {"name": "✅ Approved", "color": "GREEN", "description": ""},
+                      {"name": "📤 Published", "color": "GREEN", "description": ""},
+                      {"name": "🔄 Needs Update", "color": "RED", "description": ""}
+                  ]
+              },
+              "Priority": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔥 Urgent", "color": "RED", "description": ""},
+                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
+                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
+                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
+                  ]
+              },
+              "Document Type": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "📖 Guide", "color": "BLUE", "description": ""},
+                      {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
+                      {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
+                      {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
+                      {"name": "📋 Policy", "color": "RED", "description": ""},
+                      {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
+                  ]
+              },
+              "Completeness": {
+                  "type": "single_select",
+                  "options": [
+                      {"name": "🔴 Outline Only", "color": "RED", "description": ""},
+                      {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
+                      {"name": "🟢 Complete", "color": "GREEN", "description": ""},
+                      {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
+                  ]
+              },
+              "Last Updated": {"type": "date"},
+              "Next Review Date": {"type": "date"},
+              "Word Count": {"type": "number"}
+          }
+      }
+  }
   ```
+
+- **Master Org Token Security and Contextual Awareness:**
+
+  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
+    being accessed by multiple repositories, raising security and access
+    management concerns.
+  - **Investigation Steps:**
+    1. **Token Identification:** Identify all instances where the
+       "master-org-token-011726" or "master-org-personal-access-token" is
+       referenced.
+    1. **Usage Analysis:** Analyze how the token is being used across the
+       organization, including in GitHub workflows, scripts, and documentation.
+    1. **Scope Determination:** Determine the scope of the issue by identifying
+       all affected repositories and resources.
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
+       configured with the token.
+  - **Resolution Guidelines:**
+    - **Comprehensive Analysis Document:** Create a detailed analysis document
+      to address the contextual awareness issue, outlining the token's usage,
+      affected areas, and proposed solutions.
+    - **Token Rotation:** Rotate the "master-org-token-011726" PAT to mitigate
+      potential security risks.
+    - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
+      and limit token scopes to only the necessary permissions.
+    - **Access Management Review:** Review and update access management policies
+      to ensure proper control over sensitive resources.
+  - **Reference Documentation:**
+    - See
+      [MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md](../docs/MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md)
+      for comprehensive analysis
+    - See [TOKEN_REGISTRY.md](../docs/TOKEN_REGISTRY.md) for token management
+      guidelines
+    - **Migration Plan:** Replace single master token with purpose-specific
+      tokens by 2026-02-18
+    - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.

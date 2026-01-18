@@ -1,10 +1,12 @@
 # ivviiviivvi Organization Policies
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)<!-- link:badges.version -->](VERSION)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=for-the-badge)<!-- link:badges.live_demo -->](https://demo-ivviiviivvi-.github.agentsphere.dev)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)<!-- link:badges.pre_commit -->](https://github.com/pre-commit/pre-commit)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-98%20workflows-blue?logo=github-actions)<!-- link:badges.github_actions -->](https://github.com/ivviiviivvi/.github/actions)
 [![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)<!-- link:badges.security -->](https://github.com/ivviiviivvi/.github)
 [![Documentation](https://img.shields.io/badge/docs-comprehensive-blue?logo=markdown)<!-- link:badges.docs -->](docs/INDEX.md)
+[![Schema.org](https://img.shields.io/badge/schema.org-enabled-orange?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTAgMThjLTQuNDEgMC04LTMuNTktOC04czMuNTktOCA4LTggOCAzLjU5IDggOC0zLjU5IDgtOCA4em0tMi0xM2gzdjZoLTN6bTAgOGgzdjNoLTN6Ii8+PC9zdmc+)<!-- link:badges.schema_org -->](.schema-org/)
 
 This repository contains community health files and organization-wide policies
 for the ivviiviivvi GitHub organization.
@@ -36,9 +38,43 @@ for the ivviiviivvi GitHub organization.
 **Need help?** Check [SUPPORT.md](SUPPORT.md) or
 [start a discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->.
 
----
+______________________________________________________________________
 
-## 📚 Documentation
+## � Schema.org & Semantic Versioning (NEW! ✅)
+
+**Organization-wide implementation of structured data and versioning standards**
+
+- ✅ **Schema.org Structured Data** - Machine-readable metadata for better
+  discoverability
+- ✅ **Semantic Versioning (SemVer)** - MAJOR.MINOR.PATCH versioning (Current:
+  1.0.0)
+- ✅ **Automated Version Management** - Scripts and workflows for version control
+- ✅ **Validation & Quality Gates** - Automated validation in CI/CD
+
+**Quick Links:**
+
+- 📖 [Complete Guide](docs/SCHEMA_ORG_SEMVER_GUIDE.md) - Implementation details
+- 🚀 [Quick Reference](QUICK_REFERENCE_SCHEMA_SEMVER.md) - Commands and usage
+- 📊 [Schema.org Files](.schema-org/) - Structured metadata
+- 🔧 [Deployment Summary](DEPLOYMENT_SCHEMA_ORG_SEMVER.md) - What's deployed
+
+**Version Management:**
+
+```bash
+# Check version
+cat VERSION  # 1.0.0
+
+# Bump version
+npm run version:bump:minor  # 1.0.0 → 1.1.0
+npm run version:sync        # Sync to all files
+
+# Validate
+python scripts/validate-schema-org.py
+```
+
+______________________________________________________________________
+
+## �📚 Documentation
 
 **⭐ New:** [Complete Documentation Index](docs/INDEX.md) - Browse all 133+ docs
 organized by category
@@ -203,7 +239,7 @@ python automation/scripts/self_healing.py --owner ORG --repo REPO --run-id ID
 python automation/scripts/notification_manager.py --title "Test" --message "Testing" --priority HIGH
 ```
 
----
+______________________________________________________________________
 
 ### 📊 GitHub Projects (NEW! ⭐)
 
@@ -241,7 +277,7 @@ python3 scripts/configure-github-projects.py --org ivviiviivvi
 **Learn more**: [Visual Overview](docs/GITHUB_PROJECTS_VISUAL.md) |
 [Quick Reference](docs/GITHUB_PROJECTS_QUICKREF.md)
 
----
+______________________________________________________________________
 
 ### ⚡ Week 10 Implementation: Batch Onboarding (COMPLETE! ✅)
 
@@ -256,6 +292,7 @@ created.
 **✅ Completed (Day 1-2):**
 
 - ✅ **Core Script**: `batch_onboard_repositories.py` (650+ lines)
+
   - Parallel processing with async/await
   - Validation before processing
   - Dependency resolution
@@ -264,17 +301,20 @@ created.
   - JSON results output
 
 - ✅ **Configuration Template**: `batch-onboard-config.yml`
+
   - Repository lists, workflows, labels
   - Branch protection rules
   - Processing options (concurrency, timeout, rollback)
 
 - ✅ **GitHub Actions Workflow**: `batch-onboarding.yml`
+
   - Validation job before onboarding
   - Dry-run mode support
   - Results artifact upload
   - Workflow summary generation
 
 - ✅ **Complete Documentation**: `BATCH_ONBOARDING_GUIDE.md` (650+ lines)
+
   - Quick start guide and examples
   - Configuration reference
   - Troubleshooting guide
@@ -1522,6 +1562,7 @@ The [profile/README.md](profile/README.md) file is displayed on our organization
    ealth files from this repository if they don't have their own versions.
 
 1. **Using Workflow Templates**:
+
    - Navigate to **Actions → New workflow** in your repository
    - Look for templates in the "By your organization" section
    - Select, customize, and commit the workflow
@@ -1703,6 +1744,7 @@ We welcome contributions from the community! Please see:
 
 - **Secret Scanning**: Multi-tool detection system with false positive
   management
+
   - 🔍 **TruffleHog**: Entropy-based secret detection
   - 🔍 **Gitleaks**: Fast, configurable scanner with `.gitleaks.toml`
   - 🔍 **detect-secrets**: Baseline-aware scanning with `.secrets.baseline`
@@ -1830,7 +1872,7 @@ LICENSE file.
 - 💬 For general discussions, use GitHub Issues for questions and feature
   requests
 
----
+______________________________________________________________________
 
 **Last Updated**: January 12, 2026\
 **Maintained by**: @ivviiviivvi/leadership

@@ -1,0 +1,85 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://github.com/ivviiviivvi/.github/tree/main/ai_framework",
+  "name": "AI Framework",
+  "applicationCategory": "DeveloperApplication",
+  "applicationSubCategory": "Artificial Intelligence Tools",
+  "description": "Comprehensive AI framework featuring 26+ specialized agents, MCP servers for 11 programming languages, 100+ custom instructions, chat modes, and collections for AI-assisted development",
+  "version": "1.0.0",
+  "url": "https://github.com/ivviiviivvi/.github/tree/main/ai_framework",
+  "featureList": [
+    "26+ specialized AI agents",
+    "MCP servers for 11 programming languages (Python, TypeScript, Java, C#, Go, Rust, etc.)",
+    "100+ custom instructions",
+    "Multiple chat modes",
+    "Agent collections",
+    "Automated agent lifecycle tracking",
+    "Agent testing frameworks",
+    "Agent deployment automation"
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "potentialAction": {
+    "@type": "UseAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://github.com/ivviiviivvi/.github/tree/main/ai_framework",
+      "actionPlatform": [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform"
+      ]
+    }
+  },
+  "isPartOf": {
+    "@type": "SoftwareSourceCode",
+    "@id": "https://github.com/ivviiviivvi/.github",
+    "name": ".github Repository"
+  },
+  "hasPart": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI Agents",
+      "description": "26+ specialized agents for various development tasks",
+      "applicationSubCategory": "AI Agents"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "MCP Servers",
+      "description": "Model Context Protocol servers for 11 programming languages",
+      "applicationSubCategory": "Language Servers"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Custom Instructions",
+      "description": "100+ custom instructions for AI interactions",
+      "applicationSubCategory": "AI Prompts"
+    }
+  ],
+  "programmingLanguage": [
+    "Python",
+    "TypeScript",
+    "Java",
+    "C#",
+    "Go",
+    "Rust",
+    "JavaScript",
+    "Ruby",
+    "PHP",
+    "Swift",
+    "Kotlin"
+  ],
+  "keywords": [
+    "ai-agents",
+    "mcp-servers",
+    "custom-instructions",
+    "chat-modes",
+    "ai-framework",
+    "automated-development",
+    "code-intelligence"
+  ]
+}

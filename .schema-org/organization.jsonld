@@ -1,0 +1,44 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://github.com/ivviiviivvi",
+  "name": "ivviiviivvi",
+  "url": "https://github.com/ivviiviivvi",
+  "logo": "https://github.com/ivviiviivvi.png",
+  "description": "Organization focused on AI-powered development workflows, automation, and comprehensive governance frameworks",
+  "foundingDate": "2024",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Technical Support",
+    "url": "https://github.com/orgs/ivviiviivvi/discussions"
+  },
+  "sameAs": [
+    "https://github.com/ivviiviivvi"
+  ],
+  "knowsAbout": [
+    "Software Development",
+    "Artificial Intelligence",
+    "Workflow Automation",
+    "GitHub Actions",
+    "DevOps",
+    "Documentation",
+    "Governance Frameworks"
+  ],
+  "owns": [
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://github.com/ivviiviivvi/.github",
+      "name": ".github",
+      "description": "Community health files and organization-wide policies",
+      "version": "1.0.0",
+      "codeRepository": "https://github.com/ivviiviivvi/.github",
+      "programmingLanguage": [
+        "Python",
+        "TypeScript",
+        "Shell",
+        "YAML"
+      ],
+      "license": "https://opensource.org/licenses/MIT"
+    }
+  ]
+}
