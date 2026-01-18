@@ -82,8 +82,7 @@ def get_secret(
         if vault != "Private":
             cmd.extend(["--vault", vault])
 
-        result = subprocess.run(
-            cmd, capture_output=True, text=True, check=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         secret = result.stdout.strip()
         return secret if secret else None
 
@@ -153,6 +152,7 @@ def get_github_token(item_name: str) -> Optional[str]:
 
     # Check environment variable first (dev container friendly)
     import os
+
     env_var_name = item_name.upper().replace("-", "_")
     env_token = os.getenv(env_var_name)
     if env_token:

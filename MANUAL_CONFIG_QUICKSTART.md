@@ -1,6 +1,7 @@
 # Manual Configuration Quick Start Guide
 
-**Ready to complete your GitHub Projects setup?** This guide helps you configure the remaining views and automation rules through GitHub's web interface.
+**Ready to complete your GitHub Projects setup?** This guide helps you configure
+the remaining views and automation rules through GitHub's web interface.
 
 ---
 
@@ -48,8 +49,10 @@ cd /workspace
 
 Use the comprehensive guides:
 
-- Views: [setup-automation-rules.md](setup-automation-rules.md) (Section: Views Configuration)
-- Automation: [setup-automation-rules.md](setup-automation-rules.md) (Section: Automation Rules)
+- Views: [setup-automation-rules.md](setup-automation-rules.md) (Section: Views
+  Configuration)
+- Automation: [setup-automation-rules.md](setup-automation-rules.md) (Section:
+  Automation Rules)
 
 ---
 
@@ -68,14 +71,14 @@ Use the comprehensive guides:
    # Select option: 8
    ```
 
-2. **Configure all 5 automation rules** (~30 min)
+1. **Configure all 5 automation rules** (~30 min)
 
    ```bash
    ./scripts/configure-automation-rules-guide.sh
    # Select option: 8
    ```
 
-3. **Test with sample items** (~15 min)
+1. **Test with sample items** (~15 min)
    - Create a test issue
    - Add it to Project #8
    - Verify views display correctly
@@ -103,24 +106,25 @@ Or configure one project at a time during breaks.
 ### Example: Board View for Project #8
 
 1. Go to: <https://github.com/orgs/ivviiviivvi/projects/8>
-2. Click "+ New view" → Select "Board"
-3. Configure:
+1. Click "+ New view" → Select "Board"
+1. Configure:
    - **Name:** Board
    - **Group by:** Status
    - **Cards show:** Title, Labels, Assignees, Repository
    - **Sort within columns:** Priority (High → Low)
-4. Save
+1. Save
 
-**Result:** Kanban board with status columns (Planned → In Development → Testing → Deployed)
+**Result:** Kanban board with status columns (Planned → In Development → Testing
+→ Deployed)
 
 ### Example: Table View
 
 1. Same project page
-2. Click "+ New view" → Select "Table"
-3. Configure columns (in order):
+1. Click "+ New view" → Select "Table"
+1. Configure columns (in order):
    - Title, Status, Priority, Type, Assignees, Repository, Labels, Date added
-4. Sort by: Status, then Priority
-5. Save
+1. Sort by: Status, then Priority
+1. Save
 
 **Result:** Spreadsheet-like view with all fields visible
 
@@ -131,21 +135,21 @@ Or configure one project at a time during breaks.
 ### Example: "New items → Planned status" (Project #8)
 
 1. Go to: <https://github.com/orgs/ivviiviivvi/projects/8/settings>
-2. Click "Workflows" in sidebar
-3. Click "+ New workflow"
-4. Configure:
+1. Click "Workflows" in sidebar
+1. Click "+ New workflow"
+1. Configure:
    - **Trigger:** Item added to project
    - **Action:** Set Status = 🎯 Planned
-5. Test with a new issue
-6. Save
+1. Test with a new issue
+1. Save
 
 ### Example: "PR merged → Deployed" (Project #8)
 
 1. Same settings page
-2. Create workflow:
+1. Create workflow:
    - **Trigger:** Pull request: Merged
    - **Action:** Set Status = 🚀 Deployed
-3. Save
+1. Save
 
 ---
 
@@ -157,7 +161,7 @@ Or configure one project at a time during breaks.
 # Views progress
 cat .github-projects-views-progress.txt
 
-# Automation rules progress  
+# Automation rules progress
 cat .github-projects-automation-progress.txt
 
 # Or view in the interactive guides (option: P)
@@ -184,7 +188,7 @@ After configuring each project:
 ### Test Views
 
 1. Add a test issue to the project
-2. Check each view:
+1. Check each view:
    - Board: Item appears in correct column
    - Table: All fields visible
    - Roadmap: Timeline displays correctly
@@ -195,7 +199,7 @@ After configuring each project:
 ### Test Automation Rules
 
 1. Create a test pull request
-2. Verify:
+1. Verify:
    - New PR triggers status change
    - PR approval triggers next status
    - PR merge triggers final status
@@ -294,7 +298,7 @@ rm .github-projects-automation-progress.txt
 
 ## 📚 Additional Resources
 
-- [GitHub Projects Documentation](https://docs.github.com/en/issues/planning-and-tracking-with-projects)
+- [GitHub Projects Documentation](https://docs.github.com/en/issues/planning-and-tracking-with-projects)<!-- link:docs.github_projects -->
 - [Automation Rules Guide](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project)
 - [Views Documentation](https://docs.github.com/en/issues/planning-and-tracking-with-projects/customizing-views-in-your-project)
 
@@ -311,17 +315,17 @@ After completing all configuration:
    python3 scripts/add-items-to-projects.py --org ivviiviivvi --repo .github
    ```
 
-2. **Document your setup:**
+1. **Document your setup:**
    - Take screenshots of each project
    - Note any custom rules you created
    - Update team documentation
 
-3. **Train your team:**
+1. **Train your team:**
    - Share view purposes
    - Explain automation behaviors
    - Create quick reference cards
 
-4. **Celebrate! 🎉**
+1. **Celebrate! 🎉**
    - You now have 7 fully-configured GitHub Projects
    - Complete automation for project management
    - Professional workflow tracking
@@ -336,8 +340,10 @@ cd /workspace
 ./scripts/configure-project-views-guide.sh
 ```
 
-**Remember:** Your progress is saved automatically. You can stop and resume anytime!
+**Remember:** Your progress is saved automatically. You can stop and resume
+anytime!
 
-**Estimated completion:** 9-11.5 hours total, but spread it over several days for best results.
+**Estimated completion:** 9-11.5 hours total, but spread it over several days
+for best results.
 
 Good luck! 🎯

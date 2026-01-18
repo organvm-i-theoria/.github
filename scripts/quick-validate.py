@@ -3,6 +3,7 @@
 
 import os
 import sys
+
 import requests
 
 tokens = {
@@ -20,19 +21,19 @@ failed_count = 0
 for env_var, name in tokens.items():
     token = os.getenv(env_var)
     print(f"Checking {name}... ", end="", flush=True)
-    
+
     if not token:
         print(f"❌ Not found in environment")
         failed_count += 1
         continue
-    
+
     # Test with GitHub API
     response = requests.get(
         "https://api.github.com/user",
         headers={"Authorization": f"token {token}"},
-        timeout=10
+        timeout=10,
     )
-    
+
     if response.status_code == 200:
         rate_remaining = response.headers.get("X-RateLimit-Remaining", "?")
         print(f"✅ Valid (rate limit: {rate_remaining}/5000)")
@@ -52,7 +53,9 @@ if valid_count == 4:
 else:
     print("⚠️  Some tokens failed. Export them first:\n")
     print("  In host terminal (outside VS Code):")
-    print("    op read 'op://Personal/org-label-sync-token/password' | xargs -I {} echo \"export ORG_LABEL_SYNC_TOKEN='{}'\"")
+    print(
+        "    op read 'op://Personal/org-label-sync-token/password' | xargs -I {} echo \"export ORG_LABEL_SYNC_TOKEN='{}'\""
+    )
     print("    # ... repeat for other tokens ...")
     print("\n  Then paste the export commands here.\n")
     sys.exit(1)

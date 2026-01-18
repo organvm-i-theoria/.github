@@ -74,7 +74,7 @@ def validate_token(token_name: str, config: Dict, verbose: bool = False) -> Dict
         # Skip planned tokens (unless we have env var)
         env_var_name = token_name.upper().replace("-", "_")
         token = os.getenv(env_var_name)
-        
+
         if not token and config.get("status") == "planned":
             result["error"] = "Token not yet created"
             return result
@@ -88,7 +88,7 @@ def validate_token(token_name: str, config: Dict, verbose: bool = False) -> Dict
 
         if not token:
             token = get_secret(token_name, "password")
-            
+
         if not token:
             result["error"] = "Token not found in 1Password or environment"
             return result

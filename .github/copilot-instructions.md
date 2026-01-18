@@ -5,6 +5,8 @@ globs: *
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
+
 ## PROJECT OVERVIEW
 
 ## CODE STYLE
@@ -35,7 +37,6 @@ globs: *
 
 - **Schema.org Implementation:** ✅ **DEPLOYED** - Schema.org structured data is
   fully implemented:
-
   - Schema files located in `.schema-org/` directory
   - Organization, repository, AI framework, and documentation schemas
   - Automated validation via `scripts/validate-schema-org.py`
@@ -46,7 +47,6 @@ globs: *
 
 - **Semantic Versioning (SemVer):** ✅ **DEPLOYED** - Organization-wide semver
   implementation:
-
   - VERSION file as source of truth (currently: 1.0.0)
   - package.json with version and scripts
   - Automated version sync via `scripts/sync-version.js`
@@ -59,7 +59,6 @@ globs: *
 ## DEBUGGING
 
 - **Git Commit Issues:**
-
   - If commits are blocked due to pre-commit hook failures, especially with
     `mypy`, check for issues related to the `types-all` dependency in
     `.pre-commit-config-rapid.yaml`.
@@ -79,7 +78,6 @@ globs: *
     Then, retry the commit.
 
 - **Pre-commit Hook Failures:**
-
   - When pre-commit hooks fail, address the issues systematically:
     1. **Shell Scripts:** Ensure shell scripts have executable permissions
        (`chmod +x script_name.py`).
@@ -115,7 +113,6 @@ globs: *
     (use with caution).
 
 - **Comprehensive Pre-commit Troubleshooting:**
-
   - If facing multiple pre-commit failures, follow these steps:
     1. **Identify the Issues:** Carefully examine the pre-commit output to
        pinpoint the specific errors. These often include:
@@ -177,7 +174,6 @@ globs: *
        **Use this as a last resort.**
 
 - **Pre-commit Hook Dependency Conflict:**
-
   - When pre-commit hooks fail due to dependency conflicts, especially with
     `mdformat`, update to a compatible version that works with GFM plugins.
   - Specifically, ensure that the `mdformat` hook in
@@ -217,7 +213,6 @@ globs: *
        `fix: update mdformat to v0.7.17 for gfm plugin compatibility - Update mdformat from 1.0.0 to 0.7.17 - Maintains compatibility with mdformat-gfm>=0.3.5 - Fixes pre-commit hook dependency conflict - Resolves CLEANUP_ROADMAP Phase 1.1 - Closes #[issue-number] The previous version (1.0.0) was incompatible with mdformat-gfm plugins, forcing developers to use --no-verify and bypass quality gates. Testing: - ✅ pre-commit run --all-files passes - ✅ mdformat hook executes successfully - ✅ All markdown files formatted correctly`.
 
 - **Directory Case Sensitivity Issues:**
-
   - To prevent future merge conflicts, standardize directory casing.
   - Consolidate directories to lowercase. Example: Consolidate `Jules` to
     `jules`.
@@ -225,14 +220,12 @@ globs: *
   - Add the uppercase directory name to `.gitignore`.
 
 - **Bypassing Pre-commit Hooks:**
-
   - If pre-commit hooks are blocking commits, and the changes are minor (e.g.,
     formatting), you may bypass them temporarily using
     `git commit --no-verify -m "commit message"`.
   - **Use this with caution and only for non-functional changes.**
 
 - **Master Org Token Security and Contextual Awareness:**
-
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -267,17 +260,16 @@ globs: *
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
 
 - **1Password Authentication Troubleshooting:**
-
   - **Issue**: 1Password CLI shows as signed in, but still cannot access the
     vault and requires re-authentication.
-  - **Root Cause**: Likely due to a missing integration between the 1Password CLI
-    and the desktop app, or biometric lock settings.
+  - **Root Cause**: Likely due to a missing integration between the 1Password
+    CLI and the desktop app, or biometric lock settings.
   - **Solution**:
     1. **Open 1Password Desktop App:** Ensure the 1Password desktop application
        is running.
-    2. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate with
-       1Password CLI" and ensure this option is turned ON.
-    3. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
+    1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
+       with 1Password CLI" and ensure this option is turned ON.
+    1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
        CLI" biometric unlock for added convenience.
 
 ## FINAL DOs AND DON'Ts
@@ -471,7 +463,6 @@ globs: *
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
-
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -696,7 +687,6 @@ globs: *
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
-
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -719,6 +709,3 @@ globs: *
     - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
       and limit token scopes to only the necessary permissions.
     - **Access Management Review:** Review and update access management policies
-      to ensure proper control over sensitive resources.
-  - **Reference Documentation:**
-    - See

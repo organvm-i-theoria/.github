@@ -107,13 +107,13 @@ if [[ -n "$SHELL_PROFILE" ]]; then
     echo ""
     read -p "Add to $SHELL_PROFILE automatically? (y/n) " -n 1 -r
     echo ""
-    
+
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         echo "" >> "$SHELL_PROFILE"
         echo "# 1Password Service Account (Phase 3 Monitoring)" >> "$SHELL_PROFILE"
         echo "export OP_SERVICE_ACCOUNT_TOKEN='$OP_TOKEN'" >> "$SHELL_PROFILE"
         echo "" >> "$SHELL_PROFILE"
-        
+
         echo "✅ Added to $SHELL_PROFILE"
         echo ""
         echo "⚠️  Reload your shell or run:"
