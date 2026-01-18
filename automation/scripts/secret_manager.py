@@ -243,7 +243,7 @@ if __name__ == "__main__":
     print("Testing 1Password CLI integration...")
     print("")
 
-    token = get_github_token()
+    token = get_github_token("org-label-sync-token")
     if token:
         print("✅ Token retrieved successfully")
         print(f"   Length: {len(token)} characters")
