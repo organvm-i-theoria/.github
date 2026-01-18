@@ -200,14 +200,32 @@ class GitHubAPIClient:
         Initialize GitHub API client.
 
         Args:
-            token: GitHub API token (retrieved from 1Password CLI)
+            token: GitHub API token (optional - defaults to gh CLI token)
         """
-        # Securely retrieve token from 1Password CLI only
+        # Try to get token from parameter, fall back to gh CLI
         if token is None:
-            token = get_secret("master-org-token-011726", "password")
+            try:
+                # Try to get token from gh CLI (most common case)
+                import subprocess
+                result = subprocess.run(
+                    ["gh", "auth", "token"],
+                    capture_output=True,
+                    text=True,
+                    check=True
+                )
+                token = result.stdout.strip()
+            except (subprocess.CalledProcessError, FileNotFoundError):
+                # Fall back to 1Password if gh CLI not available
+                token = get_secret("org-label-sync-token", "password")
+        
         self.token = token
         if not self.token:
-            raise ValueError("GitHub token required - store in 1Password")
+            raise ValueError(
+                "GitHub token required. Either:\n"
+                "  1. Authenticate with: gh auth login\n"
+                "  2. Pass token parameter\n"
+                "  3. Store in 1Password as org-label-sync-token"
+            )
 
         self.base_url = "https://api.github.com"
         self.session = requests.Session()

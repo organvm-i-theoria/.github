@@ -45,7 +45,7 @@ if [ -z "$GH_TOKEN" ]; then
         fi
 
         echo "Retrieving token from 1Password..."
-        export GH_TOKEN=$(op read "op://Personal/master-org-token-011726/password")
+        export GH_TOKEN=$(op read "op://Personal/org-project-admin-token/password")
         echo "  ✓ Token loaded from 1Password"
     else
         echo ""

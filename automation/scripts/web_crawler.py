@@ -46,7 +46,7 @@ class OrganizationCrawler:
     ):
         # Securely retrieve token from 1Password CLI only
         if github_token is None:
-            github_token = get_secret("master-org-token-011726", "password")
+            github_token = get_secret("org-repo-analysis-token", "password")
         self.github_token = github_token
         self.org_name = (
             org_name or os.environ.get("GITHUB_REPOSITORY", "").split("/")[0]

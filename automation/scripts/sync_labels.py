@@ -324,7 +324,7 @@ Examples:
 
     parser.add_argument(
         "--token",
-        default=get_secret("master-org-token-011726", "password"),
+        default=get_secret("org-label-sync-token", "password"),
         help="GitHub token from 1Password CLI (optional if stored correctly)",
     )
 

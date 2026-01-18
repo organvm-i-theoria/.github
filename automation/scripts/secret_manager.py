@@ -124,25 +124,39 @@ def ensure_secret(
     return secret
 
 
-def get_github_token(item_name: str = "master-org-token-011726") -> Optional[str]:
+def get_github_token(item_name: str) -> Optional[str]:
     """
     Get GitHub token from 1Password CLI.
 
     Args:
-        item_name: Name of the 1Password item containing the token
+        item_name: REQUIRED. Name of 1Password item containing the token.
+                   Use purpose-specific tokens:
+                   - 'org-label-sync-token': For label operations
+                   - 'org-project-admin-token': For project operations
+                   - 'org-repo-analysis-token': For read-only analysis
+                   - 'org-onboarding-token': For repository onboarding
 
     Returns:
         The GitHub token, or None if not found
     """
+    if not item_name:
+        raise ValueError(
+            "Token name required. Use purpose-specific token:\n"
+            "  - org-label-sync-token: For label operations\n"
+            "  - org-project-admin-token: For project operations\n"
+            "  - org-repo-analysis-token: For read-only analysis\n"
+            "  - org-onboarding-token: For repository onboarding"
+        )
     return get_secret(item_name, "password")
 
 
-def ensure_github_token(item_name: str = "master-org-token-011726") -> str:
+def ensure_github_token(item_name: str) -> str:
     """
     Get GitHub token from 1Password or exit if unavailable.
 
     Args:
-        item_name: Name of the 1Password item containing the token
+        item_name: REQUIRED. Name of 1Password item containing the token.
+                   See get_github_token() for available token names.
 
     Returns:
         The GitHub token (guaranteed)
