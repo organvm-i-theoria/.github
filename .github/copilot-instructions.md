@@ -1,7 +1,6 @@
 ---
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
----
+
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -17,8 +16,10 @@ globs: *
 
 ## WORKFLOW & RELEASE RULES
 
-- The discussion/issue/PR workflow should follow GitHub best practices, standards, and protocols.
-- Use discussions for exploration, issues for commitment, and PRs for implementation.
+- The discussion/issue/PR workflow should follow GitHub best practices,
+  standards, and protocols.
+- Use discussions for exploration, issues for commitment, and PRs for
+  implementation.
 - Implement early quality gates at each transition.
 - Ensure clear ownership for every item.
 - Automate processes using GitHub Actions.
@@ -52,11 +53,11 @@ globs: *
   - When pre-commit hooks fail, address the issues systematically:
     1. **Shell Scripts:** Ensure shell scripts have executable permissions
        (`chmod +x script_name.py`).
-    2. **YAML Formatting:** Check `.bandit` for YAML syntax errors.
-    3. **Markdown Formatting:** Use `mdformat` to fix markdown issues.
-    4. **Python Linting:** Resolve `flake8` and `mypy` errors.
-    5. **Shell Linting:** Address `shellcheck` issues.
-    6. **Configuration Issues:** Resolve issues reported by `bandit` and
+    1. **YAML Formatting:** Check `.bandit` for YAML syntax errors.
+    1. **Markdown Formatting:** Use `mdformat` to fix markdown issues.
+    1. **Python Linting:** Resolve `flake8` and `mypy` errors.
+    1. **Shell Linting:** Address `shellcheck` issues.
+    1. **Configuration Issues:** Resolve issues reported by `bandit` and
        `detect-secrets`.
   - For `detect-secrets` issues, try running `pre-commit autoupdate`.
   - If ESLint reports missing configuration, create an `.eslintrc.json` file.
@@ -87,12 +88,13 @@ globs: *
   - If facing multiple pre-commit failures, follow these steps:
     1. **Identify the Issues:** Carefully examine the pre-commit output to
        pinpoint the specific errors. These often include:
-       - YAML syntax errors (e.g., in `.bandit` or `.pre-commit-config-rapid.yaml`)
+       - YAML syntax errors (e.g., in `.bandit` or
+         `.pre-commit-config-rapid.yaml`)
        - Markdown formatting problems.
        - Python linting errors (flake8, mypy).
        - Shell script permission issues.
        - Configuration problems flagged by bandit or detect-secrets.
-    2. **Address Shell Script Permissions:** Use `chmod +x script_name.py` to
+    1. **Address Shell Script Permissions:** Use `chmod +x script_name.py` to
        grant execute permissions to the relevant scripts. Example:
        ```bash
        chmod +x automation/scripts/ecosystem_visualizer.py
@@ -100,9 +102,9 @@ globs: *
        chmod +x automation/scripts/mouthpiece_filter.py
        chmod +x project_meta/context-handoff/context_generator.py
        ```
-    3. **Update pre-commit hooks:** Run `pre-commit autoupdate` to update
+    1. **Update pre-commit hooks:** Run `pre-commit autoupdate` to update
        `detect-secrets` and other hooks.
-    4. **Fix YAML Configuration:** Correct any YAML syntax errors. For example,
+    1. **Fix YAML Configuration:** Correct any YAML syntax errors. For example,
        a minimal `.bandit` configuration may look like:
        ```yaml
        ---
@@ -112,7 +114,7 @@ globs: *
          - .venv/
          - venv/
        ```
-    5. **Create ESLint Configuration (if missing):** If ESLint reports a missing
+    1. **Create ESLint Configuration (if missing):** If ESLint reports a missing
        configuration, create an `.eslintrc.json` file:
        ```json
        {
@@ -129,27 +131,26 @@ globs: *
          "rules": {}
        }
        ```
-    6. **Auto-Fix Formatting Issues:** Stage all changes (`git add -u`) and
+    1. **Auto-Fix Formatting Issues:** Stage all changes (`git add -u`) and
        recommit to allow pre-commit to auto-fix formatting issues (YAML,
        Markdown, etc.).
-    7. **Run All pre-commit checks:** Use `pre-commit run --all-files || true`
+    1. **Run All pre-commit checks:** Use `pre-commit run --all-files || true`
        to attempt auto-fixing all issues.
-    8. **Add auto-fixes:** Use `git add -A` to stage the auto-fixed changes.
-    9. **Commit:** Use
+    1. **Add auto-fixes:** Use `git add -A` to stage the auto-fixed changes.
+    1. **Commit:** Use
        `git commit -m "chore: fix pre-commit issues and format code"` to commit
        the staged changes.
-    10. **Bypass (If Necessary):** If pre-commit hooks persist, temporarily
-        bypass them using
-        `git commit --no-verify -m "chore: commit all changes (pre-commit fixes to follow)"`.
+    1. **Bypass (If Necessary):** If pre-commit hooks persist, temporarily
+       bypass them using
+       `git commit --no-verify -m "chore: commit all changes (pre-commit fixes to follow)"`.
        **Use this as a last resort.**
 
 - **Pre-commit Hook Dependency Conflict:**
   - When pre-commit hooks fail due to dependency conflicts, especially with
     `mdformat`, update to a compatible version that works with GFM plugins.
   - Specifically, ensure that the `mdformat` hook in
-    `.pre-commit-config-rapid.yaml`
-    is using a compatible revision and includes the necessary
-    `additional_dependencies`.
+    `.pre-commit-config-rapid.yaml` is using a compatible revision and includes
+    the necessary `additional_dependencies`.
   - Example:
     ```yaml
     # ...existing code...
@@ -161,26 +162,26 @@ globs: *
             - mdformat-gfm>=0.3.5
             - mdformat-tables
             - mdformat-toc
-      args: [--wrap, '120']
+      args: [--wrap, "120"]
     # ...existing code...
     ```
   - **Resolution Steps:**
     1. **Examine Current Configuration:** Check the current `mdformat`
        configuration in `.pre-commit-config.yaml`.
-    2. **Apply the Fix:** Update the `mdformat` configuration to use
+    1. **Apply the Fix:** Update the `mdformat` configuration to use
        `rev: 0.7.17` and include `mdformat-gfm>=0.3.5`, `mdformat-tables`, and
        `mdformat-toc` in `additional_dependencies`. Ensure
        `args: [--wrap, '120']` is also present.
-    3. **Check for Rapid Config:** If `.pre-commit-config-rapid.yaml` exists,
+    1. **Check for Rapid Config:** If `.pre-commit-config-rapid.yaml` exists,
        apply the same fix to it.
-    4. **Clean and Reinstall:** Run `pre-commit clean`, `pre-commit install`,
+    1. **Clean and Reinstall:** Run `pre-commit clean`, `pre-commit install`,
        and
        `pre-commit autoupdate --repo https://github.com/executablebooks/mdformat`.
-    5. **Test the Fix:** Run `pre-commit run mdformat --all-files` and
+    1. **Test the Fix:** Run `pre-commit run mdformat --all-files` and
        `pre-commit run --all-files` to verify the fix.
-    6. **Update Documentation:** Remove any `--no-verify` workarounds from
+    1. **Update Documentation:** Remove any `--no-verify` workarounds from
        `docs/`, `CONTRIBUTING.md`, `README.md`, and `CLEANUP_ROADMAP.md`.
-    7. **Commit the Fix:** Stage the changes and commit with the message:
+    1. **Commit the Fix:** Stage the changes and commit with the message:
        `fix: update mdformat to v0.7.17 for gfm plugin compatibility - Update mdformat from 1.0.0 to 0.7.17 - Maintains compatibility with mdformat-gfm>=0.3.5 - Fixes pre-commit hook dependency conflict - Resolves CLEANUP_ROADMAP Phase 1.1 - Closes #[issue-number] The previous version (1.0.0) was incompatible with mdformat-gfm plugins, forcing developers to use --no-verify and bypass quality gates. Testing: - ✅ pre-commit run --all-files passes - ✅ mdformat hook executes successfully - ✅ All markdown files formatted correctly`.
 
 - **Directory Case Sensitivity Issues:**
@@ -189,6 +190,12 @@ globs: *
     `jules`.
   - Update all workflow references to use the lowercase directory name.
   - Add the uppercase directory name to `.gitignore`.
+
+- **Bypassing Pre-commit Hooks:**
+  - If pre-commit hooks are blocking commits, and the changes are minor (e.g.,
+    formatting), you may bypass them temporarily using
+    `git commit --no-verify -m "commit message"`.
+  - **Use this with caution and only for non-functional changes.**
 
 ## FINAL DOs AND DON'Ts
 

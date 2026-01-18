@@ -7,6 +7,7 @@ Usage:
 """
 
 import argparse
+import html
 import json
 from datetime import datetime
 from pathlib import Path
@@ -173,50 +174,50 @@ EMAIL_TEMPLATE = """
             <h1>📊 Weekly Workflow Digest</h1>
             <p>{period_start} to {period_end}</p>
         </div>
-        
+
         <div class="content">
             <div class="summary">
                 <p><strong>Executive Summary:</strong> {summary}</p>
             </div>
-            
+
             <div class="metrics">
                 <div class="metric">
                     <div class="metric-label">Success Rate</div>
                     <div class="metric-value">{success_rate}%</div>
                     <div class="metric-change {success_change_class}">{success_change}</div>
                 </div>
-                
+
                 <div class="metric">
                     <div class="metric-label">Total Runs</div>
                     <div class="metric-value">{total_runs}</div>
                     <div class="metric-change {runs_change_class}">{runs_change}</div>
                 </div>
-                
+
                 <div class="metric">
                     <div class="metric-label">Issues Processed</div>
                     <div class="metric-value">{issues_processed}</div>
                     <div class="metric-change neutral">{issues_opened} opened, {issues_closed} closed</div>
                 </div>
-                
+
                 <div class="metric">
                     <div class="metric-label">PRs Merged</div>
                     <div class="metric-value">{prs_merged}</div>
                     <div class="metric-change neutral">{prs_opened} opened</div>
                 </div>
             </div>
-            
+
             {events_section}
-            
+
             <div class="section">
                 <h2>📈 Trend Analysis</h2>
                 <p>Success rate {trend_direction} by {trend_amount}% compared to last week. {trend_commentary}</p>
             </div>
-            
+
             <div style="text-align: center;">
                 <a href="{dashboard_url}" class="cta">View Full Dashboard →</a>
             </div>
         </div>
-        
+
         <div class="footer">
             <p>This is an automated weekly digest from <a href="{repo_url}">{repo_name}</a></p>
             <p>To adjust your notification preferences, contact your workflow administrator.</p>
@@ -245,13 +246,13 @@ EVENT_ITEM_TEMPLATE = """
 
 def load_json(file_path: Path) -> dict:
     """Load JSON from file."""
-    with open(file_path, 'r') as f:
+    with open(file_path, "r") as f:
         return json.load(f)
 
 
 def format_time_ago(timestamp: str) -> str:
     """Format timestamp as relative time."""
-    dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+    dt = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
     now = datetime.now(dt.tzinfo)
     delta = now - dt
 
@@ -269,8 +270,8 @@ def format_time_ago(timestamp: str) -> str:
 
 def generate_summary(metrics: dict) -> str:
     """Generate executive summary from metrics."""
-    success_rate = metrics['workflows']['successRate']
-    total_runs = metrics['workflows']['totalRuns']
+    success_rate = metrics["workflows"]["successRate"]
+    total_runs = metrics["workflows"]["totalRuns"]
 
     if success_rate >= 95:
         quality = "excellent"
@@ -289,7 +290,7 @@ def generate_summary(metrics: dict) -> str:
 
 def generate_trend_commentary(metrics: dict) -> tuple:
     """Generate trend analysis commentary."""
-    success_rate = metrics['workflows']['successRate']
+    success_rate = metrics["workflows"]["successRate"]
 
     # Simulate week-over-week comparison (would be calculated from historical data)
     # For demo purposes, use random-ish values
@@ -299,11 +300,15 @@ def generate_trend_commentary(metrics: dict) -> tuple:
     if change > 0:
         direction = "increased"
         sentiment = "positive"
-        commentary = "The team's improvements to error handling are showing positive results."
+        commentary = (
+            "The team's improvements to error handling are showing positive results."
+        )
     elif change < 0:
         direction = "decreased"
         sentiment = "negative"
-        commentary = "We recommend investigating the recent failures to identify root causes."
+        commentary = (
+            "We recommend investigating the recent failures to identify root causes."
+        )
     else:
         direction = "remained stable"
         sentiment = "neutral"
@@ -319,35 +324,37 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
     events = load_json(events_file)
 
     # Extract metrics
-    period_start = metrics['period']['start']
-    period_end = metrics['period']['end']
-    success_rate = metrics['workflows']['successRate']
-    total_runs = metrics['workflows']['totalRuns']
-    issues_opened = metrics['issues']['opened']
-    issues_closed = metrics['issues']['closed']
+    period_start = metrics["period"]["start"]
+    period_end = metrics["period"]["end"]
+    success_rate = metrics["workflows"]["successRate"]
+    total_runs = metrics["workflows"]["totalRuns"]
+    issues_opened = metrics["issues"]["opened"]
+    issues_closed = metrics["issues"]["closed"]
     issues_processed = issues_opened + issues_closed
-    prs_opened = metrics['pullRequests']['opened']
-    prs_merged = metrics['pullRequests']['merged']
+    prs_opened = metrics["pullRequests"]["opened"]
+    prs_merged = metrics["pullRequests"]["merged"]
 
     # Generate summary
     summary = generate_summary(metrics)
 
     # Trend analysis
-    trend_direction, trend_amount, trend_commentary, trend_sentiment = generate_trend_commentary(
-        metrics)
+    trend_direction, trend_amount, trend_commentary, trend_sentiment = (
+        generate_trend_commentary(metrics)
+    )
 
     # Format events
     events_html = ""
     if events:
         event_items = []
         for event in events[:5]:  # Top 5 events
-            event_items.append(EVENT_ITEM_TEMPLATE.format(
-                name=event['name'],
-                url=event['html_url'],
-                time_ago=format_time_ago(event['created_at'])
-            ))
-        events_html = EVENTS_SECTION_TEMPLATE.format(
-            events="\n".join(event_items))
+            event_items.append(
+                EVENT_ITEM_TEMPLATE.format(
+                    name=html.escape(event.get("name", "Unknown")),
+                    url=html.escape(event.get("html_url", "#")),
+                    time_ago=format_time_ago(event["created_at"]),
+                )
+            )
+        events_html = EVENTS_SECTION_TEMPLATE.format(events="\n".join(event_items))
 
     # Generate HTML
     html = EMAIL_TEMPLATE.format(
@@ -371,7 +378,7 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
         trend_commentary=trend_commentary,
         dashboard_url="https://github.com/ivviiviivvi/.github/actions",
         repo_url="https://github.com/ivviiviivvi/.github",
-        repo_name="ivviiviivvi/.github"
+        repo_name="ivviiviivvi/.github",
     )
 
     # Write to file
@@ -382,18 +389,14 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Generate HTML email digest")
-    parser.add_argument('--metrics', required=True, help='Metrics JSON file')
-    parser.add_argument('--events', required=True, help='Events JSON file')
-    parser.add_argument('--output', required=True, help='Output HTML file')
+    parser.add_argument("--metrics", required=True, help="Metrics JSON file")
+    parser.add_argument("--events", required=True, help="Events JSON file")
+    parser.add_argument("--output", required=True, help="Output HTML file")
 
     args = parser.parse_args()
 
-    generate_email(
-        Path(args.metrics),
-        Path(args.events),
-        Path(args.output)
-    )
+    generate_email(Path(args.metrics), Path(args.events), Path(args.output))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

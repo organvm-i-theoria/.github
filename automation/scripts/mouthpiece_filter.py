@@ -38,7 +38,7 @@ class MouthpieceFilter:
     optimizing for AI comprehension.
     """
 
-    # Pre-compiled patterns for performance
+    # Pre-compiled patterns for performance (consolidated)
     _CAPITALIZED_WORDS = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
     _QUOTED_DOUBLE = re.compile(r'"([^"]+)"')
     _QUOTED_SINGLE = re.compile(r"'([^']+)'")
@@ -74,30 +74,6 @@ class MouthpieceFilter:
         re.IGNORECASE,
     )
     _PARAGRAPH_SPLIT = re.compile(r"\n\s*\n")
-    # Compile regex patterns once for better performance
-    _CAPITALIZED_WORDS = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
-    _DOUBLE_QUOTES = re.compile(r'"([^"]+)"')
-    _SINGLE_QUOTES = re.compile(r"'([^']+)'")
-    _TECHNICAL_TERMS_DOT_UNDERSCORE = re.compile(r"\b\w+[._]\w+\b")
-    _CAMEL_CASE = re.compile(r"\b[a-z]+[A-Z]\w+\b")
-    _SENTENCE_SPLIT = re.compile(r"[.!?]+")
-    _QUESTIONS = re.compile(r"([^.!?]*\?)")
-    _STEPS = re.compile(
-        r"\b(?:step\s+)?\d+[\.:)]|\bfirst\b|\bsecond\b|\bthen\b|\bfinally\b"
-    )
-    _PARAGRAPHS = re.compile(r"\n\s*\n")
-    # Compile regex patterns once for performance
-    # Capitalized words (potential proper nouns or important concepts)
-    _CAPITALIZED_WORDS = re.compile(r"\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b")
-    # Quoted terms
-    _QUOTED_DOUBLE = re.compile(r'"([^"]+)"')
-    _QUOTED_SINGLE = re.compile(r"'([^']+)'")
-    # Technical-looking terms (contains underscores, dots, or mixed case)
-    _TECH_TERMS_MIXED = re.compile(r"\b\w+[._]\w+\b")
-    _TECH_TERMS_CAMEL = re.compile(r"\b[a-z]+[A-Z]\w+\b")  # camelCase
-    # Sentence splitters
-    _SENTENCE_SPLITTER = re.compile(r"[.!?]+")
-    _PARAGRAPH_SPLITTER = re.compile(r"\n\s*\n")
     # Questions
     _QUESTIONS = re.compile(r"([^.!?]*\?)")
     # Steps

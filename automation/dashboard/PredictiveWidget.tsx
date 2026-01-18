@@ -1,8 +1,8 @@
 // Dashboard Widget for Predictive Analytics
 // Displays real-time failure risk predictions
 
-import React, { useEffect, useState } from 'react';
-import './PredictiveWidget.css';
+import React, { useEffect, useState } from "react";
+import "./PredictiveWidget.css";
 
 interface Prediction {
   workflow: string;
@@ -29,53 +29,64 @@ const PredictiveWidget: React.FC = () => {
   const [metrics, setMetrics] = useState<ModelMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   useEffect(() => {
     fetchPredictions();
     fetchMetrics();
-    
+
     // Refresh every 5 minutes
-    const interval = setInterval(() => {
-      fetchPredictions();
-    }, 5 * 60 * 1000);
-    
+    const interval = setInterval(
+      () => {
+        fetchPredictions();
+      },
+      5 * 60 * 1000,
+    );
+
     return () => clearInterval(interval);
   }, []);
 
   const fetchPredictions = async () => {
+    setIsRefreshing(true);
     try {
-      const response = await fetch('/api/predictions/high-risk');
-      if (!response.ok) throw new Error('Failed to fetch predictions');
-      
+      const response = await fetch("/api/predictions/high-risk");
+      if (!response.ok) throw new Error("Failed to fetch predictions");
+
       const data = await response.json();
       setPredictions(data.slice(0, 5)); // Top 5
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setLoading(false);
+      setIsRefreshing(false);
     }
   };
 
   const fetchMetrics = async () => {
     try {
-      const response = await fetch('/api/predictions/metrics');
-      if (!response.ok) throw new Error('Failed to fetch metrics');
-      
+      const response = await fetch("/api/predictions/metrics");
+      if (!response.ok) throw new Error("Failed to fetch metrics");
+
       const data = await response.json();
       setMetrics(data);
     } catch (err) {
-      console.error('Failed to fetch metrics:', err);
+      console.error("Failed to fetch metrics:", err);
     }
   };
 
   const getRiskIcon = (riskLevel: string): string => {
     switch (riskLevel) {
-      case 'LOW': return '✅';
-      case 'MEDIUM': return '⚠️';
-      case 'HIGH': return '🔶';
-      case 'CRITICAL': return '🔴';
-      default: return '❓';
+      case "LOW":
+        return "✅";
+      case "MEDIUM":
+        return "⚠️";
+      case "HIGH":
+        return "🔶";
+      case "CRITICAL":
+        return "🔴";
+      default:
+        return "❓";
     }
   };
 
@@ -126,10 +137,12 @@ const PredictiveWidget: React.FC = () => {
               className={`prediction-item ${getRiskClass(pred.risk_color)}`}
             >
               <div className="prediction-header">
-                <span className="risk-icon">{getRiskIcon(pred.risk_level)}</span>
+                <span className="risk-icon">
+                  {getRiskIcon(pred.risk_level)}
+                </span>
                 <span className="workflow-name">{pred.workflow}</span>
               </div>
-              
+
               <div className="prediction-details">
                 <div className="detail-row">
                   <span className="label">Risk Level:</span>
@@ -137,14 +150,14 @@ const PredictiveWidget: React.FC = () => {
                     {pred.risk_level}
                   </span>
                 </div>
-                
+
                 <div className="detail-row">
                   <span className="label">Failure Probability:</span>
                   <span className="value">
                     {(pred.failure_probability * 100).toFixed(1)}%
                   </span>
                 </div>
-                
+
                 <div className="detail-row">
                   <span className="label">Confidence:</span>
                   <span className="value">
@@ -152,7 +165,7 @@ const PredictiveWidget: React.FC = () => {
                   </span>
                 </div>
               </div>
-              
+
               <div className="progress-bar">
                 <div
                   className={`progress-fill ${getRiskClass(pred.risk_color)}`}
@@ -190,8 +203,16 @@ const PredictiveWidget: React.FC = () => {
       )}
 
       <div className="widget-actions">
-        <button onClick={fetchPredictions} className="refresh-btn">
-          🔄 Refresh
+        <button
+          onClick={fetchPredictions}
+          className="refresh-btn"
+          disabled={isRefreshing}
+          aria-busy={isRefreshing}
+          aria-label={
+            isRefreshing ? "Refreshing predictions..." : "Refresh predictions"
+          }
+        >
+          {isRefreshing ? "⏳ Refreshing..." : "🔄 Refresh"}
         </button>
         <a href="/predictions" className="view-all-btn">
           View All →
