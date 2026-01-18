@@ -334,7 +334,7 @@ authentication.
 
 ### Short-term (Weeks 2-4)
 
-4. **Rotation testing** (by 2026-02-01)
+1. **Rotation testing** (by 2026-02-01)
    - Dry-run token rotation
    - Test rotation script
    - Update documentation based on findings
@@ -351,7 +351,7 @@ authentication.
 
 ### Long-term (Months 2-3)
 
-7. **GitHub App migration** (Optional, by 2026-04-18)
+1. **GitHub App migration** (Optional, by 2026-04-18)
    - Replace PATs with GitHub App
    - Auto-rotating tokens (1-hour lifetime)
    - Programmatic token generation
@@ -450,7 +450,7 @@ authentication.
 ### Getting Help
 
 - 💬 Slack: #security-engineering
-- 📧 Email: security@ivviiviivvi.org
+- 📧 Email: <security@ivviiviivvi.org>
 - 📝 Issues: [GitHub Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 - 🆘 Emergency: Follow procedures in TOKEN_REGISTRY.md
 
