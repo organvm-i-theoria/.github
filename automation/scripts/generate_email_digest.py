@@ -357,7 +357,7 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
         events_html = EVENTS_SECTION_TEMPLATE.format(events="\n".join(event_items))
 
     # Generate HTML
-    html = EMAIL_TEMPLATE.format(
+    digest_html = EMAIL_TEMPLATE.format(
         period_start=period_start,
         period_end=period_end,
         summary=summary,

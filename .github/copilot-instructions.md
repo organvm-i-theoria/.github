@@ -197,6 +197,45 @@
     `git commit --no-verify -m "commit message"`.
   - **Use this with caution and only for non-functional changes.**
 
+- **Repository Cleanup Guidelines:**
+  - When cleaning the remote repository, review all deleted branches one at a
+    time to ensure no valuable code is lost.
+  - **Cleaning the Remote Repository:**
+    1. **List all open PRs:** Use \`gh pr list --state open\` to identify
+       currently open pull requests.
+    1. **List all remote branches:** Use \`git branch -r\` to identify all
+       remote branches.
+    1. **Review PRs:** Examine each open PR to determine if it should be merged,
+       closed, or requires additional work.
+    1. **Review Branches:** Assess each remote branch to determine if it can be
+       deleted (e.g., if it has been merged or is stale).
+    1. **Close Unnecessary PRs:** Close PRs that are no longer needed,
+       especially automated PRs with failing checks.
+
+- **Deleting Remote Branches:**
+  - To delete remote branches, use the command: \`git push origin --delete
+    branch_name\` for each branch to be deleted.
+  - Before deleting, ensure that the branch is not required or that the changes
+    have been merged.
+
+- **Verifying Clean State:**
+  - To verify a clean state after branch deletion, use: \`git fetch --prune &&
+    git branch -r\` to update the local list of remote branches and remove any
+    that have been deleted.
+
+- **Handling Commits Ahead:**
+  - When a branch appears to be significantly ahead (e.g., 580+ commits),
+    investigate to determine the nature of these commits. Often, these commits
+    may consist of bulk automated changes rather than unique work.
+  - Use \`git reflog --all --date=iso | grep -E "(branch_name)" | head -30\` to
+    review the history of the branch.
+  - Use \`git show 5e86f6b --stat\` (replace 5e86f6b with the commit id) to
+    inspect changes associated with a specific commit.
+
+- **Link Checking**
+  - When checking the links in files, use the tool to validate they are working
+    and remove any non-functional links.
+
 ## FINAL DOs AND DON'Ts
 
 ## GitHub Copilot Enhancement Resources
@@ -230,19 +269,19 @@ The following instructions are only to be applied when performing a code review.
 **Only apply to files that end in `.prompt.md`**
 
 - [ ] The prompt has markdown front matter.
-- [ ] The prompt has a `mode` field specified of either `agent` or `ask`.
-- [ ] The prompt has a `description` field.
-- [ ] The `description` field is not empty.
-- [ ] The `description` field value is wrapped in single quotes.
-- [ ] Encourage the use of `tools`, but it's not required.
-- [ ] Strongly encourage the use of `model` to specify the model that the prompt
-      is optimised for.
+- [ ] The prompt has a `mode` field specified of either \`agent\` or \`ask\`.
+- [ ] The prompt has a \`description\` field.
+- [ ] The \`description\` field is not empty.
+- [ ] The \`description\` field value is wrapped in single quotes.
+- [ ] Encourage the use of \`tools\`, but it's not required.
+- [ ] Strongly encourage the use of \`model\` to specify the model that the
+      prompt is optimised for.
 
 ## Instruction file guide
 
 **Only apply to files that end in `.instructions.md`**
 
 - [ ] The instruction has markdown front matter.
-- [ ] The instruction has a `description` field.
-- [ ] The `description` field is not empty.
-- [ ] The `description` field value is wrapped in single quotes.
+- [ ] The instruction has a \`description\` field.
+- [ ] The \`description\` field is not empty.
+- [ ] The \`description\` field value is wrapped in single quotes.
