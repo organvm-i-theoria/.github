@@ -13,13 +13,13 @@ import argparse
 import os
 import sys
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import requests
-from secret_manager import get_github_token
 
 # Add parent directory to path for imports
 sys.path.insert(0, "automation/scripts")
+from secret_manager import get_secret  # noqa: E402
 
 # ANSI color codes
 GREEN = "\033[0;32m"
@@ -212,7 +212,9 @@ def print_summary(results: List[Dict], verbose: bool = False):
 
 def main():
     """Main validation function"""
-    parser = argparse.ArgumentParser(description="Validate organization GitHub tokens")
+    parser = argparse.ArgumentParser(
+        description="Validate organization GitHub tokens"
+    )
     parser.add_argument(
         "--token",
         help="Validate specific token only",
@@ -235,7 +237,10 @@ def main():
     print(f"{BLUE}🔍 Validating organization tokens...{NC}\n")
 
     # Select tokens to validate
-    tokens_to_validate = {args.token: TOKENS[args.token]} if args.token else TOKENS
+    if args.token:
+        tokens_to_validate = {args.token: TOKENS[args.token]}
+    else:
+        tokens_to_validate = TOKENS
 
     results = []
     for token_name, config in tokens_to_validate.items():
@@ -249,7 +254,9 @@ def main():
 
         if not args.verbose:
             if result["valid"]:
-                rate_info = f"(rate limit: {result['rate_limit']['remaining']})"
+                rate_info = (
+                    f"(rate limit: {result['rate_limit']['remaining']})"
+                )
                 print(f"{GREEN}✅ Valid{NC} {rate_info}")
             elif result["status"] == "planned":
                 print(f"{YELLOW}⏳ Planned{NC} (not yet created)")
@@ -262,12 +269,20 @@ def main():
     # Exit with appropriate code
     if not all_valid and not args.ignore_planned:
         print(f"\n{RED}⚠️  Some tokens failed validation!{NC}")
-        print(f"Review docs/TOKEN_REGISTRY.md and rotate failed tokens.")
-        print(f"Or create planned tokens: see docs/MASTER_ORG_TOKEN_QUICK_ACTION.md")
+        print("Review docs/TOKEN_REGISTRY.md and rotate failed tokens.")
+        print(
+            "Or create planned tokens: see "
+            "docs/MASTER_ORG_TOKEN_QUICK_ACTION.md"
+        )
         sys.exit(1)
-    elif planned_count := sum(1 for r in results if r["status"] == "planned"):
-        print(f"\n{YELLOW}⏳ {planned_count} token(s) planned but not yet created{NC}")
-        print(f"See docs/MASTER_ORG_TOKEN_QUICK_ACTION.md for next steps")
+    elif planned_count := sum(
+        1 for r in results if r["status"] == "planned"
+    ):
+        print(
+            f"\n{YELLOW}⏳ {planned_count} token(s) "
+            f"planned but not yet created{NC}"
+        )
+        print("See docs/MASTER_ORG_TOKEN_QUICK_ACTION.md for next steps")
         sys.exit(0)
     else:
         print(f"\n{GREEN}✅ All tokens are healthy!{NC}")

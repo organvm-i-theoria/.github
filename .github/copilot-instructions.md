@@ -49,7 +49,7 @@ globs: *
   implementation:
   - VERSION file as source of truth (currently: 1.0.0)
   - package.json with version and scripts
-  - Automated version sync via `scripts/sync-version.js`
+  - Automated version sync via `scripts/sync_version.js`
   - Version bump workflows in GitHub Actions
   - Follows MAJOR.MINOR.PATCH format
   - Conventional commits for version determination
@@ -233,11 +233,11 @@ globs: *
     1. **Token Identification:** Identify all instances where the
        "master-org-token-011726" or "master-org-personal-access-token" is
        referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
+    1. **Usage Analysis:** Analyze how the token is being used across the
        organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
+    1. **Scope Determination:** Determine the scope of the issue by identifying
        all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
        configured with the token.
   - **Resolution Guidelines:**
     - **Comprehensive Analysis Document:** Create a detailed analysis document
@@ -258,19 +258,18 @@ globs: *
     - **Migration Plan:** Replace single master token with purpose-specific
       tokens by 2026-02-18
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
-
-- **1Password Authentication Troubleshooting:**
-  - **Issue**: 1Password CLI shows as signed in, but still cannot access the
-    vault and requires re-authentication.
-  - **Root Cause**: Likely due to a missing integration between the 1Password
-    CLI and the desktop app, or biometric lock settings.
-  - **Solution**:
-    1. **Open 1Password Desktop App:** Ensure the 1Password desktop application
-       is running.
-    1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
-       with 1Password CLI" and ensure this option is turned ON.
-    1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
-       CLI" biometric unlock for added convenience.
+    - **1Password Authentication Troubleshooting:**
+      - **Issue**: 1Password CLI shows as signed in, but still cannot access
+        the vault and requires re-authentication.
+      - **Root Cause**: Likely due to a missing integration between the
+        1Password CLI and the desktop app, or biometric lock settings.
+      - **Solution**:
+        1. **Open 1Password Desktop App:** Ensure the 1Password desktop
+           application is running.
+        1. **Enable CLI Integration:** Go to Settings -> Developer ->
+           "Integrate with 1Password CLI" and ensure this option is turned ON.
+        1. **Enable Biometric Unlock (Optional):** Enable "Connect with
+           1Password CLI" biometric unlock for added convenience.
 
 ## FINAL DOs AND DON'Ts
 
@@ -460,6 +459,7 @@ globs: *
           }
       }
   }
+
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
@@ -470,11 +470,11 @@ globs: *
     1. **Token Identification:** Identify all instances where the
        "master-org-token-011726" or "master-org-personal-access-token" is
        referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
+    1. **Usage Analysis:** Analyze how the token is being used across the
        organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
+    1. **Scope Determination:** Determine the scope of the issue by identifying
        all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
        configured with the token.
   - **Resolution Guidelines:**
     - **Comprehensive Analysis Document:** Create a detailed analysis document
@@ -495,6 +495,18 @@ globs: *
     - **Migration Plan:** Replace single master token with purpose-specific
       tokens by 2026-02-18
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
+  - **1Password Authentication Troubleshooting:**
+    - **Issue**: 1Password CLI shows as signed in, but still cannot access the
+      vault and requires re-authentication.
+    - **Root Cause**: Likely due to a missing integration between the 1Password
+      CLI and the desktop app, or biometric lock settings.
+    - **Solution**:
+      1. **Open 1Password Desktop App:** Ensure the 1Password desktop
+         application is running.
+      1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
+         with 1Password CLI" and ensure this option is turned ON.
+      1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
+         CLI" biometric unlock for added convenience.
 
 ## FINAL DOs AND DON'Ts
 
@@ -684,6 +696,7 @@ globs: *
           }
       }
   }
+
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
@@ -694,18 +707,6 @@ globs: *
     1. **Token Identification:** Identify all instances where the
        "master-org-token-011726" or "master-org-personal-access-token" is
        referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
+    1. **Usage Analysis:** Analyze how the token is being used across the
        organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
-       all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
-       configured with the token.
-  - **Resolution Guidelines:**
-    - **Comprehensive Analysis Document:** Create a detailed analysis document
-      to address the contextual awareness issue, outlining the token's usage,
-      affected areas, and proposed solutions.
-    - **Token Rotation:** Rotate the "master-org-token-011726" PAT to mitigate
-      potential security risks.
-    - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
-      and limit token scopes to only the necessary permissions.
-    - **Access Management Review:** Review and update access management policies
+    1. **Scope
