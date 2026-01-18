@@ -1,24 +1,43 @@
 version: 1
+
 project:
-  name: .github
-  description: Auto-generated seed. Waiting for human intent.
+  name: ".github"
+  codename: "organization-standard-governance"
+  description: "Organization-wide GitHub configuration and community health files."
   owners:
-    - handle: ivviiviivvi
-      role: steward
+    - handle: "ivviiviivvi"
+      role: "steward"
   repo:
-    org: ivviiviivvi
-    type: generic
-    role: mythos/research
+    monorepo: false
+    org: "ivviiviivvi"
+    type: "generic"
+    role: "mythos/research"
+
 architecture:
-  tech_stack: []
+  style: "governance-templates"
+  tech_stack: ["GitHub Actions", "Markdown"]
+
+coding_standards:
+  language: "Markdown"
+  style:
+    formatter: "prettier"
+
+growth_objectives:
+  roadmap_epics:
+    - id: "governance-v1"
+      title: "Automated Compliance"
+      description: "Establish automated checks for seed.yaml presence across all repos."
+
+knowledge_graph:
+  enabled: true
+  db_path: "/Users/4jp/.metasystem/metastore.db"
+  auto_index: true
+  integration:
+    log_decisions: true
+    cross_project_learning: true
+
 automation_contract:
   ai_access:
-    read_paths:
-      - "**/*"
-    write_paths:
-      - src/**
-      - docs/**
-      - tests/**
-    disallowed_writes:
-      - .github/workflows/**
-      - seed.yaml
+    read_paths: ["**/*"]
+    write_paths: ["src/**", "docs/**", "tests/**"]
+    disallowed_writes: [".github/workflows/**", "seed.yaml"]
