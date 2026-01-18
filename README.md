@@ -142,7 +142,7 @@ Our new workflow system provides a clear path from idea to deployment:
 **What's Deployed:**
 
 - ✅ 7 Projects Live - All accessible at
-  https://github.com/orgs/ivviiviivvi/projects
+  <https://github.com/orgs/ivviiviivvi/projects>
 - ✅ ~45 Custom Fields Created - Status tracking, priorities, specialized fields
 - ✅ 11 Issues Added - Automatically categorized and distributed
 - ✅ Smart Categorization - Label and keyword-based project assignment
@@ -156,7 +156,7 @@ Our new workflow system provides a clear path from idea to deployment:
 
 **Quick Start:**
 
-1. **View projects:** https://github.com/orgs/ivviiviivvi/projects
+1. **View projects:** <https://github.com/orgs/ivviiviivvi/projects>
 1. **Setup automation:**
    [Automation Rules Guide](scripts/setup-automation-rules.md)
 1. **Add more items:** `cd scripts && ./complete-project-setup.sh`
@@ -660,6 +660,10 @@ Automated GitHub Actions workflows in `.github/workflows/`:
 
 ## 🏗️ Repository Structure
 
+> **📁 Archive Note:** Historical documentation, deployment scripts, and status reports
+> have been organized into the [`archive/`](archive/) directory. See [Archive README](archive/README.md)
+> for details. Active documentation is in [`docs/`](docs/).
+
 ```
 .github/
 ├── ISSUE_TEMPLATE/           # Issue templates
@@ -689,9 +693,15 @@ Automated GitHub Actions workflows in `.github/workflows/`:
 ├── CONTRIBUTING.md           # Contribution guidelines
 ├── CODE_OF_CONDUCT.md        # Community standards
 ├── SUPPORT.md                # Support resources
-├── GOVERNANCE_ANALYSIS.md    # Governance framework
+├── GOVERNANCE_ANALYSIS.md    # Governance framework (archived)
 ├── README.md                 # This file
 ├── .pre-commit-config.yaml   # Pre-commit hooks
+├── archive/                  # Historical documentation (NEW)
+│   ├── deployment/           # Deployment scripts & status
+│   ├── monitoring/           # Monitoring checklists
+│   ├── status-reports/       # Historical status reports
+│   ├── github-projects/      # GitHub Projects setup docs
+│   └── test-results/         # Test execution results
 └── docs/                     # Additional documentation
     ├── TEAM_STRUCTURE.md     # Team organization
     └── BRANCH_PROTECTION.md  # Branch protection rules

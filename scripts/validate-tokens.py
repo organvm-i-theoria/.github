@@ -212,7 +212,8 @@ def print_summary(results: List[Dict], verbose: bool = False):
 
 def main():
     """Main validation function"""
-    parser = argparse.ArgumentParser(description="Validate organization GitHub tokens")
+    parser = argparse.ArgumentParser(
+        description="Validate organization GitHub tokens")
     parser.add_argument(
         "--token",
         help="Validate specific token only",

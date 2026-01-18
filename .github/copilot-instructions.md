@@ -1,4 +1,7 @@
 ---
+description: AI rules derived by SpecStory from the project AI interaction history
+globs: *
+---
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -11,6 +14,9 @@
 ## CODE STYLE
 
 ## FOLDER ORGANIZATION
+
+- When cleaning up a repository, create an `archive/` directory to move obsolete files, scripts, and reports.
+- Within `archive/`, create subdirectories such as `deployment/`, `monitoring/`, `status-reports/`, `github-projects/`, and `test-results/` to categorize archived items.
 
 ## TECH STACK
 
@@ -507,205 +513,10 @@
       1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
          CLI" biometric unlock for added convenience.
 
-## FINAL DOs AND DON'Ts
-
-- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
-  to create organization projects, use a Personal Access Token (PAT) instead.
-
-- Single select options in GitHub Projects require a non-null "description"
-  field in the GraphQL API request. Ensure that the script populating the single
-  select options include this field. See `configure-github-projects.py` for an
-  example.
-
-- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
-  reserved value" error can occur if you attempt to create fields that have
-  names that are already reserved by GitHub. Avoid creating fields named
-  "Status" or "Type" as these are often pre-defined or reserved.
-
-- To avoid the error where custom field creation fails with "Variable $input of
-  type CreateProjectV2FieldInput! was provided invalid value for
-  singleSelectOptions.X.description (Expected value to not be null)", ensure
-  that the python script includes logic to add an empty description to each
-  options: e.g.,
-
-  ```python
-  # Add empty description to each option (required by API)
-  options_with_desc = [
-      {**opt, "description": ""} for opt in options
-  ]
-
-  variables = {
-      "input": {
-          "projectId": project_id,
-          "dataType": "SINGLE_SELECT",
-          "name": name,
-          "singleSelectOptions": options_with_desc
-  ```
-
-- Here's the updated `PROJECTS_CONFIG` section in the
-  `configure-github-projects.py` file:
-
-  ```python
-  # Project configurations
-  PROJECTS_CONFIG = {
-      "ai-framework": {
-          "title": "🤖 AI Framework Development",
-          "description": """Development and maintenance of the AI framework including:
-  - 26+ specialized agents
-  - MCP servers for 11 programming languages
-  - 100+ custom instructions
-  - Chat modes and collections
-  - Automated tracking of agent lifecycle, testing, and deployment
-
-  **Key Areas:**
-  - Agent development and testing
-  - MCP server implementation
-  - Custom instructions authoring
-  - Chat mode configuration
-  - Framework enhancements and bug fixes""",
-          "fields": {
-              "Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🎯 Planned", "color": "GRAY", "description": ""},
-                      {"name": "🔬 Research", "color": "BLUE", "description": ""},
-                      {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
-                      {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
-                      {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
-                      {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
-                      {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
-                      {"name": "📝 Documentation", "color": "BLUE", "description": ""},
-                      {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
-                      {"name": "✔️ Completed", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Critical", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
-                      {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
-                      {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
-                      {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
-                      {"name": "📦 Collection", "color": "ORANGE", "description": ""},
-                      {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
-                      {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
-                  ]
-              },
-              "Language": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "Python", "color": "BLUE", "description": ""},
-                      {"name": "TypeScript", "color": "BLUE", "description": ""},
-                      {"name": "Java", "color": "RED", "description": ""},
-                      {"name": "C#", "color": "PURPLE", "description": ""},
-                      {"name": "Go", "color": "BLUE", "description": ""},
-                      {"name": "Rust", "color": "ORANGE", "description": ""}
-                  ]
-              },
-              "Complexity": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🟢 Simple", "color": "GREEN", "description": ""},
-                      {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
-                      {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
-                      {"name": "🔴 Major", "color": "RED", "description": ""}
-                  ]
-              },
-              "Dependencies": {"type": "text"},
-              "Testing Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
-                      {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
-                      {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
-                      {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
-                  ]
-              }
-          }
-      },
-      "documentation": {
-          "title": "📚 Documentation &amp; Knowledge",
-          "description": """Documentation ecosystem management across 133+ files:
-  - Setup guides and quick starts
-  - Architecture documentation
-  - API references and technical guides
-  - Tutorials and learning resources
-  - Policy documents
-
-  **Coverage:**
-  - Core organizational policies
-  - Workflow system documentation
-  - AI framework guides
-  - Development environment setup
-  - Security and compliance docs""",
-          "fields": {
-              "Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "📋 Backlog", "color": "GRAY", "description": ""},
-                      {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
-                      {"name": "👀 Review", "color": "ORANGE", "description": ""},
-                      {"name": "🔄 Revision", "color": "BLUE", "description": ""},
-                      {"name": "✅ Approved", "color": "GREEN", "description": ""},
-                      {"name": "📤 Published", "color": "GREEN", "description": ""},
-                      {"name": "🔄 Needs Update", "color": "RED", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Urgent", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Document Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "📖 Guide", "color": "BLUE", "description": ""},
-                      {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
-                      {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
-                      {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
-                      {"name": "📋 Policy", "color": "RED", "description": ""},
-                      {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
-                  ]
-              },
-              "Completeness": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔴 Outline Only", "color": "RED", "description": ""},
-                      {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
-                      {"name": "🟢 Complete", "color": "GREEN", "description": ""},
-                      {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Last Updated": {"type": "date"},
-              "Next Review Date": {"type": "date"},
-              "Word Count": {"type": "number"}
-          }
-      }
-  }
-
-  ```
-
-- **Master Org Token Security and Contextual Awareness:**
-  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
-    being accessed by multiple repositories, raising security and access
-    management concerns.
-  - **Investigation Steps:**
-    1. **Token Identification:** Identify all instances where the
-       "master-org-token-011726" or "master-org-personal-access-token" is
-       referenced.
-    1. **Usage Analysis:** Analyze how the token is being used across the
-       organization, including in GitHub workflows, scripts, and documentation.
-    1. \*\*Scope
+- **Repository Cleanup and Archiving:**
+  - When cleaning up a repository:
+    1.  Create an organized archive structure for historical documentation.
+    2.  Relocate deployment artifacts, monitoring documentation, status reports, GitHub Projects documentation, and test results to their respective archive directories.
+    3.  Ensure the root directory contains only essential files such as `README.md`, `CHANGELOG.md`, schema implementation guides, version files, configuration files, and license files.
+    4.  Enhance documentation by creating a comprehensive `archive/README.md` explaining the archive structure, purpose of each category, archival policy, and links to active documentation.
+    5.  Update the `.gitignore` file to ignore future temporary files like test results and status files.

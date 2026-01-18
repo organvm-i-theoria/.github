@@ -49,9 +49,9 @@ The token is directly referenced in **20+ files** across the codebase:
 | `automation/scripts/sync_labels.py`    | 327      | Label synchronization across repos  |
 | `automation/scripts/secret_manager.py` | 127, 140 | Default token for GitHub operations |
 | `automation/scripts/utils.py`          | 207      | HTTP client authentication          |
-| `DEPLOY_PHASE1.sh`                     | 15, 26   | Phase 1 repository deployment       |
-| `DEPLOY_PHASE2.sh`                     | 19, 24   | Phase 2 repository deployment       |
-| `DEPLOY_PHASE3.sh`                     | 20       | Phase 3 repository deployment       |
+| `archive/deployment/DEPLOY_PHASE1.sh`  | 15, 26   | Phase 1 repository deployment       |
+| `archive/deployment/DEPLOY_PHASE2.sh`  | 19, 24   | Phase 2 repository deployment       |
+| `archive/deployment/DEPLOY_PHASE3.sh`  | 20       | Phase 3 repository deployment       |
 
 #### Documentation References (13+ files)
 
@@ -223,7 +223,7 @@ token = get_secret("org-repo-analysis-token", "password")
 export GH_TOKEN=$(op read "op://Personal/org-project-admin-token/password")
 ```
 
-4. **Update secret_manager.py** to remove default:
+1. **Update secret_manager.py** to remove default:
 
 ```python
 def get_github_token(item_name: str = None) -> Optional[str]:
@@ -350,7 +350,7 @@ def get_github_app_token(installation_id: int) -> str:
     return token.token  # Valid for 1 hour, auto-rotates
 ```
 
-3. **Replace PAT usage** in scripts:
+1. **Replace PAT usage** in scripts:
 
 ```python
 # Old way
@@ -877,7 +877,7 @@ jobs:
 
 ### Priority 2: This Week
 
-4. **Generate 4 purpose-specific tokens** (Solution 1)
+1. **Generate 4 purpose-specific tokens** (Solution 1)
 
 1. **Update critical scripts** (sync_labels.py, web_crawler.py)
 
@@ -885,7 +885,7 @@ jobs:
 
 ### Priority 3: Next Week
 
-7. **Deploy token validation** workflow
+1. **Deploy token validation** workflow
 
 1. **Create rotation script**
 
@@ -893,7 +893,7 @@ jobs:
 
 ### Priority 4: This Month
 
-10. **Begin GitHub App migration** (Solution 3)
+1. **Begin GitHub App migration** (Solution 3)
 
 ---
 

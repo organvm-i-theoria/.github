@@ -47,7 +47,7 @@ All production scripts now use `secret_manager.py` with **1Password CLI ONLY**:
    - GitHub token via `get_secret()`
    - 1Password CLI only, no environment variables
 
-1. **`DEPLOY_PHASE1.sh`** ✅ - Phase 1 deployment orchestration
+1. **`archive/deployment/DEPLOY_PHASE1.sh`** ✅ - Phase 1 deployment orchestration (archived)
    - Delegates token management to Python scripts
    - No token handling in shell script
 
@@ -382,14 +382,14 @@ jobs:
 | `batch_onboard_repositories.py` | ✅ Integrated        | -        |
 | `validate_labels.py`            | ✅ Integrated        | -        |
 | `pre_deployment_checklist.py`   | ✅ Integrated        | -        |
-| `web_crawler.py`                | ✅ Integrated        | -        |
-| `utils.py`                      | ✅ Integrated        | -        |
-| `sync_labels.py`                | ✅ Integrated        | -        |
-| `DEPLOY_PHASE1.sh`              | ✅ Integrated        | -        |
-| `secret_manager.py`             | ✅ Complete          | -        |
-| `intelligent_routing.py`        | ⚠️ Optional          | Low      |
-| Other shell scripts             | ⚠️ Needs review      | Low      |
-| Test files                      | ✅ OK (dummy tokens) | Low      |
+| `web_crawler.py`                          | ✅ Integrated        | -        |
+| `utils.py`                                | ✅ Integrated        | -        |
+| `sync_labels.py`                          | ✅ Integrated        | -        |
+| `archive/deployment/DEPLOY_PHASE1.sh`     | ✅ Integrated        | -        |
+| `secret_manager.py`                       | ✅ Complete          | -        |
+| `intelligent_routing.py`                  | ⚠️ Optional          | Low      |
+| Other shell scripts                       | ⚠️ Needs review      | Low      |
+| Test files                                | ✅ OK (dummy tokens) | Low      |
 
 **Overall Coverage**: **100%** of production scripts integrated ✅
 

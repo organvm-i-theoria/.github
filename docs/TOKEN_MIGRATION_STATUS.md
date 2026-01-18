@@ -37,7 +37,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 | `automation/scripts/sync_labels.py` | References master token (line 327) | `org-label-sync-token` | Update default value |
 | `automation/scripts/secret_manager.py` | Provides master token default (lines 127, 140) | N/A | Remove default, require explicit |
 | `automation/scripts/utils.py` | References master token (line 207) | Token parameter | Accept token or use gh CLI |
-| `DEPLOY_PHASE*.sh` | Documentation only | N/A | No code changes needed |
+| `archive/deployment/DEPLOY_PHASE*.sh` | Documentation only (archived) | N/A | No code changes needed |
 
 **Current Behavior:** Scripts likely fall back to GitHub CLI authentication (`gh`) or fail gracefully.
 
@@ -65,6 +65,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 ### Required Tokens (4 Total)
 
 #### 1. org-project-admin-token 🎯
+
 - **Purpose:** GitHub Projects creation and management
 - **Scopes:** `project`, `read:org`
 - **Expiration:** 90 days
@@ -72,6 +73,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 - **Priority:** High (needed for project workflows)
 
 #### 2. org-label-sync-token 🏷️
+
 - **Purpose:** Label synchronization across repositories
 - **Scopes:** `repo`, `workflow`
 - **Expiration:** 90 days
@@ -79,6 +81,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 - **Priority:** High (frequently used)
 
 #### 3. org-onboarding-token 🚀
+
 - **Purpose:** Automated repository onboarding and setup
 - **Scopes:** `repo`, `workflow`, `admin:org`
 - **Expiration:** 60 days (highest privilege, shorter rotation)
@@ -86,6 +89,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 - **Priority:** Medium (used for new repo setup)
 
 #### 4. org-repo-analysis-token 📊
+
 - **Purpose:** Read-only repository health checks and metrics
 - **Scopes:** `repo:status`, `read:org`
 - **Expiration:** 180 days (read-only, longer rotation)
@@ -108,6 +112,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 #### Step 1: Generate Tokens in GitHub
 
 1. **Open GitHub Token Settings:**
+
    ```
    https://github.com/settings/tokens/new
    ```
@@ -117,7 +122,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
    **Token 1: org-project-admin-token**
    - Name: `org-project-admin-token`
    - Expiration: 90 days (select custom date: 2026-04-18)
-   - Scopes: 
+   - Scopes:
      - ☑ `read:org` (under "admin:org" section)
      - ☑ `project` (full control of projects)
    - Click "Generate token"
@@ -153,6 +158,7 @@ The `master-org-token-011726` referenced in scripts **does not exist in 1Passwor
 **Option A: Interactive (Recommended)**
 
 Run the migration wizard:
+
 ```bash
 cd /workspace/scripts
 ./token-segmentation-migration.sh
@@ -163,11 +169,13 @@ Follow the prompts to paste each token.
 **Option B: Manual (For Advanced Users)**
 
 Ensure 1Password CLI is authenticated:
+
 ```bash
 eval $(op signin)
 ```
 
 Store each token:
+
 ```bash
 # Store org-project-admin-token
 op item create \
@@ -201,12 +209,14 @@ op item create \
 #### Step 3: Validate Tokens
 
 Run the validation script:
+
 ```bash
 cd /workspace/scripts
 python3 validate-tokens.py --verbose
 ```
 
 **Expected output:**
+
 ```
 🔍 Validating organization tokens...
 
@@ -224,6 +234,7 @@ Summary:
 ```
 
 If any token fails validation:
+
 - Verify token was copied correctly
 - Check token hasn't expired
 - Confirm scopes match requirements
@@ -344,11 +355,13 @@ bash scripts/complete-project-setup.sh --dry-run
 ### Daily Monitoring (First Week)
 
 **Automated Checks:**
+
 - ✅ GitHub Actions workflow runs daily at 8:00 UTC
 - ✅ Validates all 4 tokens automatically
 - ✅ Creates GitHub issue if any token fails
 
 **Manual Checks:**
+
 ```bash
 # Check token health
 python3 scripts/validate-tokens.py
@@ -376,19 +389,23 @@ done
 ## Migration Timeline
 
 ### Week 1: Token Creation & Initial Testing
+
 - **Day 1-2:** Create and validate 4 tokens ← **YOU ARE HERE**
 - **Day 3-4:** Update scripts with new tokens
 - **Day 5-7:** Dry-run testing, monitor for issues
 
 ### Week 2: Production Deployment
+
 - **Day 8-10:** Deploy updated scripts to production
 - **Day 11-14:** Monitor production usage, collect metrics
 
 ### Week 3: Documentation & Training
+
 - **Day 15-17:** Update all documentation
 - **Day 18-21:** Team training, knowledge transfer
 
 ### Week 4: Completion
+
 - **Day 22-28:** Final validation, mark project complete
 
 **Target Completion:** 2026-02-18 (1 month)
@@ -420,26 +437,31 @@ If issues arise during migration:
 ## Quick Reference Commands
 
 ### Check Token Status
+
 ```bash
 python3 /workspace/scripts/validate-tokens.py
 ```
 
 ### Rotate a Token
+
 ```bash
 bash /workspace/scripts/rotate-token.sh <token-name>
 ```
 
 ### Create All Tokens (Interactive)
+
 ```bash
 bash /workspace/scripts/token-segmentation-migration.sh
 ```
 
 ### Manual Token Retrieval
+
 ```bash
 op read "op://Personal/<token-name>/password" --reveal
 ```
 
 ### Check GitHub CLI Auth
+
 ```bash
 gh auth status
 ```
@@ -449,17 +471,20 @@ gh auth status
 ## Support & Resources
 
 ### Documentation
+
 - [MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md](MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md) - Comprehensive analysis
 - [TOKEN_REGISTRY.md](TOKEN_REGISTRY.md) - Token management registry
 - [MASTER_ORG_TOKEN_QUICK_ACTION.md](MASTER_ORG_TOKEN_QUICK_ACTION.md) - Quick reference
 
 ### Automation Tools
+
 - `scripts/validate-tokens.py` - Health validation
 - `scripts/rotate-token.sh` - Guided rotation
 - `scripts/token-segmentation-migration.sh` - Interactive wizard
 - `.github/workflows/token-health-check.yml` - Daily CI/CD checks
 
 ### Need Help?
+
 - 💬 Review documentation above
 - 🔧 Run migration wizard for guided setup
 - 📋 Check TOKEN_REGISTRY.md for procedures
@@ -470,12 +495,14 @@ gh auth status
 ## Next Actions (Immediate)
 
 ### Priority 1: Create Tokens (15-20 min)
-1. Open https://github.com/settings/tokens/new
+
+1. Open <https://github.com/settings/tokens/new>
 2. Create all 4 tokens following guide above
 3. Store in 1Password
 4. Run validation: `python3 scripts/validate-tokens.py`
 
 ### Priority 2: Update Scripts (30-45 min)
+
 1. Update `automation/scripts/secret_manager.py` (remove default)
 2. Update `automation/scripts/sync_labels.py` (use org-label-sync-token)
 3. Update `automation/scripts/web_crawler.py` (use org-repo-analysis-token)
@@ -483,6 +510,7 @@ gh auth status
 5. Test each script in dry-run mode
 
 ### Priority 3: Monitor & Verify (1 week)
+
 1. Deploy updated scripts to production
 2. Monitor for authentication errors
 3. Check daily validation workflow
