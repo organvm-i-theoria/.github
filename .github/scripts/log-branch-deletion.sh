@@ -29,12 +29,12 @@ AUDIT_FILE="$AUDIT_DIR/$DATE_PREFIX-deletions.jsonl"
 echo "📝 Capturing branch metadata for: $BRANCH_NAME"
 
 # Get tip commit SHA from remote
-TIP_SHA=$(git ls-remote origin "refs/heads/$BRANCH_NAME" 2>/dev/null | awk '{print $1}' || echo "unknown")
+TIP_SHA=$(git ls-remote origin "refs/heads/$BRANCH_NAME" 2>/dev/null | awk '{print $1}' | tr -d '\n' || echo "unknown")
 
 if [ "$TIP_SHA" = "unknown" ] || [ -z "$TIP_SHA" ]; then
   echo "⚠️  Warning: Could not retrieve tip SHA from remote. Branch may already be deleted."
   # Try local branch if remote lookup failed
-  TIP_SHA=$(git rev-parse "refs/heads/$BRANCH_NAME" 2>/dev/null || echo "already-deleted")
+  TIP_SHA=$(git rev-parse "refs/heads/$BRANCH_NAME" 2>/dev/null | tr -d '\n' || echo "already-deleted")
 fi
 
 # Get commit metadata
@@ -45,10 +45,10 @@ COMMIT_PARENTS="unknown"
 
 if [ "$TIP_SHA" != "unknown" ] && [ "$TIP_SHA" != "already-deleted" ]; then
   # Fetch commit details
-  COMMIT_AUTHOR=$(git log -1 --format="%an <%ae>" "$TIP_SHA" 2>/dev/null || echo "unknown")
-  COMMIT_DATE=$(git log -1 --format="%aI" "$TIP_SHA" 2>/dev/null || echo "unknown")
-  COMMIT_MESSAGE=$(git log -1 --format="%s" "$TIP_SHA" 2>/dev/null | head -c 200 || echo "unknown")
-  COMMIT_PARENTS=$(git log -1 --format="%P" "$TIP_SHA" 2>/dev/null || echo "unknown")
+  COMMIT_AUTHOR=$(git log -1 --format="%an <%ae>" "$TIP_SHA" 2>/dev/null | tr -d '\n' || echo "unknown")
+  COMMIT_DATE=$(git log -1 --format="%aI" "$TIP_SHA" 2>/dev/null | tr -d '\n' || echo "unknown")
+  COMMIT_MESSAGE=$(git log -1 --format="%s" "$TIP_SHA" 2>/dev/null | head -c 200 | tr -d '\n' || echo "unknown")
+  COMMIT_PARENTS=$(git log -1 --format="%P" "$TIP_SHA" 2>/dev/null | tr -d '\n' || echo "unknown")
 fi
 
 # Get PR metadata if PR number provided
@@ -57,14 +57,25 @@ PR_URL="unknown"
 PR_STATE="unknown"
 
 if [ "$PR_NUMBER" != "unknown" ] && command -v gh >/dev/null 2>&1; then
-  PR_TITLE=$(gh pr view "$PR_NUMBER" --json title -q .title 2>/dev/null || echo "unknown")
-  PR_URL=$(gh pr view "$PR_NUMBER" --json url -q .url 2>/dev/null || echo "unknown")
-  PR_STATE=$(gh pr view "$PR_NUMBER" --json state -q .state 2>/dev/null || echo "unknown")
+  PR_TITLE=$(gh pr view "$PR_NUMBER" --json title -q .title 2>/dev/null | tr -d '\n' || echo "unknown")
+  PR_URL=$(gh pr view "$PR_NUMBER" --json url -q .url 2>/dev/null | tr -d '\n' || echo "unknown")
+  PR_STATE=$(gh pr view "$PR_NUMBER" --json state -q .state 2>/dev/null | tr -d '\n' || echo "unknown")
 fi
+
+# Escape JSON special characters in strings
+escape_json() {
+  echo "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr -d '\n\r'
+}
+
+BRANCH_NAME_ESC=$(escape_json "$BRANCH_NAME")
+COMMIT_AUTHOR_ESC=$(escape_json "$COMMIT_AUTHOR")
+COMMIT_MESSAGE_ESC=$(escape_json "$COMMIT_MESSAGE")
+PR_TITLE_ESC=$(escape_json "$PR_TITLE")
+PR_URL_ESC=$(escape_json "$PR_URL")
 
 # Create JSON record
 cat >> "$AUDIT_FILE" << EOF
-{"timestamp":"$TIMESTAMP","branch":"$BRANCH_NAME","tip_sha":"$TIP_SHA","pr_number":"$PR_NUMBER","pr_title":"$PR_TITLE","pr_url":"$PR_URL","pr_state":"$PR_STATE","reason":"$REASON","commit_author":"$COMMIT_AUTHOR","commit_date":"$COMMIT_DATE","commit_message":"$COMMIT_MESSAGE","commit_parents":"$COMMIT_PARENTS","deleted_by":"${GITHUB_ACTOR:-${USER:-unknown}}","repository":"${GITHUB_REPOSITORY:-unknown}"}
+{"timestamp":"$TIMESTAMP","branch":"$BRANCH_NAME_ESC","tip_sha":"$TIP_SHA","pr_number":"$PR_NUMBER","pr_title":"$PR_TITLE_ESC","pr_url":"$PR_URL_ESC","pr_state":"$PR_STATE","reason":"$REASON","commit_author":"$COMMIT_AUTHOR_ESC","commit_date":"$COMMIT_DATE","commit_message":"$COMMIT_MESSAGE_ESC","commit_parents":"$COMMIT_PARENTS","deleted_by":"${GITHUB_ACTOR:-${USER:-unknown}}","repository":"${GITHUB_REPOSITORY:-unknown}"}
 EOF
 
 echo "✅ Branch metadata logged to: $AUDIT_FILE"
