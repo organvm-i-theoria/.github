@@ -335,12 +335,13 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
     prs_merged = metrics["pullRequests"]["merged"]
 
     # Generate summary
-    summary = generate_summary(metrics)
+    summary = html.escape(generate_summary(metrics))
 
     # Trend analysis
     trend_direction, trend_amount, trend_commentary, trend_sentiment = (
         generate_trend_commentary(metrics)
     )
+    trend_commentary = html.escape(trend_commentary)
 
     # Format events
     events_html = ""
@@ -358,23 +359,23 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
 
     # Generate HTML
     digest_html = EMAIL_TEMPLATE.format(
-        period_start=period_start,
-        period_end=period_end,
+        period_start=html.escape(str(period_start)),
+        period_end=html.escape(str(period_end)),
         summary=summary,
-        success_rate=success_rate,
+        success_rate=html.escape(str(success_rate)),
         success_change="↑ 2.3% from last week",
         success_change_class="positive",
-        total_runs=total_runs,
+        total_runs=html.escape(str(total_runs)),
         runs_change="↑ 18% from last week",
         runs_change_class="positive",
-        issues_processed=issues_processed,
-        issues_opened=issues_opened,
-        issues_closed=issues_closed,
-        prs_merged=prs_merged,
-        prs_opened=prs_opened,
+        issues_processed=html.escape(str(issues_processed)),
+        issues_opened=html.escape(str(issues_opened)),
+        issues_closed=html.escape(str(issues_closed)),
+        prs_merged=html.escape(str(prs_merged)),
+        prs_opened=html.escape(str(prs_opened)),
         events_section=events_html,
-        trend_direction=trend_direction,
-        trend_amount=trend_amount,
+        trend_direction=html.escape(str(trend_direction)),
+        trend_amount=html.escape(str(trend_amount)),
         trend_commentary=trend_commentary,
         dashboard_url="https://github.com/ivviiviivvi/.github/actions",
         repo_url="https://github.com/ivviiviivvi/.github",
@@ -382,7 +383,7 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
     )
 
     # Write to file
-    output_file.write_text(html)
+    output_file.write_text(digest_html)
     print(f"Email digest generated: {output_file}")
 
 
