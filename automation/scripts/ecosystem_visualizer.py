@@ -37,22 +37,41 @@ class EcosystemVisualizer:
     }
 
     # Pre-compile regex patterns for performance
-    # Order matters: first match wins
-    WORKFLOW_PATTERNS = [
-        ("🛡️", re.compile(r"^safeguard|policy")),
-        ("🔐", re.compile(r"security|scan|codeql|semgrep|secret")),
-        ("♻️", re.compile(r"reusable")),
-        (
-            "🤖",
-            re.compile(
-                r"gemini|claude|openai|perplexity|grok|jules|" r"copilot|agent|ai\-"
-            ),
-        ),
-        ("🚀", re.compile(r"ci|test|build|deploy|release|publish|docker")),
-        ("🔀", re.compile(r"pr-|pull-request|merge")),
-        ("⏱️", re.compile(r"schedule|cron|daily|weekly|monthly")),
-        ("💓", re.compile(r"health|check|monitor|metrics|dashboard|report")),
+    # Single pass regex for O(1) matching per workflow
+    _CATEGORY_MAPPING = {
+        "safeguard": "🛡️",
+        "security": "🔐",
+        "reusable": "♻️",
+        "ai": "🤖",
+        "cicd": "🚀",
+        "pr": "🔀",
+        "schedule": "⏱️",
+        "health": "💓",
+    }
+
+    _PRIORITY_ORDER = [
+        "safeguard",
+        "security",
+        "reusable",
+        "ai",
+        "cicd",
+        "pr",
+        "schedule",
+        "health",
     ]
+    _PRIORITY_MAP = {k: i for i, k in enumerate(_PRIORITY_ORDER)}
+
+    _WORKFLOW_REGEX = re.compile(
+        r"(?P<safeguard>^safeguard|policy)|"
+        r"(?P<security>security|scan|codeql|semgrep|secret)|"
+        r"(?P<reusable>reusable)|"
+        r"(?P<ai>gemini|claude|openai|perplexity|grok|jules|copilot|agent|ai\-)|"
+        r"(?P<cicd>ci|test|build|deploy|release|publish|docker)|"
+        r"(?P<pr>pr-|pull-request|merge)|"
+        r"(?P<schedule>schedule|cron|daily|weekly|monthly)|"
+        r"(?P<health>health|check|monitor|metrics|dashboard|report)",
+        re.IGNORECASE,
+    )
 
     # Technology icons (extendable)
     TECHNOLOGY_ICONS: Dict[str, str] = {}
@@ -261,10 +280,28 @@ graph TD
         Classify a workflow based on its name using pre-compiled
         regex patterns. Returns tuple of (emoji, category_name).
         """
-        name = workflow_name.lower()
-        for emoji, pattern in self.WORKFLOW_PATTERNS:
-            if pattern.search(name):
-                return emoji, self.WORKFLOW_CATEGORIES[emoji]
+        best_category = None
+        best_priority = float("inf")
+
+        # Use finditer to find all matches and apply priority logic
+        # This ensures that higher-priority categories (like Security)
+        # are selected even if a lower-priority keyword (like CI) appears first.
+        for match in self._WORKFLOW_REGEX.finditer(workflow_name):
+            category_key = match.lastgroup
+            if category_key in self._PRIORITY_MAP:
+                priority = self._PRIORITY_MAP[category_key]
+                if priority < best_priority:
+                    best_priority = priority
+                    best_category = category_key
+                    # Safeguard/Security are highest priority (0/1),
+                    # so we can stop if we find one of them
+                    if priority <= 1:
+                        break
+
+        if best_category:
+            emoji = self._CATEGORY_MAPPING[best_category]
+            return emoji, self.WORKFLOW_CATEGORIES[emoji]
+
         return "⚙️", self.WORKFLOW_CATEGORIES["⚙️"]
 
     def generate_dashboard_markdown(self, output_path: Optional[Path] = None) -> str:
@@ -576,6 +613,12 @@ graph TD
                 grouped: Dict[str, List[str]] = {}
                 for emoji in self.WORKFLOW_CATEGORIES.keys():
                     grouped[f"{emoji} {self.WORKFLOW_CATEGORIES[emoji]}"] = []
+
+                for workflow in workflows:
+                    emoji, category = self._classify_workflow(workflow)
+                    key = f"{emoji} {category}"
+                    if key in grouped:
+                        grouped[key].append(workflow)
 
                 # Count active categories
                 active_categories = sum(

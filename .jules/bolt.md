@@ -1,4 +1,4 @@
-## 2024-05-23 - \[Optimizing SSRF Checks with Caching\]
+## 2024-05-23 - [Optimizing SSRF Checks with Caching]
 
 **Learning:** In a high-volume crawler, repeated IP validation for the same
 hostname can be a CPU bottleneck. Caching the safety check (`_is_hostname_safe`)
@@ -11,7 +11,7 @@ on external state (like DNS), ensure the state itself is also cached or pinned
 for the duration of the operation to prevent TOCTOU vulnerabilities. In this
 case, `_resolve_hostname` was already cached, making the optimization safe.
 
-## 2026-01-09 - \[Pre-compiling Regex in Loops\]
+## 2026-01-09 - [Pre-compiling Regex in Loops]
 
 **Learning:** Repeatedly calling `re.findall`, `re.split` or `any()` checks with
 strings in a loop (especially in text processing hotspots like
@@ -23,7 +23,7 @@ always pre-compile regex patterns as class constants
 (`_PATTERN = re.compile(...)`) and use `_PATTERN.search()` or
 `_PATTERN.findall()` instead of inline method calls or list comprehensions.
 
-## 2026-01-10 - \[SSL Context Creation Overhead\]
+## 2026-01-10 - [SSL Context Creation Overhead]
 
 **Learning:** In a high-concurrency web crawler, creating a new
 `ssl.create_default_context()` for every HTTPS connection attempt (for SSRF
@@ -32,3 +32,8 @@ call). For a crawl with 1000 links, this adds 40 seconds of pure CPU overhead.
 **Action:** Create the SSL context once during initialization and pass it to the
 connection pool for each request. This maintains security (same context
 configuration) while eliminating the setup cost.
+
+## 2026-01-14 - [Regex Priority: List vs Combined]
+
+**Learning:** When replacing a list of prioritized regex patterns (iterated in a loop) with a single combined regex (using `|`), the matching logic changes. List iteration prioritizes the *order of patterns* (first pattern in list wins), whereas a combined regex `search` prioritizes the *leftmost match* in the string (first match in string wins). This can alter classification for inputs containing multiple keywords at different positions.
+**Action:** When combining regexes for performance, verify if strict priority based on pattern type is required. If so, a single `search` may not be equivalent. If leftmost match is acceptable or preferred, the combined regex offers O(1) matching overhead versus O(N).
