@@ -63,8 +63,9 @@ if [ "$PR_NUMBER" != "unknown" ] && command -v gh >/dev/null 2>&1; then
 fi
 
 # Escape JSON special characters in strings
+# Handles: backslash, double-quote, tab, newline, carriage return, form feed, backspace
 escape_json() {
-  echo "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr -d '\n\r'
+  echo "$1" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g' | tr -d '\n\r\f\b'
 }
 
 BRANCH_NAME_ESC=$(escape_json "$BRANCH_NAME")

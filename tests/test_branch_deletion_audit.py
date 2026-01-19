@@ -12,7 +12,12 @@ from pathlib import Path
 
 
 def run_command(cmd, cwd=None):
-    """Run a shell command and return output."""
+    """Run a shell command and return output.
+    
+    Note: Uses shell=True for testing scripts that require shell features
+    like piping and variable expansion. Commands are hardcoded and do not
+    accept user input, so shell injection is not a concern here.
+    """
     result = subprocess.run(
         cmd,
         shell=True,

@@ -31,7 +31,12 @@ for audit_file in "$AUDIT_DIR"/*.jsonl; do
       FOUND=true
       echo ""
       echo "📋 Found deletion record in: $audit_file"
-      echo "$RECORD" | jq '.' 2>/dev/null || echo "$RECORD"
+      if echo "$RECORD" | jq '.' >/dev/null 2>&1; then
+        echo "$RECORD" | jq '.'
+      else
+        echo "⚠️  Warning: Could not parse JSON record (malformed JSON)"
+        echo "Raw record: $RECORD"
+      fi
       
       # Extract SHA
       TIP_SHA=$(echo "$RECORD" | jq -r '.tip_sha' 2>/dev/null || echo "unknown")

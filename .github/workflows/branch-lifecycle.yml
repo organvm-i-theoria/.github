@@ -268,6 +268,13 @@ jobs:
                   EOF_CLOSE_TASKS
                   gh pr close $PR_NUMBER --comment-file /tmp/pr_close.md
 
+                  # Log branch metadata before deletion (for recovery)
+                  echo "📝 Logging branch deletion metadata..."
+                  if ! ./.github/scripts/log-branch-deletion.sh "$BRANCH" "$PR_NUMBER" "stale-pr-with-tasks"; then
+                    echo "⚠️  Warning: Failed to log branch metadata for $BRANCH"
+                    echo "   Error: Check .github/scripts/log-branch-deletion.sh script"
+                  fi
+
                   # Delete branch
                   git push origin --delete "$BRANCH" || echo "Branch may already be deleted"
 
@@ -291,7 +298,10 @@ jobs:
 
                   # Log branch metadata before deletion (for recovery)
                   echo "📝 Logging branch deletion metadata..."
-                  ./.github/scripts/log-branch-deletion.sh "$BRANCH" "$PR_NUMBER" "stale-pr-no-tasks" || echo "Warning: Failed to log branch metadata"
+                  if ! ./.github/scripts/log-branch-deletion.sh "$BRANCH" "$PR_NUMBER" "stale-pr-no-tasks"; then
+                    echo "⚠️  Warning: Failed to log branch metadata for $BRANCH"
+                    echo "   Error: Check .github/scripts/log-branch-deletion.sh script"
+                  fi
 
                   # Delete branch
                   git push origin --delete "$BRANCH" || echo "Branch may already be deleted"
@@ -342,7 +352,10 @@ jobs:
               
               # Log branch metadata before deletion (for recovery)
               echo "📝 Logging branch deletion metadata..."
-              ./.github/scripts/log-branch-deletion.sh "$branch" "unknown" "merged-into-develop" || echo "Warning: Failed to log branch metadata"
+              if ! ./.github/scripts/log-branch-deletion.sh "$branch" "unknown" "merged-into-develop"; then
+                echo "⚠️  Warning: Failed to log branch metadata for $branch"
+                echo "   Error: Check .github/scripts/log-branch-deletion.sh script"
+              fi
               
               git push origin --delete "$branch" || echo "Failed to delete $branch (may already be deleted)"
             fi
