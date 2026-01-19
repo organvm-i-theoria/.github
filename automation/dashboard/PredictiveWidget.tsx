@@ -90,14 +90,29 @@ const PredictiveWidget: React.FC = () => {
     }
   };
 
+  const getRiskLabel = (riskLevel: string): string => {
+    switch (riskLevel) {
+      case "LOW":
+        return "Low risk";
+      case "MEDIUM":
+        return "Medium risk";
+      case "HIGH":
+        return "High risk";
+      case "CRITICAL":
+        return "Critical risk";
+      default:
+        return "Unknown risk";
+    }
+  };
+
   const getRiskClass = (riskColor: string): string => {
     return `risk-${riskColor}`;
   };
 
   if (loading) {
     return (
-      <div className="predictive-widget loading">
-        <div className="spinner"></div>
+      <div className="predictive-widget loading" role="status" aria-live="polite">
+        <div className="spinner" aria-hidden="true"></div>
         <p>Loading predictions...</p>
       </div>
     );
@@ -105,10 +120,10 @@ const PredictiveWidget: React.FC = () => {
 
   if (error) {
     return (
-      <div className="predictive-widget error">
+      <div className="predictive-widget error" role="alert">
         <h3>⚠️ Error Loading Predictions</h3>
         <p>{error}</p>
-        <button onClick={fetchPredictions}>Retry</button>
+        <button onClick={fetchPredictions} aria-label="Retry loading predictions">Retry</button>
       </div>
     );
   }
@@ -137,7 +152,7 @@ const PredictiveWidget: React.FC = () => {
               className={`prediction-item ${getRiskClass(pred.risk_color)}`}
             >
               <div className="prediction-header">
-                <span className="risk-icon">
+                <span className="risk-icon" role="img" aria-label={getRiskLabel(pred.risk_level)}>
                   {getRiskIcon(pred.risk_level)}
                 </span>
                 <span className="workflow-name">{pred.workflow}</span>
@@ -166,7 +181,14 @@ const PredictiveWidget: React.FC = () => {
                 </div>
               </div>
 
-              <div className="progress-bar">
+              <div
+                className="progress-bar"
+                role="progressbar"
+                aria-valuenow={pred.failure_probability * 100}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`Failure probability: ${(pred.failure_probability * 100).toFixed(1)}%`}
+              >
                 <div
                   className={`progress-fill ${getRiskClass(pred.risk_color)}`}
                   style={{ width: `${pred.failure_probability * 100}%` }}
@@ -214,7 +236,7 @@ const PredictiveWidget: React.FC = () => {
         >
           {isRefreshing ? "⏳ Refreshing..." : "🔄 Refresh"}
         </button>
-        <a href="/predictions" className="view-all-btn">
+        <a href="/predictions" className="view-all-btn" aria-label="View all predictions">
           View All →
         </a>
       </div>
