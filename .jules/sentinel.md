@@ -26,3 +26,8 @@ the status code matters (after a failed HEAD request), explicitly set
 body. **Prevention:** For status checks on untrusted URLs, always use
 `preload_content=False` and ensure the connection is released via
 `response.release_conn()` or `response.close()`.
+
+## 2025-02-19 - [Secure ML Model Persistence]
+**Vulnerability:** Insecure deserialization in `automation/scripts/predict_workflow_failures.py`. The script used `pickle.load()` on model files without any integrity checks. An attacker who could modify the `.pkl` file could execute arbitrary code when the model was loaded.
+**Learning:** `pickle` is inherently insecure for untrusted data. While standard libraries like `joblib` are common in ML, they also rely on pickle. When a safer format (like ONNX) is not feasible, cryptographic signatures (HMAC) are a robust way to verify file integrity before deserialization.
+**Prevention:** Avoid `pickle` for untrusted data. If pickle is necessary, use HMAC-SHA256 to sign and verify the data. Ensure the verification happens *before* any unpickling occurs.

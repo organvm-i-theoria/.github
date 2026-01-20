@@ -12,7 +12,10 @@ Usage:
 """
 
 import argparse
+import hashlib
+import hmac
 import json
+import os
 import pickle
 import subprocess
 import sys
@@ -339,6 +342,38 @@ class WorkflowPredictor:
 
         return high_risk
 
+    def _get_signing_key(self) -> bytes:
+        """Get the key used for signing the model file."""
+        # Prefer environment variable for security
+        key = os.environ.get("MODEL_SIGNING_KEY")
+        if key:
+            return key.encode()
+
+        # Fallback to internal key (binds model to this codebase version)
+        # Warning: This protects against file tampering but not code modification
+        # Sentinel Note: In production, always use MODEL_SIGNING_KEY
+        return b"sentinel-internal-signing-key-v1"
+
+    def _sign_model(self, data: bytes) -> str:
+        """Create HMAC signature for model data."""
+        key = self._get_signing_key()
+        signature = hmac.new(key, data, hashlib.sha256).hexdigest()
+        return signature
+
+    def _verify_signature(self, data: bytes):
+        """Verify HMAC signature of model data."""
+        sig_path = self.model_path.with_suffix(".pkl.sig")
+        if not sig_path.exists():
+            raise ValueError(f"Missing signature file: {sig_path}")
+
+        with open(sig_path, "r") as f:
+            expected_sig = f.read().strip()
+
+        actual_sig = self._sign_model(data)
+
+        if not hmac.compare_digest(actual_sig, expected_sig):
+            raise ValueError("Model signature verification failed! File may be tampered.")
+
     def save_model(self):
         """Save trained model to disk."""
         self.model_path.parent.mkdir(parents=True, exist_ok=True)
@@ -348,23 +383,46 @@ class WorkflowPredictor:
             'feature_columns': self.feature_columns
         }
 
+        # Serialize to bytes first to sign it
+        data = pickle.dumps(model_data)
+
+        # Create signature
+        signature = self._sign_model(data)
+
+        # Save signature
+        sig_path = self.model_path.with_suffix(".pkl.sig")
+        with open(sig_path, "w") as f:
+            f.write(signature)
+
+        # Save model
         with open(self.model_path, 'wb') as f:
-            pickle.dump(model_data, f)
+            f.write(data)
 
         print(f"\nModel saved to {self.model_path}")
+        print(f"Signature saved to {sig_path}")
 
     def load_model(self):
         """Load trained model from disk."""
         if not self.model_path.exists():
             raise FileNotFoundError(f"Model not found: {self.model_path}")
 
+        # Read data as bytes
         with open(self.model_path, 'rb') as f:
-            model_data = pickle.load(f)
+            data = f.read()
+
+        # Verify signature BEFORE unpickling
+        try:
+            self._verify_signature(data)
+        except ValueError as e:
+            print(f"SECURITY ERROR: {e}", file=sys.stderr)
+            raise
+
+        model_data = pickle.loads(data)
 
         self.model = model_data['model']
         self.feature_columns = model_data['feature_columns']
 
-        print(f"Model loaded from {self.model_path}")
+        print(f"Model loaded from {self.model_path} (Signature verified)")
 
 
 def main():
