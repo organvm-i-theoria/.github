@@ -8,6 +8,7 @@ the YAML format used in .yml collection files.
 from __future__ import annotations
 
 import re
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -107,7 +108,10 @@ def fix_md_frontmatter(md_path: Path) -> bool:
     else:
         yaml_lines.append("tags: []\n")
     
-    updated = frontmatter.get("updated", "2026-01-13")
+    # Use today's date if not provided
+    updated = frontmatter.get("updated")
+    if not updated:
+        updated = datetime.now().strftime("%Y-%m-%d")
     yaml_lines.append(f"updated: {updated}\n")
     yaml_lines.append("---\n")
     
