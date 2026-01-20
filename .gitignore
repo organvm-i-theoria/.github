@@ -60,3 +60,50 @@ Desktop.ini
 # Case sensitivity: prevent uppercase Jules directory
 .Jules/
 node_modules/
+
+# Virtual environments
+.venv/
+venv/
+.venv-*/
+ENV/
+env/
+
+# Build outputs
+dist/
+build/
+target/
+out/
+*.min.js
+*.min.css
+
+# Test outputs and coverage
+coverage/
+.nyc_output/
+test-results*.json
+junit*.xml
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (keep templates)
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+tmp/
+
+# Reports (keep structure, ignore generated content)
+reports/*.json
+reports/**/*.html
+reports/**/*.xml
+!reports/README.md
+!reports/**/README.md

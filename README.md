@@ -74,6 +74,42 @@ python scripts/validate-schema-org.py
 
 ______________________________________________________________________
 
+## 🗂️ Repository Organization Standards (NEW! ✅)
+
+**Comprehensive standards for repository structure, file naming, and content placement**
+
+- ✅ **Standard Directory Structure** - Consistent layout across all repositories
+- ✅ **File Naming Conventions** - Clear guidelines for naming files and directories
+- ✅ **Content Placement Guidelines** - Know exactly where every file belongs
+- ✅ **Automated Validation** - CI/CD checks to enforce standards
+- ✅ **Migration Guides** - Step-by-step cleanup and organization
+
+**Quick Links:**
+
+- 📖 [Full Standards Document](docs/reference/REPOSITORY_STRUCTURE.md) - Complete organizational standards
+- 🚀 [Quick Reference](docs/reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) - Fast lookup and decision trees
+- ✅ [Validation Script](scripts/validate-repository-structure.sh) - Check your repository structure
+- 🔧 [Version Control Standards](docs/reference/VERSION_CONTROL_STANDARDS.md) - Git branching and commits
+
+**Structure Validation:**
+
+```bash
+# Validate your repository structure
+./scripts/validate-repository-structure.sh
+
+# Run in CI/CD - automated checks on every PR
+# See .github/workflows/repository-structure-validation.yml
+```
+
+**Key Principles:**
+
+- **Separation of Concerns**: Code, docs, configs in dedicated directories
+- **Predictable Layout**: Standard structure across all repos
+- **Clean Root Directory**: Maximum 15 essential files at root
+- **Progressive Disclosure**: Easy navigation from root to details
+
+______________________________________________________________________
+
 ## �📚 Documentation
 
 **⭐ New:** [Complete Documentation Index](docs/INDEX.md) - Browse all 133+ docs

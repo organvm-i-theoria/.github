@@ -1,0 +1,67 @@
+name: Repository Structure Validation
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "**/*.md"
+      - ".github/**"
+      - "scripts/**"
+      - ".gitignore"
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "**/*.md"
+      - ".github/**"
+      - "scripts/**"
+      - ".gitignore"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate-structure:
+    name: Validate Repository Organization
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Make validation script executable
+        run: chmod +x scripts/validate-repository-structure.sh
+
+      - name: Run structure validation
+        run: ./scripts/validate-repository-structure.sh
+        continue-on-error: true
+        id: validation
+
+      - name: Check validation results
+        if: steps.validation.outcome == 'failure'
+        run: |
+          echo "::warning::Repository structure validation found issues."
+          echo "::warning::Review the validation output above for recommendations."
+          echo "::warning::See docs/reference/REPOSITORY_STRUCTURE.md for standards."
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Repository Structure Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.validation.outcome }}" == "success" ]; then
+            echo "✅ **Validation Passed**: Repository structure meets organizational standards" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Validation Has Recommendations**: See job output for details" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "📖 Review [Repository Structure Standards](docs/reference/REPOSITORY_STRUCTURE.md) for guidance" >> $GITHUB_STEP_SUMMARY
+          fi
