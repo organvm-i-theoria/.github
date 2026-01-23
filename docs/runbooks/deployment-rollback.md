@@ -105,7 +105,7 @@ Consider rollback when:
 
 ### Initial Notification
 
-```
+```text
 Subject: [ACTION] Deployment Rollback in Progress
 
 Team,
@@ -121,7 +121,7 @@ Please stand by for further updates.
 
 ### Resolution Notification
 
-```
+```text
 Subject: [RESOLVED] Deployment Rollback Complete
 
 Team,
@@ -155,6 +155,6 @@ We will share findings in the post-mortem scheduled for <date>.
 
 ## Related Links
 
-- [Auto-Merge Workflow](../.github/workflows/auto-merge.yml)
+- [Auto-Merge Workflow](../../.github/workflows/auto-merge.yml)
 - [Incident Response Runbook](./incident-response.md)
 - [SLA Breach Runbook](./sla-breach.md)

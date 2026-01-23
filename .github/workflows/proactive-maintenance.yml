@@ -137,6 +137,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         if [[ -n "$(git status --porcelain)" ]]; then
+          # Configure git for commits
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           BRANCH="maintenance/dependency-updates-$(date +%Y%m%d)"
           git checkout -b $BRANCH
           git add -A

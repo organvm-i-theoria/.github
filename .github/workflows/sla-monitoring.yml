@@ -227,23 +227,26 @@ jobs:
         EXISTING=$(gh issue list --label "sla-breach" --state open --json number --jq '.[0].number' || echo "")
 
         if [[ -z "$EXISTING" ]]; then
+          # Build issue body with proper escaping
+          BREACH_TIME=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          BREACH_DATA='${{ needs.check-sla-compliance.outputs.breaches }}'
+
+          # Create body using escaped quotes and newlines
+          BODY="## SLA Compliance Alert"$'\n\n'
+          BODY+="**Status:** Breached"$'\n'
+          BODY+="**Detected At:** ${BREACH_TIME}"$'\n\n'
+          BODY+="### Breach Details"$'\n'
+          BODY+="\`\`\`json"$'\n'
+          BODY+="${BREACH_DATA}"$'\n'
+          BODY+="\`\`\`"$'\n\n'
+          BODY+="### Action Required"$'\n'
+          BODY+="Please investigate and address the SLA violations immediately."$'\n\n'
+          BODY+="---"$'\n'
+          BODY+="*This issue was automatically created by SLA monitoring.*"
+          
           gh issue create \
             --title "🚨 SLA Breach Detected" \
-            --body "## SLA Compliance Alert
-
-        **Status:** Breached
-        **Detected At:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-
-        ### Breach Details
-        \`\`\`json
-        ${{ needs.check-sla-compliance.outputs.breaches }}
-        \`\`\`
-
-        ### Action Required
-        Please investigate and address the SLA violations immediately.
-
-        ---
-        *This issue was automatically created by SLA monitoring.*" \
+            --body "$BODY" \
             --label "sla-breach,urgent,automation"
         fi
 

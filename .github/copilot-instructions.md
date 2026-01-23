@@ -1,7 +1,6 @@
----
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
----
+______________________________________________________________________
+
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -40,6 +39,7 @@ globs: *
 
 - **Schema.org Implementation:** ✅ **DEPLOYED** - Schema.org structured data is
   fully implemented:
+
   - Schema files located in `.schema-org/` directory
   - Organization, repository, AI framework, and documentation schemas
   - Automated validation via `scripts/validate-schema-org.py`
@@ -50,6 +50,7 @@ globs: *
 
 - **Semantic Versioning (SemVer):** ✅ **DEPLOYED** - Organization-wide semver
   implementation:
+
   - VERSION file as source of truth (currently: 1.0.0)
   - package.json with version and scripts
   - Automated version sync via `scripts/sync-version.js`
@@ -62,6 +63,7 @@ globs: *
 ## DEBUGGING
 
 - **Git Commit Issues:**
+
   - If commits are blocked due to pre-commit hook failures, especially with
     `mypy`, check for issues related to the `types-all` dependency in
     `.pre-commit-config-rapid.yaml`.
@@ -81,6 +83,7 @@ globs: *
     Then, retry the commit.
 
 - **Pre-commit Hook Failures:**
+
   - When pre-commit hooks fail, address the issues systematically:
     1. **Shell Scripts:** Ensure shell scripts have executable permissions
        (`chmod +x script_name.py`).
@@ -116,6 +119,7 @@ globs: *
     (use with caution).
 
 - **Comprehensive Pre-commit Troubleshooting:**
+
   - If facing multiple pre-commit failures, follow these steps:
     1. **Identify the Issues:** Carefully examine the pre-commit output to
        pinpoint the specific errors. These often include:
@@ -177,6 +181,7 @@ globs: *
        **Use this as a last resort.**
 
 - **Pre-commit Hook Dependency Conflict:**
+
   - When pre-commit hooks fail due to dependency conflicts, especially with
     `mdformat`, update to a compatible version that works with GFM plugins.
   - Specifically, ensure that the `mdformat` hook in
@@ -216,6 +221,7 @@ globs: *
        `fix: update mdformat to v0.7.17 for gfm plugin compatibility - Update mdformat from 1.0.0 to 0.7.17 - Maintains compatibility with mdformat-gfm>=0.3.5 - Fixes pre-commit hook dependency conflict - Resolves CLEANUP_ROADMAP Phase 1.1 - Closes #[issue-number] The previous version (1.0.0) was incompatible with mdformat-gfm plugins, forcing developers to use --no-verify and bypass quality gates. Testing: - ✅ pre-commit run --all-files passes - ✅ mdformat hook executes successfully - ✅ All markdown files formatted correctly`.
 
 - **Directory Case Sensitivity Issues:**
+
   - To prevent future merge conflicts, standardize directory casing.
   - Consolidate directories to lowercase. Example: Consolidate `Jules` to
     `jules`.
@@ -223,12 +229,14 @@ globs: *
   - Add the uppercase directory name to `.gitignore`.
 
 - **Bypassing Pre-commit Hooks:**
+
   - If pre-commit hooks are blocking commits, and the changes are minor (e.g.,
     formatting), you may bypass them temporarily using
     `git commit --no-verify -m "commit message"`.
   - **Use this with caution and only for non-functional changes.**
 
 - **Master Org Token Security and Contextual Awareness:**
+
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -263,6 +271,7 @@ globs: *
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
 
 - **1Password Authentication Troubleshooting:**
+
   - **Issue**: 1Password CLI shows as signed in, but still cannot access the
     vault and requires re-authentication.
   - **Root Cause**: Likely due to a missing integration between the 1Password
@@ -276,6 +285,7 @@ globs: *
        CLI" biometric unlock for added convenience.
 
 - **Pylance Performance Issues**:
+
   - **Issue**: Pylance language server is continually running and consuming
     excessive resources.
   - **Troubleshooting**:
@@ -330,6 +340,117 @@ globs: *
        not contain placeholders.
     1. **Remove Unused Imports and Variables**: Eliminate unnecessary imports
        and variables to improve code cleanliness.
+
+- **GitHub Workflow Incident Response Triggering**:
+
+  - **Issue**: The `incident-response.yml` workflow triggers on every workflow
+    completion, potentially causing alert fatigue.
+  - **Solution**: Limit the workflow triggers to specific critical workflows and
+    filter by conclusion to only trigger on failures.
+  - **Implementation**:
+    ```yaml
+    on:
+      workflow_run:
+        types: [completed]
+        workflows:
+          - "CI"
+          - "deploy"
+          - "release"
+          - "security"
+          - "Build"
+          - "Test"
+    # Trigger on critical workflow failures only
+    if: github.event.workflow_run.conclusion == 'failure' || github.event_name != 'workflow_run'
+    ```
+    - This configuration ensures that the `incident-response` workflow is
+      triggered only for critical workflow failures, reducing noise and alert
+      fatigue.
+
+- **GitHub Workflow Auto-Revert Validation**:
+
+  - **Issue**: The `auto-merge.yml` workflow's revert job is triggered when the
+    auto-merge job fails, without validating if the failure is directly related
+    to the merged changes.
+  - **Solution**: Add a validation step to check if the failure is likely due to
+    the merged changes before reverting. If uncertain, require manual review.
+  - **Implementation**:
+    ```yaml
+    revert-on-failure:
+      name: Auto Revert on Failure
+      runs-on: ubuntu-latest
+      needs: auto-merge
+      if: failure() && needs.auto-merge.outputs.merged == 'true'
+      steps:
+        - name: Validate failure cause
+          id: validate
+          uses: actions/github-script@v7
+          with:
+            script: |
+              // Check if failure is likely related to the merged changes
+              // Look for new test failures, build errors, or other indicators
+
+              const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
+              let shouldRevert = false;
+              let reason = '';
+
+              try {
+                // Get workflow runs for this commit
+                const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  per_page: 10,
+                  status: 'completed'
+                });
+
+                // Check for failed required checks
+                const failedRuns = workflowRuns.workflow_runs.filter(run =>
+                  run.conclusion === 'failure' &&
+                  run.head_sha === '${{ needs.auto-merge.outputs.merge-sha }}'
+                );
+
+                if (failedRuns.length > 0) {
+                  // Check if these are critical workflows
+                  const criticalWorkflows = ['CI', 'Test', 'Build', 'Security'];
+                  const criticalFailures = failedRuns.filter(run =>
+                    criticalWorkflows.some(name => run.name.includes(name))
+                  );
+
+                  if (criticalFailures.length > 0) {
+                    shouldRevert = true;
+                    reason = `Critical workflow failures detected: ${criticalFailures.map(r => r.name).join(', ')}`;
+                  } else {
+                    reason = 'Non-critical workflow failures - manual review recommended';
+                  }
+                } else {
+                  reason = 'No clear workflow failures found - may be infrastructure issue';
+                }
+
+              } catch (error) {
+                console.log(`Error validating failure: ${error.message}`);
+                // On error, require manual review
+                reason = `Validation error: ${error.message} - manual review required`;
+              }
+
+              core.setOutput('should_revert', shouldRevert.toString());
+              core.setOutput('reason', reason);
+              console.log(`Should revert: ${shouldRevert}`);
+              console.log(`Reason: ${reason}`);
+
+              // Comment on PR with analysis
+              if (prNumber) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: parseInt(prNumber),
+                  body: `🔍 **Auto-Revert Analysis**\n\n${shouldRevert ? '⚠️ Auto-revert will be triggered' : '⏸️ Auto-revert skipped - manual review needed'}\n\n**Reason:** ${reason}\n\n${!shouldRevert ? '**Action Required:** Please review the failures and determine if manual revert is needed.' : ''}`
+                });
+              }
+
+        - name: Revert merge commit
+          id: revert
+          if: steps.validate.outputs.should_revert == 'true'
+        - name: Notify manual review
+    ```
 
 ## FINAL DOs AND DON'Ts
 
@@ -522,6 +643,7 @@ globs: *
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
+
   - **Issue:** The "master-org-token-011726" personal access token (PAT) is
     being accessed by multiple repositories, raising security and access
     management concerns.
@@ -556,6 +678,7 @@ globs: *
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
 
 - **Pylance Performance Issues**:
+
   - **Issue**: Pylance language server is continually running and consuming
     excessive resources.
   - **Troubleshooting**:
@@ -611,102 +734,4 @@ globs: *
     1. **Remove Unused Imports and Variables**: Eliminate unnecessary imports
        and variables to improve code cleanliness.
 
-- **GitHub Workflow Incident Response Triggering**:
-  - **Issue**: The `incident-response.yml` workflow triggers on every workflow completion, potentially causing alert fatigue.
-  - **Solution**: Limit the workflow triggers to specific critical workflows and filter by conclusion to only trigger on failures.
-  - **Implementation**:
-    ```yaml
-    on:
-      workflow_run:
-        types: [completed]
-        workflows:
-          - "CI"
-          - "deploy"
-          - "release"
-          - "security"
-          - "Build"
-          - "Test"
-    # Trigger on critical workflow failures only
-    if: github.event.workflow_run.conclusion == 'failure' || github.event_name != 'workflow_run'
-    ```
-    - This configuration ensures that the `incident-response` workflow is triggered only for critical workflow failures, reducing noise and alert fatigue.
-
-- **GitHub Workflow Auto-Revert Validation**:
-  - **Issue**: The `auto-merge.yml` workflow's revert job is triggered when the auto-merge job fails, without validating if the failure is directly related to the merged changes.
-  - **Solution**: Add a validation step to check if the failure is likely due to the merged changes before reverting. If uncertain, require manual review.
-  - **Implementation**:
-    ```yaml
-    revert-on-failure:
-      name: Auto Revert on Failure
-      runs-on: ubuntu-latest
-      needs: auto-merge
-      if: failure() && needs.auto-merge.outputs.merged == 'true'
-      steps:
-        - name: Validate failure cause
-          id: validate
-          uses: actions/github-script@v7
-          with:
-            script: |
-              // Check if failure is likely related to the merged changes
-              // Look for new test failures, build errors, or other indicators
-
-              const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
-              let shouldRevert = false;
-              let reason = '';
-
-              try {
-                // Get workflow runs for this commit
-                const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  per_page: 10,
-                  status: 'completed'
-                });
-
-                // Check for failed required checks
-                const failedRuns = workflowRuns.workflow_runs.filter(run =>
-                  run.conclusion === 'failure' &&
-                  run.head_sha === '${{ needs.auto-merge.outputs.merge-sha }}'
-                );
-
-                if (failedRuns.length > 0) {
-                  // Check if these are critical workflows
-                  const criticalWorkflows = ['CI', 'Test', 'Build', 'Security'];
-                  const criticalFailures = failedRuns.filter(run =>
-                    criticalWorkflows.some(name => run.name.includes(name))
-                  );
-
-                  if (criticalFailures.length > 0) {
-                    shouldRevert = true;
-                    reason = `Critical workflow failures detected: ${criticalFailures.map(r => r.name).join(', ')}`;
-                  } else {
-                    reason = 'Non-critical workflow failures - manual review recommended';
-                  }
-                } else {
-                  reason = 'No clear workflow failures found - may be infrastructure issue';
-                }
-
-              } catch (error) {
-                console.log(`Error validating failure: ${error.message}`);
-                // On error, require manual review
-                reason = `Validation error: ${error.message} - manual review required`;
-              }
-
-              core.setOutput('should_revert', shouldRevert.toString());
-              core.setOutput('reason', reason);
-              console.log(`Should revert: ${shouldRevert}`);
-              console.log(`Reason: ${reason}`);
-
-              // Comment on PR with analysis
-              if (prNumber) {
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: parseInt(prNumber),
-                  body: `🔍 **Auto-Revert Analysis**\n\n${shouldRevert ? '⚠️ Auto-revert will be triggered' : '⏸️ Auto-revert skipped - manual review needed'}\n\n**Reason:** ${reason}\n\n${!shouldRevert ? '**Action Required:** Please review the failures and determine if manual revert is needed.' : ''}`
-                });
-              }
-
-        - name: Revert merge commit
-          id: revert
-          if:
+- \*\*

@@ -3,7 +3,6 @@ name: Self-Healing Workflows
 on:
   workflow_run:
     types: [completed]
-    workflows: ['*']
 
   workflow_dispatch:
     inputs:

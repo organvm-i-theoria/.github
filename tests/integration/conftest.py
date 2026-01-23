@@ -54,8 +54,8 @@ class MockGitHubAPIClient:
                         "name": workflow.replace(".yml", "").replace("-", " ").title(),
                         "status": "completed",
                         "conclusion": "success",
-                        "created_at": run_time.isoformat() + "Z",
-                        "updated_at": run_time.isoformat() + "Z",
+                        "created_at": run_time.isoformat(),
+                        "updated_at": run_time.isoformat(),
                         "head_branch": "main",
                         "head_sha": f"abc123{i}",
                     }
@@ -82,8 +82,8 @@ class MockGitHubAPIClient:
             "state": "open",
             "assignee": None,
             "assignees": [],
-            "created_at": datetime.now(timezone.utc).isoformat() + "Z",
-            "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
             "html_url": (f"https://github.com/{self.repo}/issues/{issue_number}"),
         }
 
@@ -113,7 +113,7 @@ class MockGitHubAPIClient:
         if labels is not None:
             issue["labels"] = [{"name": lbl, "color": "ededed"} for lbl in labels]
 
-        issue["updated_at"] = datetime.now(timezone.utc).isoformat() + "Z"
+        issue["updated_at"] = datetime.now(timezone.utc).isoformat()
         return issue
 
     def create_pr(
@@ -132,8 +132,8 @@ class MockGitHubAPIClient:
             "state": "open",
             "merged": False,
             "html_url": f"https://github.com/{self.repo}/pull/{pr_number}",
-            "created_at": datetime.now(timezone.utc).isoformat() + "Z",
-            "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
         }
         self._prs[pr_number] = pr
         return pr
@@ -283,8 +283,8 @@ def mock_issue_data():
         "state": "open",
         "assignee": {"login": "test-user"},
         "assignees": [{"login": "test-user"}],
-        "created_at": datetime.now(timezone.utc).isoformat() + "Z",
-        "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
         "html_url": "https://github.com/ivviiviivvi/.github/issues/42",
     }
 
@@ -303,8 +303,8 @@ def mock_workflow_runs():
                 "name": "Test Workflow",
                 "status": "completed",
                 "conclusion": "success",
-                "created_at": run_time.isoformat() + "Z",
-                "updated_at": run_time.isoformat() + "Z",
+                "created_at": run_time.isoformat(),
+                "updated_at": run_time.isoformat(),
                 "head_branch": "main",
                 "head_sha": f"abc123{i}",
             }
@@ -317,7 +317,7 @@ def mock_workflow_runs():
 def mock_metrics_data():
     """Mock metrics collection results."""
     return {
-        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "workflows": {
             "issue-triage": {"runs": 100, "success": 98, "failure": 2},
             "auto-assign": {"runs": 100, "success": 99, "failure": 1},
