@@ -139,9 +139,12 @@ python3 .github/scripts/task_deduplicator.py cleanup [retention_days]
 
 ```json
 {
-  "processed_tasks": {
-    "task_hash": "2024-01-09T01:00:00",
-    ...
+  "tasks": {
+    "task_hash": {
+      "type": "jules_issue",
+      "timestamp": "2024-01-09T01:00:00",
+      "data": {}
+    }
   },
   "active_prs": [
     {
@@ -224,11 +227,11 @@ python3 .github/scripts/task_deduplicator.py cleanup 7
 
 **Symptom:** Master orchestrator runs multiple times per day
 
-**Solution:** Check `task_state.json` for `last_orchestration` date. The
+**Solution:** Check `task_state.json` for stale timestamps in `tasks`. The
 workflow has a guard to prevent this, but if state file is corrupted, reset it:
 
 ```bash
-echo '{"processed_tasks":{},"active_prs":[],"last_orchestration":null}' > .github/task_state.json
+echo '{"tasks":{},"active_prs":[],"last_orchestration":null,"last_cleanup":null}' > .github/task_state.json
 ```
 
 ### Tasks Not Being Deduplicated
@@ -324,10 +327,13 @@ gh pr list --label consolidated
 
 ```bash
 # Count processed tasks
-jq '.processed_tasks | length' .github/task_state.json
+jq '.tasks | length' .github/task_state.json
 
 # Count active PRs
 jq '.active_prs | length' .github/task_state.json
+
+# Last cleanup date
+jq -r '.last_cleanup' .github/task_state.json
 
 # Last orchestration date
 jq -r '.last_orchestration' .github/task_state.json

@@ -115,6 +115,23 @@ jobs:
               pull_number: prNumber
             });
 
+            const allowedAssociations = new Set([
+              'OWNER',
+              'MEMBER',
+              'COLLABORATOR'
+            ]);
+            if (!allowedAssociations.has(pr.author_association)) {
+              console.log(`Untrusted author association: ${pr.author_association}`);
+              core.setOutput('eligible', 'false');
+              return { eligible: false, reason: 'Untrusted author association' };
+            }
+
+            if (pr.head.repo.full_name !== pr.base.repo.full_name) {
+              console.log('Forked PRs are not eligible for auto-merge');
+              core.setOutput('eligible', 'false');
+              return { eligible: false, reason: 'Forked PR not eligible' };
+            }
+
             // Check for auto-merge label
             const hasAutoMergeLabel = pr.labels.some(label =>
               label.name === 'auto-merge' || label.name === 'automerge'
@@ -130,6 +147,7 @@ jobs:
 
             if (!shouldAutoMerge) {
               console.log('PR not marked for auto-merge');
+              core.setOutput('eligible', 'false');
               return { eligible: false, reason: 'Not marked for auto-merge' };
             }
 
@@ -435,9 +453,9 @@ jobs:
           fi
 
       - name: Send Slack notification on merge
-        if: steps.enable-auto-merge.outputs.merged == 'true' && env.SLACK_WEBHOOK_URL != ''
+        if: steps.enable-auto-merge.outputs.merged == 'true' && env.SLACK_WEBHOOK_URL != '' && startsWith(env.SLACK_WEBHOOK_URL, 'https://hooks.slack.com/services/')
         run: |
-          curl -X POST -H 'Content-type: application/json' \
+          if ! curl --fail --silent --show-error -X POST -H 'Content-type: application/json' \
             --data "{
               \"text\": \"Auto-Merge Complete\",
               \"blocks\": [
@@ -450,7 +468,9 @@ jobs:
                 }
               ]
             }" \
-            $SLACK_WEBHOOK_URL || true
+            "$SLACK_WEBHOOK_URL"; then
+            echo "::warning title=Slack notification failed::Auto-merge completion notification failed"
+          fi
 
   # Revert job - triggers on post-merge CI failures
   revert-on-failure:
@@ -468,8 +488,74 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Validate failure cause
+        id: validate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Check if failure is likely related to the merged changes
+            // Look for new test failures, build errors, or other indicators
+
+            const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
+            let shouldRevert = false;
+            let reason = '';
+
+            try {
+              // Get workflow runs for this commit
+              const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 10,
+                status: 'completed'
+              });
+              
+              // Check for failed required checks
+              const failedRuns = workflowRuns.workflow_runs.filter(run => 
+                run.conclusion === 'failure' && 
+                run.head_sha === '${{ needs.auto-merge.outputs.merge-sha }}'
+              );
+              
+              if (failedRuns.length > 0) {
+                // Check if these are critical workflows
+                const criticalWorkflows = ['CI', 'Test', 'Build', 'Security'];
+                const criticalFailures = failedRuns.filter(run => 
+                  criticalWorkflows.some(name => run.name.includes(name))
+                );
+                
+                if (criticalFailures.length > 0) {
+                  shouldRevert = true;
+                  reason = `Critical workflow failures detected: ${criticalFailures.map(r => r.name).join(', ')}`;
+                } else {
+                  reason = 'Non-critical workflow failures - manual review recommended';
+                }
+              } else {
+                reason = 'No clear workflow failures found - may be infrastructure issue';
+              }
+              
+            } catch (error) {
+              console.log(`Error validating failure: ${error.message}`);
+              // On error, require manual review
+              reason = `Validation error: ${error.message} - manual review required`;
+            }
+
+            core.setOutput('should_revert', shouldRevert.toString());
+            core.setOutput('reason', reason);
+            console.log(`Should revert: ${shouldRevert}`);
+            console.log(`Reason: ${reason}`);
+
+            // Comment on PR with analysis
+            if (prNumber) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(prNumber),
+                body: `🔍 **Auto-Revert Analysis**\n\n${shouldRevert ? '⚠️ Auto-revert will be triggered' : '⏸️ Auto-revert skipped - manual review needed'}\n\n**Reason:** ${reason}\n\n${!shouldRevert ? '**Action Required:** Please review the failures and determine if manual revert is needed.' : ''}`
+              });
+            }
+
       - name: Revert merge commit
         id: revert
+        if: steps.validate.outputs.should_revert == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -522,10 +608,20 @@ jobs:
               core.setOutput('reverted', 'false');
             }
 
-      - name: Send Slack notification on revert
-        if: steps.revert.outputs.reverted == 'true' && env.SLACK_WEBHOOK_URL != ''
+      - name: Notify manual review needed
+        if: steps.validate.outputs.should_revert != 'true'
         run: |
-          curl -X POST -H 'Content-type: application/json' \
+          echo "::warning title=Manual Review Required::${{ steps.validate.outputs.reason }}"
+          echo "## ⏸️ Auto-Revert Skipped" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Reason:** ${{ steps.validate.outputs.reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Action Required:** Please review the failures and determine if manual revert is needed." >> $GITHUB_STEP_SUMMARY
+
+      - name: Send Slack notification on revert
+        if: steps.revert.outputs.reverted == 'true' && env.SLACK_WEBHOOK_URL != '' && startsWith(env.SLACK_WEBHOOK_URL, 'https://hooks.slack.com/services/')
+        run: |
+          if ! curl --fail --silent --show-error -X POST -H 'Content-type: application/json' \
             --data "{
               \"text\": \"Auto-Revert Alert\",
               \"blocks\": [
@@ -533,9 +629,31 @@ jobs:
                   \"type\": \"section\",
                   \"text\": {
                     \"type\": \"mrkdwn\",
-                    \"text\": \"*Auto-Revert Triggered*\n\nPR was automatically reverted due to post-merge CI failures.\n\nRevert SHA: \`${{ steps.revert.outputs.revert-sha }}\`\"
+                    \"text\": \"*Auto-Revert Triggered*\\n\\nPR was automatically reverted due to post-merge CI failures.\\n\\nRevert SHA: \`${{ steps.revert.outputs.revert-sha }}\`\"
                   }
                 }
               ]
             }" \
-            $SLACK_WEBHOOK_URL || true
+            "$SLACK_WEBHOOK_URL"; then
+            echo "::warning title=Slack notification failed::Auto-revert notification failed"
+          fi
+
+      - name: Send Slack notification for manual review
+        if: steps.validate.outputs.should_revert != 'true' && env.SLACK_WEBHOOK_URL != '' && startsWith(env.SLACK_WEBHOOK_URL, 'https://hooks.slack.com/services/')
+        run: |
+          if ! curl --fail --silent --show-error -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"text\": \"Manual Review Required\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Auto-Revert Skipped - Manual Review Needed*\\n\\nPR #${{ needs.auto-merge.outputs.pr-number }}\\n\\n**Reason:** ${{ steps.validate.outputs.reason }}\"
+                  }
+                }
+              ]
+            }" \
+            "$SLACK_WEBHOOK_URL"; then
+            echo "::warning title=Slack notification failed::Manual review notification failed"
+          fi

@@ -107,10 +107,10 @@ urgent.
 
 ### Multiple orchestrations per day
 
-Check `.github/task_state.json` for `last_orchestration`. Reset if corrupted:
+Check `.github/task_state.json` for stale timestamps in `tasks` or an old `last_orchestration`. Reset if corrupted:
 
 ```bash
-echo '{"processed_tasks":{},"active_prs":[],"last_orchestration":null}' > .github/task_state.json
+echo '{"tasks":{},"active_prs":[],"last_orchestration":null,"last_cleanup":null}' > .github/task_state.json
 ```
 
 ### PRs not consolidating

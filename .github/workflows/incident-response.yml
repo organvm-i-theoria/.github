@@ -3,8 +3,15 @@ name: Incident Response
 on:
   workflow_run:
     types: [completed]
-    workflows: ["*"]
-    # Trigger on critical workflow failures
+    workflows:
+      - "CI"
+      - "deploy"
+      - "release"
+      - "security"
+      - "Build"
+      - "Test"
+    # Trigger on critical workflow failures only
+    # Note: Additional filtering by conclusion is done in job conditions
 
   issues:
     types: [labeled]
@@ -47,6 +54,8 @@ jobs:
   detect-and-assess:
     name: Detect and Assess Incident
     runs-on: ubuntu-latest
+    # Only process workflow failures to avoid alert fatigue
+    if: github.event.workflow_run.conclusion == 'failure' || github.event_name != 'workflow_run'
     outputs:
       is_incident: ${{ steps.detect.outputs.is_incident }}
       severity: ${{ steps.assess.outputs.severity }}
@@ -233,8 +242,26 @@ jobs:
           *This incident was automatically created by the Incident Response workflow.*" \
             --label "incident,$SEVERITY,automation" || true
 
+      - name: Validate notification secrets
+        id: validate-notify
+        shell: bash
+        run: |
+          slack_valid=false
+          pagerduty_valid=false
+
+          if [[ -n "${SLACK_WEBHOOK_URL}" && "${SLACK_WEBHOOK_URL}" == https://hooks.slack.com/services/* ]]; then
+            slack_valid=true
+          fi
+
+          if [[ -n "${PAGERDUTY_INTEGRATION_KEY}" && "${PAGERDUTY_INTEGRATION_KEY}" =~ ^[A-Za-z0-9]{32}$ ]]; then
+            pagerduty_valid=true
+          fi
+
+          echo "slack_valid=$slack_valid" >> "$GITHUB_OUTPUT"
+          echo "pagerduty_valid=$pagerduty_valid" >> "$GITHUB_OUTPUT"
+
       - name: Send Slack notification
-        if: env.SLACK_WEBHOOK_URL != ''
+        if: steps.validate-notify.outputs.slack_valid == 'true'
         run: |
           SEVERITY="${{ needs.detect-and-assess.outputs.severity }}"
           INCIDENT_ID="${{ needs.detect-and-assess.outputs.incident_id }}"
@@ -245,7 +272,7 @@ jobs:
             COLOR="danger"
           fi
 
-          curl -X POST -H 'Content-type: application/json' \
+          if ! curl --fail --silent --show-error -X POST -H 'Content-type: application/json' \
             --data "{
               \"text\": \"🚨 Incident Alert: $INCIDENT_ID\",
               \"attachments\": [
@@ -263,13 +290,15 @@ jobs:
                 }
               ]
             }" \
-            $SLACK_WEBHOOK_URL || true
+            "$SLACK_WEBHOOK_URL"; then
+            echo "::warning title=Slack notification failed::Incident alert notification failed"
+          fi
 
       - name: Notify via PagerDuty (P0/P1)
         if: |
           (needs.detect-and-assess.outputs.severity == 'p0' ||
            needs.detect-and-assess.outputs.severity == 'p1') &&
-          env.PAGERDUTY_INTEGRATION_KEY != ''
+          steps.validate-notify.outputs.pagerduty_valid == 'true'
         run: |
           SEVERITY="${{ needs.detect-and-assess.outputs.severity }}"
           PD_SEVERITY="critical"
@@ -277,7 +306,7 @@ jobs:
             PD_SEVERITY="error"
           fi
 
-          curl -X POST https://events.pagerduty.com/v2/enqueue \
+          if ! curl --fail --silent --show-error -X POST https://events.pagerduty.com/v2/enqueue \
             -H 'Content-Type: application/json' \
             -d "{
               \"routing_key\": \"$PAGERDUTY_INTEGRATION_KEY\",
@@ -294,7 +323,9 @@ jobs:
                   \"workflow_url\": \"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"
                 }
               }
-            }" || true
+            }"; then
+            echo "::warning title=PagerDuty notification failed::Incident PagerDuty trigger failed"
+          fi
 
   post-incident:
     name: Post-Incident Actions

@@ -18,23 +18,54 @@ class TaskDeduplicator:
         self.state_file = Path(state_file)
         self.state = self._load_state()
 
+    def _default_state(self):
+        return {
+            "tasks": {},
+            "active_prs": [],
+            "last_orchestration": None,
+            "last_cleanup": None,
+        }
+
+    def _normalize_state(self, state):
+        """Normalize state for backward compatibility."""
+        if not isinstance(state, dict):
+            return self._default_state()
+
+        # Migrate legacy format if present.
+        if "processed_tasks" in state and "tasks" not in state:
+            state["tasks"] = {
+                task_hash: {
+                    "type": "unknown",
+                    "timestamp": timestamp,
+                    "data": {},
+                }
+                for task_hash, timestamp in state.get("processed_tasks", {}).items()
+            }
+            state.pop("processed_tasks", None)
+
+        state.setdefault("tasks", {})
+        state.setdefault("active_prs", [])
+        state.setdefault("last_orchestration", None)
+        state.setdefault("last_cleanup", None)
+        return state
+
     def _load_state(self):
         """Load existing task state"""
         if self.state_file.exists():
             try:
                 with open(self.state_file, "r") as f:
-                    return json.load(f)
+                    return self._normalize_state(json.load(f))
             except json.JSONDecodeError as e:
                 print(
                     f"Warning: Corrupted state file {self.state_file}: {e}",
                     file=sys.stderr,
                 )
                 print("Creating new state file...", file=sys.stderr)
-                return {"tasks": {}, "active_prs": [], "last_cleanup": None}
+                return self._default_state()
             except Exception as e:
                 print(f"Error loading state file: {e}", file=sys.stderr)
                 raise
-        return {"tasks": {}, "active_prs": [], "last_cleanup": None}
+        return self._default_state()
 
     def _save_state(self):
         """Save task state"""
