@@ -29,16 +29,16 @@ intelligent_routing:
   # Strategies are tried in order until one succeeds
   # Options: "round_robin", "random", "least_busy"
   fallback_strategy:
-    - "round_robin"
-    - "random"
+    - round_robin
+    - random
 
   # Labels that exempt issues from intelligent routing
   # These issues will use fallback strategy immediately
   exempt_labels:
-    - "security"
-    - "hotfix"
-    - "urgent"
-    - "manual-assignment"
+    - security
+    - hotfix
+    - urgent
+    - manual-assignment
 
   # Minimum confidence threshold for assignment
   # If confidence is below this, use fallback strategy
@@ -69,7 +69,7 @@ advanced:
 
   # Notify assignee when assigned via intelligent routing
   notify_assignee: true
-  notification_channel: "slack" # Options: slack, email, github
+  notification_channel: slack # Options: slack, email, github
 
   # Log detailed routing decisions for analysis
   detailed_logging: true
@@ -112,8 +112,8 @@ label_routing:
   # Route security issues to security team members
   security:
     allowed_assignees:
-      - "security-team-lead"
-      - "appsec-engineer"
+      - security-team-lead
+      - appsec-engineer
     factors:
       expertise: 0.50
       workload: 0.20
@@ -124,8 +124,8 @@ label_routing:
   # Route documentation issues to technical writers
   documentation:
     allowed_assignees:
-      - "tech-writer-1"
-      - "tech-writer-2"
+      - tech-writer-1
+      - tech-writer-2
     factors:
       expertise: 0.40
       workload: 0.30
@@ -136,9 +136,9 @@ label_routing:
   # Route frontend issues to frontend team
   frontend:
     allowed_assignees:
-      - "frontend-lead"
-      - "ui-engineer"
-      - "react-specialist"
+      - frontend-lead
+      - ui-engineer
+      - react-specialist
     factors:
       expertise: 0.45
       workload: 0.25
@@ -149,7 +149,7 @@ label_routing:
 # Notification Templates
 notifications:
   assignment:
-    title: "🎯 Intelligent Routing Assignment"
+    title: 🎯 Intelligent Routing Assignment
     body: |
       You've been assigned to {{ issue_type }} #{{ issue_number }} via intelligent routing.
 
@@ -169,7 +169,7 @@ notifications:
       [View Issue]({{ url }})
 
   fallback:
-    title: "⚠️ Fallback Assignment"
+    title: ⚠️ Fallback Assignment
     body: |
       You've been assigned to {{ issue_type }} #{{ issue_number }} using fallback strategy.
 
@@ -200,5 +200,5 @@ audit:
   # Export audit logs for analysis
   export:
     enabled: true
-    format: "json" # Options: json, csv
-    destination: ".github/audit/routing/"
+    format: json # Options: json, csv
+    destination: .github/audit/routing/

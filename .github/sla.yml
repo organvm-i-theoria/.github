@@ -20,23 +20,29 @@ thresholds:
     response_time_minutes: 15 # 15 minutes
     resolution_time_hours: 4 # 4 hours
     success_rate_percentage: 99.5 # 99.5%
-    availability_percentage: 99.9 # 99.9%
+    availability_percentage:
+      99.9 # 99.9%
 
-    # P1 - High (Major bugs, important features)
+
+      # P1 - High (Major bugs, important features)
   - priority: P1
     response_time_minutes: 60 # 1 hour
     resolution_time_hours: 24 # 24 hours
     success_rate_percentage: 98.0 # 98%
-    availability_percentage: 99.5 # 99.5%
+    availability_percentage:
+      99.5 # 99.5%
 
-    # P2 - Medium (Minor bugs, standard features)
+
+      # P2 - Medium (Minor bugs, standard features)
   - priority: P2
     response_time_minutes: 240 # 4 hours
     resolution_time_hours: 72 # 3 days
     success_rate_percentage: 95.0 # 95%
-    availability_percentage: 99.0 # 99%
+    availability_percentage:
+      99.0 # 99%
 
-    # P3 - Low (Enhancements, questions)
+
+      # P3 - Low (Enhancements, questions)
   - priority: P3
     response_time_minutes: 1440 # 24 hours
     resolution_time_hours: 168 # 1 week
@@ -61,13 +67,15 @@ priority_detection:
     rules:
       # Workflow failures in production
       - condition: workflow_failure AND branch=main
-        priority: P0
+        priority:
+          P0
 
-        # Security issues
+          # Security issues
       - condition: label:security
-        priority: P0
+        priority:
+          P0
 
-        # Pull requests to main branch
+          # Pull requests to main branch
       - condition: pull_request AND base=main
         priority: P1
 

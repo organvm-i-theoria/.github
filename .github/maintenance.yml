@@ -11,7 +11,7 @@ maintenance:
 
   # Timing prediction method
   # Options: "ml" (machine learning), "fixed" (predefined schedule)
-  timing_predictor: "ml"
+  timing_predictor: ml
 
   # Preferred maintenance windows
   preferred_hours:
@@ -28,12 +28,12 @@ maintenance:
   avoid_dates:
     - "2026-12-25" # Christmas
     - "2026-01-01" # New Year
-    # Add organization-specific dates
+      # Add organization-specific dates
 
   # Dependency Updates
   dependency_updates:
     enabled: true
-    frequency: "weekly" # Options: daily, weekly, monthly
+    frequency: weekly # Options: daily, weekly, monthly
     auto_merge: false # Auto-merge after testing
     auto_merge_minor: true # Auto-merge minor/patch updates only
     test_before_merge: true
@@ -41,31 +41,31 @@ maintenance:
 
     # Sources to monitor
     sources:
-      - "dependabot"
-      - "renovate"
+      - dependabot
+      - renovate
 
     # Update strategies
     strategies:
-      security: "immediate" # Security updates ASAP
-      major: "manual" # Major versions need review
-      minor: "auto" # Auto-merge minor versions
-      patch: "auto" # Auto-merge patches
+      security: immediate # Security updates ASAP
+      major: manual # Major versions need review
+      minor: auto # Auto-merge minor versions
+      patch: auto # Auto-merge patches
 
   # Cleanup Tasks
   cleanup:
     enabled: true
-    frequency: "daily" # How often to check for cleanup
+    frequency: daily # How often to check for cleanup
 
     # Stale branch cleanup
     stale_branches:
       enabled: true
       days: 30 # Delete branches older than 30 days
       exclude_patterns:
-        - "main"
-        - "master"
-        - "develop"
-        - "release/*"
-        - "hotfix/*"
+        - main
+        - master
+        - develop
+        - release/*
+        - hotfix/*
       require_pr_merged: true # Only delete if PR was merged
 
     # Old artifacts cleanup
@@ -84,34 +84,34 @@ maintenance:
     cache_cleanup:
       enabled: true
       max_size_gb: 10 # Maximum cache size
-      strategy: "lru" # Least recently used
+      strategy: lru # Least recently used
 
   # Optimization Tasks
   optimization:
     enabled: true
-    frequency: "monthly"
+    frequency: monthly
 
     # Database optimization
     database:
       enabled: false
       tasks:
-        - "index_rebuild"
-        - "vacuum"
-        - "analyze"
+        - index_rebuild
+        - vacuum
+        - analyze
 
     # Cache optimization
     cache:
       enabled: true
       tasks:
-        - "warm_cache"
-        - "prune_stale"
+        - warm_cache
+        - prune_stale
 
     # Performance tuning
     performance:
       enabled: true
       tasks:
-        - "update_search_index"
-        - "optimize_images"
+        - update_search_index
+        - optimize_images
 
   # Notification settings
   notifications:
@@ -132,7 +132,7 @@ maintenance:
 
       email:
         enabled: false
-        to: ["devops@example.com"]
+        to: [devops@example.com]
 
       github:
         enabled: true
@@ -194,28 +194,28 @@ ml_config:
 
   # Model configuration
   model:
-    type: "time_series" # Options: time_series, pattern_matching
-    update_frequency: "weekly"
+    type: time_series # Options: time_series, pattern_matching
+    update_frequency: weekly
 
 # Risk Management
 risk_management:
   # Risk assessment for tasks
   risk_levels:
     dependency_update:
-      security: "low" # Security updates are well-tested
-      major: "high" # Major version changes
-      minor: "medium"
-      patch: "low"
+      security: low # Security updates are well-tested
+      major: high # Major version changes
+      minor: medium
+      patch: low
 
     cleanup:
-      branches: "low"
-      artifacts: "low"
-      cache: "medium"
+      branches: low
+      artifacts: low
+      cache: medium
 
     optimization:
-      database: "high"
-      cache: "medium"
-      performance: "low"
+      database: high
+      cache: medium
+      performance: low
 
   # Actions based on risk level
   risk_actions:
@@ -241,9 +241,9 @@ rollback:
 
   # Automatic rollback triggers
   triggers:
-    - "health_check_fail"
-    - "error_rate_increase"
-    - "response_time_increase"
+    - health_check_fail
+    - error_rate_increase
+    - response_time_increase
 
   # Health check configuration
   health_checks:
@@ -276,8 +276,8 @@ audit:
   # Export configuration
   export:
     enabled: true
-    format: "json"
-    destination: ".github/audit/maintenance/"
+    format: json
+    destination: .github/audit/maintenance/
 
 # Task-Specific Configuration
 tasks:
@@ -285,9 +285,9 @@ tasks:
     max_concurrent: 5 # Max PRs to merge at once
     test_timeout_minutes: 30
     required_checks:
-      - "test"
-      - "lint"
-      - "security-scan"
+      - test
+      - lint
+      - security-scan
 
   cleanup:
     batch_size: 10 # Process N items at a time

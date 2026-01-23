@@ -218,6 +218,13 @@ New to this repository? Start here:
 - [templates/README-minimal.md](templates/README-minimal.md) - Minimal README template
 - [REPOSITORY_SETUP_CHECKLIST.md](REPOSITORY_SETUP_CHECKLIST.md) - Repository setup checklist (updated)
 
+### Repository Organization ⭐ NEW
+
+- [reference/REPOSITORY_STRUCTURE.md](reference/REPOSITORY_STRUCTURE.md) - ⭐ Complete organizational standards
+- [reference/REPOSITORY_ORGANIZATION_QUICK_REF.md](reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) - ⭐ Quick reference guide
+- [reference/REPOSITORY_ORGANIZATION_MIGRATION.md](reference/REPOSITORY_ORGANIZATION_MIGRATION.md) - Migration guide for existing repos
+- Validation: `./scripts/validate-repository-structure.sh`
+
 ### Team
 
 - [TEAM_STRUCTURE.md](TEAM_STRUCTURE.md) - Team organization

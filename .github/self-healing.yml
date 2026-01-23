@@ -51,63 +51,63 @@ self_healing:
   classification:
     # Transient failure indicators (network, timeouts, rate limits)
     transient_patterns:
-      - "timeout"
-      - "timed out"
-      - "connection reset"
-      - "temporary failure"
-      - "rate limit"
-      - "service unavailable"
-      - "502 bad gateway"
-      - "503 service unavailable"
-      - "network"
-      - "ECONNRESET"
-      - "ETIMEDOUT"
-      - "EHOSTUNREACH"
-      - "ECONNREFUSED"
+      - timeout
+      - timed out
+      - connection reset
+      - temporary failure
+      - rate limit
+      - service unavailable
+      - 502 bad gateway
+      - 503 service unavailable
+      - network
+      - ECONNRESET
+      - ETIMEDOUT
+      - EHOSTUNREACH
+      - ECONNREFUSED
 
     # Dependency failure indicators
     dependency_patterns:
-      - "dependency"
-      - "required check"
-      - "blocked by"
-      - "waiting for"
-      - "upstream"
-      - "prerequisite"
+      - dependency
+      - required check
+      - blocked by
+      - waiting for
+      - upstream
+      - prerequisite
 
     # Permanent failure indicators (syntax, tests, compilation)
     permanent_patterns:
-      - "syntax error"
-      - "compilation failed"
-      - "test failed"
-      - "assertion"
-      - "type error"
-      - "undefined"
-      - "not found"
-      - "permission denied"
-      - "authentication failed"
-      - "invalid"
-      - "cannot resolve"
+      - syntax error
+      - compilation failed
+      - test failed
+      - assertion
+      - type error
+      - undefined
+      - not found
+      - permission denied
+      - authentication failed
+      - invalid
+      - cannot resolve
 
 # Priority configuration
 priority:
   # P0: Critical - immediate attention required
   p0_keywords:
-    - "production"
-    - "prod"
-    - "deploy"
-    - "release"
-    - "security"
+    - production
+    - prod
+    - deploy
+    - release
+    - security
 
   # P1: High - attention within hours
   p1_keywords:
-    - "main"
-    - "master"
-    - "critical"
+    - main
+    - master
+    - critical
 
   # P2: Medium - attention within day
   p2_keywords:
-    - "develop"
-    - "staging"
+    - develop
+    - staging
 
   # P3: Low - attention when convenient
   # (default for all others)
@@ -118,7 +118,7 @@ notifications:
   channels:
     slack:
       enabled: true
-      webhook_url_env: "SLACK_WEBHOOK_URL"
+      webhook_url_env: SLACK_WEBHOOK_URL
       channels:
         p0: "#incidents"
         p1: "#engineering"
@@ -127,17 +127,17 @@ notifications:
 
     email:
       enabled: false
-      smtp_server: "smtp.example.com"
-      from_email: "workflows@example.com"
+      smtp_server: smtp.example.com
+      from_email: workflows@example.com
       to_emails:
-        p0: ["oncall@example.com"]
-        p1: ["engineering@example.com"]
+        p0: [oncall@example.com]
+        p1: [engineering@example.com]
 
     pagerduty:
       enabled: false
-      api_key_env: "PAGERDUTY_API_KEY"
-      service_key: "YOUR_SERVICE_KEY"
-      trigger_on: ["P0", "P1"]
+      api_key_env: PAGERDUTY_API_KEY
+      service_key: YOUR_SERVICE_KEY  # pragma: allowlist secret
+      trigger_on: [P0, P1]
 
   # Notification templates
   templates:
@@ -201,16 +201,16 @@ notifications:
 issue_tracking:
   # Issue labels to apply
   labels:
-    all: ["workflow-failure", "auto-generated"]
-    transient: ["transient-failure"]
-    dependency: ["dependency-failure"]
-    permanent: ["permanent-failure"]
+    all: [workflow-failure, auto-generated]
+    transient: [transient-failure]
+    dependency: [dependency-failure]
+    permanent: [permanent-failure]
 
   # Issue assignment
   auto_assign: true
   assign_to:
-    p0: ["oncall-engineer"]
-    p1: ["team-lead"]
+    p0: [oncall-engineer]
+    p1: [team-lead]
     p2: [] # No auto-assign
     p3: [] # No auto-assign
 
@@ -228,12 +228,12 @@ advanced:
 
   # Enable machine learning for failure pattern learning
   ml_enabled: false
-  ml_model_path: ".github/models/failure_classifier.pkl"
+  ml_model_path: .github/models/failure_classifier.pkl
 
   # Audit logging
   audit_log:
     enabled: true
-    path: ".github/audit/self-healing/"
+    path: .github/audit/self-healing/
     retention_days: 90
 
   # Cooldown period between retries (seconds)
@@ -257,7 +257,7 @@ workflow_overrides:
     initial_retry_delay: 30
     create_issues_for_failures: true
     send_notifications: true
-    notify_priority: "P0"
+    notify_priority: P0
 
   # Less critical workflows
   nightly-build:
@@ -271,4 +271,4 @@ workflow_overrides:
     enable_auto_retry: false
     create_issues_for_failures: true
     send_notifications: true
-    notify_priority: "P1"
+    notify_priority: P1
