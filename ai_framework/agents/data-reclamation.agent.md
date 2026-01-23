@@ -1,6 +1,6 @@
 ---
 
-## name: Data Reclamation description: Data Reclamation Agent - Recovers and restores lost, corrupted, or tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "Data Reclamation" description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or"
 
 # Data Reclamation Agent
 

@@ -1,6 +1,6 @@
 ---
 
-## name: Data Decommissioning description: Data Decommissioning Agent - Securely removes data and systems tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "Data Decommissioning" description: "Data Decommissioning Agent - Securely removes data and systems"
 
 # Data Decommissioning Agent
 

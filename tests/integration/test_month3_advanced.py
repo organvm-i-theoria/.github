@@ -108,12 +108,12 @@ class TestIntelligentRouting:
 
     def test_routing_algorithm_exists(self):
         """Verify intelligent routing script is present."""
-        script = "automation/scripts/intelligent_route.py"
+        script = "automation/scripts/intelligent_routing.py"
         assert os.path.exists(script), f"Routing script not found: {script}"
 
     def test_routing_factors_all_present(self):
         """Test that routing considers all 5 factors."""
-        script = "automation/scripts/intelligent_route.py"
+        script = "automation/scripts/intelligent_routing.py"
         with open(script) as f:
             content = f.read()
 
@@ -134,7 +134,7 @@ class TestIntelligentRouting:
 
     def test_routing_load_balancing(self):
         """Test that routing implements load balancing."""
-        script = "automation/scripts/intelligent_route.py"
+        script = "automation/scripts/intelligent_routing.py"
         with open(script) as f:
             content = f.read()
 
@@ -142,7 +142,7 @@ class TestIntelligentRouting:
 
     def test_routing_fallback_mechanism(self):
         """Verify fallback when no ideal assignee found."""
-        script = "automation/scripts/intelligent_route.py"
+        script = "automation/scripts/intelligent_routing.py"
         with open(script) as f:
             content = f.read()
 
@@ -501,7 +501,7 @@ class TestMonth3Integration:
 
     def test_intelligent_routing_uses_analytics(self):
         """Verify intelligent routing leverages analytics data."""
-        routing = "automation/scripts/intelligent_route.py"
+        routing = "automation/scripts/intelligent_routing.py"
         if not os.path.exists(routing):
             pytest.skip("Routing script not found")
 
@@ -573,7 +573,7 @@ class TestMonth3Integration:
         month3_files = [
             ".github/workflows/auto-merge.yml",
             "automation/scripts/check_auto_merge_eligibility.py",
-            "automation/scripts/intelligent_route.py",
+            "automation/scripts/intelligent_routing.py",
             ".github/workflows/self-healing.yml",
             "automation/scripts/schedule_maintenance.py",
             ".github/workflows/proactive-maintenance.yml",

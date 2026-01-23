@@ -1,6 +1,6 @@
 ---
 
-## name: Security Audit description: Security Audit Agent - Performs comprehensive security audits of tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "Security Audit" description: "Security Audit Agent - Performs comprehensive security audits of"
 
 # Security Audit Agent
 

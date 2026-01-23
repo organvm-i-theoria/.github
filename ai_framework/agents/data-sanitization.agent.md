@@ -1,6 +1,6 @@
 ---
 
-## name: Data Sanitization description: Data Sanitization Agent - Cleans and sanitizes data, removes PII, tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "Data Sanitization" description: "Data Sanitization Agent - Cleans and sanitizes data, removes PII,"
 
 # Data Sanitization Agent
 

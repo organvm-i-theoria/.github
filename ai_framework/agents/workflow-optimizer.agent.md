@@ -1,6 +1,6 @@
 ---
 
-## name: Workflow Optimizer description: Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "Workflow Optimizer" description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions"
 
 # Workflow Optimizer Agent
 

@@ -1,6 +1,6 @@
 ---
 
-## name: ADR Generator description: Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability. description: Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability. tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "ADR Generator" description: "Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability."
 
 ## Core Workflow
 

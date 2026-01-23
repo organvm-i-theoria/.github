@@ -217,7 +217,9 @@ class TestABTesting:
             content = f.read()
 
             assert "control" in content.lower()
-            assert "treatment" in content.lower()
+            assert (
+                "experiment" in content.lower()
+            )  # Config uses "experiment" not "treatment"
             assert "7" in content  # 7-day grace period
             assert "10" in content  # 10-day grace period
 

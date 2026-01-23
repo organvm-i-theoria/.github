@@ -1,6 +1,6 @@
 ---
 
-## name: launchdarkly-flag-cleanup description: > A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server to safely automate feature flag cleanup workflows. This agent determines removal readiness, identifies the correct forward value, and creates PRs that preserve production behavior while removing obsolete flags and updating stale defaults. tools: \['_'\] mcp-servers: launchdarkly: type: 'local' tools: \['_'\] "command": "npx" "args": \[ "-y", "--package", "@launchdarkly/mcp-server", "--", "mcp", "start", "--api-key", "$LD_ACCESS_TOKEN" \] description: > A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server to safely automate feature flag cleanup workflows. This agent determines removal readiness, identifies the correct forward value, and creates PRs that preserve production behavior while removing obsolete flags and updating stale defaults. tools: \['_'\] mcp-servers: launchdarkly: type: 'local' tools: \['_'\] "command": "npx" "args": \[ "-y", "--package", "@launchdarkly/mcp-server", "--", "mcp", "start", "--api-key", "$LD_ACCESS_TOKEN" \] tools: \[\] tags: \[\] updated: 2026-01-13
+## name: "launchdarkly-flag-cleanup" description: "> A specialized GitHub Copilot agent that uses the LaunchDarkly"
 
 ## Use Case 1: Flag Removal
 

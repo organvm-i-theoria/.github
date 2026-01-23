@@ -30,11 +30,11 @@ class TaskDeduplicator:
                     file=sys.stderr,
                 )
                 print("Creating new state file...", file=sys.stderr)
-                return {"processed_tasks": {}, "active_prs": [], "last_cleanup": None}
+                return {"tasks": {}, "active_prs": [], "last_cleanup": None}
             except Exception as e:
                 print(f"Error loading state file: {e}", file=sys.stderr)
                 raise
-        return {"processed_tasks": {}, "active_prs": [], "last_cleanup": None}
+        return {"tasks": {}, "active_prs": [], "last_cleanup": None}
 
     def _save_state(self):
         """Save task state"""
@@ -50,10 +50,11 @@ class TaskDeduplicator:
 
     def _is_task_recent(self, task_hash, hours=24):
         """Check if task was processed recently"""
-        if task_hash not in self.state["processed_tasks"]:
+        if task_hash not in self.state["tasks"]:
             return False
 
-        timestamp = self.state["processed_tasks"][task_hash]
+        task_entry = self.state["tasks"][task_hash]
+        timestamp = task_entry["timestamp"]
         processed_time = datetime.fromisoformat(timestamp)
 
         # Check if within time window
@@ -64,7 +65,7 @@ class TaskDeduplicator:
         Determine if task should be processed or is a duplicate
 
         Args:
-            task_type: Type of task (e.g., 'jules_issue', 'pr_review', 'orchestrated_task')
+            task_type: Type of task (e.g., 'jules_issue', 'pr_review')
             task_data: Dictionary containing task details
             dedupe_window_hours: Hours to check for duplicates (default 24)
 
@@ -80,8 +81,12 @@ class TaskDeduplicator:
                 f"Task already processed within last {dedupe_window_hours} hours",
             )
 
-        # Task is new, mark as processed
-        self.state["processed_tasks"][task_hash] = datetime.now().isoformat()
+        # Task is new, mark as processed with full structure
+        self.state["tasks"][task_hash] = {
+            "type": task_type,
+            "timestamp": datetime.now().isoformat(),
+            "data": task_data,
+        }
         self._save_state()
 
         return True, "Task is new and should be processed"
@@ -114,15 +119,15 @@ class TaskDeduplicator:
         """Remove old task records"""
         cutoff_time = datetime.now() - timedelta(days=retention_days)
 
-        # Clean up processed tasks
+        # Clean up tasks
         tasks_to_remove = []
-        for task_hash, timestamp in self.state["processed_tasks"].items():
-            processed_time = datetime.fromisoformat(timestamp)
+        for task_hash, task_entry in self.state["tasks"].items():
+            processed_time = datetime.fromisoformat(task_entry["timestamp"])
             if processed_time < cutoff_time:
                 tasks_to_remove.append(task_hash)
 
         for task_hash in tasks_to_remove:
-            del self.state["processed_tasks"][task_hash]
+            del self.state["tasks"][task_hash]
 
         # Clean up old PR records
         prs_to_remove = []
@@ -173,7 +178,8 @@ def main():
     elif command == "register_pr":
         if len(sys.argv) < 5:
             print(
-                "Usage: task_deduplicator.py register_pr <pr_number> <task_type> <task_json>"
+                "Usage: task_deduplicator.py register_pr "
+                "<pr_number> <task_type> <task_json>"
             )
             sys.exit(1)
 

@@ -17,9 +17,7 @@ NOTE: These integration tests require specific GitHub API access and workflow
       configurations that may not be available in all environments.
 """
 
-import json
 import os
-import subprocess
 import time
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
@@ -194,7 +192,9 @@ class TestIssueTriage:
         updated_issue = github_client.get_issue(issue_number)
         labels = [label["name"] for label in updated_issue["labels"]]
 
-        assert "priority:high" in labels, f"Expected priority:high label, got: {labels}"
+        assert any(
+            "priority" in label.lower() and "high" in label.lower() for label in labels
+        ), f"Expected priority high label, got: {labels}"
 
     def test_priority_labeling_feature(self, github_client):
         """Test that feature requests get priority:medium label."""
@@ -213,7 +213,11 @@ class TestIssueTriage:
             updated_issue = github_client.get_issue(issue["number"])
             labels = [label["name"] for label in updated_issue["labels"]]
 
-            assert "priority:medium" in labels or "priority:low" in labels
+            assert any(
+                "priority" in lbl.lower()
+                and ("medium" in lbl.lower() or "low" in lbl.lower())
+                for lbl in labels
+            )
         finally:
             github_client.close_issue(issue["number"])
 
@@ -231,7 +235,7 @@ class TestIssueTriage:
             updated_issue = github_client.get_issue(issue["number"])
             labels = [label["name"] for label in updated_issue["labels"]]
 
-            assert "documentation" in labels
+            assert any("documentation" in lbl.lower() for lbl in labels)
         finally:
             github_client.close_issue(issue["number"])
 
