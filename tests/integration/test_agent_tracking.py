@@ -18,11 +18,7 @@ from pathlib import Path
 
 import pytest
 
-# Mark entire module as xfail - tests require specific file structures
-pytestmark = pytest.mark.xfail(
-    reason="Agent tracking tests require specific file structures",
-    strict=False,
-)
+# Tests validate agent tracking file structures
 
 
 class TestJulesJournalFormat:

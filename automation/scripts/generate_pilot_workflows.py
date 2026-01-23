@@ -295,15 +295,140 @@ jobs:
 
         return workflow
 
+    def generate_status_sync(self) -> Optional[str]:
+        """Generate status-sync.yml with customizations."""
+        config = self.workflows.get("statusSync", {})
+        if not config.get("enabled", True):
+            return None
+
+        workflow = """name: Status Sync
+
+on:
+  pull_request:
+    types: [synchronize]
+  check_suite:
+    types: [completed]
+
+permissions:
+  pull-requests: write
+  statuses: write
+  contents: read
+
+jobs:
+  sync-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync PR status with checks
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: checks } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha
+            });
+
+            const allPassed = checks.check_runs.every(
+              check => check.conclusion === 'success'
+            );
+
+            console.log(`All checks passed: ${allPassed}`);
+
+      - name: Notify Slack on Failure
+        if: failure()
+        uses: ./.github/actions/slack-notify
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_ALERTS }}
+          priority: P2
+          title: "Status Sync Failed"
+          message: The status sync workflow failed.
+          workflow: status-sync
+          status: failure
+"""
+
+        return workflow
+
+    def generate_collect_metrics(self) -> Optional[str]:
+        """Generate collect-metrics.yml with customizations."""
+        config = self.workflows.get("workflowMetrics", {})
+        if not config.get("enabled", True):
+            return None
+
+        schedule = config.get("schedule", "0 */6 * * *")
+
+        workflow = f"""name: Collect Metrics
+
+on:
+  schedule:
+    - cron: '{schedule}'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  collect-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Collect workflow metrics
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runs = await github.rest.actions.listWorkflowRunsForRepo({{
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            }});
+
+            const metrics = {{
+              total_runs: runs.data.total_count,
+              success_count: runs.data.workflow_runs.filter(
+                r => r.conclusion === 'success'
+              ).length,
+              failure_count: runs.data.workflow_runs.filter(
+                r => r.conclusion === 'failure'
+              ).length
+            }};
+
+            console.log(JSON.stringify(metrics, null, 2));
+
+      - name: Notify Slack on Failure
+        if: failure()
+        uses: ./.github/actions/slack-notify
+        with:
+          webhook-url: ${{{{ secrets.SLACK_WEBHOOK_ALERTS }}}}
+          priority: P3
+          title: "Metrics Collection Failed"
+          message: The metrics collection workflow failed.
+          workflow: collect-metrics
+          status: failure
+"""
+
+        return workflow
+
+    def generate_auto_assign(self) -> Optional[str]:
+        """Generate auto-assign.yml - alias for auto-assign-reviewers."""
+        return self.generate_auto_assign_reviewers()
+
     def generate_all(self, output_dir: str = "./generated_workflows"):
         """Generate all workflow files."""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
 
+        # Generate all 5 required workflows
         workflows = {
             "issue-triage.yml": self.generate_issue_triage(),
-            "auto-assign-reviewers.yml": self.generate_auto_assign_reviewers(),
+            "auto-assign.yml": self.generate_auto_assign(),
+            "status-sync.yml": self.generate_status_sync(),
             "stale-management.yml": self.generate_stale_management(),
+            "collect-metrics.yml": self.generate_collect_metrics(),
         }
 
         for filename, content in workflows.items():

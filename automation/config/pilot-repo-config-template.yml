@@ -9,6 +9,43 @@ repository:
   visibility: public # or "private"
   language: Python # Primary language
 
+# Team Configuration
+team:
+  name: workflow-automation-team
+  leads:
+    - "@maintainer1"
+    - "@maintainer2"
+  members:
+    - "@your-org/team-backend"
+    - "@your-org/team-frontend"
+  oncall_rotation: weekly
+
+# Slack Webhook Configuration
+slack_webhook:
+  alerts: "${SLACK_WEBHOOK_ALERTS}"
+  notifications: "${SLACK_WEBHOOK_NOTIFICATIONS}"
+  channel: "#workflow-alerts"
+  mention_oncall: true
+
+# Priority Thresholds
+priority_thresholds:
+  P0:
+    response_time_minutes: 15
+    slack_channel: "#incidents"
+    notify_oncall: true
+  P1:
+    response_time_minutes: 60
+    slack_channel: "#workflow-alerts"
+    notify_oncall: true
+  P2:
+    response_time_minutes: 240
+    slack_channel: "#workflow-alerts"
+    notify_oncall: false
+  P3:
+    response_time_minutes: 1440
+    slack_channel: "#workflow-updates"
+    notify_oncall: false
+
 # Evaluation Scores (from evaluate_repository.py)
 evaluation:
   totalScore: 85.0

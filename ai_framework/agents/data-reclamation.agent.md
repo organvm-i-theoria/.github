@@ -1,6 +1,7 @@
 ---
-
-## name: "Data Reclamation" description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or"
+name: "Data Reclamation"
+description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or accidentally deleted data from various sources with comprehensive recovery strategies"
+---
 
 # Data Reclamation Agent
 

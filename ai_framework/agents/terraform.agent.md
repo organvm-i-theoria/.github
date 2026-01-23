@@ -1,6 +1,7 @@
 ---
-
-## name: "Terraform Agent" description: "Terraform infrastructure specialist with automated HCP Terraform workflows. Leverages Terraform"
+name: "Terraform Agent"
+description: "Terraform infrastructure specialist with automated HCP Terraform workflows. Leverages Terraform MCP server for registry integration, workspace management, and run orchestration."
+---
 
 ## 🎯 Core Workflow
 

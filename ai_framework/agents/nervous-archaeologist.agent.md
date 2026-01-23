@@ -1,6 +1,7 @@
 ---
-
-## name: "nervous-archaeologist" description: "Nervous Archaeologist Agent - description: Nervous Archaeologist Agent -"
+name: "nervous-archaeologist"
+description: "Nervous Archaeologist Agent - Compulsive data excavation and archaeological analysis specialist that exhaustively scans repositories, generates actionable tasks, creates persistent memories, and produces comprehensive reports while ensuring no data is overlooked"
+---
 
 # Nervous Archaeologist Agent
 

@@ -180,6 +180,17 @@ EMAIL_TEMPLATE = """
                 <p><strong>Executive Summary:</strong> {summary}</p>
             </div>
 
+            <div class="section">
+                <h2>Key Metrics</h2>
+            </div>
+
+            <table class="metrics-table" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                <tr>
+                    <td style="padding: 8px; text-align: center;">Success Rate: {success_rate}%</td>
+                    <td style="padding: 8px; text-align: center;">Total Runs: {total_runs}</td>
+                </tr>
+            </table>
+
             <div class="metrics">
                 <div class="metric">
                     <div class="metric-label">Success Rate</div>
@@ -284,8 +295,9 @@ def generate_summary(metrics: dict) -> str:
 
     return (
         f"This week's workflow automation showed {quality} performance "
-        f"with {total_runs} total executions and a {success_rate}% success rate."
-    )  # noqa: E501
+        f"with {total_runs} total executions and a "
+        f"{success_rate}% success rate."
+    )
 
 
 def generate_trend_commentary(metrics: dict) -> tuple:
@@ -351,10 +363,12 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
                     time_ago=format_time_ago(event["created_at"]),
                 )
             )
-        events_html = EVENTS_SECTION_TEMPLATE.format(events="\n".join(event_items))
+        events_html = EVENTS_SECTION_TEMPLATE.format(
+            events="\n".join(event_items)
+        )
 
     # Generate HTML
-    _digest_html = EMAIL_TEMPLATE.format(  # noqa: F841
+    digest_html = EMAIL_TEMPLATE.format(
         period_start=period_start,
         period_end=period_end,
         summary=summary,

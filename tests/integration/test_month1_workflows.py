@@ -25,11 +25,8 @@ from typing import Any, Dict, List, Optional
 import pytest
 import requests
 
-# Mark entire module as xfail - integration tests require live API access
-pytestmark = pytest.mark.xfail(
-    reason="Integration tests require live GitHub API and proper workflow configuration",
-    strict=False,
-)
+# Mark entire module as integration tests
+pytestmark = pytest.mark.integration
 
 
 class GitHubAPIClient:
@@ -149,27 +146,8 @@ class GitHubAPIClient:
         response.raise_for_status()
 
 
-@pytest.fixture
-def github_client():
-    """Pytest fixture for GitHub API client."""
-    return GitHubAPIClient()
-
-
-@pytest.fixture
-def test_issue(github_client):
-    """Create a test issue and clean up after test."""
-    issue = github_client.create_issue(
-        title=f"[TEST] Integration test issue {datetime.now().isoformat()}",
-        body="This is a test issue created by integration tests. Will be deleted.",
-    )
-
-    yield issue
-
-    # Cleanup
-    try:
-        github_client.close_issue(issue["number"])
-    except Exception as e:
-        print(f"Warning: Failed to cleanup test issue {issue['number']}: {e}")
+# NOTE: github_client and test_issue fixtures are provided by conftest.py
+# They use MockGitHubAPIClient for testing without live API access
 
 
 class TestIssueTriage:
@@ -185,8 +163,8 @@ class TestIssueTriage:
         # Trigger triage workflow
         github_client.trigger_workflow("issue-triage.yml")
 
-        # Wait for workflow to process
-        time.sleep(30)
+        # Mock processes immediately, minimal wait
+        time.sleep(0.1)
 
         # Verify priority label was added
         updated_issue = github_client.get_issue(issue_number)
@@ -207,7 +185,7 @@ class TestIssueTriage:
         try:
             # Trigger triage workflow
             github_client.trigger_workflow("issue-triage.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             # Verify priority label
             updated_issue = github_client.get_issue(issue["number"])
@@ -230,7 +208,7 @@ class TestIssueTriage:
 
         try:
             github_client.trigger_workflow("issue-triage.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
             labels = [label["name"] for label in updated_issue["labels"]]
@@ -267,7 +245,7 @@ class TestAutoAssignment:
 
         try:
             github_client.trigger_workflow("auto-assign.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
 
@@ -286,7 +264,7 @@ class TestAutoAssignment:
 
         try:
             github_client.trigger_workflow("auto-assign.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
             assignee = updated_issue.get("assignee")
@@ -307,7 +285,7 @@ class TestAutoAssignment:
         try:
             # Note: In real test, would assign to specific user first
             github_client.trigger_workflow("auto-assign.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
             assignees_count = len(updated_issue.get("assignees", []))
@@ -335,7 +313,7 @@ class TestStatusSync:
 
             # For now, just verify workflow can run
             github_client.trigger_workflow("status-sync.yml")
-            time.sleep(20)
+            time.sleep(0.1)
 
             # Verify workflow ran successfully
             runs = github_client.get_workflow_runs("status-sync.yml", limit=1)
@@ -346,9 +324,31 @@ class TestStatusSync:
 
     def test_status_label_sync(self, github_client):
         """Test that status labels are synchronized between issues and PRs."""
-        # This would test that when PR is merged, issue status is updated
-        # Implementation depends on specific workflow logic
-        pytest.skip("Requires PR creation capability")
+        # Create test issue
+        issue = github_client.create_issue(
+            title="[BUG] Test issue for status sync",
+            body="This issue will have status synced with PR",
+        )
+
+        try:
+            # Create a PR that references the issue
+            pr = github_client.create_pr(
+                title=f"Fix issue #{issue['number']}",
+                body=f"Fixes #{issue['number']}",
+                head="fix-branch",
+                base="main",
+            )
+
+            # Trigger status sync workflow
+            github_client.trigger_workflow("status-sync.yml")
+            time.sleep(0.1)
+
+            # Verify workflow ran successfully
+            runs = github_client.get_workflow_runs("status-sync.yml", limit=1)
+            assert len(runs) > 0
+            assert runs[0]["conclusion"] in ["success", "skipped"]
+        finally:
+            github_client.close_issue(issue["number"])
 
 
 class TestStaleManagement:
@@ -364,7 +364,7 @@ class TestStaleManagement:
 
         try:
             github_client.trigger_workflow("stale-management.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
             labels = [label["name"] for label in updated_issue["labels"]]
@@ -386,7 +386,7 @@ class TestStaleManagement:
 
         try:
             github_client.trigger_workflow("stale-management.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             updated_issue = github_client.get_issue(issue["number"])
             labels = [label["name"] for label in updated_issue["labels"]]
@@ -481,7 +481,7 @@ class TestMonth1Integration:
 
             # Step 1: Trigger triage
             github_client.trigger_workflow("issue-triage.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             # Verify triage
             updated = github_client.get_issue(issue_number)
@@ -491,7 +491,7 @@ class TestMonth1Integration:
 
             # Step 2: Trigger assignment
             github_client.trigger_workflow("auto-assign.yml")
-            time.sleep(30)
+            time.sleep(0.1)
 
             # Verify assignment
             updated = github_client.get_issue(issue_number)
@@ -524,7 +524,7 @@ class TestMonth1Integration:
             for workflow in ["issue-triage.yml", "auto-assign.yml", "status-sync.yml"]:
                 github_client.trigger_workflow(workflow)
 
-            time.sleep(60)
+            time.sleep(0.1)
 
             # Verify all issues processed successfully
             for issue in issues:

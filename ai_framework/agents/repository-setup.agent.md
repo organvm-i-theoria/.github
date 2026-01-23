@@ -1,6 +1,7 @@
 ---
-
-## name: "Repository Setup" description: "Repository Setup Agent - Automates the creation and configuration"
+name: "Repository Setup"
+description: "Repository Setup Agent - Automates the creation and configuration of new repositories following organization standards and best practices"
+---
 
 # Repository Setup Agent
 

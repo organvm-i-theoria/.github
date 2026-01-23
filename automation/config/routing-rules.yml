@@ -1,5 +1,20 @@
 # Intelligent Routing Configuration
 # Used by automation/scripts/intelligent_routing.py
+#
+# Scaling: Supports 15+ repositories with multi-repo configuration
+# Each repository can have custom routing rules or use global defaults
+
+# Repository-specific configuration
+repositories:
+  default:
+    use_global_rules: true
+  # Example per-repo overrides:
+  # my-org/critical-repo:
+  #   priority_routing:
+  #     p0:
+  #       min_expertise_score: 0.9
+  #   exempt_labels:
+  #     - ceo-review-required
 
 routing:
   # Expertise weights for routing decisions

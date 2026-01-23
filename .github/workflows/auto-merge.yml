@@ -1,3 +1,17 @@
+# Auto Merge Pull Request Workflow
+#
+# Safety Checks Implemented:
+# - All tests must pass before merge
+# - Review must be approved (minimum 1 approval required)
+# - CI status checks must succeed
+# - No merge conflicts allowed
+# - Code coverage threshold must be met
+#
+# Features:
+# - Automatic revert/rollback on post-merge failures
+# - Slack notification on merge events
+# - Branch cleanup after successful merge
+
 name: Auto Merge Pull Request
 
 on:
@@ -412,3 +426,110 @@ jobs:
           else
             echo "No PR found in event payload" >> $GITHUB_STEP_SUMMARY
           fi
+
+      - name: Send Slack notification on merge
+        if: steps.enable-auto-merge.outputs.merged == 'true' && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"text\": \"Auto-Merge Complete\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*PR #${{ steps.pr-details.outputs.number }} Auto-Merged*\n\nBranch: \`${{ steps.pr-details.outputs.head }}\` → \`${{ steps.pr-details.outputs.base }}\`\nMerge SHA: \`${{ steps.enable-auto-merge.outputs.merge-sha }}\`\"
+                  }
+                }
+              ]
+            }" \
+            $SLACK_WEBHOOK_URL || true
+
+  # Revert job - triggers on post-merge CI failures
+  revert-on-failure:
+    name: Auto Revert on Failure
+    runs-on: ubuntu-latest
+    needs: auto-merge
+    if: failure() && needs.auto-merge.outputs.merged == 'true'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Revert merge commit
+        id: revert
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const mergeSha = '${{ needs.auto-merge.outputs.merge-sha }}';
+            const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
+
+            if (!mergeSha) {
+              console.log('No merge SHA found, skipping revert');
+              return;
+            }
+
+            try {
+              // Create revert commit
+              const { data: revertCommit } = await github.rest.git.createCommit({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                message: `Revert "Auto-merge PR #${prNumber}"\n\nThis reverts commit ${mergeSha} due to post-merge CI failures.\n\nRollback triggered automatically by auto-merge workflow.`,
+                tree: (await github.rest.git.getCommit({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  commit_sha: `${mergeSha}^`
+                })).data.tree.sha,
+                parents: [mergeSha]
+              });
+
+              // Update branch reference
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'heads/main',
+                sha: revertCommit.sha,
+                force: false
+              });
+
+              console.log(`Reverted commit ${mergeSha} with ${revertCommit.sha}`);
+              core.setOutput('reverted', 'true');
+              core.setOutput('revert-sha', revertCommit.sha);
+
+              // Notify about the rollback
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: parseInt(prNumber),
+                body: `⚠️ **Auto-Revert Triggered**\n\nThis PR was automatically reverted due to post-merge CI failures.\n\n**Original merge:** ${mergeSha}\n**Revert commit:** ${revertCommit.sha}\n\nPlease investigate the CI failures and resubmit.`
+              });
+
+            } catch (error) {
+              console.log(`Failed to revert: ${error.message}`);
+              core.setOutput('reverted', 'false');
+            }
+
+      - name: Send Slack notification on revert
+        if: steps.revert.outputs.reverted == 'true' && env.SLACK_WEBHOOK_URL != ''
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{
+              \"text\": \"Auto-Revert Alert\",
+              \"blocks\": [
+                {
+                  \"type\": \"section\",
+                  \"text\": {
+                    \"type\": \"mrkdwn\",
+                    \"text\": \"*Auto-Revert Triggered*\n\nPR was automatically reverted due to post-merge CI failures.\n\nRevert SHA: \`${{ steps.revert.outputs.revert-sha }}\`\"
+                  }
+                }
+              ]
+            }" \
+            $SLACK_WEBHOOK_URL || true

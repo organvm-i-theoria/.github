@@ -29,11 +29,8 @@ from unittest.mock import Mock, patch
 import pytest
 import requests
 
-# Mark entire module as xfail - tests check for features not yet implemented
-pytestmark = pytest.mark.xfail(
-    reason="Month 3 advanced features not fully implemented",
-    strict=False,
-)
+# Month 3 advanced features are now implemented
+# Previously marked as xfail, now all tests should pass
 
 
 class TestAutoMerge:

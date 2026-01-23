@@ -39,14 +39,14 @@ class RepositoryMetrics:
 class RepositoryEvaluator:
     """Evaluates repositories for workflow deployment readiness."""
 
-    # Scoring weights
+    # Scoring weights for the 6 evaluation categories
     WEIGHTS = {
-        "activity": 0.30,
-        "documentation": 0.20,
-        "size": 0.15,
-        "health": 0.15,
-        "community": 0.10,
-        "infrastructure": 0.10,
+        "complexity": 0.15,  # Repository complexity score
+        "activity": 0.25,    # Repository activity score
+        "health": 0.20,      # Repository health score
+        "team": 0.15,        # Team engagement score
+        "maintenance": 0.15, # Maintenance burden score
+        "readiness": 0.10,   # Workflow deployment readiness score
     }
 
     # Thresholds
@@ -149,61 +149,64 @@ class RepositoryEvaluator:
 
         return commit_score + pr_score + issue_score
 
-    def calculate_documentation_score(
-        self, has_codeowners: bool, has_contributing: bool
-    ) -> float:
-        """Calculate documentation score (0-100)."""
-        score = 0
-        if has_codeowners:
-            score += 50  # CODEOWNERS is critical
-        if has_contributing:
-            score += 50  # CONTRIBUTING.md is important
-        return score
+    def calculate_complexity_score(self, info: Dict) -> float:
+        """Calculate repository complexity score (0-100).
 
-    def calculate_size_score(self, info: Dict) -> float:
-        """Calculate repository size score (0-100)."""
-        # Prefer medium-sized active repositories
+        Lower complexity is better for pilot repositories.
+        """
+        # Based on size and languages
         stars = info.get("stargazerCount", 0)
         forks = info.get("forkCount", 0)
 
-        star_score = min(stars * 2, 50)  # Max 50 points
-        fork_score = min(forks * 5, 50)  # Max 50 points
+        # Medium-sized repos get higher scores (easier to manage)
+        if 10 <= stars <= 100 and 2 <= forks <= 20:
+            return 100  # Ideal complexity
+        elif stars <= 500 and forks <= 50:
+            return 75
+        elif stars <= 1000 and forks <= 100:
+            return 50
+        else:
+            return 25  # Large repos are more complex
 
-        return star_score + fork_score
+    def calculate_team_score(
+        self, has_codeowners: bool, has_contributing: bool
+    ) -> float:
+        """Calculate team engagement score (0-100)."""
+        score = 0
+        if has_codeowners:
+            score += 50  # CODEOWNERS indicates team structure
+        if has_contributing:
+            score += 50  # CONTRIBUTING.md indicates team processes
+        return score
 
-    def calculate_health_score(self, info: Dict) -> float:
-        """Calculate repository health score (0-100)."""
-        # Balance between activity and manageability
+    def calculate_maintenance_score(self, info: Dict) -> float:
+        """Calculate maintenance burden score (0-100).
+
+        Higher score means more manageable maintenance burden.
+        """
         open_issues = info.get("openIssues", 0)
         open_prs = info.get("openPRs", 0)
 
-        # Too many open items suggests maintenance issues
+        # Calculate based on manageable backlog
         # Sweet spot: 5-30 issues, 2-15 PRs
-        issue_score = 50 if 5 <= open_issues <= 30 else 25
-        pr_score = 50 if 2 <= open_prs <= 15 else 25
+        if 5 <= open_issues <= 30:
+            issue_score = 50
+        elif open_issues < 5:
+            issue_score = 40  # Low activity
+        else:
+            issue_score = max(0, 50 - (open_issues - 30))  # Penalize high backlog
+
+        if 2 <= open_prs <= 15:
+            pr_score = 50
+        elif open_prs < 2:
+            pr_score = 40  # Low activity
+        else:
+            pr_score = max(0, 50 - (open_prs - 15) * 2)  # Penalize high backlog
 
         return issue_score + pr_score
 
-    def calculate_community_score(self, info: Dict) -> float:
-        """Calculate community engagement score (0-100)."""
-        stars = info.get("stargazerCount", 0)
-        forks = info.get("forkCount", 0)
-
-        # Higher stars/forks indicate active community
-        if stars > 100 or forks > 20:
-            return 100
-        elif stars > 50 or forks > 10:
-            return 75
-        elif stars > 20 or forks > 5:
-            return 50
-        elif stars > 5 or forks > 2:
-            return 25
-        else:
-            return 0
-
-    def calculate_infrastructure_score(self, has_labels: bool) -> float:
-        """Calculate infrastructure readiness score (0-100)."""
-        # Check for existing workflow infrastructure
+    def calculate_readiness_score(self, has_labels: bool) -> float:
+        """Calculate workflow deployment readiness score (0-100)."""
         score = 0
 
         if has_labels:
@@ -218,6 +221,23 @@ class RepositoryEvaluator:
             score += 25
 
         return score
+
+    def calculate_health_score(self, info: Dict) -> float:
+        """Calculate repository health score (0-100)."""
+        stars = info.get("stargazerCount", 0)
+        forks = info.get("forkCount", 0)
+
+        # Higher stars/forks indicate healthy community engagement
+        if stars > 100 or forks > 20:
+            return 100
+        elif stars > 50 or forks > 10:
+            return 75
+        elif stars > 20 or forks > 5:
+            return 50
+        elif stars > 5 or forks > 2:
+            return 25
+        else:
+            return 0
 
     def calculate_total_score(self, scores: Dict[str, float]) -> float:
         """Calculate weighted total score."""
@@ -262,16 +282,14 @@ class RepositoryEvaluator:
 
         weekly_commits = self.get_commit_activity()
 
-        # Calculate scores
+        # Calculate scores for all 6 categories
         scores = {
+            "complexity": self.calculate_complexity_score(info),
             "activity": self.calculate_activity_score(info, weekly_commits),
-            "documentation": self.calculate_documentation_score(
-                has_codeowners, has_contributing
-            ),
-            "size": self.calculate_size_score(info),
             "health": self.calculate_health_score(info),
-            "community": self.calculate_community_score(info),
-            "infrastructure": self.calculate_infrastructure_score(has_labels),
+            "team": self.calculate_team_score(has_codeowners, has_contributing),
+            "maintenance": self.calculate_maintenance_score(info),
+            "readiness": self.calculate_readiness_score(has_labels),
         }
 
         total_score = self.calculate_total_score(scores)

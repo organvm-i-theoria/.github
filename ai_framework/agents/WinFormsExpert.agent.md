@@ -1,6 +1,7 @@
 ---
-
-## name: "WinForms Expert" description: "Support development of .NET (OOP) WinForms Designer compatible Apps. #version: 2025-10-24a description: Support development of .NET (OOP) WinForms Designer compatible Apps. #version: 2025-10-24a"
+name: "WinForms Expert"
+description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
+---
 
 ## 🎯 Critical Generic WinForms Issue: Dealing with Two Code Contexts
 

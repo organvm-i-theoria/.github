@@ -1,6 +1,7 @@
 ---
-
-## name: "launchdarkly-flag-cleanup" description: "> A specialized GitHub Copilot agent that uses the LaunchDarkly"
+name: "launchdarkly-flag-cleanup"
+description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
+---
 
 ## Use Case 1: Flag Removal
 

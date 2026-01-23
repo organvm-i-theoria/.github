@@ -1,6 +1,7 @@
 ---
-
-## name: "Data Decommissioning" description: "Data Decommissioning Agent - Securely removes data and systems"
+name: "Data Decommissioning"
+description: "Data Decommissioning Agent - Securely removes data and systems following compliance requirements, ensuring complete and verifiable data destruction"
+---
 
 # Data Decommissioning Agent
 

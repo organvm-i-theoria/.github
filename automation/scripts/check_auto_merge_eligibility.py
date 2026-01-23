@@ -4,11 +4,18 @@ Auto-Merge Eligibility Checker
 
 Checks if a pull request meets all safety criteria for automatic merging.
 Implements comprehensive validation including:
-- CI/CD status checks
-- Code review requirements
-- Merge conflict detection
+- Label check: PR must have auto-merge label or be auto-created
+- CI/CD status checks: All tests must pass
+- Code review requirements: Required approvals obtained (review approved)
+- Merge conflict detection: No conflicts allowed
 - Branch currency verification
 - Code coverage thresholds
+
+Eligibility Criteria:
+1. Label: PR must have 'auto-merge' or 'automerge' label, or be auto-created
+2. Approved: Minimum required reviews must be approved
+3. Test: All CI tests must pass
+4. Conflict: No merge conflicts allowed
 
 Usage:
     python check_auto_merge_eligibility.py --owner ORG --repo REPO --pr PR_NUMBER  # noqa: E501
