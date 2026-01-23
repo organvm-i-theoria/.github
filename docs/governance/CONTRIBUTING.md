@@ -105,6 +105,43 @@ Documentation improvements are always welcome! Use our
 [Documentation template](../../.github/ISSUE_TEMPLATE/documentation.yml) for doc
 issues.
 
+## Repository Organization Guidelines
+
+Follow our [Repository Structure Standards](../reference/REPOSITORY_STRUCTURE.md) when adding files.
+
+### File Placement
+
+| Content Type | Location |
+|--------------|----------|
+| Documentation | `docs/guides/`, `docs/reference/` |
+| Tests | `tests/` |
+| Scripts | `scripts/` |
+| Workflows | `.github/workflows/` |
+| Status reports | `reports/` or `archive/` |
+
+### Root Directory
+
+- Keep root clean (max 15 essential files)
+- No status/completion files (`*STATUS*.md`, `*COMPLETE*.md`)
+- No test results (`test-results*.json`)
+
+### Naming Conventions
+
+- Documentation: `UPPER_SNAKE_CASE.md`
+- Python: `snake_case.py`
+- Shell scripts: `kebab-case.sh`
+- Config files: `kebab-case.yml`
+
+### Validation
+
+Run the validation script before submitting:
+
+```bash
+./scripts/validate-repository-structure.sh
+```
+
+See the [Quick Reference](../reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) for more details.
+
 ## Code Style Guidelines
 
 ### Python
