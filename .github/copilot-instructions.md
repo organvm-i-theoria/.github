@@ -5,13 +5,14 @@ globs: *
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
-## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
-
 ## PROJECT OVERVIEW
 
 ## CODE STYLE
 
 ## FOLDER ORGANIZATION
+
+- When cleaning up a repository, create an `archive/` directory to move obsolete files, scripts, and reports.
+- Within `archive/`, create subdirectories such as `deployment/`, `monitoring/`, `status-reports/`, `github-projects/`, and `test-results/` to categorize archived items.
 
 ## TECH STACK
 
@@ -49,7 +50,7 @@ globs: *
   implementation:
   - VERSION file as source of truth (currently: 1.0.0)
   - package.json with version and scripts
-  - Automated version sync via `scripts/sync-version.js`
+  - Automated version sync via `scripts/sync_version.js`
   - Version bump workflows in GitHub Actions
   - Follows MAJOR.MINOR.PATCH format
   - Conventional commits for version determination
@@ -233,11 +234,11 @@ globs: *
     1. **Token Identification:** Identify all instances where the
        "master-org-token-011726" or "master-org-personal-access-token" is
        referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
+    1. **Usage Analysis:** Analyze how the token is being used across the
        organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
+    1. **Scope Determination:** Determine the scope of the issue by identifying
        all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
        configured with the token.
   - **Resolution Guidelines:**
     - **Comprehensive Analysis Document:** Create a detailed analysis document
@@ -258,19 +259,18 @@ globs: *
     - **Migration Plan:** Replace single master token with purpose-specific
       tokens by 2026-02-18
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
-
-- **1Password Authentication Troubleshooting:**
-  - **Issue**: 1Password CLI shows as signed in, but still cannot access the
-    vault and requires re-authentication.
-  - **Root Cause**: Likely due to a missing integration between the 1Password
-    CLI and the desktop app, or biometric lock settings.
-  - **Solution**:
-    1. **Open 1Password Desktop App:** Ensure the 1Password desktop application
-       is running.
-    1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
-       with 1Password CLI" and ensure this option is turned ON.
-    1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
-       CLI" biometric unlock for added convenience.
+    - **1Password Authentication Troubleshooting:**
+      - **Issue**: 1Password CLI shows as signed in, but still cannot access the
+        vault and requires re-authentication.
+      - **Root Cause**: Likely due to a missing integration between the
+        1Password CLI and the desktop app, or biometric lock settings.
+      - **Solution**:
+        1. **Open 1Password Desktop App:** Ensure the 1Password desktop
+           application is running.
+        1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
+           with 1Password CLI" and ensure this option is turned ON.
+        1. **Enable Biometric Unlock (Optional):** Enable "Connect with
+           1Password CLI" biometric unlock for added convenience.
 
 ## FINAL DOs AND DON'Ts
 
@@ -460,6 +460,7 @@ globs: *
           }
       }
   }
+
   ```
 
 - **Master Org Token Security and Contextual Awareness:**
@@ -470,11 +471,11 @@ globs: *
     1. **Token Identification:** Identify all instances where the
        "master-org-token-011726" or "master-org-personal-access-token" is
        referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
+    1. **Usage Analysis:** Analyze how the token is being used across the
        organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
+    1. **Scope Determination:** Determine the scope of the issue by identifying
        all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
+    1. **Secret Scanning:** Check for organization secrets or repository secrets
        configured with the token.
   - **Resolution Guidelines:**
     - **Comprehensive Analysis Document:** Create a detailed analysis document
@@ -495,217 +496,64 @@ globs: *
     - **Migration Plan:** Replace single master token with purpose-specific
       tokens by 2026-02-18
     - GitHub Personal Access Tokens (Classic) REQUIRE the Web UI.
+  - **1Password Authentication Troubleshooting:**
+    - **Issue**: 1Password CLI shows as signed in, but still cannot access the
+      vault and requires re-authentication.
+    - **Root Cause**: Likely due to a missing integration between the 1Password
+      CLI and the desktop app, or biometric lock settings.
+    - **Solution**:
+      1. **Open 1Password Desktop App:** Ensure the 1Password desktop
+         application is running.
+      1. **Enable CLI Integration:** Go to Settings -> Developer -> "Integrate
+         with 1Password CLI" and ensure this option is turned ON.
+      1. **Enable Biometric Unlock (Optional):** Enable "Connect with 1Password
+         CLI" biometric unlock for added convenience.
 
-## FINAL DOs AND DON'Ts
+- **Repository Cleanup and Archiving:**
+  - When cleaning up a repository:
+    1.  Create an organized archive structure for historical documentation.
+    2.  Relocate deployment artifacts, monitoring documentation, status reports, GitHub Projects documentation, and test results to their respective archive directories.
+    3.  Ensure the root directory contains only essential files such as `README.md`, `CHANGELOG.md`, schema implementation guides, version files, configuration files, and license files.
+    4.  Enhance documentation by creating a comprehensive `archive/README.md` explaining the archive structure, purpose of each category, archival policy, and links to active documentation.
+    5.  Update the `.gitignore` file to ignore future temporary files like test results and status files.
 
-- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
-  to create organization projects, use a Personal Access Token (PAT) instead.
+- **Multi-Organization Ecosystem Strategy:**
+  - The organization ecosystem consists of four entities:
+    1. **ivviiviivvi:** Core infrastructure, AI framework, production systems.
+    2. **labores-profani-crux:** _Purpose to be determined_.
+    3. **omni-dromenon-machina:** _Purpose to be determined_.
+    4. **4444J99:** Personal learning, experiments, knowledge base, forks.
+  - Repository distribution should align with the purpose of each organization.
+  - "Money-making" repositories should be placed in their logical, business-focused organization.
+  - Repositories for personal use should remain in the personal account (4444J99).
+  - **Action:** Create a `MULTI_ORG_DISTRIBUTION_STRATEGY.md` document that:
+    1. Categorizes all repositories by recommended organization.
+    2. Defines each organization's purpose and repository criteria.
+    3. Creates migration plans for moving repositories between organizations.
+    4. Establishes cross-organization integration patterns (shared .github infrastructure, common workflows, cross-org automation).
+    5. Documents the "macro level interactions" architecture.
 
-- Single select options in GitHub Projects require a non-null "description"
-  field in the GraphQL API request. Ensure that the script populating the single
-  select options include this field. See `configure-github-projects.py` for an
-  example.
+- **Multi-Organization Ecosystem Strategy (Revised):**
+  - The organization ecosystem consists of four entities, each with a defined function:
+    1. **ivviiviivvi:** Conceptual / Symbolic Engine - Generates, tests, and preserves formal thinking (rules, grammars, symbolic models, ontologies). It is upstream of all other organs.
+    2. **omni-dromenon-machina:** Art / Enactment / Experiential Systems - Turns symbolic structures into events, experiences, performances, and temporal works.
+    3. **labores-profani-crux:** Commerce / Applied Labor / Survival Surface - Performs work in the world under constraint, acknowledging the necessity of income, clients, and deadlines.
+    4. **Orchestration Layer:**  Governance / Flow Control / System Integrity - Coordinates, enforces boundaries, decides what moves between organs, and maintains documentation. This is not a separate GitHub organization but a function.
+    5. **Public Process:** Translucent Visibility / Attention Filtering - Makes process visible without resolving it, releasing essays, fragments, and partial thoughts.
+    6. **Community:** Reciprocal Continuity - Exists only for people who have already demonstrated sustained interest, focusing on conversation and shared reference.
+    7. **Marketing:** Attention Routing - Exists purely to route attention through announcements and templates.
+    8. **4444J99 (Personal Profile):** Liminal Incubation Zone - A transitional space for drafts, experiments, and volatile ideas.
 
-- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
-  reserved value" error can occur if you attempt to create fields that have
-  names that are already reserved by GitHub. Avoid creating fields named
-  "Status" or "Type" as these are often pre-defined or reserved.
+  - **Repository Distribution:** Repository distribution should align with the purpose of each organization. "Money-making" repositories should be placed in their logical, business-focused organization. Repositories for personal use should remain in the personal account (4444J99).
 
-- To avoid the error where custom field creation fails with "Variable $input of
-  type CreateProjectV2FieldInput! was provided invalid value for
-  singleSelectOptions.X.description (Expected value to not be null)", ensure
-  that the python script includes logic to add an empty description to each
-  options: e.g.,
+  - **Key Principles:**
+    - Each organ has a defined purpose, permissions, prohibitions, cadence, and interfaces.
+    - The Orchestration Layer (function) governs the flow and boundaries between organs.
+    - Personal profiles (like 4444J99) serve as liminal incubation zones.
 
-  ```python
-  # Add empty description to each option (required by API)
-  options_with_desc = [
-      {**opt, "description": ""} for opt in options
-  ]
-
-  variables = {
-      "input": {
-          "projectId": project_id,
-          "dataType": "SINGLE_SELECT",
-          "name": name,
-          "singleSelectOptions": options_with_desc
-  ```
-
-- Here's the updated `PROJECTS_CONFIG` section in the
-  `configure-github-projects.py` file:
-
-  ```python
-  # Project configurations
-  PROJECTS_CONFIG = {
-      "ai-framework": {
-          "title": "🤖 AI Framework Development",
-          "description": """Development and maintenance of the AI framework including:
-  - 26+ specialized agents
-  - MCP servers for 11 programming languages
-  - 100+ custom instructions
-  - Chat modes and collections
-  - Automated tracking of agent lifecycle, testing, and deployment
-
-  **Key Areas:**
-  - Agent development and testing
-  - MCP server implementation
-  - Custom instructions authoring
-  - Chat mode configuration
-  - Framework enhancements and bug fixes""",
-          "fields": {
-              "Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🎯 Planned", "color": "GRAY", "description": ""},
-                      {"name": "🔬 Research", "color": "BLUE", "description": ""},
-                      {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
-                      {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
-                      {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
-                      {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
-                      {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
-                      {"name": "📝 Documentation", "color": "BLUE", "description": ""},
-                      {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
-                      {"name": "✔️ Completed", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Critical", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
-                      {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
-                      {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
-                      {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
-                      {"name": "📦 Collection", "color": "ORANGE", "description": ""},
-                      {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
-                      {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
-                  ]
-              },
-              "Language": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "Python", "color": "BLUE", "description": ""},
-                      {"name": "TypeScript", "color": "BLUE", "description": ""},
-                      {"name": "Java", "color": "RED", "description": ""},
-                      {"name": "C#", "color": "PURPLE", "description": ""},
-                      {"name": "Go", "color": "BLUE", "description": ""},
-                      {"name": "Rust", "color": "ORANGE", "description": ""}
-                  ]
-              },
-              "Complexity": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🟢 Simple", "color": "GREEN", "description": ""},
-                      {"name": "🟡 Moderate", "color": "YELLOW", "description": ""},
-                      {"name": "🟠 Complex", "color": "ORANGE", "description": ""},
-                      {"name": "🔴 Major", "color": "RED", "description": ""}
-                  ]
-              },
-              "Dependencies": {"type": "text"},
-              "Testing Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "⏳ Not Started", "color": "GRAY", "description": ""},
-                      {"name": "🧪 Unit Tests", "color": "YELLOW", "description": ""},
-                      {"name": "🔗 Integration Tests", "color": "ORANGE", "description": ""},
-                      {"name": "✅ All Tests Passing", "color": "GREEN", "description": ""}
-                  ]
-              }
-          }
-      },
-      "documentation": {
-          "title": "📚 Documentation &amp; Knowledge",
-          "description": """Documentation ecosystem management across 133+ files:
-  - Setup guides and quick starts
-  - Architecture documentation
-  - API references and technical guides
-  - Tutorials and learning resources
-  - Policy documents
-
-  **Coverage:**
-  - Core organizational policies
-  - Workflow system documentation
-  - AI framework guides
-  - Development environment setup
-  - Security and compliance docs""",
-          "fields": {
-              "Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "📋 Backlog", "color": "GRAY", "description": ""},
-                      {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
-                      {"name": "👀 Review", "color": "ORANGE", "description": ""},
-                      {"name": "🔄 Revision", "color": "BLUE", "description": ""},
-                      {"name": "✅ Approved", "color": "GREEN", "description": ""},
-                      {"name": "📤 Published", "color": "GREEN", "description": ""},
-                      {"name": "🔄 Needs Update", "color": "RED", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Urgent", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Document Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "📖 Guide", "color": "BLUE", "description": ""},
-                      {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
-                      {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
-                      {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
-                      {"name": "📋 Policy", "color": "RED", "description": ""},
-                      {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
-                  ]
-              },
-              "Completeness": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔴 Outline Only", "color": "RED", "description": ""},
-                      {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
-                      {"name": "🟢 Complete", "color": "GREEN", "description": ""},
-                      {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Last Updated": {"type": "date"},
-              "Next Review Date": {"type": "date"},
-              "Word Count": {"type": "number"}
-          }
-      }
-  }
-  ```
-
-- **Master Org Token Security and Contextual Awareness:**
-  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
-    being accessed by multiple repositories, raising security and access
-    management concerns.
-  - **Investigation Steps:**
-    1. **Token Identification:** Identify all instances where the
-       "master-org-token-011726" or "master-org-personal-access-token" is
-       referenced.
-    2. **Usage Analysis:** Analyze how the token is being used across the
-       organization, including in GitHub workflows, scripts, and documentation.
-    3. **Scope Determination:** Determine the scope of the issue by identifying
-       all affected repositories and resources.
-    4. **Secret Scanning:** Check for organization secrets or repository secrets
-       configured with the token.
-  - **Resolution Guidelines:**
-    - **Comprehensive Analysis Document:** Create a detailed analysis document
-      to address the contextual awareness issue, outlining the token's usage,
-      affected areas, and proposed solutions.
-    - **Token Rotation:** Rotate the "master-org-token-011726" PAT to mitigate
-      potential security risks.
-    - **Secure Token Storage:** Store tokens securely, preferably in 1Password,
-      and limit token scopes to only the necessary permissions.
-    - **Access Management Review:** Review and update access management policies
+  - **Action:** Create a `MULTI_ORG_DISTRIBUTION_STRATEGY.md` document that:
+    1. Categorizes all repositories by recommended organization, based on the organ functions defined above.
+    2. Defines each organization's purpose and repository criteria (as outlined in the organ descriptions).
+    3. Creates migration plans for moving repositories between organizations.
+    4. Establishes cross-organization integration patterns (shared .github infrastructure, common workflows, cross-org automation).
+    5. Documents the "macro level interactions" architecture.

@@ -33,7 +33,8 @@ repositories. This creates:
 
 ### 🔥 Priority 1: Today
 
-4. **Document current token scopes**
+1. **Document current token scopes**
+
    ```bash
    TOKEN=$(op read "op://Personal/master-org-token-011726/password" --reveal)
    curl -H "Authorization: token $TOKEN" \
@@ -46,7 +47,7 @@ repositories. This creates:
 
 ### ⚡ Priority 2: This Week
 
-5. **Generate 4 purpose-specific tokens** (Monday)
+1. **Generate 4 purpose-specific tokens** (Monday)
    - `org-label-sync-token` → repo, workflow
    - `org-project-admin-token` → project, read:org
    - `org-repo-analysis-token` → repo:status, read:org
@@ -77,7 +78,7 @@ repositories. This creates:
 
 ### 📊 Priority 3: Next Week
 
-8. **Deploy token validation workflow** (Next Monday)
+1. **Deploy token validation workflow** (Next Monday)
    - Create `scripts/validate-tokens.py`
    - Create `.github/workflows/token-health-check.yml`
    - **Why:** Automated token health monitoring
@@ -124,9 +125,9 @@ repositories. This creates:
 | `automation/scripts/sync_labels.py`    | Label sync         | Line 327: Default token                          |
 | `automation/scripts/secret_manager.py` | Auth helper        | Lines 127, 140: Default functions                |
 | `automation/scripts/utils.py`          | HTTP client        | Line 207: Auth header                            |
-| `DEPLOY_PHASE1.sh`                     | Phase 1 deployment | Lines 15, 26: Token instructions                 |
-| `DEPLOY_PHASE2.sh`                     | Phase 2 deployment | Lines 19, 24: Token instructions                 |
-| `DEPLOY_PHASE3.sh`                     | Phase 3 deployment | Line 20: Token instructions                      |
+| `archive/deployment/DEPLOY_PHASE1.sh`  | Phase 1 deployment | Lines 15, 26: Token instructions                 |
+| `archive/deployment/DEPLOY_PHASE2.sh`  | Phase 2 deployment | Lines 19, 24: Token instructions                 |
+| `archive/deployment/DEPLOY_PHASE3.sh`  | Phase 3 deployment | Line 20: Token instructions                      |
 
 ### Good News ✅
 
