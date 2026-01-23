@@ -1,4 +1,7 @@
 ---
+description: AI rules derived by SpecStory from the project AI interaction history
+globs: *
+---
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -608,95 +611,102 @@
     1. **Remove Unused Imports and Variables**: Eliminate unnecessary imports
        and variables to improve code cleanliness.
 
-## FINAL DOs AND DON'Ts
+- **GitHub Workflow Incident Response Triggering**:
+  - **Issue**: The `incident-response.yml` workflow triggers on every workflow completion, potentially causing alert fatigue.
+  - **Solution**: Limit the workflow triggers to specific critical workflows and filter by conclusion to only trigger on failures.
+  - **Implementation**:
+    ```yaml
+    on:
+      workflow_run:
+        types: [completed]
+        workflows:
+          - "CI"
+          - "deploy"
+          - "release"
+          - "security"
+          - "Build"
+          - "Test"
+    # Trigger on critical workflow failures only
+    if: github.event.workflow_run.conclusion == 'failure' || github.event_name != 'workflow_run'
+    ```
+    - This configuration ensures that the `incident-response` workflow is triggered only for critical workflow failures, reducing noise and alert fatigue.
 
-- Since the GitHub CLI token (`GITHUB_TOKEN`) lacks the \`project\` scope needed
-  to create organization projects, use a Personal Access Token (PAT) instead.
+- **GitHub Workflow Auto-Revert Validation**:
+  - **Issue**: The `auto-merge.yml` workflow's revert job is triggered when the auto-merge job fails, without validating if the failure is directly related to the merged changes.
+  - **Solution**: Add a validation step to check if the failure is likely due to the merged changes before reverting. If uncertain, require manual review.
+  - **Implementation**:
+    ```yaml
+    revert-on-failure:
+      name: Auto Revert on Failure
+      runs-on: ubuntu-latest
+      needs: auto-merge
+      if: failure() && needs.auto-merge.outputs.merged == 'true'
+      steps:
+        - name: Validate failure cause
+          id: validate
+          uses: actions/github-script@v7
+          with:
+            script: |
+              // Check if failure is likely related to the merged changes
+              // Look for new test failures, build errors, or other indicators
 
-- Single select options in GitHub Projects require a non-null "description"
-  field in the GraphQL API request. Ensure that the script populating the single
-  select options include this field. See `configure-github-projects.py` for an
-  example.
+              const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
+              let shouldRevert = false;
+              let reason = '';
 
-- When working with the GraphQL API and GitHub Projects, the "Name cannot have a
-  reserved value" error can occur if you attempt to create fields that have
-  names that are already pre-defined or reserved. Avoid creating fields named
-  "Status" or "Type" as these are often pre-defined or reserved.
+              try {
+                // Get workflow runs for this commit
+                const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  per_page: 10,
+                  status: 'completed'
+                });
 
-- To avoid the error where custom field creation fails with "Variable $input of
-  type CreateProjectV2FieldInput! was provided invalid value for
-  singleSelectOptions.X.description (Expected value to not be null)", ensure
-  that the python script includes logic to add an empty description to each
-  options: e.g.,
+                // Check for failed required checks
+                const failedRuns = workflowRuns.workflow_runs.filter(run =>
+                  run.conclusion === 'failure' &&
+                  run.head_sha === '${{ needs.auto-merge.outputs.merge-sha }}'
+                );
 
-  ```python
-  # Add empty description to each option (required by API)
-  options_with_desc = [
-      {**opt, "description": ""} for opt in options
-  ]
+                if (failedRuns.length > 0) {
+                  // Check if these are critical workflows
+                  const criticalWorkflows = ['CI', 'Test', 'Build', 'Security'];
+                  const criticalFailures = failedRuns.filter(run =>
+                    criticalWorkflows.some(name => run.name.includes(name))
+                  );
 
-  variables = {
-      "input": {
-          "projectId": project_id,
-          "dataType": "SINGLE_SELECT",
-          "name": name,
-          "singleSelectOptions": options_with_desc
-  ```
+                  if (criticalFailures.length > 0) {
+                    shouldRevert = true;
+                    reason = `Critical workflow failures detected: ${criticalFailures.map(r => r.name).join(', ')}`;
+                  } else {
+                    reason = 'Non-critical workflow failures - manual review recommended';
+                  }
+                } else {
+                  reason = 'No clear workflow failures found - may be infrastructure issue';
+                }
 
-- Here's the updated `PROJECTS_CONFIG` section in the
-  `configure-github-projects.py` file:
+              } catch (error) {
+                console.log(`Error validating failure: ${error.message}`);
+                // On error, require manual review
+                reason = `Validation error: ${error.message} - manual review required`;
+              }
 
-  ```python
-  # Project configurations
-  PROJECTS_CONFIG = {
-      "ai-framework": {
-          "title": "🤖 AI Framework Development",
-          "description": """Development and maintenance of the AI framework including:
-  - 26+ specialized agents
-  - MCP servers for 11 programming languages
-  - 100+ custom instructions
-  - Chat modes and collections
-  - Automated tracking of agent lifecycle, testing, and deployment
+              core.setOutput('should_revert', shouldRevert.toString());
+              core.setOutput('reason', reason);
+              console.log(`Should revert: ${shouldRevert}`);
+              console.log(`Reason: ${reason}`);
 
-  **Key Areas:**
-  - Agent development and testing
-  - MCP server implementation
-  - Custom instructions authoring
-  - Chat mode configuration
-  - Framework enhancements and bug fixes""",
-          "fields": {
-              "Status": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🎯 Planned", "color": "GRAY", "description": ""},
-                      {"name": "🔬 Research", "color": "BLUE", "description": ""},
-                      {"name": "🏗️ In Development", "color": "YELLOW", "description": ""},
-                      {"name": "🧪 Testing", "color": "ORANGE", "description": ""},
-                      {"name": "👀 Code Review", "color": "PURPLE", "description": ""},
-                      {"name": "✅ Ready to Deploy", "color": "GREEN", "description": ""},
-                      {"name": "🚀 Deployed", "color": "GREEN", "description": ""},
-                      {"name": "📝 Documentation", "color": "BLUE", "description": ""},
-                      {"name": "⏸️ On Hold", "color": "GRAY", "description": ""},
-                      {"name": "✔️ Completed", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Critical", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🤖 Agent", "color": "PURPLE", "description": ""},
-                      {"name": "🔌 MCP Server", "color": "BLUE", "description": ""},
-                      {"name": "📋 Custom Instructions", "color": "GREEN", "description": ""},
-                      {"name": "💬 Chat Mode", "color": "PINK", "description": ""},
-                      {"name": "📦 Collection", "color": "ORANGE", "description": ""},
-                      {"name": "🔧 Framework Enhancement", "color": "YELLOW", "description": ""},
-                      {"name": "🐛 Bug Fix", "color": "RED", "description": ""}
-  ```
+              // Comment on PR with analysis
+              if (prNumber) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: parseInt(prNumber),
+                  body: `🔍 **Auto-Revert Analysis**\n\n${shouldRevert ? '⚠️ Auto-revert will be triggered' : '⏸️ Auto-revert skipped - manual review needed'}\n\n**Reason:** ${reason}\n\n${!shouldRevert ? '**Action Required:** Please review the failures and determine if manual revert is needed.' : ''}`
+                });
+              }
+
+        - name: Revert merge commit
+          id: revert
+          if:
