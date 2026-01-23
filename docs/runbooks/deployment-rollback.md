@@ -55,7 +55,7 @@ Consider rollback when:
 1. **Create rollback branch**
 
    ```bash
-   git checkout -b rollback/$(date +%Y%m%d-%H%M)
+   git checkout -b rollback/$(date +%Y%m%d-%H%M%S)
    git revert <problematic-commit>
    ```
 

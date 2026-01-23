@@ -111,14 +111,19 @@ jobs:
           node-version: "20"
 
       - name: Update Python dependencies
-        if: hashFiles('requirements.txt') != ''
+        if: hashFiles('requirements.txt') != '' || hashFiles('requirements.in') != ''
         run: |
           if [[ "${{ env.DRY_RUN }}" == "true" ]]; then
             echo "DRY RUN: Would update Python dependencies"
             pip list --outdated
           else
-            pip install pip-tools
-            pip-compile --upgrade requirements.in 2>/dev/null || pip list --outdated
+            if [[ -f "requirements.in" ]]; then
+              pip install pip-tools
+              pip-compile --upgrade requirements.in
+            else
+              echo "No requirements.in found, listing outdated packages"
+              pip list --outdated
+            fi
           fi
 
       - name: Update npm dependencies
@@ -201,12 +206,11 @@ jobs:
           echo "Cleaning old workflow runs..."
 
           if [[ "${{ env.DRY_RUN }}" == "true" ]]; then
-            echo "DRY RUN: Would clean old workflow runs older than 30 days"
+            echo "DRY RUN: Would clean old workflow runs older than 30 days, keeping the 100 most recent"
           else
-            # Delete workflow runs older than 30 days (keep last 100)
-            gh run list --limit 200 --json databaseId,createdAt \
-              --jq '.[] | select(.createdAt < (now - 2592000 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .databaseId' \
-              | tail -n +101 \
+            # Get runs, skip first 100 (keep them), then delete only those older than 30 days
+            gh run list --limit 300 --json databaseId,createdAt \
+              | jq -r '.[100:] | .[] | select(.createdAt < (now - 2592000 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .databaseId' \
               | xargs -I {} gh run delete {} 2>/dev/null || true
           fi
 
@@ -253,12 +257,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: [update-dependencies, perform-cleanup, run-optimization]
     if: always()
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Send Slack notification
         if: env.SLACK_WEBHOOK_URL != ''
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           DEPS_STATUS="${{ needs.update-dependencies.result }}"
           CLEANUP_STATUS="${{ needs.perform-cleanup.result }}"

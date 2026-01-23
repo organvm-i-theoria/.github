@@ -332,7 +332,7 @@ class TestStatusSync:
 
         try:
             # Create a PR that references the issue
-            pr = github_client.create_pr(
+            _pr = github_client.create_pr(
                 title=f"Fix issue #{issue['number']}",
                 body=f"Fixes #{issue['number']}",
                 head="fix-branch",

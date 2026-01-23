@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Mock fixtures for Month 1 workflow integration tests.
 
@@ -6,7 +5,7 @@ These fixtures enable tests to run without live GitHub API access by providing
 mock implementations and sample data.
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
 import pytest
@@ -15,9 +14,8 @@ import pytest
 class MockGitHubAPIClient:
     """Mock GitHub API client for integration testing without live API."""
 
-    def __init__(
-        self, token: Optional[str] = None, repo: str = "ivviiviivvi/.github"
-    ):
+    def __init__(self, token: Optional[str] = None, repo: str = "ivviiviivvi/.github"):
+        # "mock_token" is for testing only - not used for real API calls
         self.token = token or "mock_token"
         self.repo = repo
         self.base_url = "https://api.github.com"
@@ -25,8 +23,9 @@ class MockGitHubAPIClient:
             "Authorization": f"token {self.token}",
             "Accept": "application/vnd.github.v3+json",
         }
-        # Internal storage for mock issues
+        # Internal storage for mock issues and PRs
         self._issues: Dict[int, Dict[str, Any]] = {}
+        self._prs: Dict[int, Dict[str, Any]] = {}
         self._issue_counter = 100
         # Store workflow runs
         self._workflow_runs: Dict[str, List[Dict[str, Any]]] = {}
@@ -34,7 +33,7 @@ class MockGitHubAPIClient:
 
     def _setup_default_workflow_runs(self):
         """Set up default workflow runs for testing."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
 
         # Create successful workflow runs for each workflow
         workflows = [
@@ -49,18 +48,18 @@ class MockGitHubAPIClient:
             runs = []
             for i in range(25):
                 run_time = now - timedelta(days=i)
-                runs.append({
-                    "id": 1000 + i,
-                    "name": workflow.replace(".yml", "").replace(
-                        "-", " "
-                    ).title(),
-                    "status": "completed",
-                    "conclusion": "success",
-                    "created_at": run_time.isoformat() + "Z",
-                    "updated_at": run_time.isoformat() + "Z",
-                    "head_branch": "main",
-                    "head_sha": f"abc123{i}",
-                })
+                runs.append(
+                    {
+                        "id": 1000 + i,
+                        "name": workflow.replace(".yml", "").replace("-", " ").title(),
+                        "status": "completed",
+                        "conclusion": "success",
+                        "created_at": run_time.isoformat() + "Z",
+                        "updated_at": run_time.isoformat() + "Z",
+                        "head_branch": "main",
+                        "head_sha": f"abc123{i}",
+                    }
+                )
             self._workflow_runs[workflow] = runs
 
     def create_issue(
@@ -83,11 +82,9 @@ class MockGitHubAPIClient:
             "state": "open",
             "assignee": None,
             "assignees": [],
-            "created_at": datetime.utcnow().isoformat() + "Z",
-            "updated_at": datetime.utcnow().isoformat() + "Z",
-            "html_url": (
-                f"https://github.com/{self.repo}/issues/{issue_number}"
-            ),
+            "created_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "html_url": (f"https://github.com/{self.repo}/issues/{issue_number}"),
         }
 
         self._issues[issue_number] = issue
@@ -114,11 +111,9 @@ class MockGitHubAPIClient:
         if state:
             issue["state"] = state
         if labels is not None:
-            issue["labels"] = [
-                {"name": lbl, "color": "ededed"} for lbl in labels
-            ]
+            issue["labels"] = [{"name": lbl, "color": "ededed"} for lbl in labels]
 
-        issue["updated_at"] = datetime.utcnow().isoformat() + "Z"
+        issue["updated_at"] = datetime.now(timezone.utc).isoformat() + "Z"
         return issue
 
     def create_pr(
@@ -137,18 +132,24 @@ class MockGitHubAPIClient:
             "state": "open",
             "merged": False,
             "html_url": f"https://github.com/{self.repo}/pull/{pr_number}",
+            "created_at": datetime.now(timezone.utc).isoformat() + "Z",
+            "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
         }
+        self._prs[pr_number] = pr
         return pr
 
     def get_pr(self, pr_number: int) -> Dict[str, Any]:
         """Get mock pull request details."""
-        return {
-            "number": pr_number,
-            "title": f"Mock PR #{pr_number}",
-            "body": "Mock PR body",
-            "state": "open",
-            "merged": False,
-        }
+        if pr_number not in self._prs:
+            # Return a default mock PR if not found
+            return {
+                "number": pr_number,
+                "title": f"Mock PR #{pr_number}",
+                "body": "Mock PR body",
+                "state": "open",
+                "merged": False,
+            }
+        return self._prs[pr_number]
 
     def trigger_workflow(self, workflow_id: str, ref: str = "main") -> None:
         """Mock trigger a workflow dispatch event."""
@@ -190,9 +191,7 @@ class MockGitHubAPIClient:
                     new_labels.append("documentation")
 
             # Update issue labels
-            issue["labels"] = [
-                {"name": lbl, "color": "ededed"} for lbl in new_labels
-            ]
+            issue["labels"] = [{"name": lbl, "color": "ededed"} for lbl in new_labels]
 
     def _process_auto_assign(self) -> None:
         """Simulate auto-assignment workflow."""
@@ -255,9 +254,7 @@ class MockGitHubAPIClient:
         """Remove a label from a mock issue."""
         if issue_number in self._issues:
             issue = self._issues[issue_number]
-            issue["labels"] = [
-                lbl for lbl in issue["labels"] if lbl["name"] != label
-            ]
+            issue["labels"] = [lbl for lbl in issue["labels"] if lbl["name"] != label]
 
 
 @pytest.fixture
@@ -286,8 +283,8 @@ def mock_issue_data():
         "state": "open",
         "assignee": {"login": "test-user"},
         "assignees": [{"login": "test-user"}],
-        "created_at": datetime.utcnow().isoformat() + "Z",
-        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "created_at": datetime.now(timezone.utc).isoformat() + "Z",
+        "updated_at": datetime.now(timezone.utc).isoformat() + "Z",
         "html_url": "https://github.com/ivviiviivvi/.github/issues/42",
     }
 
@@ -295,21 +292,23 @@ def mock_issue_data():
 @pytest.fixture
 def mock_workflow_runs():
     """Mock workflow run data."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     runs = []
 
     for i in range(20):
         run_time = now - timedelta(days=i)
-        runs.append({
-            "id": 1000 + i,
-            "name": "Test Workflow",
-            "status": "completed",
-            "conclusion": "success",
-            "created_at": run_time.isoformat() + "Z",
-            "updated_at": run_time.isoformat() + "Z",
-            "head_branch": "main",
-            "head_sha": f"abc123{i}",
-        })
+        runs.append(
+            {
+                "id": 1000 + i,
+                "name": "Test Workflow",
+                "status": "completed",
+                "conclusion": "success",
+                "created_at": run_time.isoformat() + "Z",
+                "updated_at": run_time.isoformat() + "Z",
+                "head_branch": "main",
+                "head_sha": f"abc123{i}",
+            }
+        )
 
     return runs
 
@@ -318,7 +317,7 @@ def mock_workflow_runs():
 def mock_metrics_data():
     """Mock metrics collection results."""
     return {
-        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
         "workflows": {
             "issue-triage": {"runs": 100, "success": 98, "failure": 2},
             "auto-assign": {"runs": 100, "success": 99, "failure": 1},
@@ -336,16 +335,16 @@ def mock_metrics_data():
 def mock_test_issue(mock_github_client):
     """Create a mock test issue and clean up after test."""
     issue = mock_github_client.create_issue(
-        title=f"[TEST] Integration test issue {datetime.utcnow().isoformat()}",
+        title=f"[TEST] Integration test issue {datetime.now(timezone.utc).isoformat()}",
         body="Test issue created by integration tests. Will be deleted.",
     )
 
     yield issue
 
-    # Cleanup
+    # Cleanup - ignore errors since this is test teardown
     try:
         mock_github_client.close_issue(issue["number"])
-    except Exception:
+    except Exception:  # noqa: S110 - cleanup failure shouldn't fail tests
         pass
 
 
@@ -353,14 +352,14 @@ def mock_test_issue(mock_github_client):
 def test_issue(github_client):
     """Create a test issue and clean up after test."""
     issue = github_client.create_issue(
-        title=f"[TEST] Integration test issue {datetime.utcnow().isoformat()}",
+        title=f"[TEST] Integration test issue {datetime.now(timezone.utc).isoformat()}",
         body="Test issue created by integration tests. Will be deleted.",
     )
 
     yield issue
 
-    # Cleanup
+    # Cleanup - ignore errors since this is test teardown
     try:
         github_client.close_issue(issue["number"])
-    except Exception:
+    except Exception:  # noqa: S110 - cleanup failure shouldn't fail tests
         pass

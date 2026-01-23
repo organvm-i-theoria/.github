@@ -181,6 +181,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [detect-and-assess, mitigate]
     if: needs.detect-and-assess.outputs.is_incident == 'true'
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PAGERDUTY_INTEGRATION_KEY: ${{ secrets.PAGERDUTY_INTEGRATION_KEY }}
 
     steps:
       - name: Create incident tracking issue
@@ -232,8 +235,6 @@ jobs:
 
       - name: Send Slack notification
         if: env.SLACK_WEBHOOK_URL != ''
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           SEVERITY="${{ needs.detect-and-assess.outputs.severity }}"
           INCIDENT_ID="${{ needs.detect-and-assess.outputs.incident_id }}"
@@ -269,8 +270,6 @@ jobs:
           (needs.detect-and-assess.outputs.severity == 'p0' ||
            needs.detect-and-assess.outputs.severity == 'p1') &&
           env.PAGERDUTY_INTEGRATION_KEY != ''
-        env:
-          PAGERDUTY_INTEGRATION_KEY: ${{ secrets.PAGERDUTY_INTEGRATION_KEY }}
         run: |
           SEVERITY="${{ needs.detect-and-assess.outputs.severity }}"
           PD_SEVERITY="critical"

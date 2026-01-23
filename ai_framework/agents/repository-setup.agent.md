@@ -1,6 +1,7 @@
 ---
-name: "Repository Setup"
+name: "repository-setup"
 description: "Repository Setup Agent - Automates the creation and configuration of new repositories following organization standards and best practices"
+tools: []
 ---
 
 # Repository Setup Agent

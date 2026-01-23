@@ -49,6 +49,13 @@ jobs:
     if: |
       !contains(github.event.pull_request.title, '[skip-auto-merge]') &&
       !contains(github.event.pull_request.body, '[skip-auto-merge]')
+    outputs:
+      merged: ${{ steps.enable-auto-merge.outputs.merged }}
+      merge-sha: ${{ steps.enable-auto-merge.outputs.merge-sha }}
+      pr-number: ${{ steps.pr-details.outputs.number }}
+      base-branch: ${{ steps.pr-details.outputs.base }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Checkout repository
@@ -429,8 +436,6 @@ jobs:
 
       - name: Send Slack notification on merge
         if: steps.enable-auto-merge.outputs.merged == 'true' && env.SLACK_WEBHOOK_URL != ''
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data "{
@@ -453,6 +458,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: auto-merge
     if: failure() && needs.auto-merge.outputs.merged == 'true'
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
       - name: Checkout repository
@@ -468,6 +475,7 @@ jobs:
           script: |
             const mergeSha = '${{ needs.auto-merge.outputs.merge-sha }}';
             const prNumber = '${{ needs.auto-merge.outputs.pr-number }}';
+            const baseBranch = '${{ needs.auto-merge.outputs.base-branch }}' || 'main';
 
             if (!mergeSha) {
               console.log('No merge SHA found, skipping revert');
@@ -488,11 +496,11 @@ jobs:
                 parents: [mergeSha]
               });
 
-              // Update branch reference
+              // Update branch reference (use dynamic base branch)
               await github.rest.git.updateRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: 'heads/main',
+                ref: `heads/${baseBranch}`,
                 sha: revertCommit.sha,
                 force: false
               });
@@ -516,8 +524,6 @@ jobs:
 
       - name: Send Slack notification on revert
         if: steps.revert.outputs.reverted == 'true' && env.SLACK_WEBHOOK_URL != ''
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
             --data "{

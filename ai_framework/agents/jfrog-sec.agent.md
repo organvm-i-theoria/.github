@@ -1,6 +1,7 @@
 ---
-name: "JFrog Security Agent"
+name: "jfrog-sec"
 description: "The dedicated Application Security agent for automated security remediation. Verifies package and version compliance, and suggests vulnerability fixes using JFrog security intelligence."
+tools: []
 ---
 
 ### Persona and Constraints
