@@ -4,6 +4,9 @@
 Managed links are annotated with HTML comments:
   [Link Text](https://example.com)<!-- link:github.discussions -->
 
+For internal paths (internal.* keys), the script calculates the correct
+relative path from the current file to the target file.
+
 This script updates the URL based on docs/_data/links.yml and can optionally
 annotate existing links that match known URLs.
 """
@@ -11,6 +14,7 @@ annotate existing links that match known URLs.
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
 from collections.abc import Iterable
@@ -61,6 +65,17 @@ def _parse_simple_yaml(text: str) -> dict[str, object]:
             continue
         key = key.strip()
         value = value.strip()
+
+        # Handle inline comments (remove # and everything after, unless in quotes)
+        if value and not value.startswith(("'", '"')):
+            # Find # that's not part of a URL fragment
+            # Simple heuristic: if there's a space before #, it's likely a comment
+            comment_idx = value.find("  #")
+            if comment_idx == -1:
+                comment_idx = value.find(" #")
+            if comment_idx > 0:
+                value = value[:comment_idx].rstrip()
+
         while indent <= stack[-1][0]:
             stack.pop()
         parent = stack[-1][1]
@@ -91,6 +106,43 @@ def load_link_map(path: Path) -> dict[str, str]:
     return flat
 
 
+def is_internal_path(key: str) -> bool:
+    """Check if a link key refers to an internal path."""
+    return key.startswith("internal.")
+
+
+def calculate_relative_path(from_file: Path, to_path: str, root: Path) -> str:
+    """Calculate relative path from a file to a target path (root-relative).
+
+    Args:
+        from_file: The file containing the link (absolute path)
+        to_path: The target path (root-relative, e.g., 'src/ai_framework/agents/foo.md')
+        root: The repository root (absolute path)
+
+    Returns:
+        Relative path from from_file's directory to the target
+    """
+    from_dir = from_file.parent
+    target = root / to_path
+
+    try:
+        # Calculate relative path from source directory to target
+        rel_path = os.path.relpath(target, from_dir)
+        # Normalize to forward slashes for markdown
+        return rel_path.replace("\\", "/")
+    except ValueError:
+        # Different drives on Windows - fall back to root-relative
+        return to_path
+
+
+# Regex patterns for migration mode - detect broken relative paths to agents
+BROKEN_AGENT_LINK_RE = re.compile(
+    r"(?P<prefix>!?\[[^\]]+\]\()"
+    r"(?P<path>\.\.?/[^)\s]*agents/[^)\s]+\.agent\.md)"
+    r"(?P<suffix>\))"
+)
+
+
 def iter_markdown_files(root: Path, excludes: Iterable[str]) -> Iterable[Path]:
     exclude_paths = [root / Path(p) for p in excludes]
     exclude_names = {Path(p).name for p in excludes}
@@ -109,6 +161,8 @@ def replace_links(
     link_map: dict[str, str],
     reverse_map: dict[str, str],
     annotate: bool,
+    current_file: Path | None = None,
+    root: Path | None = None,
 ) -> tuple[str, int, int, int]:
     updated = 0
     annotated = 0
@@ -143,7 +197,14 @@ def replace_links(
             if key not in link_map:
                 missing += 1
                 return match.group(0)
-            new_url = link_map[key]
+            raw_target = link_map[key]
+
+            # For internal paths, calculate relative path from current file
+            if is_internal_path(key) and current_file and root:
+                new_url = calculate_relative_path(current_file, raw_target, root)
+            else:
+                new_url = raw_target
+
             if new_url != url:
                 updated += 1
             return f"{match.group('prefix')}{new_url}{match.group('suffix')}"
@@ -161,7 +222,14 @@ def replace_links(
                     return match.group(0)
                 annotated += 1
                 updated += 1
-                new_url = link_map[key]
+                raw_target = link_map[key]
+
+                # For internal paths, calculate relative path from current file
+                if is_internal_path(key) and current_file and root:
+                    new_url = calculate_relative_path(current_file, raw_target, root)
+                else:
+                    new_url = raw_target
+
                 return (
                     f"{match.group('prefix')}{new_url}{match.group('suffix')}"  # noqa: E501
                     f"<!-- link:{key} -->"
@@ -181,6 +249,55 @@ def replace_links(
         out_lines.append(line)
 
     return "".join(out_lines), updated, annotated, missing
+
+
+def build_agent_path_map(link_map: dict[str, str]) -> dict[str, str]:
+    """Build a map from agent filename to link key."""
+    agent_map: dict[str, str] = {}
+    for key, path in link_map.items():
+        if key.startswith("internal.agents.") and path.endswith(".agent.md"):
+            # Extract filename from path
+            filename = Path(path).name
+            agent_map[filename] = key
+    return agent_map
+
+
+def migrate_broken_links(
+    text: str,
+    link_map: dict[str, str],
+    current_file: Path,
+    root: Path,
+) -> str:
+    """Migrate broken relative agent links to managed link format.
+
+    This function finds links like:
+        [Text](../agents/foo.agent.md)
+        [Text](../ai_framework/agents/foo.agent.md)
+
+    And converts them to managed links:
+        [Text](correct/relative/path)<!-- link:internal.agents.foo -->
+    """
+    agent_map = build_agent_path_map(link_map)
+
+    def replace_broken_link(match: re.Match[str]) -> str:
+        path = match.group("path")
+        # Extract the agent filename
+        filename = Path(path).name
+
+        if filename not in agent_map:
+            # Can't migrate - not in our registry
+            return match.group(0)
+
+        key = agent_map[filename]
+        raw_target = link_map[key]
+        new_url = calculate_relative_path(current_file, raw_target, root)
+
+        return (
+            f"{match.group('prefix')}{new_url}"
+            f"{match.group('suffix')}<!-- link:{key} -->"
+        )
+
+    return BROKEN_AGENT_LINK_RE.sub(replace_broken_link, text)
 
 
 def main() -> int:
@@ -217,6 +334,11 @@ def main() -> int:
         default=[],
         help="Additional directories to exclude (can be repeated)",
     )
+    parser.add_argument(
+        "--migrate",
+        action="store_true",
+        help="Migrate broken agent links to managed link format",
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
@@ -240,7 +362,15 @@ def main() -> int:
 
     for md_file in iter_markdown_files(root, excludes):
         original = md_file.read_text(encoding="utf-8")
-        updated_text, updated, annotated, missing = replace_links(original, link_map, reverse_map, args.annotate)
+
+        # Apply migration if requested
+        if args.migrate:
+            original = migrate_broken_links(original, link_map, md_file, root)
+
+        updated_text, updated, annotated, missing = replace_links(
+            original, link_map, reverse_map, args.annotate,
+            current_file=md_file, root=root
+        )
         total_updates += updated
         total_annotations += annotated
         total_missing += missing
