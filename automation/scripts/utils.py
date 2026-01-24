@@ -251,7 +251,7 @@ class GitHubAPIClient:
         params: Optional[dict] = None,
         json_data: Optional[dict] = None,
         retry: bool = True,
-    ) -> dict[str, Any]:
+    ) -> Any:
         """Make a GitHub API request with rate limiting and retries.
 
         Args:
@@ -311,8 +311,7 @@ class GitHubAPIClient:
                         if retry_after:
                             delay = int(retry_after)
                         else:
-                            # nosec B311 - Non-cryptographic jitter
-                            delay = 2**attempt + random.uniform(0, 1)
+                            delay = 2**attempt + random.uniform(0, 1)  # nosec B311
 
                         self.logger.warning(
                             f"HTTP {e.response.status_code} (attempt {attempt}/{max_attempts}). "  # noqa: E501
@@ -336,23 +335,41 @@ class GitHubAPIClient:
         # Should never reach here
         raise RuntimeError("Unexpected end of retry loop")
 
-    def get(self, endpoint: str, params: Optional[dict] = None) -> dict[str, Any]:
+    def get(self, endpoint: str, params: Optional[dict] = None) -> Any:
         """Make a GET request."""
         return self.request("GET", endpoint, params=params)
 
-    def post(self, endpoint: str, json_data: dict) -> dict[str, Any]:
+    def post(
+        self,
+        endpoint: str,
+        json_data: Optional[dict] = None,
+        json: Optional[dict] = None,
+    ) -> Any:
         """Make a POST request."""
-        return self.request("POST", endpoint, json_data=json_data)
+        data = json_data or json
+        return self.request("POST", endpoint, json_data=data)
 
-    def put(self, endpoint: str, json_data: dict) -> dict[str, Any]:
+    def put(
+        self,
+        endpoint: str,
+        json_data: Optional[dict] = None,
+        json: Optional[dict] = None,
+    ) -> Any:
         """Make a PUT request."""
-        return self.request("PUT", endpoint, json_data=json_data)
+        data = json_data or json
+        return self.request("PUT", endpoint, json_data=data)
 
-    def patch(self, endpoint: str, json_data: dict) -> dict[str, Any]:
+    def patch(
+        self,
+        endpoint: str,
+        json_data: Optional[dict] = None,
+        json: Optional[dict] = None,
+    ) -> Any:
         """Make a PATCH request."""
-        return self.request("PATCH", endpoint, json_data=json_data)
+        data = json_data or json
+        return self.request("PATCH", endpoint, json_data=data)
 
-    def delete(self, endpoint: str) -> dict[str, Any]:
+    def delete(self, endpoint: str) -> Any:
         """Make a DELETE request."""
         return self.request("DELETE", endpoint)
 

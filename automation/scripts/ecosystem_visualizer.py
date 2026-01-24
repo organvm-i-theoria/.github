@@ -124,8 +124,7 @@ class EcosystemVisualizer:
 
         # Use a list for efficient string concatenation
         parts = []
-        parts.append(
-            """```mermaid
+        parts.append("""```mermaid
 graph TD
     %% Styles
     classDef org fill:#0969da,stroke:#0969da,color:#fff,stroke-width:2px;
@@ -138,8 +137,7 @@ graph TD
     end
 
     subgraph "Automation Layer"
-"""
-        )
+""")
 
         # Add workflows (limited to MAX_DIAGRAM_WORKFLOWS)
         # Note: All workflows are listed in the "Active Workflows"
@@ -157,10 +155,8 @@ graph TD
         parts.append("    end\n\n")
 
         # Add Copilot customizations
-        parts.append(
-            """    subgraph "GitHub Copilot Customizations"
-"""
-        )
+        parts.append("""    subgraph "GitHub Copilot Customizations"
+""")
 
         agents = em.get("copilot_agents", [])
         if agents:
@@ -196,10 +192,8 @@ graph TD
         # Add technologies
         technologies = em.get("technologies", [])
         if technologies:
-            parts.append(
-                """    subgraph "Technologies"
-"""
-            )
+            parts.append("""    subgraph "Technologies"
+""")
             for i, tech in enumerate(technologies[:15]):  # Limit to 15
                 tech_id = f"TECH{i}"
                 parts.append(f"        {tech_id}[{tech}]:::tech\n")
@@ -261,7 +255,7 @@ graph TD
         name = workflow_name.lower()
         # Optimization: Use single regex pass with capturing groups
         match = self._WORKFLOW_REGEX.search(name)
-        if match:
+        if match and match.lastindex is not None:
             # lastindex is 1-based index of the matching group
             emoji = self._PRIORITY_ORDER[match.lastindex - 1]
             return emoji, self.WORKFLOW_CATEGORIES[emoji]
@@ -283,13 +277,12 @@ graph TD
         except ValueError:
             pass
 
-        parts.append(
-            """# 🎯 Organization Ecosystem Dashboard
+        parts.append(f"""# 🎯 Organization Ecosystem Dashboard
 
 {self.generate_health_badge()}
 
 **Last Updated**: {timestamp}
-**Organization**: {self.report_data.get('organization', 'Unknown')}
+**Organization**: {self.report_data.get("organization", "Unknown")}
 
 ---
 
@@ -307,24 +300,21 @@ graph TD
 
 ## 📊 Quick Stats
 
-"""
-        )
+""")
 
         # Ecosystem stats
         if "ecosystem_map" in self.report_data:
             em = self.report_data["ecosystem_map"]
-            parts.append(
-                """| Category | Count |
+            parts.append(f"""| Category | Count |
 |----------|-------|
-| ⚡ GitHub Actions Workflows | {len(em.get('workflows', []))} |
-| 🤖 Copilot Agents | {len(em.get('copilot_agents', []))} |
-| 📝 Copilot Instructions | {len(em.get('copilot_instructions', []))} |
-| 💬 Copilot Prompts | {len(em.get('copilot_prompts', []))} |
-| 🎭 Copilot Chat Modes | {len(em.get('copilot_chatmodes', []))} |
-| 🛠️  Technologies Supported | {len(em.get('technologies', []))} |
+| ⚡ GitHub Actions Workflows | {len(em.get("workflows", []))} |
+| 🤖 Copilot Agents | {len(em.get("copilot_agents", []))} |
+| 📝 Copilot Instructions | {len(em.get("copilot_instructions", []))} |
+| 💬 Copilot Prompts | {len(em.get("copilot_prompts", []))} |
+| 🎭 Copilot Chat Modes | {len(em.get("copilot_chatmodes", []))} |
+| 🛠️  Technologies Supported | {len(em.get("technologies", []))} |
 
-"""
-            )
+""")
         parts.append("[⬆️ Back to Top](#organization-ecosystem-dashboard)\n\n")
 
         # Repository health
@@ -333,17 +323,16 @@ graph TD
             rh = self.report_data["repository_health"]
             total = rh.get("total_repos", 0)
             active = rh.get("active_repos", 0)
-            rh.get("stale_repos", 0)
+            stale = rh.get("stale_repos", 0)
 
             active_pct = (active / total * 100) if total > 0 else 0
 
             # Create progress bar
             bar_length = 20
             filled_length = int(bar_length * active_pct / 100)
-            "█" * filled_length + "░" * (bar_length - filled_length)
+            bar = "█" * filled_length + "░" * (bar_length - filled_length)
 
-            parts.append(
-                """{bar} {active_pct:.1f}%
+            parts.append(f"""{bar} {active_pct:.1f}%
 
 | Status | Count | Percentage |
 |--------|-------|------------|
@@ -353,8 +342,7 @@ graph TD
 
 ### Health Score: {active_pct:.0f}/100
 
-"""
-            )
+""")
         else:
             error = self.report_data.get("repository_health", {}).get("error", "No data available")
             parts.append(f"⚠️ **Data Unavailable**: {error}\n\n")
@@ -378,10 +366,9 @@ graph TD
             # Create progress bar
             bar_length = 20
             filled_length = int(bar_length * valid_pct / 100)
-            "█" * filled_length + "░" * (bar_length - filled_length)
+            bar = "█" * filled_length + "░" * (bar_length - filled_length)
 
-            parts.append(
-                """{bar} {valid_pct:.1f}%
+            parts.append(f"""{bar} {valid_pct:.1f}%
 
 | Status | Count | Percentage |
 |--------|-------|------------|
@@ -389,8 +376,7 @@ graph TD
 | ❌ Broken | {broken} | {100 - valid_pct:.1f}% |
 | **Total** | **{total_links}** | **100%** |
 
-"""
-            )
+""")
             # Add broken links details
             broken_links = lv.get("broken_links", [])
             if broken_links:
@@ -459,7 +445,7 @@ graph TD
             workflows = em.get("workflows", [])
             if len(workflows) > self.MAX_DIAGRAM_WORKFLOWS:
                 msg1 = (
-                    f"ℹ️  *The diagram below displays the first {self.MAX_DIAGRAM_WORKFLOWS} workflows for readability. "
+                    f"ℹ️  *The diagram below displays the first {self.MAX_DIAGRAM_WORKFLOWS} workflows for readability. "  # noqa: E501
                 )
                 parts.append(msg1)
                 msg2 = (

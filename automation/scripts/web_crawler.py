@@ -14,7 +14,7 @@ import ssl
 import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import requests
 import urllib3
@@ -74,7 +74,7 @@ class OrganizationCrawler:
         if self.github_token:
             self.session.headers.update({"Authorization": f"token {self.github_token}"})
 
-        self.results = {
+        self.results: dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "organization": self.org_name,
             "link_validation": {},
@@ -113,7 +113,7 @@ class OrganizationCrawler:
         """Validate all extracted links."""
         print("\n🌐 Validating links...")
 
-        results = {
+        results: dict[str, Any] = {
             "total_links": 0,
             "valid": 0,
             "broken": 0,
@@ -170,7 +170,7 @@ class OrganizationCrawler:
         # We want sockaddr[0] (the IP address)
         try:
             results = socket.getaddrinfo(hostname, None)
-            return list({item[4][0] for item in results})
+            return list({str(item[4][0]) for item in results})
         except socket.gaierror:
             return []
 
@@ -417,7 +417,7 @@ class OrganizationCrawler:
             print("  ⚠️  No GitHub token provided, skipping API calls")
             return {"error": "No GitHub token provided"}
 
-        health_metrics = {
+        health_metrics: dict[str, Any] = {
             "repositories": [],
             "total_repos": 0,
             "active_repos": 0,
@@ -489,7 +489,7 @@ class OrganizationCrawler:
         """Map the technology ecosystem (AI-GH-06)."""
         print("\n🗺️  Mapping ecosystem...")
 
-        ecosystem = {
+        ecosystem: dict[str, Any] = {
             "workflows": [],
             "copilot_agents": [],
             "copilot_instructions": [],

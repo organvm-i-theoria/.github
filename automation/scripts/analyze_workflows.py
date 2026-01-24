@@ -7,12 +7,12 @@ and generates a detailed inventory report.
 
 from collections import defaultdict
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import yaml
 
 
-def analyze_workflow(file_path: Path) -> dict[str, Any]:
+def analyze_workflow(file_path: Path) -> Optional[dict[str, Any]]:
     """Analyze a single workflow file."""
     try:
         with open(file_path) as f:

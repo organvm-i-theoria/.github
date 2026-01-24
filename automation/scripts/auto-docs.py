@@ -37,7 +37,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class DocstringExtractor(ast.NodeVisitor):
@@ -48,9 +48,9 @@ class DocstringExtractor(ast.NodeVisitor):
         self.modules: list[dict[str, Any]] = []
         self.classes: list[dict[str, Any]] = []
         self.functions: list[dict[str, Any]] = []
-        self.current_class: str | None = None
+        self.current_class: Optional[str] = None
 
-    def visit_Module(self, node: ast.Module) -> None:
+    def visit_Module(self, node: ast.Module) -> None:  # noqa: N802
         """Visit module node and extract module docstring.
 
         Args:
@@ -62,7 +62,7 @@ class DocstringExtractor(ast.NodeVisitor):
             self.modules.append({"docstring": docstring, "lineno": 1})
         self.generic_visit(node)
 
-    def visit_ClassDef(self, node: ast.ClassDef) -> None:
+    def visit_ClassDef(self, node: ast.ClassDef) -> None:  # noqa: N802
         """Visit class definition and extract class docstring.
 
         Args:
@@ -90,7 +90,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         self.current_class = prev_class
 
-    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:  # noqa: N802
         """Visit function definition and extract function docstring.
 
         Args:
@@ -123,16 +123,16 @@ class DocstringExtractor(ast.NodeVisitor):
 
         self.generic_visit(node)
 
-    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:
+    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> None:  # noqa: N802
         """Visit async function definition.
 
         Args:
             node: AST async function definition node
 
         """
-        self.visit_FunctionDef(node)
+        self.visit_FunctionDef(node)  # type: ignore[arg-type]
 
-    def _get_name(self, node: ast.expr | None) -> str:
+    def _get_name(self, node: Optional[ast.expr]) -> str:
         """Get string representation of an AST node.
 
         Args:
@@ -193,7 +193,7 @@ class DocstringExtractor(ast.NodeVisitor):
 class DocumentationGenerator:
     """Generate Markdown documentation from extracted docstrings."""
 
-    def __init__(self, src_dir: Path, output_dir: Path | None = None) -> None:
+    def __init__(self, src_dir: Path, output_dir: Optional[Path] = None) -> None:
         """Initialize the documentation generator.
 
         Args:
@@ -300,6 +300,7 @@ class DocumentationGenerator:
 
     def _generate_index(self) -> None:
         """Generate index.md with table of contents."""
+        assert self.output_dir is not None  # nosec B101
         index_path = self.output_dir / "index.md"
 
         with open(index_path, "w", encoding="utf-8") as f:
@@ -332,6 +333,7 @@ class DocumentationGenerator:
         """
         module_name = module_info["name"]
         doc_file = f"{module_name.replace('.', '_')}.md"
+        assert self.output_dir is not None  # nosec B101
         doc_path = self.output_dir / doc_file
 
         with open(doc_path, "w", encoding="utf-8") as f:

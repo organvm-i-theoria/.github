@@ -41,9 +41,9 @@ routing:
 
   # Fallback strategies when no ideal match found
   fallback_strategy:
-    - round_robin # Try round-robin among available team members
-    - least_workload # Assign to person with least workload
-    - random # Random assignment as last resort
+  - round_robin   # Try round-robin among available team members
+  - least_workload   # Assign to person with least workload
+  - random   # Random assignment as last resort
 
   # Load balancing configuration
   load_balancing:
@@ -53,10 +53,10 @@ routing:
 
   # Labels that bypass intelligent routing
   exempt_labels:
-    - manual-assignment
-    - team-lead-only
-    - external-contributor
-    - security
+  - manual-assignment
+  - team-lead-only
+  - external-contributor
+  - security
 
   # Priority-based routing
   priority_routing:

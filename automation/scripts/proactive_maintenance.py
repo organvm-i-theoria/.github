@@ -22,6 +22,7 @@ import argparse
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any
 
 from models import (
     MaintenanceConfig,
@@ -368,7 +369,7 @@ class MaintenanceScheduler:
                 reasoning = self._generate_reasoning(window_start, impact_score, activity_data)
 
                 # Generate alternatives
-                alternatives = []
+                alternatives: list[dict[str, Any]] = []
 
                 window = MaintenanceWindow(
                     task_type=task_type,

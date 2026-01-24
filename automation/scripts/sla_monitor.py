@@ -456,7 +456,7 @@ class SLAMonitor:
         logger.warning(f"Found {len(breaches)} SLA breaches")
 
         # Group breaches by priority
-        by_priority = {}
+        by_priority: dict[str, list[SLABreach]] = {}
         for breach in breaches:
             priority = breach.priority.value
             if priority not in by_priority:
@@ -483,15 +483,15 @@ class SLAMonitor:
         for breach in breaches:
             notify_sla_breach(
                 item_type=breach.item_type,
-                item_number=breach.item_number,
+                item_number=str(breach.item_number),
                 repository=f"{owner}/{repo}",
                 breach_type=breach.breach_type,
-                threshold=f"{breach.threshold_minutes}min",
-                actual=f"{breach.actual_minutes}min",
+                threshold=f"{breach.threshold_value}min",
+                actual=f"{breach.actual_value}min",
                 priority=breach.priority.value,
                 metadata={
                     "breach_count": len(breaches),
-                    "timestamp": breach.timestamp.isoformat(),
+                    "timestamp": breach.breach_time.isoformat(),
                 },
             )
 

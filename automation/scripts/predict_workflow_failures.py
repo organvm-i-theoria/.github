@@ -16,7 +16,7 @@ import subprocess  # nosec B404
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
@@ -206,7 +206,7 @@ class WorkflowPredictor:
         accuracy = accuracy_score(y_test, y_pred)
         precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="binary")
 
-        metrics = {
+        metrics: dict[str, Any] = {
             "accuracy": float(accuracy),
             "precision": float(precision),
             "recall": float(recall),
@@ -267,6 +267,7 @@ class WorkflowPredictor:
         X = np.array([[features[col] for col in self.feature_columns]])
 
         # Predict
+        assert self.model is not None, "Model not loaded"  # nosec B101
         failure_prob = self.model.predict_proba(X)[0, 1]
         prediction = self.model.predict(X)[0]
 

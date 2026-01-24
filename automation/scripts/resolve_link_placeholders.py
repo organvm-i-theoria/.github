@@ -19,7 +19,7 @@ from pathlib import Path
 try:
     import yaml  # type: ignore
 except ImportError:  # pragma: no cover - fallback parser below
-    yaml = None
+    yaml = None  # type: ignore[assignment]
 
 
 LINK_WITH_COMMENT_RE = re.compile(

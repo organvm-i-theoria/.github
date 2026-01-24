@@ -321,7 +321,7 @@ def notify_validation_failure(
     capability: str,
     repository: str,
     errors: list[str],
-    warnings: list[str] = None,
+    warnings: Optional[list[str]] = None,
     metadata: Optional[dict] = None,
 ):
     """Notify about validation failure.
