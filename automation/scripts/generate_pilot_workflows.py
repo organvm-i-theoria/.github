@@ -87,12 +87,12 @@ jobs:
 """
 
         # Add label logic
-        for _rule in label_rules:
-            workflow += """
-            // Check for {rule['label']} label
-            if ({rule['condition']}) {{
-              labels.push('{rule['label']}');
-            }}
+        for rule in label_rules:
+            workflow += f"""
+            // Check for {rule["label"]} label
+            if ({rule["condition"]}) {{{{
+              labels.push('{rule["label"]}');
+            }}}}
 """
 
         workflow += """
