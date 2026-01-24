@@ -62,19 +62,19 @@ jobs:
         # CodeQL Analysis
     - name: Initialize CodeQL
       if: inputs.scan-type == 'codeql' || inputs.scan-type == 'all'
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/init@v3
       with:
         languages: ${{ inputs.languages }}
         queries: security-extended,security-and-quality
 
     - name: Autobuild
       if: inputs.scan-type == 'codeql' || inputs.scan-type == 'all'
-      uses: github/codeql-action/autobuild@v3
+      uses: github/codeql-action/autobuild@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/autobuild@v3
 
     - name: Perform CodeQL Analysis
       if: inputs.scan-type == 'codeql' || inputs.scan-type == 'all'
       id: codeql
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/analyze@v3
       with:
         category: /language:${{ inputs.languages }}
         output: codeql-results
@@ -94,7 +94,7 @@ jobs:
 
     - name: Upload Trivy results to GitHub Security
       if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: trivy-results.sarif
         category: trivy
@@ -102,7 +102,7 @@ jobs:
         # Semgrep SAST Scan
     - name: Run Semgrep
       if: inputs.scan-type == 'semgrep' || inputs.scan-type == 'all'
-      uses: returntocorp/semgrep-action@v1
+      uses: returntocorp/semgrep-action@c4d42fa70dc79e81e6fa15c67d3bf3cf0d4fe9de  # ratchet:returntocorp/semgrep-action@v1
       with:
         config: >-
           p/security-audit
@@ -112,7 +112,7 @@ jobs:
 
     - name: Upload Semgrep results
       if: inputs.scan-type == 'semgrep' || inputs.scan-type == 'all'
-      uses: github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: semgrep.sarif
         category: semgrep

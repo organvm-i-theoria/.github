@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Mark and close stale issues
-      uses: actions/stale@v9
+      uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e  # ratchet:actions/stale@v9
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check for inactive assigned issues
-      uses: actions/github-script@v7
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
       with:
         script: |
           const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
@@ -227,7 +227,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Unassign from very inactive issues
-      uses: actions/github-script@v7
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
       with:
         script: |
           const TWENTY_ONE_DAYS_MS = 21 * 24 * 60 * 60 * 1000;

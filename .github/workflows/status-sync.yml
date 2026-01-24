@@ -19,7 +19,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Find and update linked issues
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -152,7 +152,7 @@ jobs:
     if: github.event_name == 'issues' && (github.event.action == 'assigned' || github.event.action == 'unassigned')
     steps:
       - name: Update status on assignment
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
         with:
           script: |
             const issue = context.payload.issue;
@@ -240,7 +240,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Sync PR labels
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
         with:
           script: |
             const pr = context.payload.pull_request;

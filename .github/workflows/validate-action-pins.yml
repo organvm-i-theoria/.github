@@ -1,0 +1,73 @@
+name: Validate Action Pins
+
+on:
+  pull_request:
+    branches: [main, master, develop]
+    paths:
+      - '.github/workflows/**/*.yml'
+      - '.github/.github/workflows/**/*.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-pins:
+    name: Check SHA Pinning
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+
+      - name: Check for unpinned actions
+        id: check
+        run: |
+          # Find uses: lines with @v* but no ratchet comment
+          # This detects actions pinned to version tags instead of SHA commits
+          unpinned=$(grep -rn 'uses:.*@v[0-9]' .github/workflows/ .github/.github/workflows/ 2>/dev/null | grep -v '# ratchet:' || true)
+
+          if [ -n "$unpinned" ]; then
+            echo "::error::Found unpinned actions"
+            echo "$unpinned"
+            echo "unpinned=true" >> $GITHUB_OUTPUT
+            exit 1
+          else
+            echo "All actions are properly pinned"
+            echo "unpinned=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR (if unpinned)
+        if: failure()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## Action Pinning Required
+
+            This PR contains GitHub Actions that are not pinned to SHA commits.
+
+            **Why this matters:**
+            SHA pinning prevents supply chain attacks where a malicious actor could hijack a version tag.
+
+            **How to fix:**
+            1. Run \`python .github/scripts/update-action-pins.py\`
+            2. Or manually pin actions using format: \`action@SHA  # ratchet:action@version\`
+
+            **Example:**
+            \`\`\`yaml
+            # Before (vulnerable)
+            uses: actions/checkout@v4
+
+            # After (secure)
+            uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+            \`\`\`
+            `
+            })
