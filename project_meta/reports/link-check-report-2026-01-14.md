@@ -212,7 +212,7 @@
   error \[Errno -2\] Name or service not known>)
 - /workspace/docs/CODE_SERVER_SETUP.md: https://$server_name$request_uri;
   (URLError: \<urlopen error \[Errno -2\] Name or service not known>)
-- /workspace/docs/CODE*SERVER_SETUP.md:
+- /workspace/docs/CODE\*SERVER_SETUP.md:
   https://github.com/coder/code-server/releases/download/v$VERSION/code-server*${VERSION}\_amd64.deb
   (HTTPError 404)
 - /workspace/docs/COMPLETE_DEPLOYMENT_README.md: ../../discussions (missing:

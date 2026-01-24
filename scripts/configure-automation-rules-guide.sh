@@ -63,7 +63,7 @@ show_progress() {
     local total=$(wc -l < "$PROGRESS_FILE" | awk '{print $1-1}')  # Exclude header
     local completed=$(grep -c "|DONE$" "$PROGRESS_FILE" || echo 0)
     local percentage=$((completed * 100 / total))
-    
+
     echo ""
     echo -e "${CYAN}╔════════════════════════════════════════════════════════════════╗${NC}"
     echo -e "${CYAN}║${NC}        GitHub Projects Automation Rules Configuration       ${CYAN}║${NC}"
@@ -80,13 +80,13 @@ configure_rule() {
     local rule_name=$3
     local trigger=$4
     local action=$5
-    
+
     # Check if already done
     if grep -q "^$project|$rule_id|DONE$" "$PROGRESS_FILE"; then
         echo -e "${GREEN}✓${NC} Rule already configured: $rule_name"
         return 0
     fi
-    
+
     clear
     echo -e "${PURPLE}═══════════════════════════════════════════════════════════════${NC}"
     echo -e "${PURPLE}  Project #$project Automation Rule${NC}"
@@ -117,9 +117,9 @@ configure_rule() {
     echo ""
     echo -e "${YELLOW}───────────────────────────────────────────────────────────────${NC}"
     echo ""
-    
-    read -p "$(echo -e ${GREEN}Press ENTER when you have completed this rule...${NC})" 
-    
+
+    read -p "$(echo -e ${GREEN}Press ENTER when you have completed this rule...${NC})"
+
     # Mark as done
     sed -i "s/^$project|$rule_id|TODO$/$project|$rule_id|DONE/" "$PROGRESS_FILE"
     echo -e "${GREEN}✓ Rule marked as complete!${NC}"
@@ -129,27 +129,27 @@ configure_rule() {
 # Project #8: AI Framework Development
 configure_project_8() {
     echo -e "${PURPLE}Configuring Project #8: AI Framework Development${NC}"
-    
+
     configure_rule "8" "new-items-planned" \
         "New items → Planned status" \
         "Item added to project" \
         "Set Status = 🎯 Planned"
-    
+
     configure_rule "8" "pr-approved-review" \
         "PR approved → Code Review" \
         "Pull request: Review approved" \
         "Set Status = 👀 Code Review"
-    
+
     configure_rule "8" "pr-merged-deployed" \
         "PR merged → Deployed" \
         "Pull request: Merged" \
         "Set Status = 🚀 Deployed"
-    
+
     configure_rule "8" "item-closed-completed" \
         "Item closed → Completed" \
         "Issue/PR: Closed" \
         "Set Status = ✔️ Completed"
-    
+
     configure_rule "8" "auto-assign-language" \
         "Auto-assign Language from labels" \
         "Item added OR Label added" \
@@ -165,22 +165,22 @@ configure_project_8() {
 # Project #9: Documentation & Knowledge
 configure_project_9() {
     echo -e "${PURPLE}Configuring Project #9: Documentation & Knowledge${NC}"
-    
+
     configure_rule "9" "new-docs-draft" \
         "New docs → Draft" \
         "Item added to project" \
         "Set Status = ✍️ Writing"
-    
+
     configure_rule "9" "pr-approved-review" \
         "PR approved → Review" \
         "Pull request: Review approved" \
         "Set Status = 👀 Review"
-    
+
     configure_rule "9" "pr-merged-published" \
         "PR merged → Published" \
         "Pull request: Merged" \
         "Set Status = 📤 Published"
-    
+
     configure_rule "9" "set-doc-type" \
         "Set Document Type from path" \
         "Item added" \
@@ -191,7 +191,7 @@ configure_project_9() {
    - docs/tutorials/ → 📚 Tutorial
    - CONTRIBUTING.md, CODE_OF_CONDUCT.md → 📋 Policy
    - README.md, QUICKSTART.md → 🎯 Quick Start"
-    
+
     configure_rule "9" "update-last-modified" \
         "Update Last Updated date" \
         "Pull request: Merged (docs changed)" \
@@ -201,32 +201,32 @@ configure_project_9() {
 # Project #10: Workflow Automation
 configure_project_10() {
     echo -e "${PURPLE}Configuring Project #10: Workflow Automation${NC}"
-    
+
     configure_rule "10" "new-workflow-ideation" \
         "New workflows → Ideation" \
         "Item added to project" \
         "Set Status = 💡 Ideation"
-    
+
     configure_rule "10" "pr-created-development" \
         "PR created → In Development" \
         "Pull request: Opened" \
         "Set Status = 🏗️ In Development"
-    
+
     configure_rule "10" "pr-approved-testing" \
         "PR approved → Testing" \
         "Pull request: Review approved" \
         "Set Status = 🧪 Testing"
-    
+
     configure_rule "10" "pr-merged-active" \
         "PR merged → Active" \
         "Pull request: Merged" \
         "Set Status = ✅ Active"
-    
+
     configure_rule "10" "workflow-label-type" \
         "Workflow label → Automation Type" \
         "Label added: workflow" \
         "Set Type = 🔄 Workflow"
-    
+
     configure_rule "10" "bug-issues-bugfix" \
         "Bug issues → Bug Fix" \
         "Label added: bug" \
@@ -236,27 +236,27 @@ configure_project_10() {
 # Project #11: Security & Compliance
 configure_project_11() {
     echo -e "${PURPLE}Configuring Project #11: Security & Compliance${NC}"
-    
+
     configure_rule "11" "new-security-identified" \
         "New security items → Identified" \
         "Item added to project" \
         "Set Status = 🔍 Identified"
-    
+
     configure_rule "11" "pr-created-remediation" \
         "PR created → Remediation in Progress" \
         "Pull request: Opened" \
         "Set Status = 🔧 Remediation in Progress"
-    
+
     configure_rule "11" "pr-approved-validation" \
         "PR approved → Validation" \
         "Pull request: Review approved" \
         "Set Status = ✓ Validation"
-    
+
     configure_rule "11" "pr-merged-resolved" \
         "PR merged → Resolved" \
         "Pull request: Merged" \
         "Set Status = ✅ Resolved"
-    
+
     configure_rule "11" "security-label-finding" \
         "Security label → Finding type" \
         "Label added: security" \
@@ -266,32 +266,32 @@ configure_project_11() {
 # Project #12: Infrastructure & DevOps
 configure_project_12() {
     echo -e "${PURPLE}Configuring Project #12: Infrastructure & DevOps${NC}"
-    
+
     configure_rule "12" "new-infra-planning" \
         "New infra items → Planning" \
         "Item added to project" \
         "Set Status = 📋 Planning"
-    
+
     configure_rule "12" "pr-created-implementation" \
         "PR created → Implementation" \
         "Pull request: Opened" \
         "Set Status = 🏗️ Implementation"
-    
+
     configure_rule "12" "pr-approved-testing" \
         "PR approved → Testing" \
         "Pull request: Review approved" \
         "Set Status = 🧪 Testing"
-    
+
     configure_rule "12" "pr-merged-deployed" \
         "PR merged → Deployed" \
         "Pull request: Merged" \
         "Set Status = 🚀 Deployed"
-    
+
     configure_rule "12" "env-label-environment" \
         "Environment label → field" \
         "Label matches: production, staging, development" \
         "Set Environment field from label"
-    
+
     configure_rule "12" "infra-label-component" \
         "Infrastructure label → component" \
         "Label added: infrastructure" \
@@ -301,22 +301,22 @@ configure_project_12() {
 # Project #13: Community & Support
 configure_project_13() {
     echo -e "${PURPLE}Configuring Project #13: Community & Support${NC}"
-    
+
     configure_rule "13" "new-support-new" \
         "New support items → New" \
         "Item added to project" \
         "Set Status = 🆕 New"
-    
+
     configure_rule "13" "response-inprogress" \
         "Response provided → In Progress" \
         "Comment added by team member" \
         "Set Status = 🔄 In Progress"
-    
+
     configure_rule "13" "solution-resolved" \
         "Solution provided → Resolved" \
         "Issue: Closed as completed" \
         "Set Status = ✅ Resolved"
-    
+
     configure_rule "13" "enhancement-feature" \
         "Enhancement → Feature Request" \
         "Label added: enhancement" \
@@ -326,22 +326,22 @@ configure_project_13() {
 # Project #14: Product Roadmap
 configure_project_14() {
     echo -e "${PURPLE}Configuring Project #14: Product Roadmap${NC}"
-    
+
     configure_rule "14" "new-roadmap-backlog" \
         "New roadmap items → Backlog" \
         "Item added to project" \
         "Set Status = 📋 Backlog"
-    
+
     configure_rule "14" "prioritized-planned" \
         "Prioritized → Planned" \
         "Priority set to High or Critical" \
         "Set Status = 🎯 Planned"
-    
+
     configure_rule "14" "inprogress-development" \
         "In progress → In Development" \
         "Pull request: Opened" \
         "Set Status = 🏗️ In Development"
-    
+
     configure_rule "14" "completed-shipped" \
         "Completed → Shipped" \
         "Pull request: Merged + Issue: Closed" \
@@ -353,12 +353,12 @@ main_menu() {
     while true; do
         clear
         show_progress
-        
+
         echo -e "${BLUE}┌────────────────────────────────────────────────────────────┐${NC}"
         echo -e "${BLUE}│${NC}  Select a project to configure automation rules:         ${BLUE}│${NC}"
         echo -e "${BLUE}└────────────────────────────────────────────────────────────┘${NC}"
         echo ""
-        
+
         echo "  8. AI Framework Development (5 rules)"
         echo "  9. Documentation & Knowledge (5 rules)"
         echo "  10. Workflow Automation (6 rules)"
@@ -371,9 +371,9 @@ main_menu() {
         echo -e "${BLUE}  P.${NC} Show progress report"
         echo -e "${BLUE}  Q.${NC} Quit"
         echo ""
-        
+
         read -p "$(echo -e ${CYAN}Select option:${NC}) " choice
-        
+
         case "$choice" in
             8) configure_project_8 ;;
             9) configure_project_9 ;;
@@ -407,13 +407,13 @@ show_detailed_progress() {
     echo -e "${CYAN}  Automation Rules Progress Report${NC}"
     echo -e "${CYAN}═══════════════════════════════════════════════════════════════${NC}"
     echo ""
-    
+
     for proj in 8 9 10 11 12 13 14; do
         local total=$(grep -c "^$proj|" "$PROGRESS_FILE")
         local done=$(grep -c "^$proj|.*|DONE$" "$PROGRESS_FILE" || echo 0)
         echo -e "${PURPLE}Project #$proj:${NC} $done/$total rules complete"
     done
-    
+
     echo ""
     read -p "$(echo -e ${CYAN}Press ENTER to continue...${NC})"
 }

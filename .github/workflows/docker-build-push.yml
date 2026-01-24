@@ -3,19 +3,19 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - main
-      - master
+    - main
+    - master
     paths:
-      - Dockerfile
-      - docker-compose.yml
-      - src/**
-      - package.json
-      - requirements.txt
-      - .github/workflows/docker-build-push.yml
+    - Dockerfile
+    - docker-compose.yml
+    - src/**
+    - package.json
+    - requirements.txt
+    - .github/workflows/docker-build-push.yml
   pull_request:
     branches:
-      - main
-      - master
+    - main
+    - master
   workflow_dispatch:
     inputs:
       push_to_registry:
@@ -59,326 +59,326 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # ratchet:docker/setup-qemu-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # ratchet:docker/setup-buildx-action@v3
-        with:
-          driver-opts: |
-            image=moby/buildkit:latest
-            network=host
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130   # ratchet:docker/setup-qemu-action@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349   # ratchet:docker/setup-buildx-action@v3
+      with:
+        driver-opts: |
+          image=moby/buildkit:latest
+          network=host
 
-      - name: Check for Dockerfile
-        id: check-dockerfile
-        run: |
-          if [ ! -f "Dockerfile" ]; then
-            echo "❌ No Dockerfile found, attempting to generate one..."
-            echo "has_dockerfile=false" >> $GITHUB_OUTPUT
-          else
-            echo "✅ Dockerfile found"
-            echo "has_dockerfile=true" >> $GITHUB_OUTPUT
-          fi
+    - name: Check for Dockerfile
+      id: check-dockerfile
+      run: |
+        if [ ! -f "Dockerfile" ]; then
+          echo "❌ No Dockerfile found, attempting to generate one..."
+          echo "has_dockerfile=false" >> $GITHUB_OUTPUT
+        else
+          echo "✅ Dockerfile found"
+          echo "has_dockerfile=true" >> $GITHUB_OUTPUT
+        fi
 
-      - name: Generate Dockerfile if missing
-        if: steps.check-dockerfile.outputs.has_dockerfile == 'false'
-        run: |
-          echo "🔧 Generating Dockerfile based on project type..."
+    - name: Generate Dockerfile if missing
+      if: steps.check-dockerfile.outputs.has_dockerfile == 'false'
+      run: |
+        echo "🔧 Generating Dockerfile based on project type..."
 
-          # Detect project type and generate appropriate Dockerfile
-          if [ -f "package.json" ]; then
-            echo "Detected Node.js project"
-            cat > Dockerfile << 'EOF'
-          # Node.js Application Dockerfile
-          FROM node:18-alpine AS builder
+        # Detect project type and generate appropriate Dockerfile
+        if [ -f "package.json" ]; then
+          echo "Detected Node.js project"
+          cat > Dockerfile << 'EOF'
+        # Node.js Application Dockerfile
+        FROM node:18-alpine AS builder
 
-          WORKDIR /app
+        WORKDIR /app
 
-          COPY package*.json ./
-          RUN npm ci --only=production
+        COPY package*.json ./
+        RUN npm ci --only=production
 
-          COPY . .
-          RUN if grep -q '"build"' package.json; then npm run build; fi
+        COPY . .
+        RUN if grep -q '"build"' package.json; then npm run build; fi
 
-          FROM node:18-alpine
+        FROM node:18-alpine
 
-          WORKDIR /app
+        WORKDIR /app
 
-          COPY --from=builder /app/node_modules ./node_modules
-          COPY --from=builder /app .
+        COPY --from=builder /app/node_modules ./node_modules
+        COPY --from=builder /app .
 
-          EXPOSE 3000
+        EXPOSE 3000
 
-          CMD ["npm", "start"]
-          EOF
+        CMD ["npm", "start"]
+        EOF
 
-          elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
-            echo "Detected Python project"
-            cat > Dockerfile << 'EOF'
-          # Python Application Dockerfile
-          FROM python:3.11-slim
+        elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
+          echo "Detected Python project"
+          cat > Dockerfile << 'EOF'
+        # Python Application Dockerfile
+        FROM python:3.11-slim
 
-          WORKDIR /app
+        WORKDIR /app
 
-          # Install dependencies
-          COPY requirements.txt* pyproject.toml* poetry.lock* ./
-          RUN pip install --no-cache-dir -r requirements.txt 2>/dev/null || \
-              pip install --no-cache-dir poetry && poetry install --no-dev 2>/dev/null || \
-              echo "No dependencies to install"
-
-          COPY . .
-
-          EXPOSE 8000
-
-          CMD ["python", "app.py"]
-          EOF
-
-          elif [ -f "go.mod" ]; then
-            echo "Detected Go project"
-            cat > Dockerfile << 'EOF'
-          # Go Application Dockerfile
-          FROM golang:1.21-alpine AS builder
-
-          WORKDIR /app
-
-          COPY go.mod go.sum ./
-          RUN go mod download
-
-          COPY . .
-          RUN go build -o main .
-
-          FROM alpine:latest
-
-          WORKDIR /app
-
-          COPY --from=builder /app/main .
-
-          EXPOSE 8080
-
-          CMD ["./main"]
-          EOF
-
-          elif [ -f "Cargo.toml" ]; then
-            echo "Detected Rust project"
-            cat > Dockerfile << 'EOF'
-          # Rust Application Dockerfile
-          FROM rust:1.75-alpine AS builder
-
-          WORKDIR /app
-
-          COPY Cargo.toml Cargo.lock ./
-          COPY src ./src
-
-          RUN cargo build --release
-
-          FROM alpine:latest
-
-          WORKDIR /app
-
-          COPY --from=builder /app/target/release/app .
-
-          EXPOSE 8080
-
-          CMD ["./app"]
-          EOF
-
-          else
-            echo "❌ Cannot auto-generate Dockerfile for unknown project type"
-            exit 1
-          fi
-
-          echo "✅ Dockerfile generated successfully"
-          cat Dockerfile
-
-      - name: Resolve deployment parameters
-        id: deployment-inputs
-        run: |
-          PUSH_INPUT="$INPUT_PUSH_TO_REGISTRY"
-          if [ -z "$PUSH_INPUT" ]; then
-            PUSH_INPUT="$EVENT_PUSH_TO_REGISTRY"
-          fi
-          if [ -z "$PUSH_INPUT" ] || [ "$PUSH_INPUT" = "true" ]; then
-            echo "push=true" >> $GITHUB_OUTPUT
-          else
-            echo "push=false" >> $GITHUB_OUTPUT
-          fi
-
-          PLATFORM_INPUT="$INPUT_PLATFORMS"
-          if [ -z "$PLATFORM_INPUT" ]; then
-            PLATFORM_INPUT="$EVENT_PLATFORMS"
-          fi
-          if [ -z "$PLATFORM_INPUT" ]; then
-            PLATFORM_INPUT="linux/amd64,linux/arm64"
-          fi
-          echo "platforms=$PLATFORM_INPUT" >> $GITHUB_OUTPUT
-        env:
-          INPUT_PUSH_TO_REGISTRY: ${{ inputs.push_to_registry }}
-          EVENT_PUSH_TO_REGISTRY: ${{ github.event.inputs.push_to_registry }}
-          INPUT_PLATFORMS: ${{ inputs.platforms }}
-          EVENT_PLATFORMS: ${{ github.event.inputs.platforms }}
-
-      - name: Log in to Docker Hub
-        if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # ratchet:docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Log in to GitHub Container Registry
-        if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # ratchet:docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # ratchet:docker/metadata-action@v5.5.1
-        with:
-          images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-            ghcr.io/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
-          flavor: |
-            latest=auto
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@1ca370b3a9802c92e886402e0dd88098a2533b12 # ratchet:docker/build-push-action@v5
-        with:
-          context: .
-          platforms: ${{ steps.deployment-inputs.outputs.platforms }}
-          push: ${{ github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          build-args: |
-            BUILDTIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-            VERSION=${{ github.sha }}
-            REVISION=${{ github.sha }}
-
-      - name: Scan image for vulnerabilities
-        if: github.event_name != 'pull_request'
-        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # ratchet:aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          format: sarif
-          output: trivy-results.sarif
-          severity: CRITICAL,HIGH
-
-      - name: Upload Trivy scan results
-        if: github.event_name != 'pull_request'
-        uses: github/codeql-action@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34 # ratchet:github/codeql-action@v3
-        with:
-          sarif_file: trivy-results.sarif
-
-      - name: Test Docker image
-        if: github.event_name != 'pull_request'
-        run: |
-          echo "🧪 Testing Docker image..."
-
-          # Run container for basic smoke test
-          docker run --rm -d --name test-container \
-            -p 8888:3000 -p 8889:5000 -p 8890:8000 -p 8891:8080 \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-          # Wait for container to start
-          sleep 10
-
-          # Check if container is still running
-          if docker ps | grep -q test-container; then
-            echo "✅ Container is running"
-            docker logs test-container
-            docker stop test-container
-          else
-            echo "❌ Container failed to start"
-            docker logs test-container 2>&1 || true
-            exit 1
-          fi
-
-      - name: Generate SBOM
-        if: github.event_name != 'pull_request'
-        uses: anchore/sbom-action@a930d0ac434e3182448fe678398ba5713717112a # ratchet:anchore/sbom-action@v0
-        with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          format: spdx-json
-          output-file: sbom.spdx.json
-
-      - name: Upload SBOM
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4
-        with:
-          name: sbom
-          path: sbom.spdx.json
-          retention-days: 30
-
-      - name: Create deployment summary
-        if: github.event_name != 'pull_request'
-        run: |
-          cat >> $GITHUB_STEP_SUMMARY << EOF
-          ## 🐳 Docker Build Summary
-
-          **Repository:** \`${{ github.repository }}\`
-          **Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\`
-          **Tags:**
-          $(echo "${{ steps.meta.outputs.tags }}" | sed 's/^/- `/' | sed 's/$/`/')
-
-          **Platforms:** ${{ github.event.inputs.platforms || 'linux/amd64,linux/arm64' }}
-          **Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')
-          **Commit:** \`${{ github.sha }}\`
-
-          ### Quick Start
-
-          \`\`\`bash
-          # Pull the image
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-          # Run the container
-          docker run -p 3000:3000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-          \`\`\`
-
-          ### Available Tags
-
-          - \`latest\` - Latest stable build from main branch
-          - \`${{ github.sha }}\` - This specific commit
-          - \`${{ github.ref_name }}\` - Latest from this branch
-
-          ---
-
-          ✅ Build completed successfully
-          EOF
-
-      - name: Update README with Docker badge
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        run: |
-          if [ ! -f "README.md" ]; then
-            echo "No README.md found, skipping badge update"
-            exit 0
-          fi
-
-          BADGE="[![Docker Image](https://img.shields.io/docker/v/${{ github.repository }}?label=docker&logo=docker)](https://hub.docker.com/r/${{ github.repository }})"
-
-          # Check if badge already exists
-          if ! grep -q "Docker Image" README.md; then
-            # Add badge at the top of README
-            echo "$BADGE" | cat - README.md > temp && mv temp README.md
-
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "docs: add Docker image badge [skip ci]" || echo "No changes to commit"
-            git push || echo "No changes to push"
-          fi
+        # Install dependencies
+        COPY requirements.txt* pyproject.toml* poetry.lock* ./
+        RUN pip install --no-cache-dir -r requirements.txt 2>/dev/null || \
+            pip install --no-cache-dir poetry && poetry install --no-dev 2>/dev/null || \
+            echo "No dependencies to install"
+
+        COPY . .
+
+        EXPOSE 8000
+
+        CMD ["python", "app.py"]
+        EOF
+
+        elif [ -f "go.mod" ]; then
+          echo "Detected Go project"
+          cat > Dockerfile << 'EOF'
+        # Go Application Dockerfile
+        FROM golang:1.21-alpine AS builder
+
+        WORKDIR /app
+
+        COPY go.mod go.sum ./
+        RUN go mod download
+
+        COPY . .
+        RUN go build -o main .
+
+        FROM alpine:latest
+
+        WORKDIR /app
+
+        COPY --from=builder /app/main .
+
+        EXPOSE 8080
+
+        CMD ["./main"]
+        EOF
+
+        elif [ -f "Cargo.toml" ]; then
+          echo "Detected Rust project"
+          cat > Dockerfile << 'EOF'
+        # Rust Application Dockerfile
+        FROM rust:1.75-alpine AS builder
+
+        WORKDIR /app
+
+        COPY Cargo.toml Cargo.lock ./
+        COPY src ./src
+
+        RUN cargo build --release
+
+        FROM alpine:latest
+
+        WORKDIR /app
+
+        COPY --from=builder /app/target/release/app .
+
+        EXPOSE 8080
+
+        CMD ["./app"]
+        EOF
+
+        else
+          echo "❌ Cannot auto-generate Dockerfile for unknown project type"
+          exit 1
+        fi
+
+        echo "✅ Dockerfile generated successfully"
+        cat Dockerfile
+
+    - name: Resolve deployment parameters
+      id: deployment-inputs
+      run: |
+        PUSH_INPUT="$INPUT_PUSH_TO_REGISTRY"
+        if [ -z "$PUSH_INPUT" ]; then
+          PUSH_INPUT="$EVENT_PUSH_TO_REGISTRY"
+        fi
+        if [ -z "$PUSH_INPUT" ] || [ "$PUSH_INPUT" = "true" ]; then
+          echo "push=true" >> $GITHUB_OUTPUT
+        else
+          echo "push=false" >> $GITHUB_OUTPUT
+        fi
+
+        PLATFORM_INPUT="$INPUT_PLATFORMS"
+        if [ -z "$PLATFORM_INPUT" ]; then
+          PLATFORM_INPUT="$EVENT_PLATFORMS"
+        fi
+        if [ -z "$PLATFORM_INPUT" ]; then
+          PLATFORM_INPUT="linux/amd64,linux/arm64"
+        fi
+        echo "platforms=$PLATFORM_INPUT" >> $GITHUB_OUTPUT
+      env:
+        INPUT_PUSH_TO_REGISTRY: ${{ inputs.push_to_registry }}
+        EVENT_PUSH_TO_REGISTRY: ${{ github.event.inputs.push_to_registry }}
+        INPUT_PLATFORMS: ${{ inputs.platforms }}
+        EVENT_PLATFORMS: ${{ github.event.inputs.platforms }}
+
+    - name: Log in to Docker Hub
+      if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567   # ratchet:docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Log in to GitHub Container Registry
+      if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
+      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567   # ratchet:docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81   # ratchet:docker/metadata-action@v5.5.1
+      with:
+        images: |
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          ghcr.io/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
+          type=sha,prefix={{branch}}-
+          type=raw,value=latest,enable={{is_default_branch}}
+        flavor: |
+          latest=auto
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@1ca370b3a9802c92e886402e0dd88098a2533b12   # ratchet:docker/build-push-action@v5
+      with:
+        context: .
+        platforms: ${{ steps.deployment-inputs.outputs.platforms }}
+        push: ${{ github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        build-args: |
+          BUILDTIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          VERSION=${{ github.sha }}
+          REVISION=${{ github.sha }}
+
+    - name: Scan image for vulnerabilities
+      if: github.event_name != 'pull_request'
+      uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2   # ratchet:aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        format: sarif
+        output: trivy-results.sarif
+        severity: CRITICAL,HIGH
+
+    - name: Upload Trivy scan results
+      if: github.event_name != 'pull_request'
+      uses: github/codeql-action@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34   # ratchet:github/codeql-action@v3
+      with:
+        sarif_file: trivy-results.sarif
+
+    - name: Test Docker image
+      if: github.event_name != 'pull_request'
+      run: |
+        echo "🧪 Testing Docker image..."
+
+        # Run container for basic smoke test
+        docker run --rm -d --name test-container \
+          -p 8888:3000 -p 8889:5000 -p 8890:8000 -p 8891:8080 \
+          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+        # Wait for container to start
+        sleep 10
+
+        # Check if container is still running
+        if docker ps | grep -q test-container; then
+          echo "✅ Container is running"
+          docker logs test-container
+          docker stop test-container
+        else
+          echo "❌ Container failed to start"
+          docker logs test-container 2>&1 || true
+          exit 1
+        fi
+
+    - name: Generate SBOM
+      if: github.event_name != 'pull_request'
+      uses: anchore/sbom-action@a930d0ac434e3182448fe678398ba5713717112a   # ratchet:anchore/sbom-action@v0
+      with:
+        image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        format: spdx-json
+        output-file: sbom.spdx.json
+
+    - name: Upload SBOM
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882   # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4
+      with:
+        name: sbom
+        path: sbom.spdx.json
+        retention-days: 30
+
+    - name: Create deployment summary
+      if: github.event_name != 'pull_request'
+      run: |
+        cat >> $GITHUB_STEP_SUMMARY << EOF
+        ## 🐳 Docker Build Summary
+
+        **Repository:** \`${{ github.repository }}\`
+        **Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\`
+        **Tags:**
+        $(echo "${{ steps.meta.outputs.tags }}" | sed 's/^/- `/' | sed 's/$/`/')
+
+        **Platforms:** ${{ github.event.inputs.platforms || 'linux/amd64,linux/arm64' }}
+        **Build Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+        **Commit:** \`${{ github.sha }}\`
+
+        ### Quick Start
+
+        \`\`\`bash
+        # Pull the image
+        docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+        # Run the container
+        docker run -p 3000:3000 ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        \`\`\`
+
+        ### Available Tags
+
+        - \`latest\` - Latest stable build from main branch
+        - \`${{ github.sha }}\` - This specific commit
+        - \`${{ github.ref_name }}\` - Latest from this branch
+
+        ---
+
+        ✅ Build completed successfully
+        EOF
+
+    - name: Update README with Docker badge
+      if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+      run: |
+        if [ ! -f "README.md" ]; then
+          echo "No README.md found, skipping badge update"
+          exit 0
+        fi
+
+        BADGE="[![Docker Image](https://img.shields.io/docker/v/${{ github.repository }}?label=docker&logo=docker)](https://hub.docker.com/r/${{ github.repository }})"
+
+        # Check if badge already exists
+        if ! grep -q "Docker Image" README.md; then
+          # Add badge at the top of README
+          echo "$BADGE" | cat - README.md > temp && mv temp README.md
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: add Docker image badge [skip ci]" || echo "No changes to commit"
+          git push || echo "No changes to push"
+        fi

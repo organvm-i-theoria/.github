@@ -2,7 +2,7 @@
 
 > **⚡ Fast execution guide for completing Phase 7 of CLEANUP_ROADMAP**
 
----
+______________________________________________________________________
 
 ## One-Command Execution
 
@@ -14,7 +14,7 @@ bash automation/scripts/phase7-day2-templates.sh
 
 Then follow Day 2 manual validation steps.
 
----
+______________________________________________________________________
 
 ## Individual Steps
 
@@ -45,10 +45,10 @@ bash automation/scripts/phase7-day2-templates.sh
 **Manual steps:**
 
 1. Visit <https://github.com/ivviiviivvi/.github/issues/new/choose>
-2. Test each of 17 templates
-3. Update validation report with results
+1. Test each of 17 templates
+1. Update validation report with results
 
----
+______________________________________________________________________
 
 ## Mark Complete
 
@@ -75,7 +75,7 @@ Closes #152, #151, #150"
 git push origin main
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -107,7 +107,7 @@ gh issue view 152 --json state,title
 
 If closed, skip that issue in the script.
 
----
+______________________________________________________________________
 
 ## Files Created
 
@@ -118,7 +118,7 @@ If closed, skip that issue in the script.
 - `automation/scripts/phase7-day1-triage.sh` - Day 1 automation
 - `automation/scripts/phase7-day2-templates.sh` - Day 2 setup
 
----
+______________________________________________________________________
 
 ## Success Checklist
 
@@ -130,29 +130,29 @@ If closed, skip that issue in the script.
 - [ ] CLEANUP_ROADMAP.md Phase 7 marked complete
 - [ ] Changes committed and pushed
 
----
+______________________________________________________________________
 
 ## Time Estimates
 
-| Task | Time |
-|------|------|
-| Day 1 triage script | 5 min |
-| Day 2 template script | 5 min |
-| Manual template testing | 2-3 hours |
-| Documentation | 30 min |
-| Final commit | 10 min |
-| **Total** | **3-4 hours** |
+| Task                    | Time          |
+| ----------------------- | ------------- |
+| Day 1 triage script     | 5 min         |
+| Day 2 template script   | 5 min         |
+| Manual template testing | 2-3 hours     |
+| Documentation           | 30 min        |
+| Final commit            | 10 min        |
+| **Total**               | **3-4 hours** |
 
----
+______________________________________________________________________
 
 ## Next Steps After Completion
 
 1. Create GitHub Discussion announcing 100% completion
-2. Schedule retrospective meeting
-3. Archive CLEANUP_ROADMAP.md
-4. Create epics for deferred issues (#242, #241, #153, #149)
+1. Schedule retrospective meeting
+1. Archive CLEANUP_ROADMAP.md
+1. Create epics for deferred issues (#242, #241, #153, #149)
 
----
+______________________________________________________________________
 
 **Need Help?**
 

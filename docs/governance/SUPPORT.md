@@ -392,7 +392,7 @@ For enterprise support, training, or consulting:
 - [Project A](https://github.com/ivviiviivvi/project-a)
 - [Project B](https://github.com/ivviiviivvi/project-b)
 
----
+______________________________________________________________________
 
 **Need more help?** Contact us at support@ivviiviivvi.com
 

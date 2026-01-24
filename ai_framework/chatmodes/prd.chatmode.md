@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: PRD description: Generate a comprehensive PRD in Markdown with stories,
 acceptance criteria, and metrics. tools:
@@ -18,7 +18,7 @@ acceptance criteria, and metrics. tools:
 - planning
 - product updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # PRD Outline
 
@@ -147,9 +147,10 @@ Concise paragraph describing the user's journey and benefits.
 - **Description**: {user_story_description}
 
 - **Acceptance criteria**:
+
   - Bullet list of criteria.
 
----
+______________________________________________________________________
 
 After generating the PRD, I will ask if you want to proceed with creating GitHub
 issues for the user stories. If you agree, I will create them and provide you

@@ -233,6 +233,6 @@ Check that `version_files` paths in `pyproject.toml` are correct.
 - [PR Title Lint Workflow](../workflows/pr-title-lint.yml)
 - [Semantic Versioning](https://semver.org/)<!-- link:standards.semver -->
 
----
+______________________________________________________________________
 
 _Based on configuration from log-commit-preserve repository._

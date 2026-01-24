@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Context Validation Utility
+"""Context Validation Utility
 
 Validates generated context payloads against schema requirements
 and verifies token count targets are met.
@@ -84,6 +83,7 @@ class ContextValidator:
 
         Args:
             context_file: Path to context payload JSON file
+
         """
         self.context_file = Path(context_file)
         self.context = self._load_context()
@@ -99,11 +99,12 @@ class ContextValidator:
         Raises:
             FileNotFoundError: If context file doesn't exist
             json.JSONDecodeError: If file is not valid JSON
+
         """
         if not self.context_file.exists():
             raise FileNotFoundError(f"Context file not found: {self.context_file}")
 
-        with open(self.context_file, "r", encoding="utf-8") as f:
+        with open(self.context_file, encoding="utf-8") as f:
             return json.load(f)
 
     def detect_level(self) -> str:
@@ -111,6 +112,7 @@ class ContextValidator:
 
         Returns:
             Detected compression level ('minimal', 'standard', or 'full')
+
         """
         if "version" in self.context:
             if "file_state" in self.context:
@@ -126,6 +128,7 @@ class ContextValidator:
 
         Returns:
             True if schema is valid, False otherwise
+
         """
         if level not in self.REQUIRED_FIELDS:
             self.errors.append(f"Unknown compression level: {level}")
@@ -159,14 +162,14 @@ class ContextValidator:
 
         Returns:
             True if token count is within target, False otherwise
+
         """
         token_count = self.get_token_count()
         target = self.TARGETS[level]
 
         if token_count > target:
             self.warnings.append(
-                f"Token count {token_count} exceeds target {target} "
-                f"by {token_count - target} tokens"
+                f"Token count {token_count} exceeds target {target} by {token_count - target} tokens"
             )
             return False
 
@@ -177,6 +180,7 @@ class ContextValidator:
 
         Returns:
             Estimated token count (4 chars ≈ 1 token)
+
         """
         return len(json.dumps(self.context, separators=(",", ":"))) // 4
 
@@ -185,6 +189,7 @@ class ContextValidator:
 
         Returns:
             True if all data types are correct, False otherwise
+
         """
         valid = True
 
@@ -222,6 +227,7 @@ class ContextValidator:
 
         Returns:
             Value at field path or None if not found
+
         """
         parts = field_path.split(".")
         value = self.context
@@ -237,6 +243,7 @@ class ContextValidator:
 
         Returns:
             Tuple of (is_valid, errors, warnings)
+
         """
         level = self.detect_level()
 
@@ -265,7 +272,7 @@ class ContextValidator:
         print(f"File:        {self.context_file}")
         print(f"Level:       {level}")
         print(f"Token count: {token_count} (target: ≤{target})")
-        print(f"Status:      ", end="")
+        print("Status:      ", end="")
 
         is_valid, errors, warnings = self.validate_all()
 
@@ -289,7 +296,7 @@ class ContextValidator:
         if is_valid and not errors and not warnings:
             print("\n✓ All validations passed")
             print(
-                f"✓ Token efficiency: {(1 - token_count/8500)*100:.1f}% reduction from naive"
+                f"✓ Token efficiency: {(1 - token_count / 8500) * 100:.1f}% reduction from naive"
             )
 
         print("=" * 80)

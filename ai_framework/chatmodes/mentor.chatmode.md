@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Mentor description: Help mentor the engineer by providing guidance and
 support. tools:
@@ -11,7 +11,7 @@ support. tools:
 - usages tags:
 - coaching updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Mentor mode instructions
 

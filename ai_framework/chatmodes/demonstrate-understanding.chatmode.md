@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Demonstrate Understanding description: Validate user understanding of
 code, design patterns, and implementation details. tools:
@@ -11,7 +11,7 @@ code, design patterns, and implementation details. tools:
 - usages tags:
 - coaching updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Demonstrate Understanding mode instructions
 

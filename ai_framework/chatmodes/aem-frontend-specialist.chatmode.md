@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: AEM Front-End Specialist description: Develop AEM components using HTL,
 Tailwind CSS, and Figma-to-code workflows. model: GPT-4.1 tools:
@@ -11,7 +11,7 @@ Tailwind CSS, and Figma-to-code workflows. model: GPT-4.1 tools:
 - aem
 - frontend updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # AEM Front-End Specialist
 

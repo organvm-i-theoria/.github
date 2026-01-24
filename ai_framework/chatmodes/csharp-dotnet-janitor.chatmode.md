@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: C#/.NET Janitor description: Janitorial tasks for C#/.NET code including
 cleanup and modernization. tools:
@@ -28,7 +28,7 @@ cleanup and modernization. tools:
 - dotnet
 - cleanup updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # C#/.NET Janitor
 

@@ -1,10 +1,12 @@
 # Dotfiles-Enabled DevContainer Template
 
-A development container pre-configured with personal dotfiles for consistent development environments across all organization repositories.
+A development container pre-configured with personal dotfiles for consistent
+development environments across all organization repositories.
 
 ## Features
 
-- **Chezmoi Integration**: Automatically applies dotfiles from [4444J99/dotfiles](https://github.com/4444J99/dotfiles)
+- **Chezmoi Integration**: Automatically applies dotfiles from
+  [4444J99/dotfiles](https://github.com/4444J99/dotfiles)
 - **Modern CLI Tools**: starship, eza, bat, fzf, zoxide, atuin, ripgrep
 - **Neovim + LazyVim**: Pre-configured editor with LSP support
 - **1Password CLI**: For secure secrets management
@@ -32,7 +34,8 @@ Reference the setup script from your own devcontainer:
 
 ### Option 3: Use with GitHub Codespaces
 
-Add to your repository settings → Codespaces → Default devcontainer configuration.
+Add to your repository settings → Codespaces → Default devcontainer
+configuration.
 
 ## Customization
 
@@ -62,17 +65,17 @@ To use the template without dotfiles:
 
 ## Included Tools
 
-| Tool | Purpose |
-|------|---------|
-| `chezmoi` | Dotfile management |
-| `starship` | Cross-shell prompt |
-| `eza` | Modern `ls` replacement |
-| `bat` | Syntax-highlighted `cat` |
-| `fzf` | Fuzzy finder |
-| `zoxide` | Smart directory jumping |
-| `atuin` | Shell history search |
-| `nvim` | Neovim with LazyVim |
-| `op` | 1Password CLI |
+| Tool       | Purpose                  |
+| ---------- | ------------------------ |
+| `chezmoi`  | Dotfile management       |
+| `starship` | Cross-shell prompt       |
+| `eza`      | Modern `ls` replacement  |
+| `bat`      | Syntax-highlighted `cat` |
+| `fzf`      | Fuzzy finder             |
+| `zoxide`   | Smart directory jumping  |
+| `atuin`    | Shell history search     |
+| `nvim`     | Neovim with LazyVim      |
+| `op`       | 1Password CLI            |
 
 ## Shell Aliases (from dotfiles)
 
@@ -87,11 +90,11 @@ gl  → git log --oneline --graph
 
 ## Key Bindings
 
-| Key | Action |
-|-----|--------|
+| Key      | Action                       |
+| -------- | ---------------------------- |
 | `Ctrl+R` | Fuzzy search history (atuin) |
-| `Ctrl+T` | Fuzzy find files (fzf) |
-| `Alt+C` | Fuzzy cd directory (fzf) |
+| `Ctrl+T` | Fuzzy find files (fzf)       |
+| `Alt+C`  | Fuzzy cd directory (fzf)     |
 
 ## Requirements
 

@@ -1,5 +1,4 @@
-"""
-Data models for Month 3 advanced automation features.
+"""Data models for Month 3 advanced automation features.
 
 This module defines the core data structures used across all Month 3 components:  # noqa: E501
 - Auto-merge configuration and results

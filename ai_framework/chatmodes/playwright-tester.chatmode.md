@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Playwright Tester description: Testing mode for Playwright tests. model:
 Claude Sonnet 4 tools:
@@ -21,7 +21,7 @@ Claude Sonnet 4 tools:
 - testing
 - playwright updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## Core Responsibilities
 

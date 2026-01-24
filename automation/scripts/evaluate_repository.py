@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Repository Evaluation Script
+"""Repository Evaluation Script
 Evaluates potential pilot repositories for workflow deployment
 
 Usage:
@@ -42,11 +41,11 @@ class RepositoryEvaluator:
     # Scoring weights for the 6 evaluation categories
     WEIGHTS = {
         "complexity": 0.15,  # Repository complexity score
-        "activity": 0.25,    # Repository activity score
-        "health": 0.20,      # Repository health score
-        "team": 0.15,        # Team engagement score
-        "maintenance": 0.15, # Maintenance burden score
-        "readiness": 0.10,   # Workflow deployment readiness score
+        "activity": 0.25,  # Repository activity score
+        "health": 0.20,  # Repository health score
+        "team": 0.15,  # Team engagement score
+        "maintenance": 0.15,  # Maintenance burden score
+        "readiness": 0.10,  # Workflow deployment readiness score
     }
 
     # Thresholds
@@ -57,6 +56,7 @@ class RepositoryEvaluator:
 
         Args:
             repo: Repository in format 'owner/repo'
+
         """
         self.repo = repo
         self.owner, self.repo_name = repo.split("/")
@@ -82,8 +82,7 @@ class RepositoryEvaluator:
                 "view",
                 self.repo,
                 "--json",
-                "name,stargazerCount,forkCount,openIssues,language,"
-                "defaultBranchRef,visibility,description",
+                "name,stargazerCount,forkCount,openIssues,language,defaultBranchRef,visibility,description",
             ]
         )
 

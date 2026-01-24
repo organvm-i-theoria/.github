@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Context Payload Generator for Orchestrator State
+"""Context Payload Generator for Orchestrator State
 Generates token-optimized context for AI session handoffs
 
 This module provides a production-ready framework for seamless context transfer
@@ -19,7 +18,7 @@ import json
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class CompressionLevel(Enum):
@@ -45,6 +44,7 @@ class ContextPayloadGenerator:
         >>> context = gen.generate_context(CompressionLevel.STANDARD)
         >>> tokens = gen.get_token_count(context)
         >>> print(f"Generated context with {tokens} tokens")
+
     """
 
     def __init__(self, state_file: str = ".orchestrator_state.json"):
@@ -55,6 +55,7 @@ class ContextPayloadGenerator:
 
         Raises:
             FileNotFoundError: If state file does not exist
+
         """
         self.state_file = Path(state_file)
         self.state = self._load_state()
@@ -68,10 +69,11 @@ class ContextPayloadGenerator:
         Raises:
             FileNotFoundError: If state file does not exist
             json.JSONDecodeError: If state file is not valid JSON
+
         """
         if not self.state_file.exists():
             raise FileNotFoundError(f"State file not found: {self.state_file}")
-        with open(self.state_file, "r", encoding="utf-8") as f:
+        with open(self.state_file, encoding="utf-8") as f:
             return json.load(f)
 
     def generate_context(
@@ -88,6 +90,7 @@ class ContextPayloadGenerator:
         Example:
             >>> gen = ContextPayloadGenerator()
             >>> context = gen.generate_context(CompressionLevel.MINIMAL)
+
         """
         if level == CompressionLevel.MINIMAL:
             return self._generate_minimal()
@@ -106,13 +109,14 @@ class ContextPayloadGenerator:
 
         Returns:
             Minimal context dictionary
+
         """
         tasks = self.state.get("tasks", {})
         context = self.state.get("context", {})
 
         total = len(tasks)
         completed = len(context.get("completed_tasks", []))
-        progress = int((completed / total * 100)) if total > 0 else 0
+        progress = int(completed / total * 100) if total > 0 else 0
 
         return {
             "summary": {
@@ -139,6 +143,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Standard context dictionary
+
         """
         tasks = self.state.get("tasks", {})
         context = self.state.get("context", {})
@@ -181,6 +186,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Full context dictionary
+
         """
         standard = self._generate_standard()
         standard["file_state"] = {
@@ -204,6 +210,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of eligible task IDs, sorted alphabetically
+
         """
         tasks = self.state.get("tasks", {})
         completed = set(self.state.get("context", {}).get("completed_tasks", []))
@@ -224,6 +231,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of blocked task IDs
+
         """
         tasks = self.state.get("tasks", {})
         completed = set(self.state.get("context", {}).get("completed_tasks", []))
@@ -241,6 +249,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of error dictionaries with task_id, type, and message
+
         """
         errors = self.state.get("error_tracking", {}).get("errors", [])
         return [
@@ -260,6 +269,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of recent decision dictionaries
+
         """
         decisions = self.state.get("user_customizations", {}).get(
             "runtime_decisions", []
@@ -282,6 +292,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of warning messages
+
         """
         warnings = []
         env = self.state.get("environment_config", {})
@@ -302,6 +313,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of completed phase IDs
+
         """
         phases = self.state.get("dag", {}).get("phases", {})
         tasks = self.state.get("tasks", {})
@@ -319,6 +331,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Dictionary with total, complete, and percentage
+
         """
         phase_id = self.state.get("context", {}).get("current_phase")
         if not phase_id:
@@ -332,7 +345,7 @@ class ContextPayloadGenerator:
         return {
             "total": len(phase_tasks),
             "complete": completed,
-            "pct": int((completed / len(phase_tasks) * 100)) if phase_tasks else 0,
+            "pct": int(completed / len(phase_tasks) * 100) if phase_tasks else 0,
         }
 
     def _get_critical_path(self) -> List[str]:
@@ -342,6 +355,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of task IDs sorted by criticality (most critical first)
+
         """
         tasks = self.state.get("tasks", {})
         priority = [
@@ -357,6 +371,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of artifact dictionaries with path and producer
+
         """
         files = self.state.get("filesystem_state", {}).get("files", {})
         return [
@@ -370,6 +385,7 @@ class ContextPayloadGenerator:
 
         Returns:
             List of file paths
+
         """
         files = self.state.get("filesystem_state", {}).get("files", {})
         return [p for p, i in files.items() if i.get("required_by") and i.get("exists")]
@@ -379,6 +395,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Disk usage in megabytes
+
         """
         usage = (
             self.state.get("filesystem_state", {})
@@ -392,6 +409,7 @@ class ContextPayloadGenerator:
 
         Returns:
             OS type and version string
+
         """
         os = (
             self.state.get("environment_config", {})
@@ -405,6 +423,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Python version string
+
         """
         return (
             self.state.get("environment_config", {})
@@ -424,6 +443,7 @@ class ContextPayloadGenerator:
 
         Returns:
             Dictionary mapping package names to versions
+
         """
         packages = (
             self.state.get("environment_config", {})
@@ -454,6 +474,7 @@ class ContextPayloadGenerator:
             >>> gen = ContextPayloadGenerator()
             >>> path = gen.save_context("context.json", CompressionLevel.MINIMAL)
             >>> print(f"Saved to {path}")
+
         """
         context = self.generate_context(level)
         output_path = Path(output)
@@ -479,6 +500,7 @@ class ContextPayloadGenerator:
             >>> context = gen.generate_context(CompressionLevel.STANDARD)
             >>> tokens = gen.get_token_count(context)
             >>> print(f"Estimated tokens: {tokens}")
+
         """
         return len(json.dumps(context, separators=(",", ":"))) // 4
 
@@ -523,7 +545,7 @@ def main():
         output_path = gen.save_context(args.output, level_map[args.level])
         context = gen.generate_context(level_map[args.level])
 
-        print(f"✓ Context generated successfully")
+        print("✓ Context generated successfully")
         print(f"  Level: {args.level}")
         print(f"  Output: {output_path}")
 

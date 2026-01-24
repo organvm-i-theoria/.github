@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Atlassian Requirements to Jira description: Transform requirements into
 Jira epics and stories with duplicate detection. tools:
@@ -7,7 +7,7 @@ Jira epics and stories with duplicate detection. tools:
 - atlassian
 - jira updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## 🔒 SECURITY CONSTRAINTS & OPERATIONAL LIMITS
 
@@ -175,11 +175,13 @@ For each epic, create detailed user stories with smart features:
 #### Story Details:
 
 - **Acceptance Criteria**:
+
   - Minimum 3-5 specific, testable criteria
   - Use Given/When/Then format when appropriate
   - Include edge cases and error scenarios
 
 - **Definition of Done**:
+
   - Code complete and reviewed
   - Unit tests written and passing
   - Integration tests passing
@@ -200,7 +202,7 @@ For each epic, create detailed user stories with smart features:
 #### User Story Quality Checklist:
 
 - [ ] Follows INVEST criteria (Independent, Negotiable, Valuable, Estimable,
-      Small, Testable)
+  Small, Testable)
 - [ ] Has clear acceptance criteria
 - [ ] Includes edge cases and error handling
 - [ ] Specifies user persona/role

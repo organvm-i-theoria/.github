@@ -143,7 +143,7 @@ gh issue comment 242 --body "🔍 **Triage Assessment**
 
 **Recommendation:** Create systematic cleanup project
 1. Phase 1: Fix P1 links (README, CONTRIBUTING, main guides) - 1-2 days
-2. Phase 2: Batch fix local path issues with script - 2-3 days  
+2. Phase 2: Batch fix local path issues with script - 2-3 days
 3. Phase 3: Review and update external links - 3-5 days
 
 **Assign to:** Documentation team

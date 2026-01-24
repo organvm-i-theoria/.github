@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-A/B Test Assignment Script for Stale Grace Period Optimization
+"""A/B Test Assignment Script for Stale Grace Period Optimization
 
 Assigns repositories to control or experiment groups using consistent hashing.
 Ensures 50/50 split and deterministic assignment based on repository name.
@@ -39,26 +38,26 @@ class ABTestAssigner:
         if not self.config_path.exists():
             raise FileNotFoundError(f"Config file not found: {self.config_path}")
 
-        with open(self.config_path, "r") as f:
+        with open(self.config_path) as f:
             return yaml.safe_load(f)
 
     def _hash_repository(self, repo_name: str) -> int:
         """Generate consistent hash for repository name."""
         # Combine repo name with seed for consistent, deterministic hashing
-        hash_input = f"{repo_name}:{self.seed}".encode("utf-8")
+        hash_input = f"{repo_name}:{self.seed}".encode()
         hash_digest = hashlib.sha256(hash_input).hexdigest()
         # Convert first 8 hex chars to integer
         return int(hash_digest[:8], 16)
 
     def assign_group(self, repo_name: str) -> str:
-        """
-        Assign repository to control or experiment group.
+        """Assign repository to control or experiment group.
 
         Args:
             repo_name: Repository name (format: "owner/repo")
 
         Returns:
             Group name: "control" or "experiment"
+
         """
         # Check if repository is excluded
         if self._is_excluded(repo_name):
@@ -95,14 +94,14 @@ class ABTestAssigner:
         return self.config["groups"].get(group)
 
     def get_grace_period(self, repo_name: str) -> int:
-        """
-        Get grace period in days for a repository.
+        """Get grace period in days for a repository.
 
         Args:
             repo_name: Repository name (format: "owner/repo")
 
         Returns:
             Grace period in days (7 or 10)
+
         """
         group = self.assign_group(repo_name)
         if group == "excluded":
@@ -112,14 +111,14 @@ class ABTestAssigner:
         return group_config["gracePeriod"]
 
     def generate_workflow_config(self, repo_name: str) -> Dict:
-        """
-        Generate workflow configuration for a repository.
+        """Generate workflow configuration for a repository.
 
         Args:
             repo_name: Repository name (format: "owner/repo")
 
         Returns:
             Dictionary with workflow configuration
+
         """
         group = self.assign_group(repo_name)
 
@@ -172,12 +171,12 @@ class ABTestAssigner:
             return []
 
     def assign_all_repositories(self) -> Dict[str, List[str]]:
-        """
-        Assign all repositories to groups.
+        """Assign all repositories to groups.
 
         Returns:
             Dictionary with group assignments:
             {"control": [...], "experiment": [...], "excluded": [...]}
+
         """
         repos = self.list_all_repositories()
 
@@ -306,10 +305,10 @@ def main():
                 print("\nAssignment Summary:")
                 control_count = report["assignments"]["control"]["count"]
                 control_pct = report["assignments"]["control"]["percentage"]
-                print(f"  Control Group: {control_count} repos " f"({control_pct}%)")
+                print(f"  Control Group: {control_count} repos ({control_pct}%)")
                 exp_count = report["assignments"]["experiment"]["count"]
                 exp_pct = report["assignments"]["experiment"]["percentage"]
-                print(f"  Experiment Group: {exp_count} repos " f"({exp_pct}%)")
+                print(f"  Experiment Group: {exp_count} repos ({exp_pct}%)")
                 print(
                     f"  Excluded: {report['assignments']['excluded']['count']} repos"  # noqa: E501
                 )

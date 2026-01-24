@@ -11,7 +11,7 @@ Comprehensive guide for Git workflows, branching strategies, and best practices.
 - [Hotfix Process](#hotfix-process)
 - [Best Practices](#best-practices)
 
----
+______________________________________________________________________
 
 ## Branch Strategy
 
@@ -92,7 +92,7 @@ feature/add-dark-mode
 - **Base**: Created from `develop`
 - **Merge to**: `develop`
 
----
+______________________________________________________________________
 
 ## Commit Conventions
 
@@ -158,21 +158,24 @@ Performance improvement: 10x faster for large datasets
 ### Commit Message Guidelines
 
 1. **Subject line**:
+
    - Max 50 characters
    - Imperative mood ("add" not "added")
    - No period at the end
    - Capitalize first letter
 
 1. **Body** (optional):
+
    - Wrap at 72 characters
    - Explain what and why, not how
    - Separate from subject with blank line
 
 1. **Footer** (optional):
+
    - Reference issues: `Closes #123`, `Fixes #456`
    - Breaking changes: `BREAKING CHANGE: description`
 
----
+______________________________________________________________________
 
 ## Pull Request Workflow
 
@@ -266,12 +269,14 @@ Relates to #456
 ### 4. Code Review Process
 
 1. **Automated Checks**: Must pass before review
+
    - Linting
    - Tests
    - Security scans
    - Coverage thresholds
 
 1. **Peer Review**: At least one approval required
+
    - Review code quality
    - Check for bugs
    - Verify tests
@@ -342,7 +347,7 @@ Before merging anything into `main`, validate that functionality remains intact:
 > Tip: Treat the merge as a deployment gate—if you would not deploy it, do not
 > merge it into `main`.
 
----
+______________________________________________________________________
 
 ## Release Process
 
@@ -389,7 +394,7 @@ git branch -d release/v1.2.0
 git push origin --delete release/v1.2.0
 ```
 
----
+______________________________________________________________________
 
 ## Hotfix Process
 
@@ -433,7 +438,7 @@ git branch -d hotfix/critical-security-fix
 git push origin --delete hotfix/critical-security-fix
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -518,7 +523,7 @@ git blame <file>
 git show <commit-hash>
 ```
 
----
+______________________________________________________________________
 
 ## Branch Protection Rules
 
@@ -543,7 +548,7 @@ git show <commit-hash>
 - [x] Require branches to be up to date
 - [x] Allow force pushes: NO
 
----
+______________________________________________________________________
 
 ## Versioning Strategy
 
@@ -567,7 +572,7 @@ Example: 1.2.3
 1.2.3-rc.1
 ```
 
----
+______________________________________________________________________
 
 ## Quick Reference
 
@@ -595,6 +600,6 @@ git pull origin develop
 git branch -d feature/my-feature
 ```
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-11-08

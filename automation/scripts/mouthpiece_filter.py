@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Mouthpiece Filter System
+"""Mouthpiece Filter System
 ========================
 
 Transforms natural, human writing into polished AI prompts while preserving
@@ -24,8 +23,7 @@ from typing import Dict, List, Optional
 
 
 class MouthpieceFilter:
-    """
-    The Mouthpiece Filter transforms natural human writing into AI-optimized prompts.  # noqa: E501
+    """The Mouthpiece Filter transforms natural human writing into AI-optimized prompts.  # noqa: E501
 
     It analyzes:
     - Intent and purpose
@@ -96,14 +94,14 @@ class MouthpieceFilter:
         }
 
     def transform(self, text: str) -> Dict[str, any]:
-        """
-        Transform natural text into an AI prompt.
+        """Transform natural text into an AI prompt.
 
         Args:
             text: Natural, human writing to transform
 
         Returns:
             Dictionary containing the transformed prompt and metadata
+
         """
         # Analyze the input
         analysis = self._analyze_text(text)
@@ -405,7 +403,6 @@ class MouthpieceFilter:
 
     def _build_prompt(self, text: str, analysis: Dict, structure: Dict) -> str:
         """Build the optimized AI prompt from the analyzed text."""
-
         if self.config["output_format"] == "json":
             return self._build_json_prompt(text, analysis, structure)
         elif self.config["output_format"] == "markdown":
@@ -601,7 +598,7 @@ Examples:
     if args.text:
         text = args.text
     elif args.file:
-        with open(args.file, "r") as f:
+        with open(args.file) as f:
             text = f.read()
     elif args.stdin:
         text = sys.stdin.read()
@@ -609,7 +606,7 @@ Examples:
     # Load configuration
     config = None
     if args.config:
-        with open(args.config, "r") as f:
+        with open(args.config) as f:
             config = json.load(f)
     else:
         config = {}

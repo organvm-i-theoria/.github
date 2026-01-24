@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Week 9 Validation Framework
+"""Week 9 Validation Framework
 
 Validates all 7 advanced automation capabilities through comprehensive testing:
 - Auto-merge eligibility
@@ -55,8 +54,7 @@ class ValidationFramework:
         self.validation_dir.mkdir(parents=True, exist_ok=True)
 
     def validate_all(self, owner: str, repo: str) -> ValidationSuite:
-        """
-        Run all validations for Week 9 capabilities.
+        """Run all validations for Week 9 capabilities.
 
         Args:
             owner: Repository owner
@@ -64,6 +62,7 @@ class ValidationFramework:
 
         Returns:
             Complete validation suite results
+
         """
         logger.info("Starting comprehensive Week 9 validation")
 
@@ -450,8 +449,7 @@ Capabilities:
             )
 
     def generate_report(self, owner: str, repo: str, days: int = 7) -> Dict:
-        """
-        Generate validation report for the last N days.
+        """Generate validation report for the last N days.
 
         Args:
             owner: Repository owner
@@ -460,6 +458,7 @@ Capabilities:
 
         Returns:
             Validation report dictionary
+
         """
         logger.info(f"Generating {days}-day validation report")
 

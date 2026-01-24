@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/utils.py
+"""Unit tests for automation/scripts/utils.py
 Focus: ConfigLoader, RateLimiter, GitHubAPIClient, and utility functions
 """
 
@@ -9,7 +8,7 @@ import sys
 import threading
 import time
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock
 
 import pytest
 

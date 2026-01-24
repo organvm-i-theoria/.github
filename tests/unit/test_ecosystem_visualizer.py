@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for ecosystem_visualizer.py
+"""Unit tests for ecosystem_visualizer.py
 Focus: Diagram generation, workflow categorization, path calculation
 """
 
@@ -9,7 +8,6 @@ import json
 # Import the module under test
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, mock_open, patch
 
 import pytest
 

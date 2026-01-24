@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Incident Response Automation
+"""Incident Response Automation
 
 Provides automated incident response with severity classification, runbook
 execution, escalation workflows, and post-incident analysis.
@@ -58,12 +57,12 @@ class IncidentResponseEngine:
     """Automate incident response and management."""
 
     def __init__(self, config: IncidentConfig, github_client: GitHubAPIClient):
-        """
-        Initialize incident response engine.
+        """Initialize incident response engine.
 
         Args:
             config: Incident response configuration
             github_client: GitHub API client
+
         """
         self.config = config
         self.github = github_client
@@ -80,8 +79,7 @@ class IncidentResponseEngine:
         description: str,
         source: str = "manual",
     ) -> Incident:
-        """
-        Create a new incident.
+        """Create a new incident.
 
         Args:
             owner: Repository owner
@@ -92,6 +90,7 @@ class IncidentResponseEngine:
 
         Returns:
             Created incident
+
         """
         logger.info(f"Creating incident: {title}")
 
@@ -135,8 +134,7 @@ class IncidentResponseEngine:
     def _classify_severity(
         self, title: str, description: str, source: str
     ) -> IncidentSeverity:
-        """
-        Classify incident severity based on content and source.
+        """Classify incident severity based on content and source.
 
         SEV-1: Critical - Production down, data loss, security breach
         SEV-2: High - Major feature broken, significant user impact
@@ -190,14 +188,14 @@ class IncidentResponseEngine:
         return IncidentSeverity.SEV4
 
     def _execute_runbook(self, incident: Incident) -> List[RunbookStep]:
-        """
-        Execute automated runbook for incident.
+        """Execute automated runbook for incident.
 
         Args:
             incident: Incident to handle
 
         Returns:
             List of executed runbook steps
+
         """
         logger.info(f"Executing runbook for {incident.incident_id}")
 
@@ -386,8 +384,7 @@ Current status: {incident.status.value}
         status: IncidentStatus,
         resolution: Optional[str] = None,
     ) -> Incident:
-        """
-        Update incident status.
+        """Update incident status.
 
         Args:
             incident_id: Incident ID
@@ -396,6 +393,7 @@ Current status: {incident.status.value}
 
         Returns:
             Updated incident
+
         """
         logger.info(f"Updating incident {incident_id} to {status.value}")
 
@@ -421,14 +419,14 @@ Current status: {incident.status.value}
         return incident
 
     def generate_post_incident_report(self, incident_id: str) -> PostIncidentReport:
-        """
-        Generate post-incident report.
+        """Generate post-incident report.
 
         Args:
             incident_id: Incident ID
 
         Returns:
             Post-incident report
+
         """
         logger.info(f"Generating post-incident report for {incident_id}")
 

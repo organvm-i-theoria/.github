@@ -1,9 +1,6 @@
----
-name: Project Planning
-description: Tools and guidance for software project planning, feature breakdown, epic management, implementation planning, and task organization for development teams.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Project Planning description: Tools and guidance for software project planning, feature breakdown, epic management, implementation planning, and task organization for development teams. tags: \[\] updated: 2026-01-13
 
 # Project Planning & Management
 
@@ -36,7 +33,7 @@ architecture, technical-spike
 | [Technical spike research mode](../chatmodes/research-technical-spike.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fresearch-technical-spike.agent.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode-insiders%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fresearch-technical-spike.agent.md)                                                                                                           | Chat Mode   | Systematically research and validate technical spike documents through exhaustive investigation and controlled experimentation.                                                                                                         |
 | [Update Implementation Plan](../prompts/update-implementation-plan.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fupdate-implementation-plan.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fupdate-implementation-plan.prompt.md)                                                                                                    | Prompt      | Update an existing implementation plan file with new or update requirements to provide new features, refactoring existing code or upgrading packages, design, architecture or infrastructure.                                           |
 
----
+______________________________________________________________________
 
 _This collection includes 17 curated items for **Project Planning &
 Management**._

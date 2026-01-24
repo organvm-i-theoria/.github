@@ -3,7 +3,7 @@ name: Bio and Description Completions
 on:
   schedule:
     # Run weekly on Monday at 9 AM UTC
-    - cron: 0 9 * * 1
+  - cron: 0 9 * * 1
   workflow_dispatch:
     inputs:
       scope:
@@ -11,10 +11,10 @@ on:
         required: false
         type: choice
         options:
-          - all
-          - organization
-          - repositories
-          - current-repo
+        - all
+        - organization
+        - repositories
+        - current-repo
         default: all
       auto_fix:
         description: Automatically create PRs to fix missing descriptions

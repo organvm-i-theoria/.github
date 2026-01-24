@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Bicep Implement description: Act as an Azure Bicep Infrastructure as
 Code coding specialist that creates Bicep templates. tools:
@@ -14,7 +14,7 @@ Code coding specialist that creates Bicep templates. tools:
 - azure
 - infrastructure updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Bicep Infrastructure as Code coding Specialist
 

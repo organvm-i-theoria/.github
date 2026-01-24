@@ -13,7 +13,7 @@ repository.
 - [Audit Logging](#audit-logging)
 - [Security Automation](#security-automation)
 
----
+______________________________________________________________________
 
 ## Secret Scanning
 
@@ -80,7 +80,7 @@ const apiKey = process.env.API_KEY;
 # 5. Audit access logs
 ```
 
----
+______________________________________________________________________
 
 ## Dependency Security
 
@@ -150,7 +150,7 @@ jobs:
           sbom: sbom.spdx.json
 ```
 
----
+______________________________________________________________________
 
 ## Code Scanning
 
@@ -216,7 +216,7 @@ select str, "Potential hardcoded credential"
     category: custom-analysis
 ```
 
----
+______________________________________________________________________
 
 ## Container Security
 
@@ -283,7 +283,7 @@ USER nonroot:nonroot
 # Set in docker run: --security-opt=no-new-privileges
 ```
 
----
+______________________________________________________________________
 
 ## Access Control
 
@@ -369,7 +369,7 @@ git config --global commit.gpgsign true
 git commit -S -m "feat: add feature"
 ```
 
----
+______________________________________________________________________
 
 ## Audit Logging
 
@@ -414,7 +414,7 @@ Integrate with:
 - **CloudTrail**: AWS infrastructure
 - **Azure Monitor**: Azure infrastructure
 
----
+______________________________________________________________________
 
 ## Security Automation
 
@@ -527,7 +527,7 @@ jobs:
       }
 ```
 
----
+______________________________________________________________________
 
 ## Security Checklist
 
@@ -567,7 +567,7 @@ jobs:
 - [ ] Practice incident drills
 - [ ] Maintain runbooks
 
----
+______________________________________________________________________
 
 ## Security Tools Comparison
 
@@ -582,7 +582,7 @@ jobs:
 | **SonarQube**  | Code quality  | Paid       | Quality + security     |
 | **Checkmarx**  | SAST          | Paid       | Enterprise             |
 
----
+______________________________________________________________________
 
 ## Resources
 
@@ -592,6 +592,6 @@ jobs:
 - [GitHub Security Features](https://docs.github.com/en/code-security)<!-- link:docs.github_code_security -->
 - [SLSA Framework](https://slsa.dev/)
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-11-08

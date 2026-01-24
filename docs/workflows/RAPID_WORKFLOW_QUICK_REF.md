@@ -3,7 +3,7 @@
 > **For solo developers working with multiple AI assistants** Fast-track your PR
 > workflow with intelligent automation
 
----
+______________________________________________________________________
 
 ## 🚀 Quick Start
 
@@ -40,7 +40,7 @@ gh pr create --label "batch:api-v2" --title "test: API tests"
 # Trigger: /merge-batch api-v2
 ```
 
----
+______________________________________________________________________
 
 ## 🏷️ Labels Quick Reference
 
@@ -61,7 +61,7 @@ gh pr create --label "batch:api-v2" --title "test: API tests"
 | ------------------------------- | ------------------------- |
 | `automerge:after-review-period` | ⏰ Waits 24h before merge |
 
----
+______________________________________________________________________
 
 ## ⏱️ PR Lifecycle Timeline
 
@@ -97,7 +97,7 @@ gh pr create --label "batch:api-v2" --title "test: API tests"
 
 **Switch modes:** Edit `BURST_MODE` in `.github/workflows/branch-lifecycle.yml`
 
----
+______________________________________________________________________
 
 ## 💬 Comment Commands
 
@@ -106,7 +106,7 @@ gh pr create --label "batch:api-v2" --title "test: API tests"
 | `/merge-batch api-update` | Trigger batch merge | Any PR in batch |
 | `/automerge`              | Enable auto-merge   | Any open PR     |
 
----
+______________________________________________________________________
 
 ## 🎯 PR Task Catcher (NEW)
 
@@ -161,7 +161,7 @@ gh pr create \
 | `create-issues-for-tasks` | ❌    | Create issues on merge      |
 | `ignore-task-checks`      | ❌    | Bypass blocking (emergency) |
 
----
+______________________________________________________________________
 
 ## 📊 Daily Dashboard (15 min/day)
 
@@ -191,7 +191,7 @@ gh pr list --state merged --search "merged:>=today"
 gh pr list --label "stale:final-warning"
 ```
 
----
+______________________________________________________________________
 
 ## 🎯 Target Metrics
 
@@ -202,7 +202,7 @@ gh pr list --label "stale:final-warning"
 | Stale PRs       | \<5    | `gh pr list --label stale` |
 | Auto-merge rate | >70%   | Weekly report              |
 
----
+______________________________________________________________________
 
 ## 🚦 Decision Tree
 
@@ -222,7 +222,7 @@ Is it complex/critical?
   YES → needs-review 🛑
 ```
 
----
+______________________________________________________________________
 
 ## 🔥 Common Scenarios
 
@@ -293,7 +293,7 @@ if (FEATURE_FLAGS.NEW_DASHBOARD) {
 gh pr edit 150 --add-label "automerge:when-ci-passes"
 ```
 
----
+______________________________________________________________________
 
 ## ⚙️ Configuration Changes
 
@@ -333,7 +333,7 @@ gh label create "extracted-tasks" --color "C5DEF5" --description "Tasks extracte
 gh label create "needs-triage" --color "FBCA04" --description "Needs review and prioritization"
 ```
 
----
+______________________________________________________________________
 
 ## 🆘 Troubleshooting
 
@@ -384,7 +384,7 @@ gh issue list --label "extracted-tasks"
 gh workflow run task-extraction.yml -f pr_number=123
 ```
 
----
+______________________________________________________________________
 
 ## 📚 Related Docs
 
@@ -393,7 +393,7 @@ gh workflow run task-extraction.yml -f pr_number=123
 - **Best Practices**: `BEST_PRACTICES.md`
 - **CLAUDE.md**: Main AI assistant guide
 
----
+______________________________________________________________________
 
 ## 🎓 Philosophy
 
@@ -405,6 +405,6 @@ gh workflow run task-extraction.yml -f pr_number=123
 > - Track work in issues, not PR backlogs
 > - Merge often, ship fast, fix forward
 
----
+______________________________________________________________________
 
 **Last Updated:** 2025-11-18 **Version:** 1.0.0

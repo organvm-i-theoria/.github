@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validation tests for Jules Agent Tracking System
+"""Validation tests for Jules Agent Tracking System
 
 Tests the integrity and format of:
 - .jules/ journal entries
@@ -166,10 +165,9 @@ class TestTaskDeduplication:
             timestamp = datetime.fromisoformat(task_data["timestamp"])
             age_days = (now - timestamp).days
 
-            assert age_days <= retention_days, (
-                f"Task {task_hash} is {age_days} days old, "
-                f"exceeds {retention_days} day retention"
-            )
+            assert (
+                age_days <= retention_days
+            ), f"Task {task_hash} is {age_days} days old, exceeds {retention_days} day retention"
 
 
 class TestAgentMetadata:

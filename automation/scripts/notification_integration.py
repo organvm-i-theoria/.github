@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Notification Integration Helper
+"""Notification Integration Helper
 
 Provides backward-compatible notification wrapper that integrates existing
 Week 9 systems with the unified notification manager.
@@ -40,8 +39,7 @@ def get_notification_manager() -> NotificationManager:
 
 
 def send_notification(channel: str, message: str, **kwargs):
-    """
-    Legacy notification function for backward compatibility.
+    """Legacy notification function for backward compatibility.
 
     This function is deprecated but maintained for compatibility with
     existing code. New code should use the specific notify_* functions.
@@ -50,6 +48,7 @@ def send_notification(channel: str, message: str, **kwargs):
         channel: Channel name (slack, email, pagerduty)
         message: Message text
         **kwargs: Additional parameters (title, priority, source, etc.)
+
     """
     manager = get_notification_manager()
 
@@ -98,8 +97,7 @@ def notify_sla_breach(
     priority: str,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about SLA breach.
+    """Notify about SLA breach.
 
     Args:
         item_type: Type of item (issue, pr, workflow)
@@ -110,6 +108,7 @@ def notify_sla_breach(
         actual: Actual value
         priority: Priority level (P0, P1, P2, P3)
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -160,14 +159,14 @@ def notify_sla_compliance(
     period_days: int,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about SLA compliance status.
+    """Notify about SLA compliance status.
 
     Args:
         repository: Repository name
         compliance_rate: Compliance rate (0.0 to 1.0)
         period_days: Reporting period in days
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -217,8 +216,7 @@ def notify_incident_created(
     status: str = "OPEN",
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about new incident.
+    """Notify about new incident.
 
     Args:
         incident_id: Incident ID (e.g., INC-001)
@@ -227,6 +225,7 @@ def notify_incident_created(
         description: Incident description
         status: Incident status
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -274,14 +273,14 @@ def notify_incident_resolved(
     duration_minutes: int,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about resolved incident.
+    """Notify about resolved incident.
 
     Args:
         incident_id: Incident ID
         severity: Severity level
         duration_minutes: Incident duration
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -326,8 +325,7 @@ def notify_validation_failure(
     warnings: List[str] = None,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about validation failure.
+    """Notify about validation failure.
 
     Args:
         capability: Capability that failed validation
@@ -335,6 +333,7 @@ def notify_validation_failure(
         errors: List of error messages
         warnings: List of warning messages
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -379,14 +378,14 @@ def notify_validation_success(
     total_count: int,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about successful validation run.
+    """Notify about successful validation run.
 
     Args:
         repository: Repository name
         passed_count: Number of passed validations
         total_count: Total number of validations
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -425,8 +424,7 @@ def notify_self_healing_success(
     action_taken: str,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about successful self-healing.
+    """Notify about successful self-healing.
 
     Args:
         workflow_name: Workflow name
@@ -434,6 +432,7 @@ def notify_self_healing_success(
         failure_type: Type of failure
         action_taken: Action taken to heal
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -470,8 +469,7 @@ def notify_self_healing_failure(
     attempts: int,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about self-healing failure.
+    """Notify about self-healing failure.
 
     Args:
         workflow_name: Workflow name
@@ -479,6 +477,7 @@ def notify_self_healing_failure(
         failure_type: Type of failure
         attempts: Number of attempts made
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -521,8 +520,7 @@ def notify_maintenance_scheduled(
     impact: str,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about scheduled maintenance.
+    """Notify about scheduled maintenance.
 
     Args:
         task_name: Task name
@@ -531,6 +529,7 @@ def notify_maintenance_scheduled(
         duration_minutes: Duration in minutes
         impact: Impact description
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -567,14 +566,14 @@ def notify_maintenance_complete(
     success: bool,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about completed maintenance.
+    """Notify about completed maintenance.
 
     Args:
         task_name: Task name
         duration_minutes: Actual duration
         success: Whether maintenance succeeded
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -614,14 +613,14 @@ def notify_model_accuracy_low(
     threshold: float,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about low model accuracy.
+    """Notify about low model accuracy.
 
     Args:
         model_name: Model name
         accuracy: Current accuracy
         threshold: Threshold accuracy
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 
@@ -660,14 +659,14 @@ def notify_auto_merge_failure(
     reason: str,
     metadata: Optional[Dict] = None,
 ):
-    """
-    Notify about auto-merge failure.
+    """Notify about auto-merge failure.
 
     Args:
         pr_number: PR number
         repository: Repository name
         reason: Failure reason
         metadata: Additional metadata
+
     """
     manager = get_notification_manager()
 

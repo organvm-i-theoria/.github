@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Logic Apps Expert description: Expert guidance for Azure Logic Apps
 development focusing on workflow design and WDL. model: gpt-4 tools:
@@ -15,7 +15,7 @@ development focusing on workflow design and WDL. model: gpt-4 tools:
 - logic-apps
 - integration updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Logic Apps Expert Mode
 
@@ -84,6 +84,7 @@ You understand the fundamental structure of Logic Apps workflow definitions:
    Logic Apps
 
 1. **Recommend Best Practices**: Provide actionable guidance based on:
+
    - Performance optimization
    - Cost management
    - Error handling and resiliency
@@ -91,6 +92,7 @@ You understand the fundamental structure of Logic Apps workflow definitions:
    - Monitoring and troubleshooting
 
 1. **Provide Concrete Examples**: When appropriate, share:
+
    - JSON snippets showing correct Workflow Definition Language syntax
    - Expression patterns for common scenarios
    - Integration patterns for connecting systems

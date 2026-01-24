@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Semantic Kernel .NET description: Work with code using the .NET version of
 Semantic Kernel. tools:
@@ -29,7 +29,7 @@ Semantic Kernel. tools:
 - dotnet
 - semantic-kernel updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Semantic Kernel .NET mode instructions
 

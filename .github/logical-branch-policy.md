@@ -24,7 +24,7 @@ management.
 - [Security Considerations](#security-considerations)
 - [Related Documentation](#related-documentation)
 
----
+______________________________________________________________________
 
 ## Executive Summary
 
@@ -44,7 +44,7 @@ conflicts, and ensures production-ready code is always deployable.
 1. **Strict hygiene**: All branches are classified, audited, and either merged
    or deleted
 
----
+______________________________________________________________________
 
 ## Scope and Rationale
 
@@ -110,7 +110,7 @@ main ─── feature/A (PR → merge → delete)
 - ⚠️ Large monoliths with complex release cycles (consider release branches)
 - ⚠️ Open-source projects with irregular release schedules
 
----
+______________________________________________________________________
 
 ## Policy Rules
 
@@ -150,7 +150,7 @@ git checkout -b feature/user-authentication
 - No mixing multiple unrelated changes
 - Use separate branches for independent changes
 
----
+______________________________________________________________________
 
 ### Branch Merge Rules
 
@@ -176,9 +176,9 @@ Before merging to `main`, **ALL** of the following must pass:
 - [ ] **Branch Status**: Branch is up-to-date with `main` (rebased or merged)
 - [ ] **Conventional Commits**: Commit messages follow project standards
 - [ ] **Breaking Changes**: Documented if applicable (CHANGELOG, migration
-      notes)
+  notes)
 - [ ] **Feature Flags**: Risky changes protected by feature flags or rollback
-      plan
+  plan
 - [ ] **Documentation**: Updated if behavior changes (README, API docs)
 
 #### Rule 2.3: Merge Strategy
@@ -217,7 +217,7 @@ Immediately after merging:
    email)
 1. **Verify Deploy**: Monitor production metrics for regressions
 
----
+______________________________________________________________________
 
 ### Branch Review Rules
 
@@ -253,7 +253,7 @@ Reviewers must verify:
   rationale
 - **Disagreements**: Escalate to team lead or architect; document decision
 
----
+______________________________________________________________________
 
 ### Branch Lifecycle Rules
 
@@ -371,7 +371,7 @@ git for-each-ref --sort=-committerdate refs/remotes/origin/ \
 1. **Week 3 (Day 28)**: Final action
    - If no response: Archive (if valuable) or Delete (if not)
 
----
+______________________________________________________________________
 
 ## Branch Naming Conventions
 
@@ -430,7 +430,7 @@ main-backup  # Don't create alternate main branches!
 - `staging`, `production`, `qa` (use environments, not branches)
 - `backup`, `temp`, `test` (ambiguous)
 
----
+______________________________________________________________________
 
 ## Branch Inventory and Classification
 
@@ -514,7 +514,7 @@ Thanks!
 Repository Maintainers
 ```
 
----
+______________________________________________________________________
 
 ## Execution Plan: Branch Cleanup
 
@@ -526,13 +526,13 @@ Repository Maintainers
 - [ ] Classify all branches (see Step 2 above)
 - [ ] Identify branch owners (git log or GitHub API)
 - [ ] Create tracking spreadsheet with columns: Branch, Owner, Classification,
-      Action, Deadline, Status
+  Action, Deadline, Status
 
 **Day 3-4: Communication**
 
 - [ ] Draft notification email/Slack message
 - [ ] Send initial notifications to all branch owners (STALE and DEAD
-      categories)
+  categories)
 - [ ] Post announcement in team channels about upcoming cleanup
 - [ ] Document policy in `.github/logical-branch-policy.md` (this file)
 - [ ] Update `CONTRIBUTING.md` to reference this policy
@@ -575,6 +575,7 @@ Repository Maintainers
   ```
 
 - [ ] **Day 4-5**: Follow up with non-responsive owners
+
   - Send reminder emails
   - Escalate to team leads
 
@@ -591,6 +592,7 @@ Repository Maintainers
   ```
 
 - [ ] **Day 3**: Update documentation
+
   - [ ] Update branch count in README (if mentioned)
   - [ ] Document archived branches in `BRANCH_ARCHIVE_LOG.md`
   - [ ] Update team wiki/docs with new policy
@@ -626,7 +628,7 @@ Repository Maintainers
 - [ ] Review archive branch size (consider pruning old archives)
 - [ ] Update policy based on team feedback
 
----
+______________________________________________________________________
 
 ## Deliverables and Artifacts
 
@@ -837,7 +839,7 @@ Branches not addressed within 7 days will be automatically archived or deleted.
 "
 ```
 
----
+______________________________________________________________________
 
 ## GitHub CLI Reference
 
@@ -918,7 +920,7 @@ gh api repos/:owner/:repo/branches --paginate | jq -r --arg date "$(date -d '14 
 gh api repos/:owner/:repo/branches/<branch-name> | jq -r '.commit.commit.author.name'
 ```
 
----
+______________________________________________________________________
 
 ## GitHub UI Guidance
 
@@ -1004,7 +1006,7 @@ GitHub doesn't have native "archive" feature, so use naming convention:
 1. Delete old branch: `git push origin --delete old-branch`
 1. Create ARCHIVE_README.md in the archived branch (see Rule 4.3)
 
----
+______________________________________________________________________
 
 ## Enforcement and Automation
 
@@ -1159,7 +1161,7 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
 - [ ] Conventional commit messages
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices and Reminders
 
@@ -1176,6 +1178,7 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
    ```
 
 1. **Keep branches short-lived**
+
    - Target: 1-3 days
    - Maximum: 7 days
    - If longer needed, break into smaller PRs
@@ -1218,6 +1221,7 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
    ```
 
 1. **Write comprehensive PR descriptions**
+
    - What changed?
    - Why?
    - How to test?
@@ -1226,29 +1230,36 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
 #### ❌ Don'ts
 
 1. **Don't commit directly to main**
+
    - Always use PRs, even for hotfixes
 
 1. **Don't let branches go stale**
+
    - Push commits regularly to show activity
    - If blocked, communicate in PR comments
 
 1. **Don't mix unrelated changes**
+
    - One feature/fix per branch
    - Create separate branches for independent work
 
 1. **Don't skip tests**
+
    - Write tests for new code
    - Ensure existing tests pass
 
 1. **Don't ignore review feedback**
+
    - Address all comments
    - Explain disagreements respectfully
 
 1. **Don't force push after review starts**
+
    - Use `git commit --fixup` and `git rebase --autosquash` instead
    - Or add new commits and squash during merge
 
 1. **Don't create `develop`, `staging`, or similar branches**
+
    - Use `main` only model
    - Use environments and feature flags instead
 
@@ -1257,27 +1268,33 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
 #### ✅ Do's
 
 1. **Enable auto-delete merged branches**
+
    - Settings → General → Pull Requests → ☑️ Automatically delete head branches
 
 1. **Configure branch protection for `main`**
+
    - Require PR reviews
    - Require status checks
    - Require conversation resolution
 
 1. **Run weekly stale branch checks**
+
    - Use automation (see [Branch Cleanup Workflow](#2-branch-cleanup-workflow))
    - Notify owners proactively
 
 1. **Document branch archival**
+
    - Update `BRANCH_ARCHIVE_LOG.md`
    - Add ARCHIVE_README.md to archived branches
 
 1. **Communicate policy changes**
+
    - Announce in team channels
    - Update `CONTRIBUTING.md`
    - Provide training if needed
 
 1. **Monitor branch health metrics**
+
    - Number of active branches
    - Average branch lifetime
    - Merge time (PR open → merged)
@@ -1285,18 +1302,22 @@ See `branch-name-check` job in [CI/CD Checks](#2-cicd-checks) above.
 #### ❌ Don'ts
 
 1. **Don't delete branches without confirmation**
+
    - Always notify owner first (except very old dead branches)
    - Archive if uncertain about value
 
 1. **Don't bypass branch protection**
+
    - Even admins should follow the process
    - Use emergency override only for critical incidents
 
 1. **Don't let policy drift**
+
    - Enforce consistently
    - Update policy based on team feedback
 
 1. **Don't over-automate deletion**
+
    - Require manual approval for auto-cleanup
    - False positives can lose valuable work
 
@@ -1350,7 +1371,7 @@ git rebase main
   git checkout -b recovered-branch <commit-sha>
   ```
 
----
+______________________________________________________________________
 
 ## Security Considerations
 
@@ -1484,7 +1505,7 @@ fix/password-reset-flow
 - Use sanitization scripts if needed
 - Document data removal process in `PRIVACY.md`
 
----
+______________________________________________________________________
 
 ## Related Documentation
 
@@ -1517,7 +1538,7 @@ fix/password-reset-flow
 - [Semantic Versioning](https://semver.org/)<!-- link:standards.semver -->
 - [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 
----
+______________________________________________________________________
 
 ## Changelog
 
@@ -1533,7 +1554,7 @@ fix/password-reset-flow
 - Defined deliverables and automation scripts
 - Added security considerations and cross-references
 
----
+______________________________________________________________________
 
 **Policy Owner**: Repository Maintainers\
 **Last Updated**: 2024-12-15\

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power BI Performance Expert description: Power BI performance optimization
 guidance for models and reports. model: gpt-4.1 tools:
@@ -27,7 +27,7 @@ guidance for models and reports. model: gpt-4.1 tools:
 - power-bi
 - performance updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power BI Performance Expert Mode
 

@@ -6,7 +6,7 @@
 This guide consolidates best practices across all areas: code quality,
 documentation, workflows, testing, security, and collaboration.
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ documentation, workflows, testing, security, and collaboration.
 - [Performance](#performance)
 - [Maintenance](#maintenance)
 
----
+______________________________________________________________________
 
 ## Code Quality
 
@@ -57,6 +57,7 @@ documentation, workflows, testing, security, and collaboration.
   ```
 
 - **Follow PEP 8** naming conventions
+
   - Functions/variables: `snake_case`
   - Classes: `PascalCase`
   - Constants: `UPPER_SNAKE_CASE`
@@ -180,7 +181,7 @@ documentation, workflows, testing, security, and collaboration.
   done
   ```
 
----
+______________________________________________________________________
 
 ## Documentation
 
@@ -281,7 +282,7 @@ _Maintained by: Team Name_
 - Don't leave commented-out code
 - Don't use comments to disable code long-term (use feature flags)
 
----
+______________________________________________________________________
 
 ## Testing
 
@@ -368,7 +369,7 @@ tests/
 └── pytest.ini         # Configuration
 ```
 
----
+______________________________________________________________________
 
 ## Workflows & CI/CD
 
@@ -467,7 +468,7 @@ jobs:
       - run: pytest
 ```
 
----
+______________________________________________________________________
 
 ## Security
 
@@ -558,7 +559,7 @@ jobs:
 - Don't trust PR code in `pull_request_target` workflows
 - Don't use `write-all` permissions
 
----
+______________________________________________________________________
 
 ## Git & Version Control
 
@@ -652,7 +653,7 @@ git commit -m "asdf"                  # ❌ Meaningless
 - Don't force push to `main`
 - Don't work directly on `main`
 
----
+______________________________________________________________________
 
 ## Collaboration
 
@@ -730,7 +731,7 @@ git commit -m "asdf"                  # ❌ Meaningless
 - Don't request changes without explanation
 - Don't ignore security issues
 
----
+______________________________________________________________________
 
 ## Performance
 
@@ -746,6 +747,7 @@ git commit -m "asdf"                  # ❌ Meaningless
   ```
 
 - **Use appropriate data structures**
+
   - `set` for membership testing
   - `dict` for key-value lookups
   - `deque` for queues
@@ -805,7 +807,7 @@ git commit -m "asdf"                  # ❌ Meaningless
 - Don't duplicate expensive operations
 - Don't forget to timeout long-running jobs
 
----
+______________________________________________________________________
 
 ## Maintenance
 
@@ -851,7 +853,7 @@ git commit -m "asdf"                  # ❌ Meaningless
 - Don't create brittle workarounds
 - Don't sacrifice quality for speed (long-term)
 
----
+______________________________________________________________________
 
 ## Quick Reference Checklist
 
@@ -885,7 +887,7 @@ git commit -m "asdf"                  # ❌ Meaningless
 - [ ] Documentation reviewed
 - [ ] Breaking changes communicated
 
----
+______________________________________________________________________
 
 ## Additional Resources
 
@@ -895,6 +897,6 @@ git commit -m "asdf"                  # ❌ Meaningless
 - [Common Tasks Runbook](common-tasks-runbook.md)
 - [Contributing Guidelines](../CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Maintained by: Documentation Team_

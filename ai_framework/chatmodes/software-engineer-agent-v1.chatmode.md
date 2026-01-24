@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Software Engineer Agent v1 description: Expert-level software engineering
 agent for production-ready code. tools:
@@ -27,7 +27,7 @@ agent for production-ready code. tools:
 - engineering
 - agent updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Software Engineer Agent v1
 

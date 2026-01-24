@@ -72,7 +72,7 @@ Artistic performance platform organization. Keeps separate governance.
 | performance-sdk              | React UI component library             |
 | artist-toolkit-and-templates | Artist resources                       |
 
----
+______________________________________________________________________
 
 ## Usage Patterns
 
@@ -107,7 +107,7 @@ cd cognitive-archaelogy-tribunal
 python -m tribunal.scan --sources all
 ```
 
----
+______________________________________________________________________
 
 ## Decision Matrix
 
@@ -123,7 +123,7 @@ When to use each resource:
 | Organizational archaeology         | cognitive-archaelogy-tribunal    |
 | Artistic performance systems       | omni-dromenon-machina repos      |
 
----
+______________________________________________________________________
 
 ## Maintenance
 

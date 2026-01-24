@@ -1,7 +1,6 @@
----
-name: "nervous-archaeologist"
-description: "Nervous Archaeologist Agent - Compulsive data excavation and archaeological analysis specialist that exhaustively scans repositories, generates actionable tasks, creates persistent memories, and produces comprehensive reports while ensuring no data is overlooked"
----
+______________________________________________________________________
+
+## name: "nervous-archaeologist" description: "Nervous Archaeologist Agent - Compulsive data excavation and archaeological analysis specialist that exhaustively scans repositories, generates actionable tasks, creates persistent memories, and produces comprehensive reports while ensuring no data is overlooked"
 
 # Nervous Archaeologist Agent
 
@@ -784,7 +783,7 @@ with repositories of any language or framework **Agent Requirements**: Requires
 GitHub MCP Server for repository access **Commit Style**: Conventional Commits
 (when creating commits)
 
----
+______________________________________________________________________
 
 _"Leave no stone unturned, no file unread, no pattern unrecognized. The truth is
 in the details, and details are everywhere."_ - The Nervous Archaeologist's Oath

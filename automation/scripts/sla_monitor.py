@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-SLA Monitoring Workflow
+"""SLA Monitoring Workflow
 
 Provides real-time monitoring of Service Level Agreements for workflows,
 issues, and pull requests with automated breach detection and alerting.
@@ -40,7 +39,6 @@ from models import (
     Priority,
     SLABreach,
     SLAConfig,
-    SLAMetrics,
     SLAReport,
     SLAThresholds,
 )
@@ -59,12 +57,12 @@ class SLAMonitor:
     """Monitor and enforce Service Level Agreements."""
 
     def __init__(self, config: SLAConfig, github_client: GitHubAPIClient):
-        """
-        Initialize SLA monitor.
+        """Initialize SLA monitor.
 
         Args:
             config: SLA configuration
             github_client: GitHub API client
+
         """
         self.config = config
         self.github = github_client
@@ -74,8 +72,7 @@ class SLAMonitor:
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
     def monitor_repository(self, owner: str, repo: str) -> Dict[str, ItemMetrics]:
-        """
-        Monitor SLAs for all active items in repository.
+        """Monitor SLAs for all active items in repository.
 
         Args:
             owner: Repository owner
@@ -83,6 +80,7 @@ class SLAMonitor:
 
         Returns:
             Dictionary of metrics by item type
+
         """
         logger.info(f"Monitoring SLAs for {owner}/{repo}")
 
@@ -524,8 +522,7 @@ class SLAMonitor:
         """Send notification for SLA breaches."""
         _breach_list = "\n".join(  # noqa: F841
             [
-                f"- {b.item_type} #{b.item_number}: {b.breach_type} "
-                f"({b.actual_value:.1f} vs {b.threshold_value:.1f})"
+                f"- {b.item_type} #{b.item_number}: {b.breach_type} ({b.actual_value:.1f} vs {b.threshold_value:.1f})"
                 for b in breaches
             ]
         )
@@ -576,8 +573,7 @@ class SLAMonitor:
     def generate_report(
         self, owner: str, repo: str, lookback_days: int = 30
     ) -> SLAReport:
-        """
-        Generate SLA report for specified period.
+        """Generate SLA report for specified period.
 
         Args:
             owner: Repository owner
@@ -586,6 +582,7 @@ class SLAMonitor:
 
         Returns:
             SLA report with metrics and trends
+
         """
         logger.info(f"Generating SLA report for last {lookback_days} days")
 

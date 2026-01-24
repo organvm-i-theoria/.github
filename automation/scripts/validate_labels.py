@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validate that required labels exist in target repositories before deployment.
+"""Validate that required labels exist in target repositories before deployment.
 
 This script checks if all required labels (from a config file) exist in the
 specified repositories, providing a pre-flight check before workflow deployment.  # noqa: E501
@@ -25,12 +24,12 @@ class LabelValidator:
     """Validates label existence in GitHub repositories."""
 
     def __init__(self, config_path: Path, fix_mode: bool = False):
-        """
-        Initialize the validator.
+        """Initialize the validator.
 
         Args:
             config_path: Path to the configuration YAML file
             fix_mode: If True, create missing labels instead of just reporting
+
         """
         self.config_path = config_path
         self.fix_mode = fix_mode
@@ -39,7 +38,7 @@ class LabelValidator:
     def _load_config(self) -> Dict:
         """Load and parse the configuration file."""
         try:
-            with open(self.config_path, "r") as f:
+            with open(self.config_path) as f:
                 config = yaml.safe_load(f)
 
             # Convert dict format labels to list format
@@ -60,14 +59,14 @@ class LabelValidator:
             sys.exit(1)
 
     def _get_repo_labels(self, repo: str) -> Optional[List[Dict]]:
-        """
-        Fetch existing labels from a repository.
+        """Fetch existing labels from a repository.
 
         Args:
             repo: Repository in format "owner/repo"
 
         Returns:
             List of label dictionaries or None on error
+
         """
         try:
             result = subprocess.run(
@@ -93,8 +92,7 @@ class LabelValidator:
             return None
 
     def _create_label(self, repo: str, label: Dict) -> bool:
-        """
-        Create a label in a repository.
+        """Create a label in a repository.
 
         Args:
             repo: Repository in format "owner/repo"
@@ -102,6 +100,7 @@ class LabelValidator:
 
         Returns:
             True if successful, False otherwise
+
         """
         try:
             cmd = [
@@ -128,8 +127,7 @@ class LabelValidator:
         return color.lstrip("#").lower()
 
     def _labels_match(self, existing: Dict, required: Dict) -> bool:
-        """
-        Check if an existing label matches the required specification.
+        """Check if an existing label matches the required specification.
 
         Args:
             existing: Existing label from repository
@@ -137,20 +135,21 @@ class LabelValidator:
 
         Returns:
             True if labels match (name and color)
+
         """
         return existing["name"] == required["name"] and self._normalize_color(
             existing["color"]
         ) == self._normalize_color(required["color"])
 
     def validate_repository(self, repo: str) -> Tuple[bool, List[Dict], List[Dict]]:
-        """
-        Validate labels for a single repository.
+        """Validate labels for a single repository.
 
         Args:
             repo: Repository in format "owner/repo"
 
         Returns:
             Tuple of (success, missing_labels, mismatched_labels)
+
         """
         print(f"\n🔍 Validating {repo}...")
 
@@ -181,8 +180,7 @@ class LabelValidator:
             elif not self._labels_match(existing, required):
                 mismatched_labels.append(required)
                 print(
-                    f"  ⚠️  Mismatch: {required['name']} "
-                    f"(expected #{required['color']}, found #{existing['color']})"
+                    f"  ⚠️  Mismatch: {required['name']} (expected #{required['color']}, found #{existing['color']})"
                 )  # noqa: E501
             else:
                 print(f"  ✅ Found: {required['name']}")
@@ -199,8 +197,7 @@ class LabelValidator:
     def fix_repository(
         self, repo: str, missing: List[Dict], mismatched: List[Dict]
     ) -> bool:
-        """
-        Fix label issues in a repository by creating/updating labels.
+        """Fix label issues in a repository by creating/updating labels.
 
         Args:
             repo: Repository in format "owner/repo"
@@ -209,6 +206,7 @@ class LabelValidator:
 
         Returns:
             True if all fixes successful, False otherwise
+
         """
         if not missing and not mismatched:
             return True
@@ -235,11 +233,11 @@ class LabelValidator:
         return all_success
 
     def validate_all(self) -> bool:
-        """
-        Validate labels across all repositories in the configuration.
+        """Validate labels across all repositories in the configuration.
 
         Returns:
             True if all validations pass, False otherwise
+
         """
         repositories = self.config.get("repositories", [])
         if not repositories:

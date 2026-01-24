@@ -73,7 +73,7 @@ python scripts/web_crawler.py --github-token ghp_xxx --org-name myorg
 - `reports/org_health_YYYYMMDD_HHMMSS.json` - Full JSON report
 - `reports/org_health_YYYYMMDD_HHMMSS.md` - Markdown summary
 
----
+______________________________________________________________________
 
 ### 🔗 `resolve_link_placeholders.py`
 
@@ -89,7 +89,7 @@ python scripts/web_crawler.py --github-token ghp_xxx --org-name myorg
 python scripts/resolve_link_placeholders.py --write --annotate
 ```
 
----
+______________________________________________________________________
 
 ### 🎨 `ecosystem_visualizer.py` ✅
 
@@ -140,7 +140,7 @@ python scripts/ecosystem_visualizer.py --find-latest --output reports/MY_DASHBOA
 - `reports/DASHBOARD.md` - Visual dashboard with Mermaid diagrams
 - Health badge in Shields.io format
 
----
+______________________________________________________________________
 
 ### 🏷️ `sync_labels.py` ✅
 
@@ -174,7 +174,7 @@ python sync_labels.py --org ivviiviivvi --exclude repo1,repo2
 
 **Configuration**: `seed.yaml` - Label definitions (name, color, description)
 
----
+______________________________________________________________________
 
 ### 🎨 `mouthpiece_filter.py`
 
@@ -206,7 +206,7 @@ python mouthpiece_filter.py --file input.txt
 echo "your text" | python mouthpiece_filter.py --stdin
 ```
 
----
+______________________________________________________________________
 
 ### 🔄 `quota_manager.py`
 
@@ -222,7 +222,7 @@ echo "your text" | python mouthpiece_filter.py --stdin
 
 **Usage**: Automatically invoked by AI workflows
 
----
+______________________________________________________________________
 
 ### 📦 `commit_changes.sh`
 
@@ -230,7 +230,7 @@ echo "your text" | python mouthpiece_filter.py --stdin
 
 **Usage**: Used by workflows to commit generated reports and artifacts
 
----
+______________________________________________________________________
 
 ### ✅ `validate_chatmode_frontmatter.py`
 
@@ -248,7 +248,7 @@ Auto-fix legacy description lines:
 python automation/scripts/validate_chatmode_frontmatter.py --fix
 ```
 
----
+______________________________________________________________________
 
 ### 📋 `generate_chatmode_inventory.py`
 
@@ -260,7 +260,7 @@ python automation/scripts/validate_chatmode_frontmatter.py --fix
 python automation/scripts/generate_chatmode_inventory.py
 ```
 
----
+______________________________________________________________________
 
 ### ✅ `validate_agent_frontmatter.py`
 
@@ -272,7 +272,7 @@ python automation/scripts/generate_chatmode_inventory.py
 python automation/scripts/validate_agent_frontmatter.py
 ```
 
----
+______________________________________________________________________
 
 ### 📋 `generate_agent_inventory.py`
 
@@ -284,7 +284,7 @@ python automation/scripts/validate_agent_frontmatter.py
 python automation/scripts/generate_agent_inventory.py
 ```
 
----
+______________________________________________________________________
 
 ### ✅ `validate_collection_frontmatter.py`
 
@@ -296,7 +296,7 @@ python automation/scripts/generate_agent_inventory.py
 python automation/scripts/validate_collection_frontmatter.py
 ```
 
----
+______________________________________________________________________
 
 ### 📋 `generate_collection_inventory.py`
 
@@ -308,7 +308,7 @@ python automation/scripts/validate_collection_frontmatter.py
 python automation/scripts/generate_collection_inventory.py
 ```
 
----
+______________________________________________________________________
 
 ### 📋 `generate_agent_inventory.py`
 
@@ -320,7 +320,7 @@ python automation/scripts/generate_collection_inventory.py
 python automation/scripts/generate_agent_inventory.py
 ```
 
----
+______________________________________________________________________
 
 ## 🐚 Shell Scripts
 
@@ -364,7 +364,7 @@ python automation/scripts/generate_agent_inventory.py
 - `0` - Success
 - `1` - Error or unknown option
 
----
+______________________________________________________________________
 
 #### `commit_changes.sh` ✅
 
@@ -525,7 +525,7 @@ docs/** (one-time use)
 
 **Purpose**: Migrates workspace to new structure
 
----
+______________________________________________________________________
 
 ## 📈 Shell Script Quality Standards (Phase 3.3)
 
@@ -596,7 +596,7 @@ fi
 
 **Detailed Audit**: See `automation/scripts/SHELL_SCRIPTS_AUDIT.md`
 
----
+______________________________________________________________________
 
 ## 🚀 Automated Workflows
 
@@ -680,7 +680,7 @@ python update_agent_docs.py
 1. Generates markdown table with install badges
 1. Updates `docs/README.agents.md`
 
----
+______________________________________________________________________
 
 ### `auto-docs.py`
 
@@ -695,7 +695,7 @@ python update_agent_docs.py
 - Workflow documentation
 - Agent registry updates
 
----
+______________________________________________________________________
 
 ## 🔧 Dependencies
 
@@ -886,7 +886,7 @@ pytest automation/scripts/ --cov=automation/scripts --cov-report=html
 
 **Target**: 80%+ coverage for all production scripts
 
----
+______________________________________________________________________
 
 ## 📚 Related Documentation
 
@@ -899,7 +899,7 @@ pytest automation/scripts/ --cov=automation/scripts --cov-report=html
 - [for-ai-implementation.txt](../../for-ai-implementation.txt) - Complete AI
   protocol
 
----
+______________________________________________________________________
 
 **🎉 Bringing the organization to life, one analysis at a time!**
 

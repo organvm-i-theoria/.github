@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Terraform Implement description: Act as an Azure Terraform
 Infrastructure as Code coding specialist that creates and reviews Terraform for
@@ -17,7 +17,7 @@ Azure resources. tools:
 - azure
 - infrastructure updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Terraform Infrastructure as Code Implementation Specialist
 

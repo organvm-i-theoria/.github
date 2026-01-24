@@ -68,7 +68,7 @@ cat > new-chat-$(date +%Y-%m-%d).md << 'EOF'
 EOF
 ```
 
----
+______________________________________________________________________
 
 **Remember:** The chaos zone is meant to be temporary. Content here is raw and
 unvetted. Always review and organize before referencing in official

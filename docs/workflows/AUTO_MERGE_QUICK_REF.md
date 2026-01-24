@@ -245,7 +245,7 @@ Quick-merge critical fixes:
 
 Found a bug or have a suggestion? Open an issue or PR!
 
----
+______________________________________________________________________
 
 **This solution is eternal.** It uses only GitHub's native features and requires
 no maintenance.

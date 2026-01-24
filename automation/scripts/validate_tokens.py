@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Token Validation Script
+"""Token Validation Script
 Validates all organization tokens are working correctly
 Based on MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md recommendations
 """

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/sla_monitor.py
+"""Unit tests for automation/scripts/sla_monitor.py
 Focus: SLA monitoring, breach detection, metrics calculation, threshold enforcement
 """
 
@@ -16,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "automation" / "scr
 # Mock notification_integration before importing sla_monitor
 sys.modules["notification_integration"] = MagicMock()
 
-from models import ItemMetrics, Priority, SLAConfig, SLAThresholds
+from models import Priority, SLAConfig, SLAThresholds
 from sla_monitor import SLAMonitor
 
 

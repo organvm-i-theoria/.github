@@ -2,7 +2,10 @@
 
 ## Overview
 
-`validate_labels.py` is a pre-flight validation tool that checks whether all required labels exist in target repositories before attempting workflow deployment. This helps catch label-related issues early and provides an automated way to create missing labels.
+`validate_labels.py` is a pre-flight validation tool that checks whether all
+required labels exist in target repositories before attempting workflow
+deployment. This helps catch label-related issues early and provides an
+automated way to create missing labels.
 
 ## Features
 
@@ -111,7 +114,8 @@ python3 validate_labels.py \
 
 ## Configuration Format
 
-The script reads labels from the same config files used by `batch_onboard_repositories.py`:
+The script reads labels from the same config files used by
+`batch_onboard_repositories.py`:
 
 ```yaml
 repositories:
@@ -149,10 +153,11 @@ fi
 The script validates:
 
 1. **Label Existence**: Does the label exist in the repository?
-2. **Color Match**: Does the color match the specification?
-3. **Name Match**: Exact name matching (case-sensitive)
+1. **Color Match**: Does the color match the specification?
+1. **Name Match**: Exact name matching (case-sensitive)
 
-**Note**: Description mismatches are not considered errors (descriptions can be updated without breaking functionality).
+**Note**: Description mismatches are not considered errors (descriptions can be
+updated without breaking functionality).
 
 ## Examples
 
@@ -225,12 +230,13 @@ Error creating label priority/high in owner/repo: HTTP 403
 **Solution**: Ensure you have `issues: write` permission. Options:
 
 1. Create a fine-grained PAT with `issues: write` permission
-2. Use organization admin account
-3. Deploy labels manually via Web UI (fallback)
+1. Use organization admin account
+1. Deploy labels manually via Web UI (fallback)
 
 ### Label Already Exists
 
-The script uses `--force` flag with `gh label create`, which updates existing labels instead of failing. This is safe and ensures labels match specifications.
+The script uses `--force` flag with `gh label create`, which updates existing
+labels instead of failing. This is safe and ensures labels match specifications.
 
 ## Requirements
 
@@ -240,6 +246,9 @@ The script uses `--force` flag with `gh label create`, which updates existing la
 
 ## See Also
 
-- [WEEK_11_PHASE1_MANUAL_DEPLOYMENT_GUIDE.md](../../docs/WEEK_11_PHASE1_MANUAL_DEPLOYMENT_GUIDE.md) - Manual label deployment via Web UI
-- [WEEK_11_NEXT_STEPS_QUICK_REF.md](../../docs/WEEK_11_NEXT_STEPS_QUICK_REF.md) - Quick reference for deployment
-- [batch_onboard_repositories.py](batch_onboard_repositories.py) - Main deployment script
+- [WEEK_11_PHASE1_MANUAL_DEPLOYMENT_GUIDE.md](../../docs/WEEK_11_PHASE1_MANUAL_DEPLOYMENT_GUIDE.md)
+  \- Manual label deployment via Web UI
+- [WEEK_11_NEXT_STEPS_QUICK_REF.md](../../docs/WEEK_11_NEXT_STEPS_QUICK_REF.md)
+  \- Quick reference for deployment
+- [batch_onboard_repositories.py](batch_onboard_repositories.py) - Main
+  deployment script

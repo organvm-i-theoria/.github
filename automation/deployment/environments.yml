@@ -5,9 +5,9 @@
 staging:
   # Target repositories for staging
   repositories:
-    - "ivviiviivvi/.github"
-    - "ivviiviivvi/test-repo-1"
-    - "ivviiviivvi/test-repo-2"
+  - ivviiviivvi/.github
+  - ivviiviivvi/test-repo-1
+  - ivviiviivvi/test-repo-2
 
   # Phased rollout configuration
   canary_percentage: 33 # 1 of 3 repos
@@ -20,12 +20,12 @@ staging:
 
   # Required secrets
   required_secrets:
-    - GITHUB_TOKEN
-    - SLACK_WEBHOOK_URL
+  - GITHUB_TOKEN
+  - SLACK_WEBHOOK_URL
 
   # Slack notifications
-  slack_webhook: "${SLACK_WEBHOOK_URL}"
-  slack_channel: "#deployment-staging"
+  slack_webhook: ${SLACK_WEBHOOK_URL}
+  slack_channel: '#deployment-staging'
 
   # Feature flags
   features:
@@ -38,12 +38,12 @@ staging:
 production:
   # Target repositories for production
   repositories:
-    - "ivviiviivvi/.github"
-    - "ivviiviivvi/production-repo-1"
-    - "ivviiviivvi/production-repo-2"
-    - "ivviiviivvi/production-repo-3"
-    - "ivviiviivvi/production-repo-4"
-    - "ivviiviivvi/production-repo-5"
+  - ivviiviivvi/.github
+  - ivviiviivvi/production-repo-1
+  - ivviiviivvi/production-repo-2
+  - ivviiviivvi/production-repo-3
+  - ivviiviivvi/production-repo-4
+  - ivviiviivvi/production-repo-5
     # Add more repositories as needed
 
   # Phased rollout configuration (more conservative)
@@ -57,16 +57,16 @@ production:
 
   # Required secrets
   required_secrets:
-    - GITHUB_TOKEN
-    - SLACK_WEBHOOK_URL
-    - PAGERDUTY_TOKEN
+  - GITHUB_TOKEN
+  - SLACK_WEBHOOK_URL
+  - PAGERDUTY_TOKEN
 
   # Slack notifications
-  slack_webhook: "${SLACK_WEBHOOK_URL}"
-  slack_channel: "#deployment-production"
+  slack_webhook: ${SLACK_WEBHOOK_URL}
+  slack_channel: '#deployment-production'
 
   # PagerDuty integration
-  pagerduty_service_key: "${PAGERDUTY_TOKEN}"
+  pagerduty_service_key: ${PAGERDUTY_TOKEN}
 
   # Feature flags (more conservative rollout)
   features:
@@ -91,7 +91,7 @@ production:
 # Development environment (for local testing)
 development:
   repositories:
-    - "ivviiviivvi/.github"
+  - ivviiviivvi/.github
 
   canary_percentage: 100
   progressive_percentage: 100
@@ -101,7 +101,7 @@ development:
   rollback_threshold: 0.50
 
   required_secrets:
-    - GITHUB_TOKEN
+  - GITHUB_TOKEN
 
   features:
     auto_merge: true

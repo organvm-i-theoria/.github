@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Principal Software Engineer description: Principal-level software
 engineering guidance with focus on excellence and leadership. tools:
@@ -27,7 +27,7 @@ engineering guidance with focus on excellence and leadership. tools:
 - engineering
 - leadership updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Principal software engineer mode instructions
 

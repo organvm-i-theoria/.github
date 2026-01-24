@@ -55,6 +55,7 @@ python3 scripts/configure-github-projects.py --org ivviiviivvi
 
 - **[GITHUB_PROJECTS_IMPLEMENTATION.md](../docs/GITHUB_PROJECTS_IMPLEMENTATION.md)**
   \- Complete implementation guide with:
+
   - Detailed project configurations
   - Field definitions
   - View layouts
@@ -494,7 +495,7 @@ gh auth status
 gh auth refresh -s project
 ```
 
----
+______________________________________________________________________
 
 **Issue:** Rate limit exceeded
 
@@ -508,7 +509,7 @@ gh api rate_limit
 time.sleep(1)  # In Python script
 ```
 
----
+______________________________________________________________________
 
 **Issue:** Field creation fails
 
@@ -519,7 +520,7 @@ time.sleep(1)  # In Python script
   GRAY)
 - Ensure field type matches data
 
----
+______________________________________________________________________
 
 **Issue:** Projects not visible
 
@@ -533,7 +534,8 @@ time.sleep(1)  # In Python script
 
 **Questions?**
 
-- Open an issue: [GitHub Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+- Open an issue:
+  [GitHub Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 - Start a discussion:
   [GitHub Discussions](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
 
@@ -567,6 +569,6 @@ time.sleep(1)  # In Python script
 - [ ] Migrate existing items
 - [ ] Train team members
 
----
+______________________________________________________________________
 
 _Last Updated: January 18, 2026_

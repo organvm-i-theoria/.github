@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Task Deduplication System
+"""Task Deduplication System
 Prevents cascading and redundant task generation from Jules and automated workflows.
 """
 
@@ -53,7 +52,7 @@ class TaskDeduplicator:
         """Load existing task state"""
         if self.state_file.exists():
             try:
-                with open(self.state_file, "r") as f:
+                with open(self.state_file) as f:
                     return self._normalize_state(json.load(f))
             except json.JSONDecodeError as e:
                 print(
@@ -92,8 +91,7 @@ class TaskDeduplicator:
         return datetime.now() - processed_time < timedelta(hours=hours)
 
     def should_process_task(self, task_type, task_data, dedupe_window_hours=24):
-        """
-        Determine if task should be processed or is a duplicate
+        """Determine if task should be processed or is a duplicate
 
         Args:
             task_type: Type of task (e.g., 'jules_issue', 'pr_review')
@@ -102,6 +100,7 @@ class TaskDeduplicator:
 
         Returns:
             tuple: (should_process: bool, reason: str)
+
         """
         task_hash = self._generate_task_hash(task_type, task_data)
 
@@ -209,8 +208,7 @@ def main():
     elif command == "register_pr":
         if len(sys.argv) < 5:
             print(
-                "Usage: task_deduplicator.py register_pr "
-                "<pr_number> <task_type> <task_json>"
+                "Usage: task_deduplicator.py register_pr <pr_number> <task_type> <task_json>"
             )
             sys.exit(1)
 

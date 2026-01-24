@@ -56,10 +56,13 @@ JDK, Maven/Gradle, PostgreSQL, Redis
 
 ### 11. Dotfiles-Enabled
 
-**Location**: `dotfiles-enabled/` **Use Case**: Consistent personal dev environment
-**Includes**: Chezmoi dotfiles integration, modern CLI tools (starship, eza, bat, fzf, zoxide, atuin), Neovim + LazyVim, 1Password CLI
+**Location**: `dotfiles-enabled/` **Use Case**: Consistent personal dev
+environment **Includes**: Chezmoi dotfiles integration, modern CLI tools
+(starship, eza, bat, fzf, zoxide, atuin), Neovim + LazyVim, 1Password CLI
 
-This template automatically applies personal dotfiles from [4444J99/dotfiles](https://github.com/4444J99/dotfiles) for consistent shell configuration across all org repositories.
+This template automatically applies personal dotfiles from
+[4444J99/dotfiles](https://github.com/4444J99/dotfiles) for consistent shell
+configuration across all org repositories.
 
 ## Usage
 

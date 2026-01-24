@@ -1,20 +1,21 @@
 # Repository Organization Migration Guide
 
-Step-by-step guide for migrating existing repositories to organization standards.
+Step-by-step guide for migrating existing repositories to organization
+standards.
 
----
+______________________________________________________________________
 
 ## Migration Levels
 
 Choose your migration depth based on time and impact:
 
-| Level | Time | Impact | What Changes |
-|-------|------|--------|--------------|
-| Essential | 30 min | Low | Add missing required files |
-| Recommended | 2-4 hours | Medium | Reorganize directories |
-| Comprehensive | 1-2 days | High | Full restructure |
+| Level         | Time      | Impact | What Changes               |
+| ------------- | --------- | ------ | -------------------------- |
+| Essential     | 30 min    | Low    | Add missing required files |
+| Recommended   | 2-4 hours | Medium | Reorganize directories     |
+| Comprehensive | 1-2 days  | High   | Full restructure           |
 
----
+______________________________________________________________________
 
 ## Before You Start
 
@@ -47,13 +48,13 @@ find . -maxdepth 1 -name "test-results*" -o -name "*.log"
 [ -d tests ] && echo "✓ tests/" || echo "✗ tests/ missing"
 ```
 
----
+______________________________________________________________________
 
 ## Essential Migration (30 minutes)
 
 ### Phase 1: Create Required Files
 
-```bash
+````bash
 # Create README if missing
 [ -f README.md ] || cat > README.md << 'EOF'
 # Project Name
@@ -64,7 +65,7 @@ Brief description of the project.
 
 ```bash
 # Installation steps
-```
+````
 
 ## Usage
 
@@ -78,53 +79,50 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-See [LICENSE](LICENSE)
-EOF
+See [LICENSE](LICENSE) EOF
 
 # Create LICENSE if missing (MIT example)
-[ -f LICENSE ] || cat > LICENSE << 'EOF'
-MIT License
 
-Copyright (c) 2026 [Organization]
+\[ -f LICENSE \] || cat > LICENSE \<\< 'EOF' MIT License
+
+Copyright (c) 2026 \[Organization\]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy...
 EOF
 
 # Create .gitignore if missing
-[ -f .gitignore ] || cat > .gitignore << 'EOF'
+
+\[ -f .gitignore \] || cat > .gitignore \<\< 'EOF'
+
 # Build artifacts
-dist/
-build/
-*.egg-info/
+
+dist/ build/ \*.egg-info/
 
 # Dependencies
-node_modules/
-venv/
-.venv/
+
+node_modules/ venv/ .venv/
 
 # IDE
-.idea/
-.vscode/
-*.swp
+
+.idea/ .vscode/ \*.swp
 
 # Environment
-.env
-.env.local
+
+.env .env.local
 
 # OS
-.DS_Store
-Thumbs.db
+
+.DS_Store Thumbs.db
 
 # Test/coverage
-.coverage
-htmlcov/
-.pytest_cache/
+
+.coverage htmlcov/ .pytest_cache/
 
 # Logs
-*.log
-logs/
-EOF
-```
+
+\*.log logs/ EOF
+
+````
 
 ### Phase 2: Create Essential Directories
 
@@ -133,7 +131,7 @@ mkdir -p .github/workflows
 mkdir -p docs
 mkdir -p tests
 mkdir -p scripts
-```
+````
 
 ### Commit Point
 
@@ -145,7 +143,7 @@ git commit -m "chore: add essential repository structure
 - Create standard directories: docs/, tests/, scripts/, .github/"
 ```
 
----
+______________________________________________________________________
 
 ## Recommended Migration (2-4 hours)
 
@@ -223,7 +221,7 @@ git commit -m "chore: reorganize repository structure
 - Organize documentation under docs/"
 ```
 
----
+______________________________________________________________________
 
 ## Comprehensive Migration (1-2 days)
 
@@ -298,7 +296,7 @@ git commit -m "refactor: comprehensive repository restructure
 - Update imports and CI paths"
 ```
 
----
+______________________________________________________________________
 
 ## Common Scenarios
 
@@ -348,7 +346,7 @@ mv documentation/* docs/ 2>/dev/null || true
 rmdir wiki documentation 2>/dev/null || true
 ```
 
----
+______________________________________________________________________
 
 ## Post-Migration Checklist
 
@@ -366,7 +364,7 @@ rmdir wiki documentation 2>/dev/null || true
 ./scripts/validate-repository-structure.sh
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -383,8 +381,8 @@ sed -i 's/old_path/new_path/g' src/**/*.py
 ### CI Failing After Move
 
 1. Check workflow paths in `.github/workflows/`
-2. Verify test paths
-3. Check working directory assumptions
+1. Verify test paths
+1. Check working directory assumptions
 
 ### Git History Concerns
 
@@ -394,7 +392,7 @@ The migration preserves history. To see file history after move:
 git log --follow -- new/path/to/file.py
 ```
 
----
+______________________________________________________________________
 
 ## Related Documents
 

@@ -39,7 +39,7 @@ Navigate to: Settings > Security
 - [x] Projects (for task management)
 - [x] Wiki (optional)
 
----
+______________________________________________________________________
 
 ## Quality Gates
 
@@ -71,7 +71,7 @@ Every repository should have:
 1. **Dependency Review** - Check for vulnerabilities
 1. **Coverage** - Minimum 80% code coverage
 
----
+______________________________________________________________________
 
 ## Security Response Timeline
 
@@ -82,7 +82,7 @@ Every repository should have:
 | Resolution       | 90 days max     | Fix deployed or workaround provided  |
 | Disclosure       | After fix       | Coordinated disclosure with reporter |
 
----
+______________________________________________________________________
 
 ## Issue & PR Standards
 
@@ -105,7 +105,7 @@ Every repository should have:
 - [ ] CI checks passing
 - [ ] Code owner approval
 
----
+______________________________________________________________________
 
 ## AI Agent Guidelines
 
@@ -122,7 +122,7 @@ For AI-assisted development, use the handoff templates in `.github/templates/`:
 1. **Document Changes** - Track all modifications
 1. **Validate Impact** - Test before committing
 
----
+______________________________________________________________________
 
 ## Community Health Files
 
@@ -145,7 +145,7 @@ For AI-assisted development, use the handoff templates in `.github/templates/`:
 | FUNDING.yml   | Sponsorship options     |
 | GOVERNANCE.md | Decision-making process |
 
----
+______________________________________________________________________
 
 ## Metrics & Health
 
@@ -169,7 +169,7 @@ Monitor these metrics:
 | Stale issue threshold  | 90 days                  |
 | Stale PR threshold     | 30 days                  |
 
----
+______________________________________________________________________
 
 ## Related Resources
 
@@ -178,7 +178,7 @@ Monitor these metrics:
 - [SECURITY.md](../SECURITY.md) - Security policy
 - [CODEOWNERS](../CODEOWNERS) - Code ownership
 
----
+______________________________________________________________________
 
 _This document consolidates content from the system-governance-framework
 repository._

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Shopify Expert description: Expert Shopify development assistant for
 themes, Liquid, apps, and APIs. model: GPT-4.1 tools:
@@ -13,7 +13,7 @@ themes, Liquid, apps, and APIs. model: GPT-4.1 tools:
 - shopify
 - ecommerce updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Shopify Expert
 

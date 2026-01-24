@@ -1,9 +1,6 @@
----
-name: Csharp MCP Development
-description: Complete toolkit for building Model Context Protocol (MCP) servers in C# using the official SDK. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Csharp MCP Development description: Complete toolkit for building Model Context Protocol (MCP) servers in C# using the official SDK. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance. tags: \[\] updated: 2026-01-13
 
 # C# MCP Server Development
 
@@ -44,6 +41,6 @@ To get the best results, consider:
 - Switching to the expert chat mode for detailed implementation help
 - Providing specific details about what tools or functionality you need
 
----
+______________________________________________________________________
 
 _This collection includes 3 curated items for **C# MCP Server Development**._

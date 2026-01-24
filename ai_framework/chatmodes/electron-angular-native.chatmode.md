@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Electron Angular Native Review description: Code review mode for Electron
 with Node.js, Angular, and native integrations. tools:
@@ -19,7 +19,7 @@ with Node.js, Angular, and native integrations. tools:
 - electron
 - reviews updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## Code Conventions
 
@@ -29,7 +29,7 @@ with Node.js, Angular, and native integrations. tools:
 - Strict async/await — avoid `.then()`, `.Result`, `.Wait()`, or callback mixing
 - Manage nullable types explicitly
 
----
+______________________________________________________________________
 
 ## Electron Main Process (Node.js)
 
@@ -95,7 +95,7 @@ with Node.js, Angular, and native integrations. tools:
 - Include file ops (path, operation), system commands, errors
 - Avoid leaking sensitive data in logs
 
----
+______________________________________________________________________
 
 ## Electron Renderer Process (Angular)
 
@@ -128,7 +128,7 @@ with Node.js, Angular, and native integrations. tools:
 - Validate/sanitize user input
 - Secure routing with guards (AuthGuard, RoleGuard)
 
----
+______________________________________________________________________
 
 ## Native Integration Layer (AppleScript, Shell, etc.)
 
@@ -159,7 +159,7 @@ with Node.js, Angular, and native integrations. tools:
 - Harden file path handling passed to native tools
 - Avoid unsafe string concatenation in command source
 
----
+______________________________________________________________________
 
 ## Common Pitfalls
 
@@ -179,7 +179,7 @@ with Node.js, Angular, and native integrations. tools:
 - Lack of resource cleanup on app exit
 - Native integration not handling flaky command behavior
 
----
+______________________________________________________________________
 
 ## Review Checklist
 
@@ -200,7 +200,7 @@ with Node.js, Angular, and native integrations. tools:
 1. ✅ Progressive enrichment for large scans
 1. ✅ Consistent UX across dialogs
 
----
+______________________________________________________________________
 
 ## Feature Examples (🧪 for inspiration & linking docs)
 
@@ -221,7 +221,7 @@ with Node.js, Angular, and native integrations. tools:
 
 ### Feature E
 
----
+______________________________________________________________________
 
 ## Review Output Format
 

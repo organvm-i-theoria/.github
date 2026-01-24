@@ -61,7 +61,7 @@ concurrency:
   cancel-in-progress: true # ⭐ Cancel redundant runs
 ```
 
----
+______________________________________________________________________
 
 ## 📊 Performance Cheat Sheet
 
@@ -91,7 +91,7 @@ key: ${{ runner.os }}-pip-${{ github.sha }}
 key: ${{ runner.os }}-pip-cache
 ```
 
----
+______________________________________________________________________
 
 ## 🔒 Security Quick Checks
 
@@ -115,7 +115,7 @@ gh api repos/actions/checkout/commits/main --jq '.sha'
 sed -i 's/@v4/@11bd71901bbe5b1630ceea73d27597364c9af683 # v4/g' workflow.yml
 ```
 
----
+______________________________________________________________________
 
 ## 💰 Cost Optimization Tips
 
@@ -174,7 +174,7 @@ jobs:
 
 **Savings**: Avoids expensive operations on feature branches
 
----
+______________________________________________________________________
 
 ## 🎯 Common Patterns
 
@@ -250,7 +250,7 @@ jobs:
       node-version: "20"
 ```
 
----
+______________________________________________________________________
 
 ## 🔍 Troubleshooting
 
@@ -298,7 +298,7 @@ uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 # Not: @v4 or @main
 ```
 
----
+______________________________________________________________________
 
 ## 📈 Metrics to Track
 
@@ -320,7 +320,7 @@ uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 - Cache hit rate (target: >70%)
 - Cost per commit (target: \<$0.10)
 
----
+______________________________________________________________________
 
 ## 🛠️ Useful Scripts
 
@@ -353,7 +353,7 @@ gh api /repos/:owner/:repo/actions/runs --paginate \
   | jq -s 'group_by(.name) | map({workflow: .[0].name, total_minutes: (map(((.updated_at | fromdateiso8601) - (.run_started_at | fromdateiso8601)) / 60) | add), estimated_cost: ((map(((.updated_at | fromdateiso8601) - (.run_started_at | fromdateiso8601)) / 60) | add) * 0.008)})'
 ```
 
----
+______________________________________________________________________
 
 ## 📚 Learning Resources
 
@@ -375,7 +375,7 @@ gh api /repos/:owner/:repo/actions/runs --paginate \
 - [Awesome Actions](https://github.com/sdras/awesome-actions)
 - [r/github](https://reddit.com/r/github)
 
----
+______________________________________________________________________
 
 ## 🎓 Workflow Optimization Levels
 
@@ -403,7 +403,7 @@ gh api /repos/:owner/:repo/actions/runs --paginate \
 - ✅ ML-powered optimization
 - ✅ Comprehensive monitoring
 
----
+______________________________________________________________________
 
 ## 🚨 Emergency Procedures
 
@@ -442,7 +442,7 @@ git commit -m "revert: rollback workflow changes"
 git push
 ```
 
----
+______________________________________________________________________
 
 ## 📞 Getting Help
 
@@ -459,7 +459,7 @@ git push
 - GitHub Community: https://github.community/
 - Stack Overflow: Tag `github-actions`
 
----
+______________________________________________________________________
 
 ## ✅ Quick Wins (Do These First!)
 
@@ -484,7 +484,7 @@ git push
 1. [ ] Set up basic metrics tracking
 1. [ ] Add input validation to user-triggered workflows
 
----
+______________________________________________________________________
 
 ## 🎯 Workflow Optimization Scorecard
 
@@ -538,7 +538,7 @@ Rate your workflow on each dimension (1-5):
 - **5-9**: Needs attention 🔧
 - **0-4**: Requires immediate action 🚨
 
----
+______________________________________________________________________
 
 **Version**: 1.0\
 **Last Updated**: 2025-12-23\

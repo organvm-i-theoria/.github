@@ -1,9 +1,6 @@
----
-name: Security Best Practices
-description: Security frameworks, accessibility guidelines, performance optimization, and code quality best practices for building secure, maintainable, and high-performance applications.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Security Best Practices description: Security frameworks, accessibility guidelines, performance optimization, and code quality best practices for building secure, maintainable, and high-performance applications. tags: \[\] updated: 2026-01-13
 
 # Security & Code Quality
 
@@ -25,6 +22,6 @@ optimization, best-practices
 | [Secure Coding and OWASP Guidelines](../instructions/security-and-owasp.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fsecurity-and-owasp.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fsecurity-and-owasp.instructions.md)                                                      | Instruction | Comprehensive secure coding instructions for all languages and frameworks, based on OWASP Top 10 and industry best practices.                                                                                                                                                            |
 | [Self-explanatory Code Commenting Instructions](../instructions/self-explanatory-code-commenting.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fself-explanatory-code-commenting.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fself-explanatory-code-commenting.instructions.md) | Instruction | Guidelines for GitHub Copilot to write comments to achieve self-explanatory code with less comments. Examples are in JavaScript but it should work on any language that has comments.                                                                                                    |
 
----
+______________________________________________________________________
 
 _This collection includes 6 curated items for **Security & Code Quality**._

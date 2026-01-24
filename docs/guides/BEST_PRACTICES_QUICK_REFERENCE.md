@@ -16,7 +16,7 @@ practices:
 - 💬 [Discussion Templates](../../.github/DISCUSSION_TEMPLATE/)
 - 🎫 [Issue Templates](../../.github/ISSUE_TEMPLATE/)
 
----
+______________________________________________________________________
 
 ## Discussion Templates
 
@@ -73,7 +73,7 @@ discussions:
 - "Looking for collaborators on security audit"
 - "Offering to help teams set up CodeQL"
 
----
+______________________________________________________________________
 
 ## Enhanced Issue Templates
 
@@ -120,7 +120,7 @@ requests:
 - Contributor guidelines
 - Inclusivity and accessibility
 
----
+______________________________________________________________________
 
 ## Running Best Practices Sessions
 
@@ -226,7 +226,7 @@ Include: Agenda, pre-reading (optional), meeting link
 **Session Type**: Onboarding & Training (60-120 min) **Template**:
 [Training Template](./GITHUB_BEST_PRACTICES_SESSIONS.md#5-onboarding--training-sessions-60-120-minutes)
 
----
+______________________________________________________________________
 
 ## Real-World Examples
 
@@ -286,7 +286,7 @@ Include: Agenda, pre-reading (optional), meeting link
 - Clearer contribution pathways
 - More inclusive and welcoming environment
 
----
+______________________________________________________________________
 
 ## Tips for Success
 
@@ -306,7 +306,7 @@ Include: Agenda, pre-reading (optional), meeting link
 - **Don't Overcomplicate**: Simple and actionable is better
 - **Don't Forget Action Items**: Sessions without actions waste time
 
----
+______________________________________________________________________
 
 ## Common Questions
 
@@ -340,7 +340,7 @@ organization's needs.
 **A**: Start with 30-minute sessions during lunch or coffee breaks. Small,
 consistent sessions beat rare large workshops.
 
----
+______________________________________________________________________
 
 ## Getting Help
 
@@ -354,7 +354,7 @@ Need assistance?
 - 📖 Review the [Complete Sessions Guide](./GITHUB_BEST_PRACTICES_SESSIONS.md)
 - 📚 Check the [Best Practices Guide](./BEST_PRACTICES.md)
 
----
+______________________________________________________________________
 
 ## Contributing
 
@@ -368,6 +368,6 @@ Found these templates helpful? Have improvements to suggest?
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) for details.
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-12-25 **Version**: 1.0

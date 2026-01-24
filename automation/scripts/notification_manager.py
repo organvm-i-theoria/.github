@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unified Notification Manager
+"""Unified Notification Manager
 
 Centralized notification system for all Week 9 automation capabilities.
 Supports multiple channels (Slack, Email, PagerDuty) with templating,
@@ -101,11 +100,11 @@ class NotificationManager:
     """Centralized notification management."""
 
     def __init__(self, config_path: str = ".github/notifications.yml"):
-        """
-        Initialize notification manager.
+        """Initialize notification manager.
 
         Args:
             config_path: Path to notification configuration
+
         """
         self.config = self._load_config(config_path)
         self.delivery_log = Path(".github/notifications/delivery_log")
@@ -120,22 +119,21 @@ class NotificationManager:
         logger.info("Notification manager initialized")
 
     def send(self, notification: Notification) -> Dict[str, DeliveryRecord]:
-        """
-        Send notification to configured channels.
+        """Send notification to configured channels.
 
         Args:
             notification: Notification to send
 
         Returns:
             Dictionary of channel -> delivery record
+
         """
         # Generate notification ID
         if not notification.notification_id:
             notification.notification_id = self._generate_id()
 
         logger.info(
-            f"Sending notification {notification.notification_id}: "
-            f"{notification.title} [{notification.priority.value}]"
+            f"Sending notification {notification.notification_id}: {notification.title} [{notification.priority.value}]"
         )
 
         # Check deduplication

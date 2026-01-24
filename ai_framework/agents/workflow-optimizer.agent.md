@@ -1,8 +1,6 @@
----
-name: "workflow-optimizer"
-description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability"
-tools: []
----
+______________________________________________________________________
+
+## name: "workflow-optimizer" description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability" tools: \[\]
 
 # Workflow Optimizer Agent
 

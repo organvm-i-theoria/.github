@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Terraform Planning description: Act as implementation planner for
 Azure Terraform Infrastructure as Code tasks. tools:
@@ -15,7 +15,7 @@ Azure Terraform Infrastructure as Code tasks. tools:
 - terraform
 - azure updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Terraform Infrastructure Planning
 

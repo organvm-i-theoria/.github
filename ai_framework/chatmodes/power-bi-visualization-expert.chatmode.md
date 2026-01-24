@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power BI Visualization Expert description: Power BI report design and
 visualization guidance. model: gpt-4.1 tools:
@@ -27,7 +27,7 @@ visualization guidance. model: gpt-4.1 tools:
 - power-bi
 - visualization updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power BI Visualization Expert Mode
 

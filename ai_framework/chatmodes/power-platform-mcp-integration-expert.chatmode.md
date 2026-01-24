@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power Platform MCP Integration Expert description: Power Platform custom
 connector development with MCP integration. model: GPT-4.1 tools:
@@ -8,7 +8,7 @@ connector development with MCP integration. model: GPT-4.1 tools:
 - power-platform
 - mcp updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power Platform MCP Integration Expert
 

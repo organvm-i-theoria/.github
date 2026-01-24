@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-GitHub Projects V2 Configuration Script
+"""GitHub Projects V2 Configuration Script
 
 This script creates and configures comprehensive GitHub Projects using the GraphQL API.  # noqa: E501
 It handles project creation, field configuration, view setup, and automation rules.

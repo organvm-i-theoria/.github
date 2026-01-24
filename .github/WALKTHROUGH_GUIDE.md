@@ -22,7 +22,7 @@ Deployment** - Single-command rollout to all repositories ✅ **Customizable
 Settings** - Duration, style, focus areas, and more ✅ **90-Day Artifact
 Retention** - Long-term storage of video walkthroughs
 
----
+______________________________________________________________________
 
 ## How It Works
 
@@ -85,7 +85,7 @@ Finally, the system:
 1. Opens a pull request with detailed information
 1. Uploads artifacts with 90-day retention
 
----
+______________________________________________________________________
 
 ## Usage Instructions
 
@@ -131,7 +131,7 @@ Once installed, the workflow automatically runs when:
 - You push code changes to `main`, `master`, or `develop` branches
 - You modify any supported code files (see trigger conditions in config)
 
----
+______________________________________________________________________
 
 ## Configuration Guide
 
@@ -210,7 +210,7 @@ custom_settings:
   focus_areas: "feature1, feature2, feature3"
 ```
 
----
+______________________________________________________________________
 
 ## Supported Tech Stacks
 
@@ -246,7 +246,7 @@ custom_settings:
 | ----------- | ------------------- | ------------ | ------------------------ |
 | Static HTML | `index.html` exists | 8000         | `python3 -m http.server` |
 
----
+______________________________________________________________________
 
 ## Output Locations
 
@@ -255,10 +255,12 @@ custom_settings:
 All generated videos are stored in two locations:
 
 1. **GitHub Actions Artifacts** (90-day retention)
+
    - Access via: Actions tab → Workflow run → Artifacts section
    - Format: `walkthrough-{repo-name}-{run-number}.zip`
 
 1. **Repository Files** (Permanent via PR)
+
    - Location: `walkthroughs/` directory
    - Files:
      - `{app-name}-walkthrough-{date}.mp4` - The video file
@@ -282,7 +284,7 @@ The metadata JSON file includes:
 }
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting Guide
 
@@ -373,7 +375,7 @@ elif [ -f "requirements.txt" ]; then
 fi
 ```
 
----
+______________________________________________________________________
 
 ## Customization Options
 
@@ -428,7 +430,7 @@ custom_settings:
   focus_areas: "user management, data visualization, export functionality"
 ```
 
----
+______________________________________________________________________
 
 ## Organization-Wide Deployment
 
@@ -485,7 +487,7 @@ For individual repositories:
    gh pr create --title "Add video walkthrough generation" --body "Enables automatic video walkthrough generation for this repository"
    ```
 
----
+______________________________________________________________________
 
 ## Advanced Topics
 
@@ -547,7 +549,7 @@ monitoring:
   metrics_file: "reports/walkthrough-metrics.json"
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -579,7 +581,7 @@ monitoring:
 - **Share Best Practices**: Create examples and templates
 - **Regular Reviews**: Audit generated videos quarterly
 
----
+______________________________________________________________________
 
 ## FAQ
 
@@ -637,7 +639,7 @@ will be added via a new PR.
 **A**: Yes, download the artifact from the workflow run before the PR is
 created.
 
----
+______________________________________________________________________
 
 ## Support & Resources
 
@@ -658,7 +660,7 @@ created.
 Contributions are welcome! See [CONTRIBUTING.md](../docs/CONTRIBUTING.md) for
 guidelines.
 
----
+______________________________________________________________________
 
 ## Changelog
 
@@ -673,7 +675,7 @@ guidelines.
 - ✅ Comprehensive configuration system
 - ✅ 90-day artifact retention
 
----
+______________________________________________________________________
 
 **Built with ❤️ for the Ivviiviivvi Organization**
 

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Tech Debt Remediation Plan description: Generate technical debt
 remediation plans for code, tests, and documentation. tools:
@@ -27,7 +27,7 @@ remediation plans for code, tests, and documentation. tools:
 - planning
 - tech-debt updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Technical Debt Remediation Plan
 

@@ -245,7 +245,7 @@ When updating templates:
 
 ---
 
-**Last Updated:** 2026-01-15  
+**Last Updated:** 2026-01-15
 **Maintained by:** Documentation Team
 EOF
 
@@ -258,9 +258,9 @@ echo ""
 cat > docs/guides/issue-template-validation-report.md << 'EOF'
 # Issue Template Validation Report
 
-**Date:** 2026-01-15  
-**Validator:** [To be completed]  
-**Repository:** ivviiviivvi/.github  
+**Date:** 2026-01-15
+**Validator:** [To be completed]
+**Repository:** ivviiviivvi/.github
 **Templates Tested:** 17
 
 ---
@@ -405,13 +405,13 @@ To be completed - attach screenshots of problematic templates (if any).
 
 ## Sign-off
 
-**Validation Completed By:** _________________  
-**Date:** _________________  
+**Validation Completed By:** _________________
+**Date:** _________________
 
-**Review Approved By:** _________________  
-**Date:** _________________  
+**Review Approved By:** _________________
+**Date:** _________________
 
-**Status:** 
+**Status:**
 - [ ] Validation Complete
 - [ ] All critical issues resolved
 - [ ] Documentation updated

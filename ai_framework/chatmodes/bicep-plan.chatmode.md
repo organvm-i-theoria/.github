@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Bicep Planning description: Act as implementation planner for Azure
 Bicep Infrastructure as Code tasks. tools:
@@ -16,7 +16,7 @@ Bicep Infrastructure as Code tasks. tools:
 - bicep
 - azure updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Bicep Infrastructure Planning
 

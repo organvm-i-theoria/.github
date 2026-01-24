@@ -4,7 +4,7 @@
 
 **Last Updated:** 2026-01-14
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -17,7 +17,7 @@
 - [Security Tools](#security-tools)
 - [Incident Response](#incident-response)
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -33,7 +33,7 @@ to maintain the security posture of our projects.
 1. **Privacy by Design**: PII protection built-in
 1. **Continuous Monitoring**: Ongoing security validation
 
----
+______________________________________________________________________
 
 ## Security Disclosure
 
@@ -42,15 +42,18 @@ to maintain the security posture of our projects.
 **🔴 MANDATORY: All security issues MUST be reported privately**
 
 1. **Navigate to Security Advisories**:
+
    - Go to: <https://github.com/ivviiviivvi/.github/security/advisories/new>
 
 1. **Fill Out the Advisory Form**:
+
    - Provide detailed description of the vulnerability
    - Include steps to reproduce
    - Assess potential impact
    - Suggest mitigation if known
 
 1. **Wait for Response**:
+
    - Security team will acknowledge within 48 hours
    - We will work with you to validate and fix the issue
    - Credit will be provided in security advisories
@@ -83,7 +86,7 @@ to maintain the security posture of our projects.
 - Documentation errors
 - Non-security bugs
 
----
+______________________________________________________________________
 
 ## Secret Management
 
@@ -181,7 +184,7 @@ If a secret is committed:
 1. **Update Baseline**: Remove from `.secrets.baseline` if present
 1. **Audit Access**: Check for unauthorized access using the secret
 
----
+______________________________________________________________________
 
 ## PII and Sensitive Data
 
@@ -247,7 +250,7 @@ Personal Identifiable Information (PII) includes:
 - [ ] Replace usernames with `[REDACTED_USER]`
 - [ ] Replace customer IDs with `[REDACTED_ID]`
 
----
+______________________________________________________________________
 
 ## GitHub Actions Security
 
@@ -344,7 +347,7 @@ permissions:
 permissions: write-all
 ```
 
----
+______________________________________________________________________
 
 ## Dependency Security
 
@@ -423,7 +426,7 @@ npm audit fix
 npm audit fix --force
 ```
 
----
+______________________________________________________________________
 
 ## Security Tools
 
@@ -483,38 +486,44 @@ Enable these features for all repositories:
 - [ ] Incident response drill
 - [ ] Third-party audit (if applicable)
 
----
+______________________________________________________________________
 
 ## Incident Response
 
 ### Security Incident Process
 
 1. **Detection & Reporting**
+
    - Security tool alerts
    - User reports
    - Internal discovery
 
 1. **Initial Assessment**
+
    - Validate the issue
    - Assess severity and impact
    - Determine scope
 
 1. **Containment**
+
    - Isolate affected systems
    - Rotate compromised credentials
    - Block malicious access
 
 1. **Eradication**
+
    - Remove vulnerabilities
    - Apply patches
    - Verify fix
 
 1. **Recovery**
+
    - Restore services
    - Monitor for recurrence
    - Verify normal operation
 
 1. **Post-Incident**
+
    - Document lessons learned
    - Update security measures
    - Notify affected parties
@@ -550,7 +559,7 @@ Enable these features for all repositories:
 - Documentation gaps
 - Response: Next security review
 
----
+______________________________________________________________________
 
 ## Additional Resources
 
@@ -578,7 +587,7 @@ Enable these features for all repositories:
   Python vulnerability scanning
 - [Bandit](https://github.com/PyCQA/bandit) - Python security linter
 
----
+______________________________________________________________________
 
 ## Questions or Concerns?
 
@@ -588,6 +597,6 @@ Enable these features for all repositories:
   [discussion](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
 - **Documentation Improvements**: Submit a [pull request](../CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 **Remember: Security is everyone's responsibility. When in doubt, ask!**

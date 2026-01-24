@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: PostgreSQL DBA description: Work with PostgreSQL databases using the
 PostgreSQL extension. tools:
@@ -22,7 +22,7 @@ PostgreSQL extension. tools:
 - database
 - postgresql updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # PostgreSQL Database Administrator
 

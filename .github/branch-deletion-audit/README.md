@@ -1,10 +1,12 @@
 # Branch Deletion Audit System
 
-This directory contains audit logs for branch deletions, enabling recovery of accidentally deleted branches.
+This directory contains audit logs for branch deletions, enabling recovery of
+accidentally deleted branches.
 
 ## Purpose
 
-When branches are deleted (via stale PR cleanup or merged branch cleanup), this system captures:
+When branches are deleted (via stale PR cleanup or merged branch cleanup), this
+system captures:
 
 - **Tip SHA**: The exact commit the branch pointed to before deletion
 - **PR Reference**: Associated pull request number (if any)
@@ -66,8 +68,8 @@ grep "2026-01-2" .github/branch-deletion-audit/2026-01-deletions.jsonl
 The audit system is integrated into `.github/workflows/branch-lifecycle.yml`:
 
 1. **Before stale PR closure** (with task extraction)
-2. **Before stale PR closure** (without tasks)
-3. **Before merged branch deletion**
+1. **Before stale PR closure** (without tasks)
+1. **Before merged branch deletion**
 
 Each deletion point calls `log-branch-deletion.sh` BEFORE the actual deletion.
 
@@ -81,4 +83,5 @@ Each deletion point calls `log-branch-deletion.sh` BEFORE the actual deletion.
 
 - [log-branch-deletion.sh](../scripts/log-branch-deletion.sh) - Logging script
 - [recover-branch.sh](../scripts/recover-branch.sh) - Recovery script
-- [branch-lifecycle.yml](../workflows/branch-lifecycle.yml) - Workflow integration
+- [branch-lifecycle.yml](../workflows/branch-lifecycle.yml) - Workflow
+  integration

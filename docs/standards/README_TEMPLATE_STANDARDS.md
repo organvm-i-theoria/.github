@@ -2,17 +2,21 @@
 
 ## Overview
 
-This document defines the standard README structure for all repositories in the ivviiviivvi organization. Every README must follow the **Problem → Approach → Outcome** narrative framework to ensure clarity, consistency, and effective communication.
+This document defines the standard README structure for all repositories in the
+ivviiviivvi organization. Every README must follow the **Problem → Approach →
+Outcome** narrative framework to ensure clarity, consistency, and effective
+communication.
 
 ## The Problem → Approach → Outcome Framework
 
 ### Core Principle
 
-Every README should tell a complete story that answers three fundamental questions:
+Every README should tell a complete story that answers three fundamental
+questions:
 
 1. **Problem**: What problem does this solve? Why does it exist?
-2. **Approach**: How does this solve the problem? What's the method/strategy?
-3. **Outcome**: What can users achieve? What are the results/benefits?
+1. **Approach**: How does this solve the problem? What's the method/strategy?
+1. **Outcome**: What can users achieve? What are the results/benefits?
 
 ### Why This Framework?
 
@@ -20,7 +24,8 @@ Every README should tell a complete story that answers three fundamental questio
 - **Context**: Provides the "why" before the "how"
 - **Engagement**: Creates a narrative that readers can follow
 - **Professionalism**: Demonstrates thoughtful design and clear communication
-- **Discoverability**: Search engines and AI tools can better understand the content
+- **Discoverability**: Search engines and AI tools can better understand the
+  content
 
 ## README Structure
 
@@ -93,12 +98,14 @@ Every README must include these sections in this order:
 ```
 
 **Requirements**:
+
 - Project name matches repository name
 - Ontological title clearly states what this IS (not just what it does)
 - Badges are functional and relevant (version, license, build status minimum)
 - One-sentence description is identical to repository description
 
 **Example**:
+
 ```markdown
 # python-automation-toolkit
 
@@ -116,6 +123,7 @@ Python automation toolkit - Streamlines CI/CD workflows with pre-built GitHub Ac
 **Purpose**: Explain the pain point, gap, or need that motivated this project.
 
 **Structure**:
+
 ```markdown
 ## 📋 Problem
 
@@ -133,6 +141,7 @@ Python automation toolkit - Streamlines CI/CD workflows with pre-built GitHub Ac
 ```
 
 **Guidelines**:
+
 - Start with the user's perspective
 - Be specific about the problem
 - Avoid solutions in this section (save for Approach)
@@ -140,6 +149,7 @@ Python automation toolkit - Streamlines CI/CD workflows with pre-built GitHub Ac
 - Connect to reader's likely experiences
 
 **Example**:
+
 ```markdown
 ## 📋 Problem
 
@@ -161,9 +171,11 @@ For organizations managing 10+ Python repositories, this problem multiplies expo
 
 ### 3. Approach Section
 
-**Purpose**: Explain HOW this project solves the problem - the strategy, architecture, and key features.
+**Purpose**: Explain HOW this project solves the problem - the strategy,
+architecture, and key features.
 
 **Structure**:
+
 ```markdown
 ## 🎯 Approach
 
@@ -183,6 +195,7 @@ For organizations managing 10+ Python repositories, this problem multiplies expo
 ```
 
 **Guidelines**:
+
 - Focus on strategy, not implementation details
 - Explain design decisions and trade-offs
 - Highlight what makes this approach unique or effective
@@ -190,6 +203,7 @@ For organizations managing 10+ Python repositories, this problem multiplies expo
 - Use clear, jargon-free language when possible
 
 **Example**:
+
 ```markdown
 ## 🎯 Approach
 
@@ -213,9 +227,11 @@ Built on GitHub Actions' reusable workflow feature, the toolkit centralizes work
 
 ### 4. Outcome Section
 
-**Purpose**: Describe what users can ACHIEVE - the concrete results, benefits, and capabilities.
+**Purpose**: Describe what users can ACHIEVE - the concrete results, benefits,
+and capabilities.
 
 **Structure**:
+
 ```markdown
 ## ✨ Outcome
 
@@ -233,6 +249,7 @@ Built on GitHub Actions' reusable workflow feature, the toolkit centralizes work
 ```
 
 **Guidelines**:
+
 - Focus on user benefits, not features
 - Use concrete examples and specific scenarios
 - Include metrics when available (time saved, errors prevented, etc.)
@@ -240,6 +257,7 @@ Built on GitHub Actions' reusable workflow feature, the toolkit centralizes work
 - Connect back to the original problem
 
 **Example**:
+
 ```markdown
 ## ✨ Outcome
 
@@ -271,13 +289,15 @@ Example: A team managing 15 Python microservices reduced their annual CI/CD main
 **Purpose**: Get users to their first success as quickly as possible.
 
 **Requirements**:
+
 - Maximum 5 steps
 - Each step is a single, clear action
 - Assumes minimal prior knowledge
 - Links to detailed docs for next steps
 
 **Structure**:
-```markdown
+
+````markdown
 ## 🚀 Quick Start
 
 Get up and running in 5 minutes:
@@ -285,30 +305,35 @@ Get up and running in 5 minutes:
 1. **Install/Setup**
    ```bash
    [Single command to install or setup]
-   ```
+````
 
 2. **Configure**
+
    ```bash
    [Minimal required configuration]
    ```
 
-3. **Run/Deploy**
+1. **Run/Deploy**
+
    ```bash
    [Command to run or deploy]
    ```
 
-4. **Verify**
+1. **Verify**
+
    ```bash
    [How to confirm it's working]
    ```
 
-5. **Next Steps**
-   - [Link to detailed docs]
-   - [Link to examples]
-   - [Link to tutorials]
+1. **Next Steps**
+
+   - \[Link to detailed docs\]
+   - \[Link to examples\]
+   - \[Link to tutorials\]
 
 **Need help?** See [Documentation](#-documentation) or [open an issue](link).
-```
+
+````
 
 **Example**:
 ```markdown
@@ -320,9 +345,10 @@ Get up and running in 5 minutes:
    ```bash
    mkdir -p .github/workflows
    touch .github/workflows/ci.yml
-   ```
+````
 
 2. **Add toolkit reference**
+
    ```yaml
    # .github/workflows/ci.yml
    name: CI
@@ -332,23 +358,28 @@ Get up and running in 5 minutes:
        uses: ivviiviivvi/python-automation-toolkit/.github/workflows/python-ci.yml@v2
    ```
 
-3. **Commit and push**
+1. **Commit and push**
+
    ```bash
    git add .github/workflows/ci.yml
    git commit -m "Add CI workflow"
    git push
    ```
 
-4. **Watch it run**
+1. **Watch it run**
+
    - Go to Actions tab in your repository
    - See your tests running automatically
 
-5. **Customize (optional)**
+1. **Customize (optional)**
+
    - See [Configuration Guide](docs/CONFIGURATION.md) for parameters
    - See [Examples](examples/) for common customizations
 
-**Need help?** Check our [Documentation](docs/) or [open an issue](https://github.com/ivviiviivvi/python-automation-toolkit/issues).
-```
+**Need help?** Check our [Documentation](docs/) or
+[open an issue](https://github.com/ivviiviivvi/python-automation-toolkit/issues).
+
+````
 
 ### 6. Documentation Section
 
@@ -378,12 +409,13 @@ Get up and running in 5 minutes:
 - [GitHub Discussions](link) - Ask questions and share ideas
 - [Contributing Guide](CONTRIBUTING.md) - How to contribute
 - [Code of Conduct](CODE_OF_CONDUCT.md) - Community standards
-```
+````
 
 ### 7. Contributing Section
 
 **Structure**:
-```markdown
+
+````markdown
 ## 🤝 Contributing
 
 We welcome contributions! Here's how you can help:
@@ -407,10 +439,12 @@ cd repo
 
 # Run tests
 [test commands]
-```
+````
 
-**Code of Conduct**: Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
-```
+**Code of Conduct**: Please read and follow our
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+````
 
 ### 8. License Section
 
@@ -421,11 +455,12 @@ cd repo
 This project is licensed under the [MIT License](LICENSE).
 
 Copyright © 2026 [Organization Name]
-```
+````
 
 ### 9. Footer Section
 
 **Structure**:
+
 ```markdown
 ---
 
@@ -440,12 +475,14 @@ Copyright © 2026 [Organization Name]
 Use this checklist to ensure your README meets standards:
 
 ### Narrative Flow
+
 - [ ] Problem section explains the pain point clearly
 - [ ] Approach section describes the solution strategy
 - [ ] Outcome section demonstrates concrete benefits
 - [ ] Narrative flows logically from problem to outcome
 
 ### Completeness
+
 - [ ] All required sections are present
 - [ ] Ontological title is defined
 - [ ] Badges are functional and relevant
@@ -453,6 +490,7 @@ Use this checklist to ensure your README meets standards:
 - [ ] Documentation links are valid
 
 ### Quality
+
 - [ ] Free of typos and grammatical errors
 - [ ] Code examples are tested and working
 - [ ] Links are functional and up-to-date
@@ -460,12 +498,14 @@ Use this checklist to ensure your README meets standards:
 - [ ] Images/diagrams (if any) are clear and relevant
 
 ### Accessibility
+
 - [ ] Clear headings hierarchy (H1 → H2 → H3)
 - [ ] Alt text for images
 - [ ] Code blocks have language specified
 - [ ] Links have descriptive text
 
 ### Maintenance
+
 - [ ] Version number is current
 - [ ] Last updated date is accurate
 - [ ] Changelog is linked
@@ -476,24 +516,24 @@ Use this checklist to ensure your README meets standards:
 ### ❌ Don't Do This:
 
 1. **Starting with installation** (Start with problem/context)
-2. **Feature lists without context** (Explain why features matter)
-3. **Technical jargon without explanation** (Use clear language)
-4. **Missing the "why"** (Always explain purpose and value)
-5. **Outdated information** (Keep README current with code)
-6. **Generic or vague descriptions** (Be specific and concrete)
-7. **Missing quick start** (Users need a fast path to success)
-8. **Broken links or examples** (Test everything before committing)
+1. **Feature lists without context** (Explain why features matter)
+1. **Technical jargon without explanation** (Use clear language)
+1. **Missing the "why"** (Always explain purpose and value)
+1. **Outdated information** (Keep README current with code)
+1. **Generic or vague descriptions** (Be specific and concrete)
+1. **Missing quick start** (Users need a fast path to success)
+1. **Broken links or examples** (Test everything before committing)
 
 ### ✅ Do This Instead:
 
 1. **Lead with problem and context**
-2. **Explain features with benefits**
-3. **Use clear, jargon-free language**
-4. **Always include the "why"**
-5. **Keep documentation synced with code**
-6. **Use specific examples and metrics**
-7. **Provide multiple entry points** (quick start, deep dive docs)
-8. **Test all links and examples**
+1. **Explain features with benefits**
+1. **Use clear, jargon-free language**
+1. **Always include the "why"**
+1. **Keep documentation synced with code**
+1. **Use specific examples and metrics**
+1. **Provide multiple entry points** (quick start, deep dive docs)
+1. **Test all links and examples**
 
 ## Examples
 
@@ -503,11 +543,13 @@ See [docs/templates/README-minimal.md](../templates/README-minimal.md)
 
 ### Comprehensive README Template
 
-See [docs/templates/README-comprehensive.md](../templates/README-comprehensive.md)
+See
+[docs/templates/README-comprehensive.md](../templates/README-comprehensive.md)
 
 ### Real-World Examples
 
-- [ivviiviivvi/.github](https://github.com/ivviiviivvi/.github)<!-- link:github.dotgithub --> - Organization policies (comprehensive)
+- [ivviiviivvi/.github](https://github.com/ivviiviivvi/.github)<!-- link:github.dotgithub -->
+  \- Organization policies (comprehensive)
 - [Example: python-toolkit](link) - Python library (standard)
 - [Example: microservice](link) - Service/application (service-focused)
 
@@ -555,9 +597,11 @@ npm run create:readme [template-type]
 - [Make a README](https://www.makeareadme.com/)
 - [Awesome README](https://github.com/matiassingers/awesome-readme)
 
----
+______________________________________________________________________
 
-**Version**: 1.0.0  
-**Last Updated**: 2026-01-21  
-**Maintained By**: Organization Governance Team  
-**Questions?** [Open a Discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
+**Version**: 1.0.0\
+**Last Updated**: 2026-01-21\
+**Maintained By**:
+Organization Governance Team\
+**Questions?**
+[Open a Discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->

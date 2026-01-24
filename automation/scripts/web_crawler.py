@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Web Crawler for GitHub Organization Health Monitoring
+"""Web Crawler for GitHub Organization Health Monitoring
 Implements AI-GH-06, AI-GH-07, and AI-GH-08 modules
 """
 
@@ -601,7 +600,7 @@ class OrganizationCrawler:
                         "category": "Missing Critical Workflow",
                         "severity": "high",
                         "description": f"Critical workflow {critical} not found",  # noqa: E501
-                        "recommendation": f'Implement {critical} to ensure automated {critical.split(".")[0]}',  # noqa: E501
+                        "recommendation": f"Implement {critical} to ensure automated {critical.split('.')[0]}",  # noqa: E501
                     }
                 )
 
@@ -632,8 +631,8 @@ class OrganizationCrawler:
     def _generate_markdown_report(self) -> str:
         """Generate markdown summary report"""
         report = f"""# Organization Health Report
-Generated: {self.results['timestamp']}
-Organization: {self.results['organization']}
+Generated: {self.results["timestamp"]}
+Organization: {self.results["organization"]}
 
 ## 🌐 Link Validation
 
@@ -641,10 +640,10 @@ Organization: {self.results['organization']}
 
         if "link_validation" in self.results and self.results["link_validation"]:
             lv = self.results["link_validation"]
-            report += f"""- **Total Links**: {lv.get('total_links', 0)}
-- **Valid**: {lv.get('valid', 0)}
-- **Broken**: {lv.get('broken', 0)}
-- **Warnings**: {len(lv.get('warnings', []))}
+            report += f"""- **Total Links**: {lv.get("total_links", 0)}
+- **Valid**: {lv.get("valid", 0)}
+- **Broken**: {lv.get("broken", 0)}
+- **Warnings**: {len(lv.get("warnings", []))}
 """
 
             if lv.get("broken_links"):
@@ -656,21 +655,21 @@ Organization: {self.results['organization']}
 
         if "repository_health" in self.results and self.results["repository_health"]:
             rh = self.results["repository_health"]
-            report += f"""- **Total Repositories**: {rh.get('total_repos', 0)}
-- **Active** (updated within 90 days): {rh.get('active_repos', 0)}
-- **Stale** (90+ days): {rh.get('stale_repos', 0)}
+            report += f"""- **Total Repositories**: {rh.get("total_repos", 0)}
+- **Active** (updated within 90 days): {rh.get("active_repos", 0)}
+- **Stale** (90+ days): {rh.get("stale_repos", 0)}
 """
 
         report += "\n## 🗺️  Ecosystem Map\n\n"
 
         if "ecosystem_map" in self.results and self.results["ecosystem_map"]:
             em = self.results["ecosystem_map"]
-            report += f"""- **GitHub Actions Workflows**: {len(em.get('workflows', []))}
-- **Copilot Agents**: {len(em.get('copilot_agents', []))}
-- **Copilot Instructions**: {len(em.get('copilot_instructions', []))}
-- **Copilot Prompts**: {len(em.get('copilot_prompts', []))}
-- **Copilot Chat Modes**: {len(em.get('copilot_chatmodes', []))}
-- **Technologies**: {len(em.get('technologies', []))}
+            report += f"""- **GitHub Actions Workflows**: {len(em.get("workflows", []))}
+- **Copilot Agents**: {len(em.get("copilot_agents", []))}
+- **Copilot Instructions**: {len(em.get("copilot_instructions", []))}
+- **Copilot Prompts**: {len(em.get("copilot_prompts", []))}
+- **Copilot Chat Modes**: {len(em.get("copilot_chatmodes", []))}
+- **Technologies**: {len(em.get("technologies", []))}
 """
 
         report += "\n## 🔦 Blind Spots\n\n"

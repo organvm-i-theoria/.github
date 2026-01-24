@@ -30,110 +30,110 @@ defaults:
 detection_rules:
   # Node.js frameworks
   nodejs:
-    - framework: react
-      indicators:
-        - file: package.json
-          contains: '"react"'
-      default_port: 3000
-      start_command: npm start
-      install_command: npm ci || npm install
+  - framework: react
+    indicators:
+    - file: package.json
+      contains: '"react"'
+    default_port: 3000
+    start_command: npm start
+    install_command: npm ci || npm install
 
-    - framework: vue
-      indicators:
-        - file: package.json
-          contains: '"vue"'
-      default_port: 8080
-      start_command: npm run serve
-      install_command: npm ci || npm install
+  - framework: vue
+    indicators:
+    - file: package.json
+      contains: '"vue"'
+    default_port: 8080
+    start_command: npm run serve
+    install_command: npm ci || npm install
 
-    - framework: angular
-      indicators:
-        - file: package.json
-          contains: '"@angular/core"'
-      default_port: 4200
-      start_command: npm start
-      install_command: npm ci || npm install
+  - framework: angular
+    indicators:
+    - file: package.json
+      contains: '"@angular/core"'
+    default_port: 4200
+    start_command: npm start
+    install_command: npm ci || npm install
 
-    - framework: nextjs
-      indicators:
-        - file: package.json
-          contains: '"next"'
-      default_port: 3000
-      start_command: npm run dev
-      install_command: npm ci || npm install
+  - framework: nextjs
+    indicators:
+    - file: package.json
+      contains: '"next"'
+    default_port: 3000
+    start_command: npm run dev
+    install_command: npm ci || npm install
 
-    - framework: nodejs
-      indicators:
-        - file: package.json
-      default_port: 3000
-      start_command: npm start
-      install_command: npm ci || npm install
+  - framework: nodejs
+    indicators:
+    - file: package.json
+    default_port: 3000
+    start_command: npm start
+    install_command: npm ci || npm install
 
   # Python frameworks
   python:
-    - framework: flask
-      indicators:
-        - file: requirements.txt
-          contains: flask
-        - file: setup.py
-          contains: flask
-      default_port: 5000
-      start_command: python app.py
-      install_command: pip install -r requirements.txt
+  - framework: flask
+    indicators:
+    - file: requirements.txt
+      contains: flask
+    - file: setup.py
+      contains: flask
+    default_port: 5000
+    start_command: python app.py
+    install_command: pip install -r requirements.txt
 
-    - framework: fastapi
-      indicators:
-        - file: requirements.txt
-          contains: fastapi
-        - file: setup.py
-          contains: fastapi
-      default_port: 8000
-      start_command: uvicorn main:app --host 0.0.0.0
-      install_command: pip install -r requirements.txt && pip install uvicorn
+  - framework: fastapi
+    indicators:
+    - file: requirements.txt
+      contains: fastapi
+    - file: setup.py
+      contains: fastapi
+    default_port: 8000
+    start_command: uvicorn main:app --host 0.0.0.0
+    install_command: pip install -r requirements.txt && pip install uvicorn
 
-    - framework: django
-      indicators:
-        - file: requirements.txt
-          contains: django
-        - file: setup.py
-          contains: django
-      default_port: 8000
-      start_command: python manage.py runserver
-      install_command: pip install -r requirements.txt
+  - framework: django
+    indicators:
+    - file: requirements.txt
+      contains: django
+    - file: setup.py
+      contains: django
+    default_port: 8000
+    start_command: python manage.py runserver
+    install_command: pip install -r requirements.txt
 
-    - framework: python
-      indicators:
-        - file: requirements.txt
-        - file: setup.py
-        - file: pyproject.toml
-      default_port: 8000
-      start_command: python main.py
-      install_command: pip install -r requirements.txt
+  - framework: python
+    indicators:
+    - file: requirements.txt
+    - file: setup.py
+    - file: pyproject.toml
+    default_port: 8000
+    start_command: python main.py
+    install_command: pip install -r requirements.txt
 
   # Java frameworks
   java:
-    - framework: maven
-      indicators:
-        - file: pom.xml
-      default_port: 8080
-      start_command: mvn spring-boot:run
-      install_command: mvn clean install -DskipTests
+  - framework: maven
+    indicators:
+    - file: pom.xml
+    default_port: 8080
+    start_command: mvn spring-boot:run
+    install_command: mvn clean install -DskipTests
 
-    - framework: gradle
-      indicators:
-        - file: build.gradle
-      default_port: 8080
-      start_command: ./gradlew bootRun
-      install_command: ./gradlew build -x test
+  - framework: gradle
+    indicators:
+    - file: build.gradle
+    default_port: 8080
+    start_command: ./gradlew bootRun
+    install_command: ./gradlew build -x test
 
   # Static sites
   static:
-    - framework: static
-      indicators:
-        - file: index.html
-      default_port: 8000
-      start_command: python3 -m http.server 8000
-      install_command: echo 'No dependencies to install'
+  - framework: static
+    indicators:
+    - file: index.html
+    default_port: 8000
+    start_command: python3 -m http.server 8000
+    install_command: echo 'No dependencies to install'
 
 # Output Configuration
 output:
@@ -142,16 +142,16 @@ output:
 
   # Naming pattern for video files
   # Available variables: {app_name}, {date}, {timestamp}, {type}
-  video_filename_pattern: "{app_name}-walkthrough-{date}.mp4"
+  video_filename_pattern: '{app_name}-walkthrough-{date}.mp4'
 
   # Naming pattern for metadata files
-  metadata_filename_pattern: "{app_name}-metadata.json"
+  metadata_filename_pattern: '{app_name}-metadata.json'
 
   # Include in PR
   include_in_pr: true
 
   # Commit message template
-  commit_message_template: "feat: add video walkthrough generated on {date}"
+  commit_message_template: 'feat: add video walkthrough generated on {date}'
 
   # PR title template
   pr_title_template: Add video walkthrough - {date}
@@ -178,24 +178,24 @@ voiceover_styles:
 exclusions:
   # Exact repository names
   exact:
-    - .github
-    - docs
-    - documentation
-    - wiki
+  - .github
+  - docs
+  - documentation
+  - wiki
 
   # Pattern-based exclusions (regex)
   patterns:
-    - ^test-.*
-    - ^demo-.*
-    - .*-archive$
-    - .*-deprecated$
+  - ^test-.*
+  - ^demo-.*
+  - .*-archive$
+  - .*-deprecated$
 
   # Topic-based exclusions
   topics:
-    - archived
-    - deprecated
-    - template
-    - fork
+  - archived
+  - deprecated
+  - template
+  - fork
 
 # Automation Settings
 automation:
@@ -203,25 +203,25 @@ automation:
   triggers:
     # Automatically trigger on push to these branches
     branches:
-      - main
-      - master
-      - develop
+    - main
+    - master
+    - develop
 
     # Only trigger when these file types change
     file_patterns:
-      - "**.js"
-      - "**.jsx"
-      - "**.ts"
-      - "**.tsx"
-      - "**.py"
-      - "**.vue"
-      - "**.json"
-      - "**.html"
-      - "**.css"
-      - package.json
-      - requirements.txt
-      - pom.xml
-      - build.gradle
+    - '**.js'
+    - '**.jsx'
+    - '**.ts'
+    - '**.tsx'
+    - '**.py'
+    - '**.vue'
+    - '**.json'
+    - '**.html'
+    - '**.css'
+    - package.json
+    - requirements.txt
+    - pom.xml
+    - build.gradle
 
   # Batch processing settings
   batch_mode:
@@ -239,12 +239,12 @@ automation:
 # System Dependencies
 # These will be installed before running the application
 system_dependencies:
-  - ffmpeg
-  - xvfb
-  - chromium-browser
-  - chromium-chromedriver
-  - python3-pip
-  - python3-venv
+- ffmpeg
+- xvfb
+- chromium-browser
+- chromium-chromedriver
+- python3-pip
+- python3-venv
 
 # Advanced Settings
 advanced:
@@ -273,9 +273,9 @@ organization:
 
   # Default labels for PRs
   pr_labels:
-    - automated
-    - walkthrough
-    - documentation
+  - automated
+  - walkthrough
+  - documentation
 
   # Default reviewers (optional)
   pr_reviewers: []
@@ -339,10 +339,10 @@ monitoring:
 
   # Metrics to track
   metrics:
-    - generation_time
-    - video_size
-    - app_startup_time
-    - success_rate
+  - generation_time
+  - video_size
+  - app_startup_time
+  - success_rate
 
   # Store metrics in repository
   store_metrics: true

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Semantic Kernel Python description: Work with code using the Python
 version of Semantic Kernel. tools:
@@ -33,7 +33,7 @@ version of Semantic Kernel. tools:
 - python
 - semantic-kernel updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Semantic Kernel Python mode instructions
 

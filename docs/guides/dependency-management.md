@@ -5,7 +5,7 @@
 
 **Last Updated:** 2026-01-14
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@
 - [Security Considerations](#security-considerations)
 - [Update Procedures](#update-procedures)
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -31,7 +31,7 @@ in the ivviiviivvi organization. Proper dependency management ensures:
 - **Reproducibility**: Consistent environments across machines
 - **Maintainability**: Clear dependency relationships
 
----
+______________________________________________________________________
 
 ## Dependency Philosophy
 
@@ -54,7 +54,7 @@ in the ivviiviivvi organization. Proper dependency management ensures:
 | Well-maintained    | ✅                 | N/A                  |
 | Security-critical  | Evaluate carefully | ✅ (preferred)       |
 
----
+______________________________________________________________________
 
 ## Version Pinning Strategy
 
@@ -118,7 +118,7 @@ flake8~=6.1.0
 - uses: actions/setup-python@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/setup-python@v5.0.0
 ```
 
----
+______________________________________________________________________
 
 ## Dependabot Configuration
 
@@ -176,16 +176,19 @@ updates:
 When Dependabot creates a PR:
 
 1. **Automated Checks**:
+
    - CI pipeline runs automatically
    - Security scan validates no new vulnerabilities
    - Pre-commit hooks validate code quality
 
 1. **Manual Review**:
+
    - Check CHANGELOG for breaking changes
    - Review security advisory (if present)
    - Validate test coverage
 
 1. **Approval**:
+
    - Minor/patch updates: Auto-merge if tests pass
    - Major updates: Manual review required
 
@@ -219,7 +222,7 @@ groups:
       - "actions/*"
 ```
 
----
+______________________________________________________________________
 
 ## Pre-commit Dependencies
 
@@ -293,7 +296,7 @@ git add .pre-commit-config.yaml
 git commit -m "chore: update pre-commit hooks"
 ```
 
----
+______________________________________________________________________
 
 ## GitHub Actions Dependencies
 
@@ -385,7 +388,7 @@ Be extra cautious with third-party actions:
 - [ ] No reported security issues
 - [ ] SHA pinned, not tag
 
----
+______________________________________________________________________
 
 ## Language-Specific Guidelines
 
@@ -505,7 +508,7 @@ go mod tidy
 go mod verify
 ```
 
----
+______________________________________________________________________
 
 ## Security Considerations
 
@@ -592,7 +595,7 @@ Document dependencies with known issues that can't be immediately fixed:
 #   Review Date: 2024-02-01
 ```
 
----
+______________________________________________________________________
 
 ## Update Procedures
 
@@ -638,6 +641,7 @@ Document dependencies with known issues that can't be immediately fixed:
    ```
 
 1. **Review Dependabot Alerts:**
+
    - Check GitHub Security tab
    - Verify no open critical issues
    - Document exceptions
@@ -659,6 +663,7 @@ Document dependencies with known issues that can't be immediately fixed:
    ```
 
 1. **Document Findings:**
+
    - Update SECURITY.md
    - Create issues for needed work
    - Update this guide
@@ -668,6 +673,7 @@ Document dependencies with known issues that can't be immediately fixed:
 For critical security vulnerabilities:
 
 1. **Immediate Assessment:**
+
    - Validate vulnerability affects us
    - Determine impact and exploitability
    - Create incident ticket
@@ -684,21 +690,24 @@ For critical security vulnerabilities:
    ```
 
 1. **Test:**
+
    - Run full test suite
    - Manual smoke testing
    - Verify vulnerability is fixed
 
 1. **Deploy:**
+
    - Emergency deployment
    - Monitor closely
    - Document in incident report
 
 1. **Follow-up:**
+
    - Update Dependabot config
    - Review similar dependencies
    - Improve detection
 
----
+______________________________________________________________________
 
 ## Checklist for New Dependencies
 
@@ -715,7 +724,7 @@ Before adding a new dependency, verify:
 - [ ] **Version Pinned**: Specific version in requirements?
 - [ ] **Reason Documented**: Why is it needed?
 
----
+______________________________________________________________________
 
 ## Tools and Resources
 
@@ -749,7 +758,7 @@ Before adding a new dependency, verify:
 - [SECURITY.md](../SECURITY.md) - Security disclosure policy
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
 
----
+______________________________________________________________________
 
 ## Questions or Feedback?
 
@@ -759,6 +768,6 @@ Before adding a new dependency, verify:
   [issue tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 - **Improvements**: Submit a [pull request](../CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 **Remember: Good dependency management is proactive, not reactive!**

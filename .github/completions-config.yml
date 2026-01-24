@@ -35,10 +35,10 @@ audit:
 
   # Check community health files
   community_files:
-    - CODE_OF_CONDUCT.md
-    - CONTRIBUTING.md
-    - SECURITY.md
-    - LICENSE
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
+  - SECURITY.md
+  - LICENSE
 
 # Reporting options
 reporting:
@@ -47,9 +47,9 @@ reporting:
 
   # Add labels to created issues
   issue_labels:
-    - documentation
-    - enhancement
-    - automated
+  - documentation
+  - enhancement
+  - automated
 
   # Create a detailed markdown report file
   generate_report_file: false
@@ -60,11 +60,11 @@ quality:
   # Check for generic/placeholder descriptions
   reject_generic: true
   generic_patterns:
-    - A project
-    - Repository for
-    - TODO
-    - Add description
-    - My project
+  - A project
+  - Repository for
+  - TODO
+  - Add description
+  - My project
 
   # Require descriptions to be informative
   require_keywords: false
@@ -77,13 +77,13 @@ suggestions:
 
   # Sources to check for description suggestions
   sources:
-    - package.json
-    - pyproject.toml
-    - Cargo.toml
-    - composer.json
-    - pom.xml
-    - README.md
-    - setup.py
+  - package.json
+  - pyproject.toml
+  - Cargo.toml
+  - composer.json
+  - pom.xml
+  - README.md
+  - setup.py
 
 # Notification settings
 notifications:
@@ -102,7 +102,7 @@ notifications:
 exclude:
   # Exclude specific repositories from auditing
   repositories:
-    - .github # This meta repository might not need all checks
+  - .github   # This meta repository might not need all checks
       # - "archived-repo"
 
   # Exclude archived repositories

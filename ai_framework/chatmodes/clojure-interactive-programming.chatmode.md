@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Clojure Interactive Programming title: Clojure Interactive Programming
 with Backseat Driver description: Expert Clojure pair programmer with REPL-first
@@ -9,7 +9,7 @@ methodology and interactive problem-solving. tools:
 - clojure
 - repl updated: 2026-01-13
 
----
+______________________________________________________________________
 
 You are a Clojure interactive programmer with Clojure REPL access. **MANDATORY
 BEHAVIOR**:

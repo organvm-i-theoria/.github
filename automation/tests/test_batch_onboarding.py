@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Batch Onboarding Validation Test Suite
+"""Batch Onboarding Validation Test Suite
 
 Validates the batch onboarding system with comprehensive tests:
 - Configuration validation
@@ -39,9 +38,9 @@ class Colors:
 
 def print_header(message: str):
     """Print formatted test header"""
-    print(f"\n{Colors.BOLD}{Colors.BLUE}{'='*60}{Colors.END}")
+    print(f"\n{Colors.BOLD}{Colors.BLUE}{'=' * 60}{Colors.END}")
     print(f"{Colors.BOLD}{Colors.BLUE}{message}{Colors.END}")
-    print(f"{Colors.BOLD}{Colors.BLUE}{'='*60}{Colors.END}\n")
+    print(f"{Colors.BOLD}{Colors.BLUE}{'=' * 60}{Colors.END}\n")
 
 
 def print_success(message: str):
@@ -60,8 +59,7 @@ def print_error(message: str):
 
 
 def run_command(cmd: List[str], description: str) -> Tuple[bool, str]:
-    """
-    Run a command and return success status and output.
+    """Run a command and return success status and output.
 
     Args:
         cmd: Command and arguments as list
@@ -69,6 +67,7 @@ def run_command(cmd: List[str], description: str) -> Tuple[bool, str]:
 
     Returns:
         Tuple of (success, output)
+
     """
     print(f"{Colors.BOLD}Running: {description}{Colors.END}")
     print(f"Command: {' '.join(cmd)}")
@@ -137,7 +136,7 @@ def test_config_validation() -> bool:
     try:
         import yaml
 
-        with open(TEST_CONFIG, "r") as f:
+        with open(TEST_CONFIG) as f:
             config = yaml.safe_load(f)
 
         # Check required fields
@@ -174,7 +173,7 @@ def test_dryrun() -> bool:
     if success and Path(TEST_OUTPUT_DRYRUN).exists():
         # Validate results JSON
         try:
-            with open(TEST_OUTPUT_DRYRUN, "r") as f:
+            with open(TEST_OUTPUT_DRYRUN) as f:
                 results = json.load(f)
 
             print_success(f"Dry-run completed: {len(results)} repositories processed")
@@ -210,7 +209,7 @@ def test_results_format() -> bool:
         return False
 
     try:
-        with open(TEST_OUTPUT_DRYRUN, "r") as f:
+        with open(TEST_OUTPUT_DRYRUN) as f:
             results = json.load(f)
 
         required_fields = [
@@ -246,14 +245,14 @@ def test_performance() -> bool:
         return False
 
     try:
-        with open(TEST_OUTPUT_DRYRUN, "r") as f:
+        with open(TEST_OUTPUT_DRYRUN) as f:
             results = json.load(f)
 
         total_duration = sum(r["duration_seconds"] for r in results)
         avg_duration = total_duration / len(results) if results else 0
         max_duration = max((r["duration_seconds"] for r in results), default=0)
 
-        print_success(f"Performance metrics:")
+        print_success("Performance metrics:")
         print(f"  Total repositories: {len(results)}")
         print(f"  Total duration: {total_duration:.2f}s")
         print(f"  Average per repo: {avg_duration:.2f}s")

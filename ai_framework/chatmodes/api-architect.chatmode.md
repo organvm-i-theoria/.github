@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: API Architect description: Provide API architecture guidance and working
 code. tools:
@@ -8,7 +8,7 @@ code. tools:
 - architecture
 - api updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # API Architect mode instructions
 

@@ -1,5 +1,4 @@
-"""
-Tests for the branch deletion audit system.
+"""Tests for the branch deletion audit system.
 
 Tests validate:
 - Script existence and syntax

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: TDD Refactor description: Improve code quality and design while keeping
 tests green. tools:
@@ -17,7 +17,7 @@ tests green. tools:
 - tdd
 - testing updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # TDD Refactor Phase - Improve Quality & Security
 

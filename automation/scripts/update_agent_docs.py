@@ -8,7 +8,7 @@ README_FILE = "docs/README.agents.md"
 
 def extract_metadata(filepath):
     try:
-        with open(filepath, "r") as f:
+        with open(filepath) as f:
             content = f.read()
     except Exception as e:
         print(f"Error reading {filepath}: {e}")
@@ -79,7 +79,7 @@ def main():
 
     table = generate_table(agents)
 
-    with open(README_FILE, "r") as f:
+    with open(README_FILE) as f:
         content = f.read()
 
     # Split at the table header

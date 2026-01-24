@@ -14,7 +14,7 @@ repository.
 - [Health Checks](#health-checks)
 - [Secrets Management](#secrets-management)
 
----
+______________________________________________________________________
 
 ## Dockerfile Best Practices
 
@@ -102,7 +102,7 @@ RUN npm run build
 CMD ["npm", "start"]
 ```
 
----
+______________________________________________________________________
 
 ## Multi-Stage Builds
 
@@ -219,7 +219,7 @@ EXPOSE 8080
 CMD ["./main"]
 ```
 
----
+______________________________________________________________________
 
 ## Security Hardening
 
@@ -277,7 +277,7 @@ RUN apt-get purge -y --auto-remove build-essential && \
     rm -rf /var/lib/apt/lists/*
 ```
 
----
+______________________________________________________________________
 
 ## Image Optimization
 
@@ -325,7 +325,7 @@ docker build --squash -t myimage .
 dive myimage:latest
 ```
 
----
+______________________________________________________________________
 
 ## Docker Compose
 
@@ -442,7 +442,7 @@ secrets:
     external: true
 ```
 
----
+______________________________________________________________________
 
 ## CI/CD Integration
 
@@ -508,7 +508,7 @@ jobs:
           sarif_file: "trivy-results.sarif"
 ```
 
----
+______________________________________________________________________
 
 ## Health Checks
 
@@ -555,7 +555,7 @@ req.on("error", () => {
 req.end();
 ```
 
----
+______________________________________________________________________
 
 ## Secrets Management
 
@@ -594,7 +594,7 @@ RUN --mount=type=secret,id=npm_token \
 docker build --secret id=npm_token,src=$HOME/.npmrc .
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices Checklist
 
@@ -613,6 +613,6 @@ docker build --secret id=npm_token,src=$HOME/.npmrc .
 - [ ] Test images before deployment
 - [ ] Document build process
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-11-08

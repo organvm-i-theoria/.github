@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 ## name: Workflow System Deployment about: Deploy the new discussion/issue/PR workflow system title: "Deploy Workflow System: \[Environment\]" labels: type: infrastructure, priority: high, status: backlog assignees: ''
 
@@ -7,21 +7,21 @@
 **Environment:** \[Sandbox / Staging / Production\] **Target Date:** YYYY-MM-DD
 **Owner:** @username
 
----
+______________________________________________________________________
 
 ## 📋 Pre-Deployment
 
 ### Documentation Review
 
 - [ ] Read [WORKFLOW_DESIGN.md](../../docs/WORKFLOW_DESIGN.md) - Architecture
-      overview
+  overview
 - [ ] Review
-      [WORKFLOW_IMPLEMENTATION_SUMMARY.md](../../docs/WORKFLOW_IMPLEMENTATION_SUMMARY.md)
-      \- Deployment guide
+  [WORKFLOW_IMPLEMENTATION_SUMMARY.md](../../docs/WORKFLOW_IMPLEMENTATION_SUMMARY.md)
+  \- Deployment guide
 - [ ] Check [CONTRIBUTOR_WORKFLOW.md](../../docs/CONTRIBUTOR_WORKFLOW.md) -
-      User-facing guide
+  User-facing guide
 - [ ] Read [MAINTAINER_WORKFLOW.md](../../docs/MAINTAINER_WORKFLOW.md) -
-      Operations guide
+  Operations guide
 
 ### Environment Preparation
 
@@ -31,7 +31,7 @@
 - [ ] Review branch protection settings
 - [ ] Ensure CODEOWNERS file exists and is accurate
 
----
+______________________________________________________________________
 
 ## 🧪 Sandbox Testing (Required First)
 
@@ -102,13 +102,14 @@ Fail: X/9
 Issues Found: [List any issues]
 ```
 
----
+______________________________________________________________________
 
 ## 🔒 Branch Protection Configuration
 
 - [ ] Navigate to: Settings → Branches → Branch protection rules
 
 - [ ] Add rule for `main` (or default branch):
+
   - [ ] ✅ Require a pull request before merging
   - [ ] ✅ Require approvals: 1 (minimum)
   - [ ] ✅ Dismiss stale pull request approvals when new commits are pushed
@@ -120,11 +121,12 @@ Issues Found: [List any issues]
   - [ ] ✅ Include administrators (optional)
 
 - [ ] Test branch protection:
+
   - [ ] Try to push directly to main → should fail
   - [ ] Create PR without approval → should not merge
   - [ ] Create PR without required checks → should not merge
 
----
+______________________________________________________________________
 
 ## 🚀 Production Deployment
 
@@ -176,7 +178,7 @@ Enable workflows that take action (stale management):
   - Items reactivated: \_\_\_
   - Community complaints: \_\_\_
 
----
+______________________________________________________________________
 
 ## 📚 Documentation Updates
 
@@ -187,7 +189,7 @@ Enable workflows that take action (stale management):
 - [ ] Post announcement in Discussions
 - [ ] Update issue templates with workflow references
 
----
+______________________________________________________________________
 
 ## 👥 Team Training
 
@@ -216,7 +218,7 @@ Enable workflows that take action (stale management):
 - Announcement posted: YYYY-MM-DD
 - FAQ published: YYYY-MM-DD
 
----
+______________________________________________________________________
 
 ## 📊 Metrics & Monitoring
 
@@ -242,7 +244,7 @@ Enable workflows that take action (stale management):
 - Weekly: Review metrics dashboard
 - Monthly: Analyze trends and adjust
 
----
+______________________________________________________________________
 
 ## ✅ Validation
 
@@ -264,7 +266,7 @@ Enable workflows that take action (stale management):
 **Validation Status:** ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Issues
 Found
 
----
+______________________________________________________________________
 
 ## 🐛 Issues & Rollback
 
@@ -288,7 +290,7 @@ If critical issues arise:
 **Rollback Executed?** ⬜ No | ✅ Yes **Reason:** \_\_\_\_\_\_\_\_\_\_\_
 **Re-deployment Date:** YYYY-MM-DD
 
----
+______________________________________________________________________
 
 ## 📝 Post-Deployment
 
@@ -300,7 +302,7 @@ If critical issues arise:
 
 **Retrospective Date:** YYYY-MM-DD **Lessons Learned:** \[Link to doc\]
 
----
+______________________________________________________________________
 
 ## 📋 Sign-off
 
@@ -308,7 +310,7 @@ If critical issues arise:
 - [ ] Product Owner: @\_\_\_\_\_\_\_\_\_\_\_ (Date: \_\_\_\_\_\_)
 - [ ] Deployment successful and stable
 
----
+______________________________________________________________________
 
 **Deployment Status:** ⬜ Not Started | 🟡 In Progress | ✅ Complete | ❌ Failed
 

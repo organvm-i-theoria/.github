@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Simple App Idea Generator description: Brainstorm and develop application
 ideas through interactive questioning. tools:
@@ -16,7 +16,7 @@ ideas through interactive questioning. tools:
 - websearch tags:
 - ideation updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Idea Generator mode instructions
 

@@ -2,7 +2,7 @@
 
 **Quick deployment using 1Password CLI to securely retrieve your GitHub PAT**
 
----
+______________________________________________________________________
 
 ## 🚀 Fastest Method
 
@@ -13,7 +13,7 @@ cd /workspace/scripts
 
 That's it! The script handles everything.
 
----
+______________________________________________________________________
 
 ## ⚙️ What It Does
 
@@ -25,7 +25,7 @@ That's it! The script handles everything.
 1. ✅ Creates all 7 GitHub Projects
 1. ✅ Logs everything to a file
 
----
+______________________________________________________________________
 
 ## 🎯 Usage Options
 
@@ -53,7 +53,7 @@ export ORG_NAME="your-org-name"
 ./deploy-with-1password.sh
 ```
 
----
+______________________________________________________________________
 
 ## 📍 Finding Your 1Password Reference
 
@@ -83,7 +83,7 @@ op read "op://Private/GitHub PAT/credential"
 
 Should output your token (first time will prompt for authentication).
 
----
+______________________________________________________________________
 
 ## 🔧 1Password CLI Setup
 
@@ -132,7 +132,7 @@ op --version
 op account get
 ```
 
----
+______________________________________________________________________
 
 ## 🎓 Manual Method (Without Script)
 
@@ -153,7 +153,7 @@ cd /workspace/scripts
 python3 configure-github-projects.py --org ivviiviivvi
 ```
 
----
+______________________________________________________________________
 
 ## 🔍 Common 1Password References
 
@@ -166,7 +166,7 @@ Adjust these based on your setup:
 | Work    | GitHub          | token      | `op://Work/GitHub/token`             |
 | Dev     | GitHub Projects | pat        | `op://Dev/GitHub Projects/pat`       |
 
----
+______________________________________________________________________
 
 ## ❓ Troubleshooting
 
@@ -208,7 +208,7 @@ Verify the token has correct scopes:
 
 Regenerate in GitHub Settings > Developer settings > Personal access tokens
 
----
+______________________________________________________________________
 
 ## 📚 Additional Resources
 
@@ -219,7 +219,7 @@ Regenerate in GitHub Settings > Developer settings > Personal access tokens
 - **Quick Reference:**
   [GITHUB_PROJECTS_QUICKREF.md](../docs/GITHUB_PROJECTS_QUICKREF.md)
 
----
+______________________________________________________________________
 
 ## ✅ Quick Checklist
 
@@ -236,6 +236,6 @@ Regenerate in GitHub Settings > Developer settings > Personal access tokens
 cd /workspace/scripts && ./deploy-with-1password.sh
 ```
 
----
+______________________________________________________________________
 
 _Last Updated: January 18, 2026_

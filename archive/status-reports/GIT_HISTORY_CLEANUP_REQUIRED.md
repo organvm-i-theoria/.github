@@ -7,27 +7,34 @@ GitHub push protection is blocking our push due to secrets found in git history.
 ## 📍 Location of Secrets
 
 **Commits with secrets:**
+
 - `2f6b972` - chore: apply automatic formatting fixes
 - `1bcf6b1` - feat(week11): add Phase 2/3 deployment scripts and update README
 - `867aadd` - feat(deployment): complete Phase 1 deployment
 - `631e3bc` - docs(week11): add complete session summary for requests 45-46
 
 **Files containing secrets:**
-1. `.specstory/history/2026-01-15_21-08Z-designing-github-workflow-for-issues-and-prs.md` (lines 48367, 48385, 48386, 48454, 48455, 51959, 52383, 52402, 52403)
-2. `SESSION_SUMMARY_REQUEST_45_46.md` (lines 44, 114)
+
+1. `.specstory/history/2026-01-15_21-08Z-designing-github-workflow-for-issues-and-prs.md`
+   (lines 48367, 48385, 48386, 48454, 48455, 51959, 52383, 52402, 52403)
+1. `SESSION_SUMMARY_REQUEST_45_46.md` (lines 44, 114)
 
 **Secrets detected:**
+
 - GitHub Personal Access Token (***REDACTED-TOKEN***)
 
 ## ✅ Current Status
 
 **Fixed in latest commit:**
-- ✅ Added `.specstory/` to `.gitignore` [commit b4c6837]
-- ✅ Removed all `.specstory/` files from repository [commit b4c6837]
-- ✅ Redacted secrets from `SESSION_SUMMARY_REQUEST_45_46.md` [commit 57d9b96]
+
+- ✅ Added `.specstory/` to `.gitignore` \[commit b4c6837\]
+- ✅ Removed all `.specstory/` files from repository \[commit b4c6837\]
+- ✅ Redacted secrets from `SESSION_SUMMARY_REQUEST_45_46.md` \[commit 57d9b96\]
 
 **Problem:**
-- ❌ Secrets still exist in git history (commits 2f6b972, 1bcf6b1, 867aadd, 631e3bc)
+
+- ❌ Secrets still exist in git history (commits 2f6b972, 1bcf6b1, 867aadd,
+  631e3bc)
 - ❌ Cannot push to remote until history is cleaned
 
 ## 🔧 Solutions
@@ -35,20 +42,23 @@ GitHub push protection is blocking our push due to secrets found in git history.
 ### Option 1: GitHub Secret Bypass (Recommended for Now)
 
 1. **Allow the secrets** via GitHub's web interface:
+
    - https://github.com/ivviiviivvi/.github/security/secret-scanning/unblock-secret/38ODhFYy1wQcprCpGebukHsodl1
    - https://github.com/ivviiviivvi/.github/security/secret-scanning/unblock-secret/38OOCmlfQjgYfCwunz8PcpwB2jn
    - https://github.com/ivviiviivvi/.github/security/secret-scanning/unblock-secret/38OOCmd6ZFgED1BzCbLrID4O8OQ
 
-2. **Revoke the exposed token** in GitHub settings immediately after push
+1. **Revoke the exposed token** in GitHub settings immediately after push
 
-3. **Update 1Password** with a new token
+1. **Update 1Password** with a new token
 
 **Pros:**
+
 - ✅ Quick solution (works immediately)
 - ✅ No git history rewriting needed
 - ✅ Safe if token is revoked immediately
 
 **Cons:**
+
 - ⚠️ Token remains in git history (but revoked, so harmless)
 - ⚠️ Requires manual GitHub web interface action
 
@@ -73,11 +83,13 @@ git push --force-with-lease origin main
 ```
 
 **Pros:**
+
 - ✅ Completely removes secrets from history
 - ✅ Clean repository
 - ✅ No manual GitHub web actions needed
 
 **Cons:**
+
 - ⚠️ Requires `git-filter-repo` tool
 - ⚠️ Rewrites git history (force push needed)
 - ⚠️ More complex process
@@ -108,11 +120,13 @@ git push origin main-week11-clean
 ```
 
 **Pros:**
+
 - ✅ Clean history from start
 - ✅ No force push needed
 - ✅ Can review changes before merging
 
 **Cons:**
+
 - ⚠️ More manual work
 - ⚠️ Requires recreating commits
 - ⚠️ Takes more time
@@ -121,28 +135,29 @@ git push origin main-week11-clean
 
 **For immediate push:** Use Option 1 (Allow secrets + revoke token)
 
-**For long-term cleanliness:** Follow up with Option 2 (Git history rewrite) after successful push
+**For long-term cleanliness:** Follow up with Option 2 (Git history rewrite)
+after successful push
 
 ## 📝 Steps to Execute Option 1
 
 1. **Visit secret bypass URLs** (click links above in browser)
-2. **Click "Allow secret"** for each one
-3. **Push to remote:**
+1. **Click "Allow secret"** for each one
+1. **Push to remote:**
    ```bash
    git push origin main
    ```
-4. **Immediately revoke token** at https://github.com/settings/tokens
-5. **Create new token** and store in 1Password
-6. **Update deployment scripts** to use new token name
+1. **Immediately revoke token** at https://github.com/settings/tokens
+1. **Create new token** and store in 1Password
+1. **Update deployment scripts** to use new token name
 
 ## ⏭️ Next Steps After Push
 
 Once push succeeds:
 
 1. ✅ Verify all 16 commits pushed successfully
-2. ✅ Update remote branch protection rules
-3. ✅ Continue with 48-hour monitoring period
-4. ✅ No immediate action needed (token will be revoked)
+1. ✅ Update remote branch protection rules
+1. ✅ Continue with 48-hour monitoring period
+1. ✅ No immediate action needed (token will be revoked)
 
 ## 📊 Commits Ready to Push
 
@@ -167,8 +182,8 @@ fc4bca9 docs: add deployment readiness guide
 
 **Total:** 16 commits, ~200KB of changes
 
----
+______________________________________________________________________
 
-**Created:** January 17, 2026 17:00 UTC  
-**Status:** Awaiting user decision on cleanup method
-
+**Created:** January 17, 2026 17:00 UTC\
+**Status:** Awaiting user decision on
+cleanup method

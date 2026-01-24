@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Proactive Maintenance Scheduler
+"""Proactive Maintenance Scheduler
 
 Predicts optimal maintenance windows using ML and usage patterns:
 - Dependency updates: Automated package updates
@@ -41,12 +40,12 @@ class MaintenanceScheduler:
     """Proactive maintenance scheduler with ML-based timing."""
 
     def __init__(self, client: GitHubAPIClient, config: MaintenanceConfig):
-        """
-        Initialize maintenance scheduler.
+        """Initialize maintenance scheduler.
 
         Args:
             client: GitHub API client
             config: Maintenance configuration
+
         """
         self.client = client
         self.config = config
@@ -55,8 +54,7 @@ class MaintenanceScheduler:
     def schedule_maintenance(
         self, owner: str, repo: str, task_type: str
     ) -> MaintenanceWindow:
-        """
-        Schedule optimal maintenance window for task.
+        """Schedule optimal maintenance window for task.
 
         Args:
             owner: Repository owner
@@ -65,6 +63,7 @@ class MaintenanceScheduler:
 
         Returns:
             Optimal maintenance window with alternatives
+
         """
         self.logger.info(f"Scheduling maintenance: {task_type} for {owner}/{repo}")
 
@@ -94,8 +93,7 @@ class MaintenanceScheduler:
         return best_window
 
     def _analyze_activity_patterns(self, owner: str, repo: str) -> Dict:
-        """
-        Analyze repository activity patterns over time.
+        """Analyze repository activity patterns over time.
 
         Args:
             owner: Repository owner
@@ -103,6 +101,7 @@ class MaintenanceScheduler:
 
         Returns:
             Activity data with usage patterns
+
         """
         self.logger.debug("Analyzing activity patterns")
 
@@ -355,8 +354,7 @@ class MaintenanceScheduler:
         activity_data: Dict,
         tasks: List[MaintenanceTask],
     ) -> List[MaintenanceWindow]:
-        """
-        Predict optimal maintenance windows.
+        """Predict optimal maintenance windows.
 
         Args:
             owner: Repository owner
@@ -367,6 +365,7 @@ class MaintenanceScheduler:
 
         Returns:
             List of maintenance windows sorted by suitability
+
         """
         windows = []
         now = datetime.now(timezone.utc)
@@ -439,8 +438,7 @@ class MaintenanceScheduler:
     def _calculate_impact_score(
         self, window_start: datetime, activity_data: Dict, task_type: str
     ) -> float:
-        """
-        Calculate impact score for maintenance window.
+        """Calculate impact score for maintenance window.
 
         Lower score = better window (less disruption)
 
@@ -451,6 +449,7 @@ class MaintenanceScheduler:
 
         Returns:
             Impact score (0.0 to 1.0)
+
         """
         hourly_patterns = activity_data.get("hourly_patterns", {})
         daily_patterns = activity_data.get("daily_patterns", {})
@@ -609,29 +608,29 @@ def main():
         window = scheduler.schedule_maintenance(args.owner, args.repo, args.task_type)
 
         # Output result
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Optimal Maintenance Window")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(f"Repository: {args.owner}/{args.repo}")
         print(f"Task Type: {args.task_type}")
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Scheduled Window")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(
             f"Start Time: {window.scheduled_time.strftime('%Y-%m-%d %H:%M UTC')}"  # noqa: E501
         )
         print(f"Duration: {window.duration_minutes} minutes")
         print(f"Impact Score: {window.impact_score:.2f} (lower is better)")
         print(f"Confidence: {window.confidence:.0%}")
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Reasoning")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(f"{window.reasoning}")
 
         if window.tasks:
-            print(f"\n{'='*70}")
+            print(f"\n{'=' * 70}")
             print(f"Pending Tasks ({len(window.tasks)})")
-            print(f"{'='*70}")
+            print(f"{'=' * 70}")
             for i, task in enumerate(window.tasks[:5], 1):
                 print(f"{i}. {task.description}")
                 print(
@@ -641,9 +640,9 @@ def main():
                 )
 
         if window.alternatives:
-            print(f"\n{'='*70}")
+            print(f"\n{'=' * 70}")
             print("Alternative Windows")
-            print(f"{'='*70}")
+            print(f"{'=' * 70}")
             for i, alt in enumerate(window.alternatives, 1):
                 alt_time = datetime.fromisoformat(alt["time"])
                 print(
@@ -652,7 +651,7 @@ def main():
                     f"confidence: {alt['confidence']:.0%})"
                 )
 
-        print(f"{'='*70}\n")
+        print(f"{'=' * 70}\n")
 
         if args.schedule:
             logger.info("Scheduling maintenance window...")

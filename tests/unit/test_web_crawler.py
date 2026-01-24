@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
-"""
-Unit tests for web_crawler.py
+"""Unit tests for web_crawler.py
 Focus: SSRF protection, link extraction, security validation
 """
 
 import ipaddress
-import socket
 
 # Import the module under test
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, patch
 from urllib.parse import urlparse
 
 import pytest
@@ -302,7 +300,7 @@ class TestMarkdownCrawling:
     def temp_markdown_dir(self, tmp_path):
         """Create temporary markdown files for testing"""
         (tmp_path / "test1.md").write_text(
-            "Check [GitHub](https://github.com)\n" "Also https://example.com\n"
+            "Check [GitHub](https://github.com)\nAlso https://example.com\n"
         )
         (tmp_path / "subdir").mkdir()
         (tmp_path / "subdir" / "test2.md").write_text("[Link](https://test.com)\n")

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Intelligent Routing Algorithm
+"""Intelligent Routing Algorithm
 
 Optimizes issue and PR assignment using multi-factor scoring:
 - Expertise: Historical contribution patterns
@@ -33,12 +32,12 @@ class IntelligentRouter:
     """Intelligent routing engine for issue/PR assignment."""
 
     def __init__(self, client: GitHubAPIClient, config: RoutingConfig):
-        """
-        Initialize intelligent router.
+        """Initialize intelligent router.
 
         Args:
             client: GitHub API client
             config: Routing configuration
+
         """
         self.client = client
         self.config = config
@@ -47,8 +46,7 @@ class IntelligentRouter:
     def calculate_assignment(
         self, owner: str, repo: str, issue_number: int
     ) -> RoutingDecision:
-        """
-        Calculate optimal assignment for issue/PR.
+        """Calculate optimal assignment for issue/PR.
 
         Args:
             owner: Repository owner
@@ -57,6 +55,7 @@ class IntelligentRouter:
 
         Returns:
             Routing decision with selected assignee
+
         """
         self.logger.info(f"Calculating assignment for {owner}/{repo}#{issue_number}")
 
@@ -115,8 +114,7 @@ class IntelligentRouter:
         )
 
         self.logger.info(
-            f"Assignment: {result.assignee} (score: {result.score:.3f}, "
-            f"confidence: {result.confidence:.3f})"
+            f"Assignment: {result.assignee} (score: {result.score:.3f}, confidence: {result.confidence:.3f})"
         )
 
         return result
@@ -127,8 +125,7 @@ class IntelligentRouter:
         return self.client.get(endpoint)
 
     def _get_candidates(self, owner: str, repo: str) -> List[Dict]:
-        """
-        Get list of candidate assignees.
+        """Get list of candidate assignees.
 
         Returns organization members with write access to repository.
         """
@@ -149,8 +146,7 @@ class IntelligentRouter:
     def _calculate_factor_scores(
         self, owner: str, repo: str, candidate: Dict, issue: Dict
     ) -> RoutingFactorScores:
-        """
-        Calculate routing factor scores for candidate.
+        """Calculate routing factor scores for candidate.
 
         Args:
             owner: Repository owner
@@ -160,6 +156,7 @@ class IntelligentRouter:
 
         Returns:
             Factor scores (0.0 to 1.0 for each factor)
+
         """
         username = candidate["login"]
 
@@ -181,8 +178,7 @@ class IntelligentRouter:
     def _calculate_expertise(
         self, owner: str, repo: str, username: str, issue: Dict
     ) -> float:
-        """
-        Calculate expertise score based on historical contributions.
+        """Calculate expertise score based on historical contributions.
 
         Factors:
         - Commits to files in issue
@@ -191,6 +187,7 @@ class IntelligentRouter:
 
         Returns:
             Expertise score (0.0 to 1.0)
+
         """
         score = 0.0
 
@@ -240,13 +237,13 @@ class IntelligentRouter:
             return 0.5  # Default middle score on error
 
     def _calculate_workload(self, owner: str, repo: str, username: str) -> float:
-        """
-        Calculate workload score (inverse of current assignments).
+        """Calculate workload score (inverse of current assignments).
 
         Lower workload = higher score
 
         Returns:
             Workload score (0.0 to 1.0)
+
         """
         try:
             # Get currently assigned open issues
@@ -277,13 +274,13 @@ class IntelligentRouter:
             return 0.5
 
     def _calculate_response_time(self, owner: str, repo: str, username: str) -> float:
-        """
-        Calculate response time score based on average time to first comment.
+        """Calculate response time score based on average time to first comment.
 
         Faster response = higher score
 
         Returns:
             Response time score (0.0 to 1.0)
+
         """
         try:
             # Get recent closed issues assigned to user
@@ -347,8 +344,7 @@ class IntelligentRouter:
                 score = max(0.0, 0.5 - ((avg_response_hours - 24) / 24) * 0.5)
 
             self.logger.debug(
-                f"Response time for {username}: {avg_response_hours:.1f}h "
-                f"(score: {score:.3f})"
+                f"Response time for {username}: {avg_response_hours:.1f}h (score: {score:.3f})"
             )
 
             return score
@@ -358,13 +354,13 @@ class IntelligentRouter:
             return 0.5
 
     def _calculate_availability(self, owner: str, repo: str, username: str) -> float:
-        """
-        Calculate availability score based on recent activity.
+        """Calculate availability score based on recent activity.
 
         More recent activity = higher availability
 
         Returns:
             Availability score (0.0 to 1.0)
+
         """
         try:
             # Get user's recent events
@@ -395,8 +391,7 @@ class IntelligentRouter:
                 score = 0.2
 
             self.logger.debug(
-                f"Availability for {username}: {hours_since:.1f}h ago "
-                f"(score: {score:.3f})"
+                f"Availability for {username}: {hours_since:.1f}h ago (score: {score:.3f})"
             )
 
             return score
@@ -406,13 +401,13 @@ class IntelligentRouter:
             return 0.5
 
     def _calculate_performance(self, owner: str, repo: str, username: str) -> float:
-        """
-        Calculate performance score based on success rate.
+        """Calculate performance score based on success rate.
 
         Higher success rate = higher score
 
         Returns:
             Performance score (0.0 to 1.0)
+
         """
         try:
             # Get issues closed by user in last 90 days
@@ -445,8 +440,7 @@ class IntelligentRouter:
             success_rate = completed / total if total > 0 else 0.5
 
             self.logger.debug(
-                f"Performance for {username}: {completed}/{total} "
-                f"(score: {success_rate:.3f})"
+                f"Performance for {username}: {completed}/{total} (score: {success_rate:.3f})"
             )
 
             return success_rate
@@ -456,14 +450,14 @@ class IntelligentRouter:
             return 0.5
 
     def _calculate_overall_score(self, scores: RoutingFactorScores) -> float:
-        """
-        Calculate weighted overall score from factor scores.
+        """Calculate weighted overall score from factor scores.
 
         Args:
             scores: Individual factor scores
 
         Returns:
             Overall score (0.0 to 1.0)
+
         """
         overall = (
             scores.expertise * self.config.factors["expertise"]
@@ -476,8 +470,7 @@ class IntelligentRouter:
         return min(1.0, max(0.0, overall))
 
     def _calculate_confidence(self, candidate_scores: List[Dict]) -> float:
-        """
-        Calculate confidence in routing decision.
+        """Calculate confidence in routing decision.
 
         Higher score gap between top candidates = higher confidence
 
@@ -486,6 +479,7 @@ class IntelligentRouter:
 
         Returns:
             Confidence score (0.0 to 1.0)
+
         """
         if len(candidate_scores) < 2:
             return 1.0  # Only one candidate
@@ -509,8 +503,7 @@ class IntelligentRouter:
         issue: Dict,
         candidates: List[Dict],
     ) -> RoutingDecision:
-        """
-        Fallback assignment using simple strategy.
+        """Fallback assignment using simple strategy.
 
         Args:
             owner: Repository owner
@@ -521,6 +514,7 @@ class IntelligentRouter:
 
         Returns:
             Routing decision using fallback
+
         """
         self.logger.info("Using fallback assignment strategy")
 
@@ -654,9 +648,9 @@ def main():
         result = router.calculate_assignment(args.owner, args.repo, args.issue)
 
         # Output result
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("Intelligent Routing Decision")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"Repository: {result.repository}")
         print(f"Issue Number: {result.issue_number}")
         print(f"Timestamp: {result.timestamp.isoformat()}")
@@ -687,7 +681,7 @@ def main():
             for alt in result.alternatives[:3]:
                 print(f"  • {alt['username']}: {alt['score']:.3f}")
 
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
         # Actually assign if requested
         if args.assign:

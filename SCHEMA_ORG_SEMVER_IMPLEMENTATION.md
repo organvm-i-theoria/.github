@@ -409,8 +409,10 @@ ______________________________________________________________________
 ### Support
 
 - 📖 [CONTRIBUTING.md](CONTRIBUTING.md)
-- 💬 [Discussions](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
-- 🐛 [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+- 💬
+  [Discussions](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
+- 🐛
+  [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 
 ______________________________________________________________________
 

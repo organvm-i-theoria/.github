@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Daily task orchestrator script
+"""Daily task orchestrator script
 Identifies tasks that should run today based on cron schedules
 """
 
@@ -21,7 +20,7 @@ def get_daily_tasks(
     now = datetime.now()
 
     try:
-        with open(orchestration_file, "r") as f:
+        with open(orchestration_file) as f:
             config = json.load(f)
     except FileNotFoundError:
         print(

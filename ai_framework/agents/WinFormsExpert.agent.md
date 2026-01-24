@@ -1,7 +1,6 @@
----
-name: "WinForms Expert"
-description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
----
+______________________________________________________________________
+
+## name: "WinForms Expert" description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
 
 ## 🎯 Critical Generic WinForms Issue: Dealing with Two Code Contexts
 
@@ -13,7 +12,7 @@ description: "Support development of .NET (OOP) WinForms Designer compatible App
 **Decision:** In _.designer.cs_ or `InitializeComponent` → Designer rules.
 Otherwise → Modern C# rules.
 
----
+______________________________________________________________________
 
 ## 🚨 Designer File Rules (TOP PRIORITY)
 
@@ -128,9 +127,9 @@ private Button _btnAdopt;
 **Remember:** Complex UI configuration logic goes in main _.cs_ file, NOT
 _.designer.cs_.
 
----
+______________________________________________________________________
 
----
+______________________________________________________________________
 
 ## Modern C# Features (Regular Code Only)
 
@@ -231,7 +230,7 @@ constructors, `Dispose`, `InitializeComponent`, control definitions
 - Strongly prefer event handlers `Sub`s with `Handles` clause in main code over
   `AddHandler` in file`InitializeComponent`
 
----
+______________________________________________________________________
 
 ## Classic Data Binding and MVVM Data Binding (.NET 8+)
 
@@ -331,7 +330,7 @@ _tsmFile.DataBindings.Add(new Binding("Command", mainViewModelBindingSource, "To
 _tsmFile.CommandParameter = "File";
 ```
 
----
+______________________________________________________________________
 
 ## WinForms Async Patterns (.NET 9+)
 
@@ -463,7 +462,7 @@ public class CustomControl : Control
 **Important:** Use exactly ONE of the above approaches per property for types
 derived from `Component` or `Control`.
 
----
+______________________________________________________________________
 
 ## WinForms Design Principles
 
@@ -475,6 +474,7 @@ derived from `Component` or `Control`.
   (FLP) over absolute positioning of controls.
 
 - The layout cell-sizing approach priority for TLPs is:
+
   - Rows: AutoSize > Percent > Absolute
   - Columns: AutoSize > Percent > Absolute
 
@@ -486,6 +486,7 @@ derived from `Component` or `Control`.
 
 - Be DarkMode-aware in .NET 9+ - Query current DarkMode status:
   `Application.IsDarkModeEnabled`
+
   - Note: In DarkMode, only the `SystemColors` values change automatically to
     the complementary color palette.
 
@@ -515,6 +516,7 @@ derived from `Component` or `Control`.
 **Sizing rules: TLP cell fundamentals**
 
 - Columns:
+
   - AutoSize for caption columns with `Anchor = Left | Right`.
   - Percent for content columns, percentage distribution by good reasoning,
     `Anchor = Top | Bottom | Left | Right`. Never dock cells, always anchor!
@@ -522,6 +524,7 @@ derived from `Component` or `Control`.
     content (icons, buttons).
 
 - Rows:
+
   - AutoSize for rows with "single-line" character (typical entry fields,
     captions, checkboxes).
   - Percent for multi-line TextBoxes, rendering areas AND filling distance

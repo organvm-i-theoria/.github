@@ -74,13 +74,13 @@ After relocating:
 - [ ] Update `4jp-metasystem.yaml` with new repository URLs
 - [ ] Update `.github/docs/RELATED_REPOSITORIES.md`
 
----
+______________________________________________________________________
 
 ## Completed Relocations
 
 _No completed relocations yet._
 
----
+______________________________________________________________________
 
 ## Organization Structure Reference
 

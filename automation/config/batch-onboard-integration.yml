@@ -5,26 +5,26 @@
 
 # Test repositories for integration testing
 repositories:
-  - "ivviiviivvi/.github"
+- ivviiviivvi/.github
   # Add more test repositories here as needed
   # - "ivviiviivvi/test-repo-1"
   # - "ivviiviivvi/test-repo-2"
 
 # Workflow deployment for integration testing
 workflows:
-  - "test-batch-onboarding-validation.yml"
+- test-batch-onboarding-validation.yml
 
 # Labels for integration testing
 labels:
-  "Test: Batch Onboarding":
-    color: "0052cc"
-    description: "Deployed via batch onboarding integration test"
-  "Status: Integration Test":
-    color: "fef2c0"
-    description: "Part of integration testing process"
-  "Type: Automation":
-    color: "84b6eb"
-    description: "Automated deployment testing"
+  'Test: Batch Onboarding':
+    color: 0052cc
+    description: Deployed via batch onboarding integration test
+  'Status: Integration Test':
+    color: fef2c0
+    description: Part of integration testing process
+  'Type: Automation':
+    color: 84b6eb
+    description: Automated deployment testing
 
 # Branch protection for integration testing
 # Disabled due to token permission limitations

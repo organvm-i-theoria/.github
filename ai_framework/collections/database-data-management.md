@@ -1,9 +1,6 @@
----
-name: Database Data Management
-description: Database administration, SQL optimization, and data management tools for PostgreSQL, SQL Server, and general database development best practices.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Database Data Management description: Database administration, SQL optimization, and data management tools for PostgreSQL, SQL Server, and general database development best practices. tags: \[\] updated: 2026-01-13
 
 # Database & Data Management
 
@@ -26,6 +23,6 @@ data-management
 | [SQL Development](../instructions/sql-sp-generation.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fsql-sp-generation.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fsql-sp-generation.instructions.md) | Instruction | Guidelines for generating SQL statements and stored procedures                                                                                                                                                                                                                                                                                                 |
 | [SQL Performance Optimization Assistant](../prompts/sql-optimization.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsql-optimization.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsql-optimization.prompt.md)                                      | Prompt      | Universal SQL performance optimization assistant for comprehensive query tuning, indexing strategies, and database performance analysis across all SQL databases (MySQL, PostgreSQL, SQL Server, Oracle). Provides execution plan analysis, pagination optimization, batch operations, and performance monitoring guidance.                                    |
 
----
+______________________________________________________________________
 
 _This collection includes 8 curated items for **Database & Data Management**._

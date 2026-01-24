@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Refine Issue description: Refine requirements with acceptance criteria,
 technical considerations, and NFRs. tools:
@@ -16,7 +16,7 @@ technical considerations, and NFRs. tools:
 - planning
 - triage updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Refine Requirement or Issue Chat Mode
 

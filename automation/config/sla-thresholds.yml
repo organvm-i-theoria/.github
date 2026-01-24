@@ -35,18 +35,18 @@ monitoring:
 
   # Metrics to track
   metrics:
-    - response_time
-    - resolution_time
-    - success_rate
-    - availability
-    - throughput
+  - response_time
+  - resolution_time
+  - success_rate
+  - availability
+  - throughput
 
 # Alerting configuration
 alerting:
   enabled: true
   channels:
-    - slack
-    - pagerduty
+  - slack
+  - pagerduty
 
   # Escalation rules
   escalation:
@@ -79,14 +79,14 @@ reporting:
 exceptions:
   # Issues/PRs exempt from SLA tracking
   exempt_labels:
-    - external
-    - on-hold
-    - blocked
-    - wontfix
+  - external
+  - on-hold
+  - blocked
+  - wontfix
 
   # Maintenance windows (SLA paused)
   maintenance_windows:
-    - day: sunday
-      start: 02:00
-      end: 06:00
-      timezone: UTC
+  - day: sunday
+    start: 02:00
+    end: 06:00
+    timezone: UTC

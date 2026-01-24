@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/validation_framework.py
+"""Unit tests for automation/scripts/validation_framework.py
 Focus: ValidationFramework class, capability validations, report generation
 """
 
@@ -17,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "automation" / "scr
 # Mock notification_integration before importing validation_framework
 sys.modules["notification_integration"] = MagicMock()
 
-from models import ValidationResult, ValidationSuite
+from models import ValidationResult
 from validation_framework import ValidationFramework
 
 

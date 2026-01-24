@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Batch Repository Onboarding Automation
+"""Batch Repository Onboarding Automation
 
 Enables parallel onboarding of multiple repositories with validation,
 dependency resolution, and automatic rollback on failures.
@@ -78,8 +77,7 @@ class OnboardingResult:
 
 
 class BatchOnboardingOrchestrator:
-    """
-    Orchestrates parallel onboarding of multiple repositories
+    """Orchestrates parallel onboarding of multiple repositories
     with validation, dependency resolution, and rollback capabilities.
     """
 
@@ -98,11 +96,11 @@ class BatchOnboardingOrchestrator:
         self.semaphore = asyncio.Semaphore(config.max_concurrent)
 
     async def onboard_repositories(self) -> List[OnboardingResult]:
-        """
-        Onboard all configured repositories in parallel.
+        """Onboard all configured repositories in parallel.
 
         Returns:
             List of OnboardingResult objects for each repository
+
         """
         logger.info(
             f"Starting batch onboarding for {len(self.config.repositories)} repositories"  # noqa: E501
@@ -148,11 +146,11 @@ class BatchOnboardingOrchestrator:
         return self.results
 
     async def _validate_configuration(self) -> List[str]:
-        """
-        Validate configuration before processing.
+        """Validate configuration before processing.
 
         Returns:
             List of validation errors (empty if valid)
+
         """
         errors = []
 
@@ -183,8 +181,7 @@ class BatchOnboardingOrchestrator:
 
             if not found:
                 errors.append(
-                    f"Workflow file not found: {workflow} "
-                    f"(searched in: {', '.join(str(d) for d in workflow_dirs)})"
+                    f"Workflow file not found: {workflow} (searched in: {', '.join(str(d) for d in workflow_dirs)})"
                 )  # noqa: E501
 
         # Validate secrets are available (if specified)
@@ -197,11 +194,11 @@ class BatchOnboardingOrchestrator:
         return errors
 
     def _resolve_dependencies(self) -> List[str]:
-        """
-        Resolve repository dependencies to determine processing order.
+        """Resolve repository dependencies to determine processing order.
 
         Returns:
             Ordered list of repositories
+
         """
         # For now, simple dependency resolution
         # Future: Build dependency graph and topological sort
@@ -218,14 +215,14 @@ class BatchOnboardingOrchestrator:
         return no_deps + with_deps
 
     async def _onboard_repository(self, repo_name: str) -> OnboardingResult:
-        """
-        Onboard a single repository with all configured features.
+        """Onboard a single repository with all configured features.
 
         Args:
             repo_name: Full repository name (owner/repo)
 
         Returns:
             OnboardingResult with details of the operation
+
         """
         start_time = datetime.utcnow()
         result = OnboardingResult(repository=repo_name, success=False)
@@ -303,7 +300,7 @@ class BatchOnboardingOrchestrator:
                 if not workflow_path:
                     raise FileNotFoundError(f"Workflow file not found: {workflow_file}")
 
-                with open(workflow_path, "r") as f:
+                with open(workflow_path) as f:
                     content = f.read()
 
                 # Check if file already exists
@@ -452,11 +449,11 @@ class BatchOnboardingOrchestrator:
         result.steps_completed.append(f"{step} (skipped - requires REST API)")
 
     async def _rollback_failed(self, failed_results: List[OnboardingResult]) -> None:
-        """
-        Rollback changes for failed onboardings.
+        """Rollback changes for failed onboardings.
 
         Args:
             failed_results: List of failed OnboardingResult objects
+
         """
         logger.info(f"Starting rollback for {len(failed_results)} repositories")
 
@@ -536,7 +533,7 @@ class BatchOnboardingOrchestrator:
 
 def load_config(config_file: str) -> OnboardingConfig:
     """Load onboarding configuration from YAML file"""
-    with open(config_file, "r") as f:
+    with open(config_file) as f:
         config_dict = yaml.safe_load(f)
 
     return OnboardingConfig(**config_dict)

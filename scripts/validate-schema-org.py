@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Schema.org Validator
+"""Schema.org Validator
 Validates schema.org JSON-LD files against schema.org specifications
 """
 
@@ -49,7 +48,7 @@ class SchemaOrgValidator:
             return False, self.errors, self.warnings
 
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 data = json.load(f)
         except json.JSONDecodeError as e:
             self.errors.append(f"Invalid JSON: {e}")
@@ -71,8 +70,7 @@ class SchemaOrgValidator:
             self.errors.append("Missing required field: @context")
         elif context not in self.VALID_CONTEXTS:
             self.errors.append(
-                f"Invalid @context: {context}. "
-                f"Expected one of: {', '.join(self.VALID_CONTEXTS)}"
+                f"Invalid @context: {context}. Expected one of: {', '.join(self.VALID_CONTEXTS)}"
             )
 
     def _validate_type(self, data: Dict) -> None:
@@ -82,8 +80,7 @@ class SchemaOrgValidator:
             self.errors.append("Missing required field: @type")
         elif schema_type not in self.REQUIRED_FIELDS:
             self.warnings.append(
-                f"Unknown @type: {schema_type}. "
-                f"Known types: {', '.join(self.REQUIRED_FIELDS.keys())}"
+                f"Unknown @type: {schema_type}. Known types: {', '.join(self.REQUIRED_FIELDS.keys())}"
             )
 
     def _validate_required_fields(self, data: Dict) -> None:

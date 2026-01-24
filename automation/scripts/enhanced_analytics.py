@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Enhanced Analytics ML Model
+"""Enhanced Analytics ML Model
 
 Provides advanced machine learning capabilities for workflow optimization with
 expanded feature set and improved accuracy (target: 85%+).
@@ -74,12 +73,12 @@ class EnhancedAnalyticsEngine:
     """Enhanced ML engine for workflow optimization predictions."""
 
     def __init__(self, config: AnalyticsConfig, github_client: GitHubAPIClient):
-        """
-        Initialize enhanced analytics engine.
+        """Initialize enhanced analytics engine.
 
         Args:
             config: Analytics configuration
             github_client: GitHub API client
+
         """
         self.config = config
         self.github = github_client
@@ -94,8 +93,7 @@ class EnhancedAnalyticsEngine:
     def extract_features(
         self, owner: str, repo: str, pr_number: int
     ) -> Dict[str, float]:
-        """
-        Extract comprehensive feature set from a pull request.
+        """Extract comprehensive feature set from a pull request.
 
         Features extracted:
         - Basic: lines changed, files changed, commits count
@@ -112,6 +110,7 @@ class EnhancedAnalyticsEngine:
 
         Returns:
             Feature dictionary with float values
+
         """
         logger.info(f"Extracting features for PR #{pr_number}")
 
@@ -358,8 +357,7 @@ class EnhancedAnalyticsEngine:
     def train_models(
         self, owner: str, repo: str, lookback_days: int = 90
     ) -> Dict[str, float]:
-        """
-        Train ML models on historical PR data.
+        """Train ML models on historical PR data.
 
         Args:
             owner: Repository owner
@@ -368,6 +366,7 @@ class EnhancedAnalyticsEngine:
 
         Returns:
             Training metrics for each model
+
         """
         logger.info(f"Training models on {lookback_days} days of data")
 
@@ -482,8 +481,7 @@ class EnhancedAnalyticsEngine:
         pr_number: int,
         model_name: str = "random_forest",
     ) -> AnalyticsPrediction:
-        """
-        Predict outcome for a pull request.
+        """Predict outcome for a pull request.
 
         Args:
             owner: Repository owner
@@ -493,6 +491,7 @@ class EnhancedAnalyticsEngine:
 
         Returns:
             Prediction with confidence score
+
         """
         # Load model if not in memory
         if model_name not in self.models:
@@ -526,14 +525,14 @@ class EnhancedAnalyticsEngine:
     def get_feature_importance(
         self, model_name: str = "random_forest"
     ) -> FeatureImportance:
-        """
-        Get feature importance from trained model.
+        """Get feature importance from trained model.
 
         Args:
             model_name: Model to analyze
 
         Returns:
             Feature importance rankings
+
         """
         if model_name not in self.models:
             self._load_models()

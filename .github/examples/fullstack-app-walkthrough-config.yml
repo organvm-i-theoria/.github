@@ -7,31 +7,30 @@ app_type: fullstack
 # Multi-Service Configuration
 services:
   # Backend Service
-  - name: backend
-    type: express
-    start_command: cd backend && npm start
-    port: 5000
-    install_command: cd backend && npm install
-    startup_wait: 10
-    health_check:
-      http://localhost:5000/api/health
+- name: backend
+  type: express
+  start_command: cd backend && npm start
+  port: 5000
+  install_command: cd backend && npm install
+  startup_wait: 10
+  health_check: http://localhost:5000/api/health
 
       # Frontend Service
-  - name: frontend
-    type: react
-    start_command: cd frontend && npm start
-    port: 3000
-    install_command: cd frontend && npm install
-    startup_wait: 20
-    depends_on:
-      - backend
+- name: frontend
+  type: react
+  start_command: cd frontend && npm start
+  port: 3000
+  install_command: cd frontend && npm install
+  startup_wait: 20
+  depends_on:
+  - backend
 
         # Database Service (optional - usually docker-compose)
-  - name: database
-    type: mongodb
-    start_command: docker-compose up -d mongodb
-    port: 27017
-    startup_wait: 5
+- name: database
+  type: mongodb
+  start_command: docker-compose up -d mongodb
+  port: 27017
+  startup_wait: 5
 
 # Walkthrough Settings
 duration: 120 # seconds (full-stack demos need more time)
@@ -40,29 +39,29 @@ voiceover_style: professional # Options: professional, casual, technical
 # Focus Areas
 # Complete user journey across frontend and backend
 focus_areas:
-  - End-to-end user authentication flow
-  - Frontend to backend API communication
-  - Database operations and data persistence
-  - Real-time updates and WebSocket connections
-  - Complete CRUD operations workflow
+- End-to-end user authentication flow
+- Frontend to backend API communication
+- Database operations and data persistence
+- Real-time updates and WebSocket connections
+- Complete CRUD operations workflow
 
 # Demo Flow
 # Comprehensive demonstration of the entire application stack
 demo_flow:
-  - Show application architecture overview
-  - Navigate to frontend homepage
-  - Demonstrate user registration flow
-  - Show backend API request handling
-  - Display database record creation
-  - Demonstrate user login and JWT authentication
-  - Show authenticated API requests
-  - Display data fetching from backend
-  - Demonstrate CRUD operations (Create)
-  - Show data being saved to database
-  - Display updated data in frontend
-  - Demonstrate real-time updates (WebSockets)
-  - Show error handling across the stack
-  - Display user logout and session cleanup
+- Show application architecture overview
+- Navigate to frontend homepage
+- Demonstrate user registration flow
+- Show backend API request handling
+- Display database record creation
+- Demonstrate user login and JWT authentication
+- Show authenticated API requests
+- Display data fetching from backend
+- Demonstrate CRUD operations (Create)
+- Show data being saved to database
+- Display updated data in frontend
+- Demonstrate real-time updates (WebSockets)
+- Show error handling across the stack
+- Display user logout and session cleanup
 
 # Environment Variables
 environment_variables:
@@ -85,61 +84,61 @@ viewport:
 
 # Feature Highlights - Full Stack Features
 feature_highlights:
-  - component: authentication-flow
-    description: Complete auth flow from frontend to backend to database
-    duration: 15
-    stack_layers:
-      - Frontend login form
-      - Backend authentication endpoint
-      - Database user query
-      - JWT token generation
-      - Frontend token storage
+- component: authentication-flow
+  description: Complete auth flow from frontend to backend to database
+  duration: 15
+  stack_layers:
+  - Frontend login form
+  - Backend authentication endpoint
+  - Database user query
+  - JWT token generation
+  - Frontend token storage
 
-  - component: data-crud
-    description: Full CRUD operation demonstration
-    duration: 20
-    stack_layers:
-      - Frontend form submission
-      - Backend API validation
-      - Database write operation
-      - Backend response
-      - Frontend UI update
+- component: data-crud
+  description: Full CRUD operation demonstration
+  duration: 20
+  stack_layers:
+  - Frontend form submission
+  - Backend API validation
+  - Database write operation
+  - Backend response
+  - Frontend UI update
 
-  - component: real-time-updates
-    description: WebSocket communication
-    duration: 10
-    stack_layers:
-      - Frontend WebSocket connection
-      - Backend WebSocket server
-      - Real-time data push
-      - Frontend live updates
+- component: real-time-updates
+  description: WebSocket communication
+  duration: 10
+  stack_layers:
+  - Frontend WebSocket connection
+  - Backend WebSocket server
+  - Real-time data push
+  - Frontend live updates
 
 # API Integration Points
 api_integration:
   endpoints:
-    - method: POST
-      path: /api/auth/register
-      frontend_component: RegisterForm.jsx
-      backend_handler: authController.register
-      database_operation: User.create()
+  - method: POST
+    path: /api/auth/register
+    frontend_component: RegisterForm.jsx
+    backend_handler: authController.register
+    database_operation: User.create()
 
-    - method: POST
-      path: /api/auth/login
-      frontend_component: LoginForm.jsx
-      backend_handler: authController.login
-      database_operation: User.findOne()
+  - method: POST
+    path: /api/auth/login
+    frontend_component: LoginForm.jsx
+    backend_handler: authController.login
+    database_operation: User.findOne()
 
-    - method: GET
-      path: /api/posts
-      frontend_component: PostList.jsx
-      backend_handler: postController.getAll
-      database_operation: Post.find()
+  - method: GET
+    path: /api/posts
+    frontend_component: PostList.jsx
+    backend_handler: postController.getAll
+    database_operation: Post.find()
 
-    - method: POST
-      path: /api/posts
-      frontend_component: CreatePost.jsx
-      backend_handler: postController.create
-      database_operation: Post.create()
+  - method: POST
+    path: /api/posts
+    frontend_component: CreatePost.jsx
+    backend_handler: postController.create
+    database_operation: Post.create()
 
 # Database Seeding
 database_setup:
@@ -214,9 +213,9 @@ tech_stack:
     driver: Mongoose
 
   additional:
-    - Socket.io for real-time
-    - Docker for containerization
-    - REST API architecture
+  - Socket.io for real-time
+  - Docker for containerization
+  - REST API architecture
 
 # Customization Options
 customization:

@@ -196,7 +196,7 @@ docker-compose logs -f postgres
 
 ```bash
 # PostgreSQL
-psql postgresql://devuser:devpass@localhost:5432/devdb
+psql postgresql://devuser:devpass@localhost:5432/devdb  # pragma: allowlist secret
 
 # Or use Adminer web UI
 open http://localhost:8080
@@ -206,12 +206,12 @@ open http://localhost:8080
 
 Common service ports:
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:3001
+- **Frontend**: <http://localhost:3000>
+- **Backend API**: <http://localhost:3001>
 - **PostgreSQL**: localhost:5432
 - **Redis**: localhost:6379
-- **MailHog UI**: http://localhost:8025
-- **Adminer (DB UI)**: http://localhost:8080
+- **MailHog UI**: <http://localhost:8025>
+- **Adminer (DB UI)**: <http://localhost:8080>
 
 ______________________________________________________________________
 

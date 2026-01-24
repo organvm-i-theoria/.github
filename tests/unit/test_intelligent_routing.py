@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/intelligent_routing.py
+"""Unit tests for automation/scripts/intelligent_routing.py
 Focus: Routing algorithm, score calculations, fallback strategies
 """
 
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 

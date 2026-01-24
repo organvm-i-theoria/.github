@@ -8,7 +8,7 @@
 >
 > Solution: Streamlined trunk-based development with intelligent automation.
 
----
+______________________________________________________________________
 
 ## The Problem
 
@@ -24,7 +24,7 @@ Result: 10+ open PRs, lost tasks, merge bottleneck
 
 **You are both author AND reviewer** - pure overhead when CI ensures quality.
 
----
+______________________________________________________________________
 
 ## The Solution: Speed-Optimized Workflow
 
@@ -37,7 +37,7 @@ Result: 10+ open PRs, lost tasks, merge bottleneck
 1. **Batch Related Work** - Merge dependent PRs together
 1. **Ruthless Cleanup** - Auto-close stale branches
 
----
+______________________________________________________________________
 
 ## Feature Scope: 1 Feature = 1 PR
 
@@ -77,7 +77,7 @@ gh pr create --label "batch:api-v2" --title "test: API v2 integration tests"
 # Merges all 3 together
 ```
 
----
+______________________________________________________________________
 
 ## Workflow Types
 
@@ -151,7 +151,7 @@ gh pr merge --squash
 - **Total time: 4-8 hours same day**
 - Still fast, but with your explicit approval
 
----
+______________________________________________________________________
 
 ### 🐢 Normal Mode (Optional - Lower Velocity)
 
@@ -173,7 +173,7 @@ gh pr create --label "needs-review"                    # Manual approval
 
 **Most solo dev + AI scenarios should use Burst Mode.**
 
----
+______________________________________________________________________
 
 ## Auto-Merge Configuration
 
@@ -214,7 +214,7 @@ gh pr edit 123 --add-label "automerge:when-ci-passes"
 /automerge when-ci-passes
 ```
 
----
+______________________________________________________________________
 
 ## Branch Lifecycle Management
 
@@ -263,7 +263,7 @@ gh pr edit 123 --add-label "automerge:when-ci-passes"
 gh pr edit 123 --add-label "keep-alive"
 ```
 
----
+______________________________________________________________________
 
 ## Task Tracking Integration
 
@@ -304,7 +304,7 @@ Original PR was closed due to inactivity. These tasks remain:
 See original work: #123
 ```
 
----
+______________________________________________________________________
 
 ## PR Task Catcher
 
@@ -504,7 +504,7 @@ are found. Regular unchecked tasks are informational only.
 - Ignore task summaries (defeats the purpose)
 - Use `ignore-task-checks` routinely (defeats the purpose)
 
----
+______________________________________________________________________
 
 ## Batch Merge Workflow
 
@@ -542,7 +542,7 @@ gh pr edit 102 --add-label "batch:api-update"
 /merge-batch api-update
 ```
 
----
+______________________________________________________________________
 
 ## Daily Workflow for Solo Dev + AI
 
@@ -598,7 +598,7 @@ gh run list --workflow="repo-metrics.yml"
 # Adjust automation based on patterns
 ```
 
----
+______________________________________________________________________
 
 ## Feature Flags for Incomplete Work
 
@@ -627,7 +627,7 @@ return <OldDashboard />;
 - Enable features when ready
 - A/B test in production
 
----
+______________________________________________________________________
 
 ## PR Size Guidelines
 
@@ -647,7 +647,7 @@ return <OldDashboard />;
 1. Use feature flags
 1. Use draft PR for incremental work
 
----
+______________________________________________________________________
 
 ## Handling CI Failures
 
@@ -677,7 +677,7 @@ Auto-merge: EXECUTES
 
 **No manual intervention needed if AI fixes CI failures**
 
----
+______________________________________________________________________
 
 ## Migration from Current State
 
@@ -729,7 +729,7 @@ When creating PRs:
 
 See "Daily Workflow" section above.
 
----
+______________________________________________________________________
 
 ## Metrics to Track
 
@@ -754,7 +754,7 @@ gh run view --workflow="weekly-commit-report.yml"
 gh pr list --state merged --search "merged:>=2024-01-08" --label "automerge:when-ci-passes" | wc -l
 ```
 
----
+______________________________________________________________________
 
 ## Guardrails (Safety Checks)
 
@@ -771,7 +771,7 @@ scans (CodeQL, Semgrep)
 passes ✅ Semgrep security scan passes ✅ Link checker passes (for docs) ✅
 Conventional commit format ✅ PR description >50 characters
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -818,7 +818,7 @@ gh pr edit <number> --add-label "hold"
 # Automation will skip these
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -842,7 +842,7 @@ gh pr edit <number> --add-label "hold"
 - Accumulate >15 open PRs (if you do, batch merge or close)
 - Review every auto-merged PR before it merges (waste of time)
 
----
+______________________________________________________________________
 
 ## Summary
 
@@ -863,7 +863,7 @@ gh pr edit <number> --add-label "hold"
 > **pure overhead**. Your CI pipeline is your code reviewer. Trust it, automate
 > it, ship faster.
 
----
+______________________________________________________________________
 
 **See Also:**
 

@@ -5,7 +5,7 @@
 
 # Test repositories (using actual .github repo and mock examples)
 repositories:
-  - ivviiviivvi/.github
+- ivviiviivvi/.github
     # Add 2-4 additional test repositories here for parallel testing
     # - "ivviiviivvi/test-repo-1"
     # - "ivviiviivvi/test-repo-2"
@@ -16,10 +16,10 @@ workflows: []
 
 # Test labels (subset for quick validation)
 labels:
-  "Test: Automated":
+  'Test: Automated':
     color: bfd4f2
     description: Created by automated batch onboarding test
-  "Status: Testing":
+  'Status: Testing':
     color: fbca04
     description: Test status label
 

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Plan Mode description: Strategic planning and architecture assistant
 focused on analysis before implementation. tools:
@@ -16,7 +16,7 @@ focused on analysis before implementation. tools:
 - planning
 - architecture updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Plan Mode - Strategic Planning & Architecture Assistant
 

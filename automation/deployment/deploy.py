@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Advanced Deployment Automation
+"""Advanced Deployment Automation
 
 Orchestrates deployment of Month 1-3 workflows with:
 - Environment validation
@@ -17,7 +16,6 @@ Usage:
 import argparse
 import json
 import os
-import subprocess
 import sys
 import time
 from datetime import datetime
@@ -32,22 +30,24 @@ class DeploymentOrchestrator:
     """Manages deployment lifecycle for workflow automation."""
 
     def __init__(self, environment: str, github_token: str):
-        """
-        Initialize deployment orchestrator.
+        """Initialize deployment orchestrator.
 
         Args:
             environment: Target environment (staging, production)
             github_token: GitHub API token
+
         """
         self.environment = environment
         self.github_token = github_token
         self.api_base = "https://api.github.com"
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {github_token}",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {github_token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            }
+        )
 
         # Load environment configuration
         self.config = self._load_config()
@@ -81,11 +81,11 @@ class DeploymentOrchestrator:
         }
 
     def validate_environment(self) -> bool:
-        """
-        Validate deployment environment is ready.
+        """Validate deployment environment is ready.
 
         Returns:
             True if environment is valid
+
         """
         print(f"🔍 Validating {self.environment} environment...")
 
@@ -165,9 +165,10 @@ class DeploymentOrchestrator:
 
         return True
 
-    def deploy_workflows(self, month: int, canary_repos: Optional[List[str]] = None) -> bool:
-        """
-        Deploy workflows with phased rollout.
+    def deploy_workflows(
+        self, month: int, canary_repos: Optional[List[str]] = None
+    ) -> bool:
+        """Deploy workflows with phased rollout.
 
         Args:
             month: Month to deploy (1, 2, 3, or 'all')
@@ -175,6 +176,7 @@ class DeploymentOrchestrator:
 
         Returns:
             True if deployment succeeded
+
         """
         print(f"\n🚀 Starting Month {month} deployment...")
         print(f"   Environment: {self.environment}")
@@ -260,8 +262,7 @@ class DeploymentOrchestrator:
         return True
 
     def _deploy_to_repository(self, repo: str, month: int) -> bool:
-        """
-        Deploy workflows to a single repository.
+        """Deploy workflows to a single repository.
 
         Args:
             repo: Repository name (org/repo)
@@ -269,6 +270,7 @@ class DeploymentOrchestrator:
 
         Returns:
             True if deployment succeeded
+
         """
         print(f"      Deploying to {repo}...", end=" ")
 
@@ -283,12 +285,14 @@ class DeploymentOrchestrator:
                     return False
 
             # Log deployment
-            self.deployment_log.append({
-                "repo": repo,
-                "month": month,
-                "timestamp": datetime.now().isoformat(),
-                "status": "deployed",
-            })
+            self.deployment_log.append(
+                {
+                    "repo": repo,
+                    "month": month,
+                    "timestamp": datetime.now().isoformat(),
+                    "status": "deployed",
+                }
+            )
 
             print("✅")
             return True
@@ -318,6 +322,7 @@ class DeploymentOrchestrator:
 
             # Create or update file
             import base64
+
             encoded_content = base64.b64encode(content.encode()).decode()
 
             data = {
@@ -329,8 +334,7 @@ class DeploymentOrchestrator:
                 data["sha"] = sha
 
             response = self.session.put(
-                f"{self.api_base}/repos/{repo}/contents/{file_path}",
-                json=data
+                f"{self.api_base}/repos/{repo}/contents/{file_path}", json=data
             )
 
             return response.status_code in [200, 201]
@@ -340,8 +344,7 @@ class DeploymentOrchestrator:
             return False
 
     def _health_check(self, repos: List[str], duration: int) -> bool:
-        """
-        Perform health checks on deployed repositories.
+        """Perform health checks on deployed repositories.
 
         Args:
             repos: List of repositories to check
@@ -349,6 +352,7 @@ class DeploymentOrchestrator:
 
         Returns:
             True if health checks passed
+
         """
         start_time = time.time()
         interval = self.config.get("health_check_interval", 60)
@@ -364,11 +368,14 @@ class DeploymentOrchestrator:
             threshold = self.config.get("rollback_threshold", 0.85)
 
             print(
-                f"      Health: {success_count}/{len(repos)} ({success_rate:.1%})", end="\r")
+                f"      Health: {success_count}/{len(repos)} ({success_rate:.1%})",
+                end="\r",
+            )
 
             if success_rate < threshold:
                 print(
-                    f"\n      ❌ Health check failed: {success_rate:.1%} < {threshold:.1%}")
+                    f"\n      ❌ Health check failed: {success_rate:.1%} < {threshold:.1%}"
+                )
                 return False
 
             time.sleep(interval)
@@ -381,8 +388,7 @@ class DeploymentOrchestrator:
         try:
             # Get recent workflow runs
             response = self.session.get(
-                f"{self.api_base}/repos/{repo}/actions/runs",
-                params={"per_page": 10}
+                f"{self.api_base}/repos/{repo}/actions/runs", params={"per_page": 10}
             )
 
             if response.status_code != 200:
@@ -393,8 +399,7 @@ class DeploymentOrchestrator:
                 return True  # No runs yet, consider healthy
 
             # Check success rate of recent runs
-            successful = sum(1 for run in runs if run.get(
-                "conclusion") == "success")
+            successful = sum(1 for run in runs if run.get("conclusion") == "success")
             success_rate = successful / len(runs)
 
             return success_rate >= self.config.get("rollback_threshold", 0.85)
@@ -438,7 +443,11 @@ class DeploymentOrchestrator:
         }
 
         workflow_names = workflow_map.get(month, [])
-        return [workflow_dir / name for name in workflow_names if (workflow_dir / name).exists()]
+        return [
+            workflow_dir / name
+            for name in workflow_names
+            if (workflow_dir / name).exists()
+        ]
 
     def _select_canary_repos(self) -> List[str]:
         """Select repositories for canary deployment."""
@@ -458,11 +467,11 @@ class DeploymentOrchestrator:
         return any(log["repo"] == repo for log in self.deployment_log)
 
     def rollback(self) -> bool:
-        """
-        Rollback deployment to previous state.
+        """Rollback deployment to previous state.
 
         Returns:
             True if rollback succeeded
+
         """
         print(f"\n⏪ Rolling back deployment {self.deployment_id}...")
 
@@ -489,17 +498,20 @@ class DeploymentOrchestrator:
 
     def save_deployment_log(self):
         """Save deployment log to file."""
-        log_file = Path(
-            f"automation/deployment/logs/{self.deployment_id}.json")
+        log_file = Path(f"automation/deployment/logs/{self.deployment_id}.json")
         log_file.parent.mkdir(parents=True, exist_ok=True)
 
         with open(log_file, "w") as f:
-            json.dump({
-                "deployment_id": self.deployment_id,
-                "environment": self.environment,
-                "timestamp": datetime.now().isoformat(),
-                "deployments": self.deployment_log,
-            }, f, indent=2)
+            json.dump(
+                {
+                    "deployment_id": self.deployment_id,
+                    "environment": self.environment,
+                    "timestamp": datetime.now().isoformat(),
+                    "deployments": self.deployment_log,
+                },
+                f,
+                indent=2,
+            )
 
         print(f"\n📝 Deployment log saved: {log_file}")
 
@@ -507,16 +519,20 @@ class DeploymentOrchestrator:
 def main():
     """Main deployment orchestration."""
     parser = argparse.ArgumentParser(description="Deploy workflow automation")
-    parser.add_argument("--env", choices=["staging", "production"], required=True,
-                        help="Target environment")
-    parser.add_argument("--month", type=int, choices=[1, 2, 3], required=True,
-                        help="Month to deploy")
-    parser.add_argument("--canary-repos", type=str,
-                        help="Comma-separated list of canary repositories")
-    parser.add_argument("--rollback", action="store_true",
-                        help="Rollback deployment")
-    parser.add_argument("--deployment-id", type=str,
-                        help="Deployment ID to rollback")
+    parser.add_argument(
+        "--env",
+        choices=["staging", "production"],
+        required=True,
+        help="Target environment",
+    )
+    parser.add_argument(
+        "--month", type=int, choices=[1, 2, 3], required=True, help="Month to deploy"
+    )
+    parser.add_argument(
+        "--canary-repos", type=str, help="Comma-separated list of canary repositories"
+    )
+    parser.add_argument("--rollback", action="store_true", help="Rollback deployment")
+    parser.add_argument("--deployment-id", type=str, help="Deployment ID to rollback")
 
     args = parser.parse_args()
 

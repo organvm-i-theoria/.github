@@ -99,7 +99,7 @@ if [[ "$tokens_created" != "y" && "$tokens_created" != "Y" ]]; then
         echo "    --vault='Personal' \\"
         echo "    --generate-password='on-create' \\"
         echo "    username='github-token' \\"
-        echo "    password='<paste-token-here>'"
+        echo "    password='<paste-token-here>'"  # pragma: allowlist secret
         echo ""
     done
     exit 0

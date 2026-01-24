@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Meta Agentic Project Scaffold description: Project creation assistant for
 managing workflows using curated prompts and chatmodes. model: GPT-4.1 tools:
@@ -31,7 +31,7 @@ managing workflows using curated prompts and chatmodes. model: GPT-4.1 tools:
 - workflow
 - scaffolding updated: 2026-01-13
 
----
+______________________________________________________________________
 
 Your sole task is to find and pull relevant prompts, instructions and chatmodes
 from https://github.com/github/awesome-copilot All relevant instructions,

@@ -14,7 +14,7 @@ schedule:
   time: 09:00
 
   # For biweekly, start date (YYYY-MM-DD)
-  biweekly_start: "2025-01-06"
+  biweekly_start: '2025-01-06'
 
   # For monthly, day of month (1-31)
   monthly_day: 1
@@ -39,25 +39,25 @@ repository_discovery:
 
   # Repositories to always include (even if they don't meet criteria)
   always_include:
-    - example-react-app
-    - example-vue-dashboard
+  - example-react-app
+  - example-vue-dashboard
       # Add more repository names as needed
 
   # Repositories to always exclude
   always_exclude:
-    - .github
-    - .github-private
-    - test-repo
-    - archived-project
+  - .github
+  - .github-private
+  - test-repo
+  - archived-project
       # Add more repository names as needed
 
   # Filter by language (empty = all languages)
   languages:
-    - JavaScript
-    - TypeScript
-    - Python
-    - Ruby
-    - Go
+  - JavaScript
+  - TypeScript
+  - Python
+  - Ruby
+  - Go
       # Add more languages as needed (leave empty for all)
 
 # Change Detection
@@ -67,29 +67,29 @@ change_detection:
 
   # What constitutes a "change" requiring new walkthrough
   triggers:
-    - new_commits: true
-    - new_release: true
-    - major_version_bump: true
-    - significant_file_changes: true
+  - new_commits: true
+  - new_release: true
+  - major_version_bump: true
+  - significant_file_changes: true
 
   # Minimum commits since last walkthrough to trigger regeneration
   min_commits: 5
 
   # Paths that trigger regeneration when changed
   significant_paths:
-    - src/
-    - app/
-    - components/
-    - pages/
-    - api/
-    - public/
+  - src/
+  - app/
+  - components/
+  - pages/
+  - api/
+  - public/
 
   # Ignore changes in these paths
   ignore_paths:
-    - docs/
-    - .github/
-    - tests/
-    - "*.md"
+  - docs/
+  - .github/
+  - tests/
+  - '*.md'
 
 # Walkthrough Generation Settings
 generation_settings:
@@ -106,22 +106,22 @@ generation_settings:
       voiceover_style: casual
       duration: 90
       focus_areas:
-        - Todo list management
-        - User authentication
+      - Todo list management
+      - User authentication
 
     example-flask-api:
       voiceover_style: technical
       duration: 45
       focus_areas:
-        - REST API endpoints
-        - Database operations
+      - REST API endpoints
+      - Database operations
 
     example-vue-dashboard:
       voiceover_style: professional
       duration: 75
       focus_areas:
-        - Data visualization
-        - Real-time updates
+      - Data visualization
+      - Real-time updates
 
 # Batch Processing
 batch_processing:
@@ -143,9 +143,9 @@ batch_processing:
 
   # Custom processing order (only if processing_order = custom)
   custom_order:
-    - high-priority-app
-    - main-product
-    - customer-facing-app
+  - high-priority-app
+  - main-product
+  - customer-facing-app
       # Add more repository names in priority order
 
 # Rate Limiting
@@ -172,17 +172,17 @@ pull_request:
 
   # PR labels
   labels:
-    - automated
-    - walkthrough
-    - documentation
+  - automated
+  - walkthrough
+  - documentation
 
   # Assignees (GitHub usernames)
   assignees:
-    - 4444JPP
+  - 4444JPP
 
   # Reviewers
   reviewers:
-    - 4444JPP
+  - 4444JPP
 
   # Draft PR or ready for review
   draft: false
@@ -245,7 +245,7 @@ notifications:
     email:
       enabled: false
       recipients:
-        - admin@example.com
+      - admin@example.com
       on_failure: true
       on_success: true
 
@@ -253,10 +253,10 @@ notifications:
     slack:
       enabled: false
       webhook_url_secret: SLACK_WEBHOOK_URL
-      channel: "#dev-notifications"
+      channel: '#dev-notifications'
       on_failure: true
       on_success: true
-      mention_on_failure: "@here"
+      mention_on_failure: '@here'
 
   # Summary report
   summary_report:
@@ -321,14 +321,14 @@ reporting:
 
   # Report sections
   sections:
-    - summary
-    - repository_list
-    - success_count
-    - failure_count
-    - pr_links
-    - artifact_links
-    - execution_time
-    - next_scheduled_run
+  - summary
+  - repository_list
+  - success_count
+  - failure_count
+  - pr_links
+  - artifact_links
+  - execution_time
+  - next_scheduled_run
 
 # Advanced Configuration
 advanced:
@@ -339,8 +339,8 @@ advanced:
   dry_run: false
 
   # Custom scripts
-  pre_execution_script: ""
-  post_execution_script: ""
+  pre_execution_script: ''
+  post_execution_script: ''
 
   # Environment variables for all generations
   global_environment_variables:

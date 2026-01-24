@@ -1,9 +1,6 @@
----
-name: Go MCP Development
-description: Complete toolkit for building Model Context Protocol (MCP) servers in Go using the official github.com/modelcontextprotocol/go-sdk. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Go MCP Development description: Complete toolkit for building Model Context Protocol (MCP) servers in Go using the official github.com/modelcontextprotocol/go-sdk. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance. tags: \[\] updated: 2026-01-13
 
 # Go MCP Server Development
 
@@ -48,6 +45,6 @@ To get the best results, consider:
 - Providing details about what tools or functionality you need
 - Mentioning if you need resources, prompts, or special capabilities
 
----
+______________________________________________________________________
 
 _This collection includes 3 curated items for **Go MCP Server Development**._

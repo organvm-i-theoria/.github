@@ -1,9 +1,6 @@
----
-name: Power Apps Code Apps
-description: Complete toolkit for Power Apps Code Apps development including project scaffolding, development standards, and expert guidance for building code-first applications with Power Platform integration.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Power Apps Code Apps description: Complete toolkit for Power Apps Code Apps development including project scaffolding, development standards, and expert guidance for building code-first applications with Power Platform integration. tags: \[\] updated: 2026-01-13
 
 # Power Apps Code Apps Development
 
@@ -22,7 +19,7 @@ connectors
 | [Power Apps Code Apps Development Instructions](../instructions/power-apps-code-apps.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fpower-apps-code-apps.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fpower-apps-code-apps.instructions.md) | Instruction | Power Apps Code Apps development standards and best practices for TypeScript, React, and Power Platform integration          |
 | [Power Platform Expert](../chatmodes/power-platform-expert.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fpower-platform-expert.agent.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode-insiders%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fpower-platform-expert.agent.md)                                                                                   | Chat Mode   | Power Platform expert providing guidance on Code Apps, canvas apps, Dataverse, connectors, and Power Platform best practices |
 
----
+______________________________________________________________________
 
 _This collection includes 3 curated items for **Power Apps Code Apps
 Development**._

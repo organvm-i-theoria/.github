@@ -525,7 +525,7 @@ For governance-related questions:
 - **Security Committee**: security@ivviiviivvi.com
 - **Community Council**: community@ivviiviivvi.com
 
----
+______________________________________________________________________
 
 **Last Updated**: January 12, 2026\
 **Next Review**: July 12, 2026\

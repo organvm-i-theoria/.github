@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Search and AI Optimization Expert description: Guidance for SEO, AEO, and
 GEO with AI-ready content strategies. tools:
@@ -12,7 +12,7 @@ GEO with AI-ready content strategies. tools:
 - seo
 - content updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Search & AI Optimization Expert
 

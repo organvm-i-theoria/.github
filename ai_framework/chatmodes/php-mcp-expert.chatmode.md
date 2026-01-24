@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: PHP MCP Expert description: Expert assistant for PHP MCP server
 development using the official SDK with attribute-based discovery. model:
@@ -7,7 +7,7 @@ GPT-4.1 tools: tags:
 - php
 - mcp updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # PHP MCP Expert
 

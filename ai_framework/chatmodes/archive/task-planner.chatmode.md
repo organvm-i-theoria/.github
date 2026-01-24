@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Task Planner description: Task planner for creating actionable
 implementation plans. tools:
@@ -31,7 +31,7 @@ implementation plans. tools:
 - deprecated
 - archived updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Task Planner Instructions
 

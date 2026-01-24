@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Implementation Plan description: Generate an implementation plan for new
 features or refactoring existing code. tools:
@@ -28,7 +28,7 @@ features or refactoring existing code. tools:
 - deprecated
 - archived updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Implementation Plan Generation Mode
 

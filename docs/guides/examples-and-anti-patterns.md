@@ -5,7 +5,7 @@
 This guide provides practical examples of both good practices and common
 pitfalls to avoid in the ivviiviivvi/.github repository.
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ pitfalls to avoid in the ivviiviivvi/.github repository.
 - [Security Examples](#security-examples)
 - [Common Anti-Patterns](#common-anti-patterns)
 
----
+______________________________________________________________________
 
 ## Workflow Examples
 
@@ -132,7 +132,7 @@ jobs:
 - Exposes secrets unsafely
 - No proper error handling
 
----
+______________________________________________________________________
 
 ## Testing Examples
 
@@ -290,7 +290,7 @@ class TestBad:
 - Missing test markers
 - Poor documentation
 
----
+______________________________________________________________________
 
 ## Documentation Examples
 
@@ -464,7 +464,7 @@ feature_x:
 - [Configuration Reference](config-reference.md)
 - [GitHub Actions Integration](github-actions.md)
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Maintained by: DevOps Team_ _For issues:
 [Open a ticket](https://github.com/org/repo/issues/new)_
@@ -526,7 +526,7 @@ If it doesn't work, check the logs.
 - No proper code blocks with language tags
 - No expected results
 
----
+______________________________________________________________________
 
 ## Code Examples
 
@@ -668,7 +668,7 @@ def check_login(username, password):
 - Magic numbers
 - No input validation
 
----
+______________________________________________________________________
 
 ## Security Examples
 
@@ -791,7 +791,7 @@ def store_api_key(key):
     print(f"Stored API key: {key}")
 ```
 
----
+______________________________________________________________________
 
 ## Common Anti-Patterns
 
@@ -949,7 +949,7 @@ def expensive_function(n):
     ...
 ```
 
----
+______________________________________________________________________
 
 ## Learning from Examples
 
@@ -972,7 +972,7 @@ git commit -m "docs: add example for X pattern"
 gh pr create
 ```
 
----
+______________________________________________________________________
 
 ## Related Resources
 
@@ -980,6 +980,6 @@ gh pr create
 - [New Contributor Guide](NEW_CONTRIBUTOR_GUIDE.md) - Getting started
 - [Common Tasks Runbook](common-tasks-runbook.md) - Step-by-step procedures
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Maintained by: Documentation Team_

@@ -93,7 +93,7 @@ ______________________________________________________________________
   [github.com/ivviiviivvi](https://github.com/ivviiviivvi)<!-- link:github.org -->
 - **Live Demo**:
   [AgentSphere Demo](https://demo-ivviiviivvi-.github.agentsphere.dev)
-- **Support**: support@ivviiviivvi.dev
+- **Support**: <support@ivviiviivvi.dev>
 
 ______________________________________________________________________
 

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Critical Thinking description: Challenge assumptions and encourage
 critical thinking to ensure the best possible outcomes. tools:
@@ -14,7 +14,7 @@ critical thinking to ensure the best possible outcomes. tools:
 - usages tags:
 - coaching updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Critical thinking mode instructions
 

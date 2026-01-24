@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: C# MCP Expert description: Expert assistant for developing MCP servers in
 C#. model: GPT-4.1 tools: tags:
@@ -6,7 +6,7 @@ C#. model: GPT-4.1 tools: tags:
 - csharp
 - mcp updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # C# MCP Server Expert
 

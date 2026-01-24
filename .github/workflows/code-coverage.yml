@@ -4,23 +4,23 @@ on:
   push:
     branches: [main, master, develop]
     paths:
-      - src/**
-      - tests/**
-      - requirements*.txt
-      - package*.json
-      - setup.py
-      - pyproject.toml
+    - src/**
+    - tests/**
+    - requirements*.txt
+    - package*.json
+    - setup.py
+    - pyproject.toml
   pull_request:
     branches: [main, master, develop]
     paths:
-      - src/**
-      - tests/**
-      - requirements*.txt
-      - package*.json
-      - setup.py
-      - pyproject.toml
+    - src/**
+    - tests/**
+    - requirements*.txt
+    - package*.json
+    - setup.py
+    - pyproject.toml
   schedule:
-    - cron: 0 0 * * 0 # Weekly on Sundays
+  - cron: 0 0 * * 0   # Weekly on Sundays
   workflow_dispatch:
 
 concurrency:
@@ -38,71 +38,71 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
-        with:
-          fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
+      with:
+        fetch-depth: 0
 
-      - name: Set up Python
-        if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@v5.3.0
-        with:
-          python-version: "3.11"
-          cache: pip
+    - name: Set up Python
+      if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065   # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@v5.3.0
+      with:
+        python-version: '3.11'
+        cache: pip
 
-      - name: Set up Node.js
-        if: hashFiles('package.json') != ''
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@v4.1.0
-        with:
-          node-version: "20"
-          cache: npm
+    - name: Set up Node.js
+      if: hashFiles('package.json') != ''
+      uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af   # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee109 # ratchet:actions/setup-node@v4.1.0
+      with:
+        node-version: '20'
+        cache: npm
 
-      - name: Install Python dependencies
-        if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov coverage
+    - name: Install Python dependencies
+      if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov coverage
 
-      - name: Install Node dependencies
-        if: hashFiles('package.json') != ''
-        run: npm ci
+    - name: Install Node dependencies
+      if: hashFiles('package.json') != ''
+      run: npm ci
 
-      - name: Run Python tests with coverage
-        if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
-        run: |
-          pytest --cov=. --cov-report=xml --cov-report=html --cov-report=term
+    - name: Run Python tests with coverage
+      if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
+      run: |
+        pytest --cov=. --cov-report=xml --cov-report=html --cov-report=term
 
-      - name: Run JavaScript tests with coverage
-        if: hashFiles('package.json') != ''
-        run: |
-          npm test -- --coverage --coverageReporters=text --coverageReporters=lcov
+    - name: Run JavaScript tests with coverage
+      if: hashFiles('package.json') != ''
+      run: |
+        npm test -- --coverage --coverageReporters=text --coverageReporters=lcov
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # ratchet:codecov/codecov-action@v4
-        with:
-          files: ./coverage.xml,./coverage/lcov.info
-          flags: unittests
-          name: coverage-report
-          fail_ci_if_error: false
-          verbose: true
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238   # ratchet:codecov/codecov-action@v4
+      with:
+        files: ./coverage.xml,./coverage/lcov.info
+        flags: unittests
+        name: coverage-report
+        fail_ci_if_error: false
+        verbose: true
 
-      - name: Coverage report comment
-        if: github.event_name == 'pull_request'
-        uses: py-cov-action/python-coverage-comment-action@39ffc771120970de615612f01a030260bcb45443 # ratchet:py-cov-action/python-coverage-comment-action@v3
-        with:
-          GITHUB_TOKEN: ${{ github.token }}
-          MINIMUM_GREEN: 80
-          MINIMUM_ORANGE: 60
+    - name: Coverage report comment
+      if: github.event_name == 'pull_request'
+      uses: py-cov-action/python-coverage-comment-action@39ffc771120970de615612f01a030260bcb45443   # ratchet:py-cov-action/python-coverage-comment-action@v3
+      with:
+        GITHUB_TOKEN: ${{ github.token }}
+        MINIMUM_GREEN: 80
+        MINIMUM_ORANGE: 60
 
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4.5.0
-        with:
-          name: coverage-reports
-          path: |
-            coverage.xml
-            htmlcov/
-            coverage/
-          retention-days: 30
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882   # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4.5.0
+      with:
+        name: coverage-reports
+        path: |
+          coverage.xml
+          htmlcov/
+          coverage/
+        retention-days: 30
 
   coverage-badge:
     name: Update Coverage Badge
@@ -113,60 +113,60 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
 
-      - name: Download coverage report
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@v4.1.8
-        with:
-          name: coverage-reports
+    - name: Download coverage report
+      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16   # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@v4.1.8
+      with:
+        name: coverage-reports
 
-      - name: Generate coverage badge
-        uses: cicirello/jacoco-badge-generator@72266185b7ee48a6fd74eaf0238395cc8b14fef8 # ratchet:cicirello/jacoco-badge-generator@v2
-        with:
-          badges-directory: .github/badges
-          generate-branches-badge: true
-          generate-summary: true
+    - name: Generate coverage badge
+      uses: cicirello/jacoco-badge-generator@72266185b7ee48a6fd74eaf0238395cc8b14fef8   # ratchet:cicirello/jacoco-badge-generator@v2
+      with:
+        badges-directory: .github/badges
+        generate-branches-badge: true
+        generate-summary: true
 
-      - name: Commit badge
-        uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # ratchet:stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "docs: update coverage badge [skip ci]"
-          file_pattern: .github/badges/*.svg
-          commit_user_name: github-actions[bot]
-          commit_user_email: github-actions[bot]@users.noreply.github.com
+    - name: Commit badge
+      uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403   # ratchet:stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: 'docs: update coverage badge [skip ci]'
+        file_pattern: .github/badges/*.svg
+        commit_user_name: github-actions[bot]
+        commit_user_email: github-actions[bot]@users.noreply.github.com
 
   coverage-check:
     name: Coverage Threshold Check
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
 
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@v5
-        with:
-          python-version: "3.11"
+    - name: Set up Python
+      uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065   # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # ratchet:actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-cov
+    - name: Install dependencies
+      run: |
+        pip install pytest pytest-cov
 
-      - name: Run tests and check coverage
-        run: |
-          pytest --cov=. --cov-fail-under=70 --cov-report=term-missing
+    - name: Run tests and check coverage
+      run: |
+        pytest --cov=. --cov-fail-under=70 --cov-report=term-missing
 
-      - name: Coverage gate
-        if: failure()
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # ratchet:actions/github-script@v7.0.1
-        with:
-          script: |
-            if (context.eventName === 'pull_request') {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: `## ⚠️ Coverage Check Failed\n\nThe code coverage is below the required threshold of 70%.\n\nPlease add tests to improve coverage before merging.`
-              });
-            }
+    - name: Coverage gate
+      if: failure()
+      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea   # ratchet:actions/github-script@v7.0.1
+      with:
+        script: |
+          if (context.eventName === 'pull_request') {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## ⚠️ Coverage Check Failed\n\nThe code coverage is below the required threshold of 70%.\n\nPlease add tests to improve coverage before merging.`
+            });
+          }

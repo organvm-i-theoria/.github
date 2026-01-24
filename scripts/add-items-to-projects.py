@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Add existing issues and PRs to GitHub Projects.
+"""Add existing issues and PRs to GitHub Projects.
 Automatically categorizes and adds items based on labels and content.
 """
 
@@ -285,7 +284,7 @@ def main():
     # Cache project IDs
     project_ids = {}
     print("ℹ Loading project IDs...")
-    for project_num in PROJECT_MAPPINGS.keys():
+    for project_num in PROJECT_MAPPINGS:
         try:
             project_ids[project_num] = manager.get_project_id(project_num)
             print(f"  ✓ Project #{project_num}")

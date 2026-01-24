@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Ecosystem Visualizer - Creates visual maps of the organization ecosystem
+"""Ecosystem Visualizer - Creates visual maps of the organization ecosystem
 Implements AI-GH-06: Ecosystem Integration & Architecture Monitoring
 """
 
@@ -75,8 +74,7 @@ class EcosystemVisualizer:
                 self.report_data = json.load(f)
 
     def _calculate_relative_path(self, output_path: Path, target_path: str) -> str:
-        """
-        Calculate relative path from output_path to target_path.
+        """Calculate relative path from output_path to target_path.
 
         Args:
             output_path: Path where the dashboard will be written
@@ -85,6 +83,7 @@ class EcosystemVisualizer:
 
         Returns:
             The correct relative path to use in links
+
         """
         if not output_path:
             # Default case - assume output is in reports/
@@ -118,7 +117,6 @@ class EcosystemVisualizer:
 
     def generate_mermaid_diagram(self, output_path: Optional[Path] = None) -> str:
         """Generate Mermaid diagram of the ecosystem"""
-
         if not self.report_data or "ecosystem_map" not in self.report_data:
             return "No ecosystem data available"
 
@@ -161,7 +159,7 @@ graph TD
             # Add click event to open workflow file
             click_target = f"{workflow_path}{workflow}"
             parts.append(
-                f'        click {workflow_id} "{click_target}" ' f'"View Workflow"\n'
+                f'        click {workflow_id} "{click_target}" "View Workflow"\n'
             )
             parts.append(f"        ORG --> {workflow_id}\n")
 
@@ -266,8 +264,7 @@ graph TD
         return parts
 
     def _classify_workflow(self, workflow_name: str) -> Tuple[str, str]:
-        """
-        Classify a workflow based on its name using pre-compiled
+        """Classify a workflow based on its name using pre-compiled
         regex patterns. Returns tuple of (emoji, category_name).
         """
         name = workflow_name.lower()
@@ -281,7 +278,6 @@ graph TD
 
     def generate_dashboard_markdown(self, output_path: Optional[Path] = None) -> str:
         """Generate a comprehensive dashboard in Markdown"""
-
         if not self.report_data:
             return "No report data available"
 
@@ -413,7 +409,7 @@ graph TD
             broken_links = lv.get("broken_links", [])
             if broken_links:
                 display_count = min(len(broken_links), 20)
-                summary = f"View top {display_count} broken links " f"(of {broken})"
+                summary = f"View top {display_count} broken links (of {broken})"
                 parts.append(f"<details>\n<summary>{summary}</summary>\n\n")
                 parts.append("| URL | Status |\n|---|---|\n")
 
@@ -442,10 +438,7 @@ graph TD
 
                 parts.append("\n</details>\n\n")
         else:
-            no_data_msg = (
-                "ℹ️ **No Data**: External link validation was "
-                "skipped or found no links.\n\n"
-            )
+            no_data_msg = "ℹ️ **No Data**: External link validation was skipped or found no links.\n\n"
             parts.append(no_data_msg)
 
         parts.append("[⬆️ Back to Top](#organization-ecosystem-dashboard)\n\n")
@@ -479,11 +472,7 @@ graph TD
             em = self.report_data["ecosystem_map"]
             workflows = em.get("workflows", [])
             if len(workflows) > self.MAX_DIAGRAM_WORKFLOWS:
-                msg1 = (
-                    "ℹ️  *The diagram below displays the first "
-                    f"{self.MAX_DIAGRAM_WORKFLOWS} workflows for "
-                    "readability. "
-                )
+                msg1 = f"ℹ️  *The diagram below displays the first {self.MAX_DIAGRAM_WORKFLOWS} workflows for readability. "
                 parts.append(msg1)
                 msg2 = (
                     f"All {len(workflows)} workflows are listed in "
@@ -493,10 +482,7 @@ graph TD
                 parts.append(msg2)
 
         parts.append(self.generate_mermaid_diagram(output_path))
-        legend = (
-            "\n**Legend:** 🔵 Organization | 🟣 Workflow | "
-            "🟢 AI Agent | 🔘 Technology\n"
-        )
+        legend = "\n**Legend:** 🔵 Organization | 🟣 Workflow | 🟢 AI Agent | 🔘 Technology\n"
         parts.append(legend)
         parts.append("\n[⬆️ Back to Top](#organization-ecosystem-dashboard)\n")
 
@@ -601,10 +587,7 @@ graph TD
                     1 for items in grouped.values() if len(items) > 0
                 )
 
-                summary = (
-                    f"View all {len(workflows)} workflows across "
-                    f"{active_categories} categories"
-                )
+                summary = f"View all {len(workflows)} workflows across {active_categories} categories"
                 parts.append(f"<details>\n<summary>{summary}</summary>\n\n")
 
                 # Render categories
@@ -613,9 +596,7 @@ graph TD
                         parts.append(f"### {label}\n\n")
                         parts.append("| Workflow | Action |\n|---|---|\n")
                         for w in items:
-                            parts.append(
-                                f"| `{w}` | " f"[View]({workflow_path}{w}) |\n"
-                            )
+                            parts.append(f"| `{w}` | [View]({workflow_path}{w}) |\n")
                         parts.append("\n")
 
                 parts.append("\n</details>\n")
@@ -624,7 +605,7 @@ graph TD
         else:
             parts.append("No workflow data available.\n")
 
-        back_to_top2 = "\n[⬆️ Back to Top]" "(#organization-ecosystem-dashboard)\n"
+        back_to_top2 = "\n[⬆️ Back to Top](#organization-ecosystem-dashboard)\n"
         parts.append(back_to_top2)
 
         parts.append("\n---\n\n")
@@ -640,10 +621,9 @@ graph TD
 
     def generate_health_badge(self) -> str:
         """Generate a health badge in Shields.io format"""
-
         if not self.report_data:
             badge_url = (
-                "![Health](https://img.shields.io/badge/" "health-unknown-lightgrey)"
+                "![Health](https://img.shields.io/badge/health-unknown-lightgrey)"
             )
             return badge_url
 
@@ -718,10 +698,7 @@ graph TD
             color = "red"
             status = "critical"
 
-        badge_url = (
-            "![Health](https://img.shields.io/badge/"
-            f"health-{health_pct}%25_{status}-{color})"
-        )
+        badge_url = f"![Health](https://img.shields.io/badge/health-{health_pct}%25_{status}-{color})"
         return badge_url
 
 
@@ -770,7 +747,7 @@ def main() -> None:
 
     if not report_path:
         print("❌ No report specified.")
-        print("💡 Try running with --find-latest to use the " "most recent report:")
+        print("💡 Try running with --find-latest to use the most recent report:")
         print("   python3 scripts/ecosystem_visualizer.py --find-latest")
         return
 

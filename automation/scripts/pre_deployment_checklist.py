@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Pre-deployment checklist validator for Week 11 deployment.
+"""Pre-deployment checklist validator for Week 11 deployment.
 
 This script performs comprehensive validation before workflow deployment,
 checking configuration files, label deployment status, GitHub CLI access,
@@ -50,13 +49,13 @@ class PreDeploymentChecker:
     """Validates all prerequisites for deployment."""
 
     def __init__(self, phase: int, skip_labels: bool = False, verbose: bool = False):
-        """
-        Initialize the checker.
+        """Initialize the checker.
 
         Args:
             phase: Deployment phase (1, 2, or 3)
             skip_labels: Skip label validation checks
             verbose: Show detailed output
+
         """
         self.phase = phase
         self.skip_labels = skip_labels
@@ -76,14 +75,14 @@ class PreDeploymentChecker:
         return config_dir / phase_names[self.phase]
 
     def _run_command(self, cmd: List[str]) -> Tuple[bool, str, str]:
-        """
-        Run a shell command and return result.
+        """Run a shell command and return result.
 
         Args:
             cmd: Command to run as list of strings
 
         Returns:
             Tuple of (success, stdout, stderr)
+
         """
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
@@ -113,7 +112,7 @@ class PreDeploymentChecker:
     def check_config_valid(self) -> CheckResult:
         """Check if configuration file is valid YAML."""
         try:
-            with open(self.config_path, "r") as f:
+            with open(self.config_path) as f:
                 self.config = yaml.safe_load(f)
 
             # Check required keys
@@ -383,11 +382,11 @@ class PreDeploymentChecker:
         )
 
     def run_all_checks(self) -> bool:
-        """
-        Run all validation checks.
+        """Run all validation checks.
 
         Returns:
             True if all checks passed, False otherwise
+
         """
         print(f"🔍 Running pre-deployment checks for Phase {self.phase}...")
         print("=" * 80)

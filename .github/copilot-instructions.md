@@ -1,7 +1,6 @@
----
-description: AI rules derived by SpecStory from the project AI interaction history
-globs: *
----
+______________________________________________________________________
+
+## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
 ## description: AI rules derived by SpecStory from the project AI interaction history globs: \*
 
@@ -455,10 +454,14 @@ globs: *
 
 - **GitHub Actions Output Formatting Errors with Heredocs**
 
-  - **Issue:** The "Extract Tasks from PR Body" action fails because of an invalid format error during multiline variable output using heredocs. This occurs when the variable is empty or contains special characters.
-  - **Solution:** Ensure proper formatting is used for multiline outputs, and avoid bare "0" values that can conflict with the heredoc format. Use unique delimiters that do not conflict with the content, and ensure the variable is properly formatted.
-  - **Example:**
-    Instead of:
+  - **Issue:** The "Extract Tasks from PR Body" action fails because of an
+    invalid format error during multiline variable output using heredocs. This
+    occurs when the variable is empty or contains special characters.
+  - **Solution:** Ensure proper formatting is used for multiline outputs, and
+    avoid bare "0" values that can conflict with the heredoc format. Use unique
+    delimiters that do not conflict with the content, and ensure the variable is
+    properly formatted.
+  - **Example:** Instead of:
     ```yaml
     echo "unchecked_tasks<<EOF" >> $GITHUB_OUTPUT
     echo "$UNCHECKED_TASKS" >> $GITHUB_OUTPUT
@@ -479,8 +482,11 @@ globs: *
 
 - **Package.json Requires Lock File:**
 
-  - **Issue:** RHDA (Red Hat Dependency Analytics) reports an error indicating that `package.json` requires a lock file (e.g., `package-lock.json`, `yarn.lock`, or `pnpm-lock.yaml`).
-  - **Solution:** Use the preferred package manager (npm, yarn, or pnpm) to generate the appropriate lock file for the project.
+  - **Issue:** RHDA (Red Hat Dependency Analytics) reports an error indicating
+    that `package.json` requires a lock file (e.g., `package-lock.json`,
+    `yarn.lock`, or `pnpm-lock.yaml`).
+  - **Solution:** Use the preferred package manager (npm, yarn, or pnpm) to
+    generate the appropriate lock file for the project.
   - **Example:**
     - For npm: `npm install` (This will generate or update `package-lock.json`)
     - For yarn: `yarn install` (This will generate or update `yarn.lock`)
@@ -488,17 +494,33 @@ globs: *
 
 - **GitHub Pages Build Failures:**
 
-  - **Issue:** GitHub Pages failing to deploy due to Jekyll build errors or misconfiguration. This often manifests as 404 errors on the live site.
+  - **Issue:** GitHub Pages failing to deploy due to Jekyll build errors or
+    misconfiguration. This often manifests as 404 errors on the live site.
+
   - **Troubleshooting:**
-    1. **Check GitHub Pages Status:** Verify the GitHub Pages status in the repository settings. Look for "errored" states and any associated error messages.
-    2. **Examine Recent Builds:** Review recent GitHub Pages builds to identify specific failure causes (e.g., "Page build failed").
-    3. **Inspect Jekyll Configuration:** If using Jekyll, examine the `_config.yml` file for syntax errors or references to missing layouts/includes.
-    4. **Verify Index Page:** Ensure that either `index.html` or `index.md` exists in the root directory of the repository. This serves as the main entry point for the website.
-    5. **Review Deployment Workflows:** Check for any GitHub Actions workflows related to deployment or page builds.
+
+    1. **Check GitHub Pages Status:** Verify the GitHub Pages status in the
+       repository settings. Look for "errored" states and any associated error
+       messages.
+    1. **Examine Recent Builds:** Review recent GitHub Pages builds to identify
+       specific failure causes (e.g., "Page build failed").
+    1. **Inspect Jekyll Configuration:** If using Jekyll, examine the
+       `_config.yml` file for syntax errors or references to missing
+       layouts/includes.
+    1. **Verify Index Page:** Ensure that either `index.html` or `index.md`
+       exists in the root directory of the repository. This serves as the main
+       entry point for the website.
+    1. **Review Deployment Workflows:** Check for any GitHub Actions workflows
+       related to deployment or page builds.
 
   - **Resolution Strategies:**
-    1. **Modern GitHub Pages with Actions:** Migrate away from legacy Jekyll builds to a modern approach using GitHub Actions for deployment. This offers greater flexibility and control.
-    2. **Create Index Page:** If missing, create an `index.html` or `index.md` file in the repository's root directory. This file should serve as the landing page for the website. Example `index.md`:
+
+    1. **Modern GitHub Pages with Actions:** Migrate away from legacy Jekyll
+       builds to a modern approach using GitHub Actions for deployment. This
+       offers greater flexibility and control.
+    1. **Create Index Page:** If missing, create an `index.html` or `index.md`
+       file in the repository's root directory. This file should serve as the
+       landing page for the website. Example `index.md`:
        ```markdown
        ---
        layout: default
@@ -515,7 +537,59 @@ globs: *
 
        ---
        ```
-    3. **Disable Legacy Builds:** If not intending to use Jekyll, ensure that GitHub Pages is not configured to automatically build with Jekyll.
+    1. **Disable Legacy Builds:** If not intending to use Jekyll, ensure that
+       GitHub Pages is not configured to automatically build with Jekyll.
+
+- **Persistent Pre-Commit Hook Errors:**
+
+  - **Issue:** Recurring pre-commit hook failures blocking commits.
+  - **Troubleshooting:**
+    1. **Examine Pre-Commit Configuration:** Check `.pre-commit-config.yaml` and
+       `.pre-commit-config-rapid.yaml` for misconfigurations or outdated hooks.
+    1. **Run Pre-Commit Locally:** Execute `pre-commit run --all-files` to
+       identify specific errors.
+    1. **Address Identified Issues:**
+    - **Trailing Whitespace:** Resolve trailing whitespace errors reported by
+      the `trailing-whitespace` hook.
+    - **End-of-File Fixer:** Address end-of-file issues identified by the
+      `end-of-file-fixer` hook.
+    - **YAML Errors:** Correct YAML syntax errors reported by the `check-yaml`
+      hook.
+    - **TOML Errors:** Fix TOML syntax errors reported by the `check-toml` hook.
+    - **Shebang Executable Errors:** Ensure scripts with shebangs are executable
+      by using `chmod +x script_name.py`.
+    - **Gitleaks Errors:** Resolve errors reported by gitleaks, such as
+      duplicate `allowlist` sections in `.gitleaks.toml`.
+    4. **Systematic Fixes:**
+    - **Trailing Whitespace:** The `trailing-whitespace` hook automatically
+      fixes this, but you might need to stage the changes.
+    - **End of File:** The `end-of-file-fixer` hook automatically fixes this,
+      but you might need to stage the changes.
+    - **YAML Errors:** Carefully examine the YAML file and fix any syntax
+      errors.
+    - **TOML Errors:** Carefully examine the TOML file and fix any syntax
+      errors.
+    5. **Executable Permissions:** Ensure that scripts with shebangs are
+       executable:
+
+       ```bash
+       chmod +x /workspace/.devcontainer/templates/datascience/post-create.sh
+       chmod +x /workspace/.devcontainer/templates/fullstack/post-create.sh
+       chmod +x /workspace/automation/scripts/schedule_maintenance.py
+       chmod +x /workspace/project_meta/context-handoff/tests/validate_context.py
+       chmod +x /workspace/tests/integration/test_agent_tracking.py
+       chmod +x /workspace/tests/unit/test_ecosystem_visualizer.py
+       ```
+
+    1. **Gitleaks Configuration:**
+
+       - Remove duplicate `allowlist` sections in `.gitleaks.toml`. Ensure that
+         the allowlist configuration is defined only once.
+
+    1. **Stage Changes and Re-run:** After applying fixes, stage all changes
+       (`git add -u`) and re-run `pre-commit run --all-files`.
+  - **Example fixes:**
+    - Remove duplicate `allowlist` section in `.gitleaks.toml`.
 
 ## FINAL DOs AND DON'Ts
 
@@ -555,7 +629,7 @@ globs: *
 - Here's the updated `PROJECTS_CONFIG` section in the
   `configure-github-projects.py` file:
 
-  ```python
+  ````python
   # Project configurations
   PROJECTS_CONFIG = {
       "ai-framework": {
@@ -661,61 +735,5 @@ globs: *
               "Status": {
                   "type": "single_select",
                   "options": [
-                      {"name": "📋 Backlog", "color": "GRAY", "description": ""},
-                      {"name": "✍️ Writing", "color": "YELLOW", "description": ""},
-                      {"name": "👀 Review", "color": "ORANGE", "description": ""},
-                      {"name": "🔄 Revision", "color": "BLUE", "description": ""},
-                      {"name": "✅ Approved", "color": "GREEN", "description": ""},
-                      {"name": "📤 Published", "color": "GREEN", "description": ""},
-                      {"name": "🔄 Needs Update", "color": "RED", "description": ""}
-                  ]
-              },
-              "Priority": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔥 Urgent", "color": "RED", "description": ""},
-                      {"name": "⚡ High", "color": "ORANGE", "description": ""},
-                      {"name": "📊 Medium", "color": "YELLOW", "description": ""},
-                      {"name": "🔽 Low", "color": "GRAY", "description": ""}
-                  ]
-              },
-              "Document Type": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "📖 Guide", "color": "BLUE", "description": ""},
-                      {"name": "🏛️ Architecture", "color": "PURPLE", "description": ""},
-                      {"name": "🔧 Technical Reference", "color": "ORANGE", "description": ""},
-                      {"name": "📚 Tutorial", "color": "GREEN", "description": ""},
-                      {"name": "📋 Policy", "color": "RED", "description": ""},
-                      {"name": "🎯 Quick Start", "color": "YELLOW", "description": ""}
-                  ]
-              },
-              "Completeness": {
-                  "type": "single_select",
-                  "options": [
-                      {"name": "🔴 Outline Only", "color": "RED", "description": ""},
-                      {"name": "🟡 Draft", "color": "YELLOW", "description": ""},
-                      {"name": "🟢 Complete", "color": "GREEN", "description": ""},
-                      {"name": "⭐ Comprehensive", "color": "GREEN", "description": ""}
-                  ]
-              },
-              "Last Updated": {"type": "date"},
-              "Next Review Date": {"type": "date"},
-              "Word Count": {"type": "number"}
-          }
-      }
-  }
-  ```
-
-- **Master Org Token Security and Contextual Awareness:**
-
-  - **Issue:** The "master-org-token-011726" personal access token (PAT) is
-    being accessed by multiple repositories, raising security and access
-    management concerns.
-  - **Investigation Steps:**
-    1. **Token Identification:** Identify all instances where the
-       "master-org-token-011726" or "master-org-personal-access-token" is
-       referenced.
-    1. **Usage Analysis:** Analyze how the token is being used across the
-       organization, including in GitHub workflows, scripts, and documentation.
-    1. **Scope Determination:**
+                      {"name": "📋 Backlog",```
+  ````

@@ -14,10 +14,10 @@ deployment:
   # Build configuration
   build:
     # Build command (leave empty for auto-detect)
-    command: ""
+    command: ''
 
     # Build output directory (leave empty for auto-detect: dist, build, public, etc.)
-    output_dir: ""
+    output_dir: ''
 
     # Environment variables for build
     env:
@@ -30,9 +30,9 @@ deployment:
 
     # Exposed ports
     ports:
-      - 3000
-      - 5000
-      - 8000
+    - 3000
+    - 5000
+    - 8000
 
     # Build arguments
     build_args: {}
@@ -40,10 +40,10 @@ deployment:
   # Pages configuration (for pages-direct strategy)
   pages:
     # Custom domain (optional)
-    custom_domain: ""
+    custom_domain: ''
 
     # Base URL path (for project pages, e.g., /my-app)
-    base_path: ""
+    base_path: ''
 
   # Health check configuration
   health_check:
@@ -51,7 +51,7 @@ deployment:
     enabled: true
 
     # Health check endpoint (default: /)
-    endpoint: "/"
+    endpoint: /
 
     # Expected HTTP status code
     expected_status: 200
@@ -62,17 +62,17 @@ deployment:
   # Metadata
   metadata:
     # Application title
-    title: ""
+    title: ''
 
     # Short description
-    description: ""
+    description: ''
 
     # Tags/keywords
     tags: []
 
     # Language/framework
-    language: ""
-    framework: ""
+    language: ''
+    framework: ''
 
 # Quality gates
 quality:
@@ -103,4 +103,4 @@ notifications:
 
   # Notification channels (issues, discussions, email)
   channels:
-    - issues
+  - issues

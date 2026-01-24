@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Declarative Agents Architect description: Microsoft 365 declarative agent
 architect guidance. model: GPT-4.1 tools:
@@ -7,7 +7,7 @@ architect guidance. model: GPT-4.1 tools:
 - m365
 - architecture updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## model: GPT-4.1 tools: \['codebase'\]
 

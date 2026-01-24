@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/check_auto_merge_eligibility.py
+"""Unit tests for automation/scripts/check_auto_merge_eligibility.py
 Focus: AutoMergeChecker safety checks, eligibility determination, confidence calculation
 """
 
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 

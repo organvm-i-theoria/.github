@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Laravel Expert Agent description: Expert Laravel development assistant for
 modern Laravel applications. tools:
@@ -14,7 +14,7 @@ modern Laravel applications. tools:
 - laravel
 - php updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Laravel Expert Agent
 

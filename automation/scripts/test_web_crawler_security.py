@@ -165,8 +165,7 @@ class TestWebCrawlerSecurity(unittest.TestCase):
 
     @patch("urllib3.HTTPSConnectionPool")
     def test_fallback_get_uses_safe_pool(self, MockHTTPSConnectionPool):
-        """
-        Verify that the fallback GET request uses the same IP-pinned pool
+        """Verify that the fallback GET request uses the same IP-pinned pool
         as the HEAD request to prevent SSRF bypass.
         """
         crawler = OrganizationCrawler(github_token="dummy", org_name="dummy")

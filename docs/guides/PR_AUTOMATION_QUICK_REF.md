@@ -353,6 +353,7 @@ git push origin main
    ```
 
 1. **Set up notifications** for batch completion:
+
    - Subscribe to workflow runs in GitHub
    - Use GitHub mobile app for instant alerts
 
@@ -362,7 +363,7 @@ git push origin main
    gh issue list --label bulk-operation --limit 10
    ```
 
----
+______________________________________________________________________
 
 **Last Updated:** 2025-12-31\
 **Quick Help:** `gh workflow list` to see all

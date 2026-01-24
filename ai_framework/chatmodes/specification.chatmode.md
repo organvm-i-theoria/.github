@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Specification description: Generate or update specification documents for
 new or existing functionality. tools:
@@ -28,7 +28,7 @@ new or existing functionality. tools:
 - planning
 - spec updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## title: \[Concise Title Describing the Specification's Focus\] version: \[Optional: e.g., 1.0, Date\] date_created: \[YYYY-MM-DD\] last_updated: \[Optional: YYYY-MM-DD\] owner: \[Optional: Team/Individual responsible for this spec\] tags: \[Optional: List of relevant tags or categories, e.g., `infrastructure`, `process`, `design`, `app` etc\]
 

@@ -100,35 +100,5 @@ useDefault = true
 # regex = '''your-regex-pattern'''
 # tags = ["custom", "secret"]
 
-# Allowlist configuration
-# Use this to suppress false positives
-[allowlist]
-description = "Allowlisted files and patterns"
-
-# Allowlist specific paths
-paths = [
-  # Example: Ignore test fixtures
-  # '''.*test/fixtures/.*''',
-  # Example: Ignore documentation
-  # '''.*docs/examples/.*''',
-]
-
-# Allowlist specific regexes
-regexes = [
-  # Example: Ignore specific patterns in comments
-  # '''# nosecret.*''',
-]
-
-# Allowlist specific commits
-commits = [
-  # Example: Allowlist a specific commit that contains a false positive
-  # "abc123def456",
-]
-
-# Allowlist specific stop words
-stopwords = [
-  # Common words that might trigger false positives
-  # "example",
-  # "test",
-  # "dummy",
-]
+# Note: Allowlist configuration is defined at the top of this file
+# Refer to the [allowlist] section for false positive management

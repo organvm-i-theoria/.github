@@ -3,22 +3,22 @@ name: Badge Management
 on:
   push:
     branches:
-      - main
-      - master
+    - main
+    - master
     paths:
-      - package.json
-      - requirements.txt
-      - Cargo.toml
-      - pom.xml
-      - build.gradle
-      - composer.json
-      - README.md
-      - .github/workflows/**
-      - .github/badge-config.yml
+    - package.json
+    - requirements.txt
+    - Cargo.toml
+    - pom.xml
+    - build.gradle
+    - composer.json
+    - README.md
+    - .github/workflows/**
+    - .github/badge-config.yml
   pull_request:
     branches:
-      - main
-      - master
+    - main
+    - master
   workflow_dispatch:
     inputs:
       force_update:

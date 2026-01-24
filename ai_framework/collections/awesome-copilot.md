@@ -1,9 +1,6 @@
----
-name: Awesome Copilot
-description: Meta prompts that help you discover and generate curated GitHub Copilot chat modes, collections, instructions, prompts, and agents.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Awesome Copilot description: Meta prompts that help you discover and generate curated GitHub Copilot chat modes, collections, instructions, prompts, and agents. tags: \[\] updated: 2026-01-13
 
 # Awesome Copilot
 
@@ -23,6 +20,6 @@ modes, collections, instructions, prompts, and agents.
 | [Suggest Awesome GitHub Copilot Instructions](../prompts/suggest-awesome-github-copilot-instructions.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsuggest-awesome-github-copilot-instructions.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsuggest-awesome-github-copilot-instructions.prompt.md) | Prompt    | Suggest relevant GitHub Copilot instruction files from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing instructions in this repository.            |
 | [Suggest Awesome GitHub Copilot Prompts](../prompts/suggest-awesome-github-copilot-prompts.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsuggest-awesome-github-copilot-prompts.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fsuggest-awesome-github-copilot-prompts.prompt.md)                     | Prompt    | Suggest relevant GitHub Copilot prompt files from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing prompts in this repository.                      |
 
----
+______________________________________________________________________
 
 _This collection includes 6 curated items for **Awesome Copilot**._

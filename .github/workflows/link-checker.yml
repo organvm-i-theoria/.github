@@ -4,15 +4,15 @@ on:
   push:
     branches: [main, master]
     paths:
-      - "**.md"
-      - "**.html"
+    - '**.md'
+    - '**.html'
   pull_request:
     paths:
-      - "**.md"
-      - "**.html"
+    - '**.md'
+    - '**.html'
   schedule:
     # Run weekly on Mondays at 8:00 AM UTC
-    - cron: 0 8 * * 1
+  - cron: 0 8 * * 1
   workflow_dispatch:
 
 concurrency:
@@ -30,117 +30,115 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
+    - name: Checkout repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4.2.2
 
-      - name: Check Links
-        uses: lycheeverse/lychee-action@2b973e86fc7b1f6b36a93795fe2c9c6ae1118621 # ratchet:lycheeverse/lychee-action@v1.10.0
-        with:
+    - name: Check Links
+      uses: lycheeverse/lychee-action@2b973e86fc7b1f6b36a93795fe2c9c6ae1118621   # ratchet:lycheeverse/lychee-action@v1.10.0
+      with:
           # Check all markdown and html files
-          args: |
-            --verbose
-            --no-progress
-            --exclude-mail
-            --exclude 'linkedin.com'
-            --exclude 'twitter.com'
-            --exclude 'x.com'
-            --max-retries 3
-            --timeout 20
-            '**/*.md'
-            '**/*.html'
-          # Fail action on broken links
-          fail:
-            true
+        args: |
+          --verbose
+          --no-progress
+          --exclude-mail
+          --exclude 'linkedin.com'
+          --exclude 'twitter.com'
+          --exclude 'x.com'
+          --max-retries 3
+          --timeout 20
+          '**/*.md'
+          '**/*.html'
+         # Fail action on broken links
+        fail: true
             # Output format
-          format:
-            markdown
+        format: markdown
             # Output file
-          output: link-checker-report.md
+        output: link-checker-report.md
 
-      - name: Upload Report
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4
-        with:
-          name: link-checker-report
-          path: link-checker-report.md
-          retention-days: 30
+    - name: Upload Report
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # ratchet:actions/upload-artifact@v4
+      with:
+        name: link-checker-report
+        path: link-checker-report.md
+        retention-days: 30
 
-      - name: Comment on PR
-        if: failure() && github.event_name == 'pull_request'
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # ratchet:actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            let report = 'Broken links detected!';
+    - name: Comment on PR
+      if: failure() && github.event_name == 'pull_request'
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b   # ratchet:actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          let report = 'Broken links detected!';
 
-            if (fs.existsSync('link-checker-report.md')) {
-              report = fs.readFileSync('link-checker-report.md', 'utf8');
-            }
+          if (fs.existsSync('link-checker-report.md')) {
+            report = fs.readFileSync('link-checker-report.md', 'utf8');
+          }
 
-            await github.rest.issues.createComment({
+          await github.rest.issues.createComment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+            body: `## 🔗 Broken Links Detected\n\n${report}\n\nPlease fix the broken links before merging.`
+          });
+
+    - name: Create Issue for Broken Links
+      if: failure() && github.event_name == 'schedule'
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b   # ratchet:actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          let report = 'Broken links detected in scheduled check.';
+
+          if (fs.existsSync('link-checker-report.md')) {
+            report = fs.readFileSync('link-checker-report.md', 'utf8');
+          }
+
+          // Check if an issue already exists
+          const { data: issues } = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            labels: 'broken-links'
+          });
+
+          if (issues.length === 0) {
+            await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `## 🔗 Broken Links Detected\n\n${report}\n\nPlease fix the broken links before merging.`
+              title: '🔗 Broken Links Detected in Documentation',
+              body: `## Broken Links Report\n\nAutomated link checker found broken links in the documentation.\n\n${report}\n\n**Action Required:**\n- Review and fix broken links\n- Update or remove outdated references\n- Close this issue once all links are fixed`,
+              labels: ['documentation', 'broken-links', 'automated']
             });
-
-      - name: Create Issue for Broken Links
-        if: failure() && github.event_name == 'schedule'
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # ratchet:actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            let report = 'Broken links detected in scheduled check.';
-
-            if (fs.existsSync('link-checker-report.md')) {
-              report = fs.readFileSync('link-checker-report.md', 'utf8');
-            }
-
-            // Check if an issue already exists
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: 'broken-links'
-            });
-
-            if (issues.length === 0) {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: '🔗 Broken Links Detected in Documentation',
-                body: `## Broken Links Report\n\nAutomated link checker found broken links in the documentation.\n\n${report}\n\n**Action Required:**\n- Review and fix broken links\n- Update or remove outdated references\n- Close this issue once all links are fixed`,
-                labels: ['documentation', 'broken-links', 'automated']
-              });
-            }
+          }
 
   markdown-link-check:
     name: Check Markdown Links
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
 
-      - name: Check Markdown Links
-        uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368 # ratchet:gaurav-nelson/github-action-markdown-link-check@v1
-        with:
-          use-quiet-mode: no
-          use-verbose-mode: yes
-          config-file: .github/markdown-link-check-config.json
-          folder-path: .
-          file-path: ./README.md
-          max-depth: -1
-          check-modified-files-only: no
+    - name: Check Markdown Links
+      uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368   # ratchet:gaurav-nelson/github-action-markdown-link-check@v1
+      with:
+        use-quiet-mode: no
+        use-verbose-mode: yes
+        config-file: .github/markdown-link-check-config.json
+        folder-path: .
+        file-path: ./README.md
+        max-depth: -1
+        check-modified-files-only: no
 
   spell-check:
     name: Spell Check Documentation
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
 
-      - name: Run Spell Check
-        uses: rojopolis/spellcheck-github-actions@dbd2f1da869c05ad874fffeb6fe1ed50cd1a6e98 # 0.36.0
-        with:
-          config_path: .github/spellcheck-config.yml
-          task_name: Markdown
+    - name: Run Spell Check
+      uses: rojopolis/spellcheck-github-actions@dbd2f1da869c05ad874fffeb6fe1ed50cd1a6e98   # 0.36.0
+      with:
+        config_path: .github/spellcheck-config.yml
+        task_name: Markdown

@@ -42,10 +42,10 @@ for env_var, name in tokens.items():
         print(f"❌ Failed: HTTP {response.status_code}")
         failed_count += 1
 
-print(f"\n{'='*80}")
+print(f"\n{'=' * 80}")
 print(f"  ✓ Valid:  {valid_count}/4")
 print(f"  ✗ Failed: {failed_count}/4")
-print(f"{'='*80}\n")
+print(f"{'=' * 80}\n")
 
 if valid_count == 4:
     print("✅ All tokens validated! Phase 3 Day 1 Task 2 COMPLETE.\n")

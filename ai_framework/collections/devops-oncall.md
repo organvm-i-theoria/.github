@@ -1,9 +1,6 @@
----
-name: Devops Oncall
-description: A focused set of prompts, instructions, and a chat mode to help triage incidents and respond quickly with DevOps tools and Azure resources.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Devops Oncall description: A focused set of prompts, instructions, and a chat mode to help triage incidents and respond quickly with DevOps tools and Azure resources. tags: \[\] updated: 2026-01-13
 
 # DevOps On-Call
 
@@ -22,6 +19,6 @@ and respond quickly with DevOps tools and Azure resources.
 | [Azure Principal Architect mode instructions](../chatmodes/azure-principal-architect.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fazure-principal-architect.agent.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/agent?url=vscode-insiders%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fazure-principal-architect.agent.md)                                                                                                  | Chat Mode   | Provide expert Azure Principal Architect guidance using Azure Well-Architected Framework principles and Microsoft best practices.                                                                                     |
 | [Multi Stage Dockerfile](../prompts/multi-stage-dockerfile.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fmulti-stage-dockerfile.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)<!-- link:badges.vs_code_insiders_install -->](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fmulti-stage-dockerfile.prompt.md)                                                                                                                            | Prompt      | Create optimized multi-stage Dockerfiles for any language or framework                                                                                                                                                |
 
----
+______________________________________________________________________
 
 _This collection includes 5 curated items for **DevOps On-Call**._

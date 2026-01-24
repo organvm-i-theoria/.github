@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: .NET Upgrade description: Janitorial tasks for C#/.NET code including
 cleanup, modernization, and tech debt remediation. tools:
@@ -21,7 +21,7 @@ cleanup, modernization, and tech debt remediation. tools:
 - dotnet
 - cleanup updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## mode: dotnet-upgrade title: Analyze current .NET framework versions and create upgrade plan
 
@@ -115,7 +115,7 @@ dotnet --info | grep "Version"
 > "Analyze the repository and list each project’s current TargetFramework along
 > with the latest available LTS version from Microsoft’s release schedule."
 
----
+______________________________________________________________________
 
 ## Discovery & Analysis Commands
 
@@ -138,7 +138,7 @@ dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphO
 > "Analyze the solution and summarize each project’s current TargetFramework and
 > suggest the appropriate next LTS upgrade version."
 
----
+______________________________________________________________________
 
 ## Classification Rules
 
@@ -147,7 +147,7 @@ dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphO
 - `netstandard*` → **.NET Standard** (migrate to current .NET version)
 - `net4*` → **.NET Framework** (migrate via intermediate step to .NET 6+)
 
----
+______________________________________________________________________
 
 ## Upgrade Sequence
 
@@ -161,7 +161,7 @@ dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphO
 > "Generate the optimal upgrade order for this repository, prioritizing
 > least-dependent projects first."
 
----
+______________________________________________________________________
 
 ## Per-Project Upgrade Flow
 
@@ -183,7 +183,7 @@ dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphO
    JSON/logging/DI.
 1. **Commit & push** PR with test evidence and checklist.
 
----
+______________________________________________________________________
 
 ## Breaking Changes & Modernization
 
@@ -197,7 +197,7 @@ dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphO
 > "List deprecated or incompatible APIs when upgrading from <currentVersion> to
 > <targetVersion> for <ProjectName>."
 
----
+______________________________________________________________________
 
 ## CI/CD Configuration Updates
 
@@ -220,7 +220,7 @@ Ensure pipelines use the detected **target version** dynamically:
     dotnet-version: "${{ env.TargetDotNetVersion }}.x"
 ```
 
----
+______________________________________________________________________
 
 ## Validation Checklist
 
@@ -230,7 +230,7 @@ Ensure pipelines use the detected **target version** dynamically:
 - [ ] Integration tests pass
 - [ ] Deployed to a lower environment and verified
 
----
+______________________________________________________________________
 
 ## Branching & Rollback Strategy
 
@@ -243,7 +243,7 @@ Ensure pipelines use the detected **target version** dynamically:
 > "Suggest a rollback and validation plan if the .NET upgrade for <ProjectName>
 > introduces build or runtime regressions."
 
----
+______________________________________________________________________
 
 ## Automation & Scaling
 
@@ -251,7 +251,7 @@ Ensure pipelines use the detected **target version** dynamically:
 - Schedule nightly runs to check for new .NET releases via `dotnet --list-sdks`.
 - Use agents to automatically raise PRs for outdated frameworks.
 
----
+______________________________________________________________________
 
 ## Chatmode Prompt Library
 
@@ -262,4 +262,4 @@ Ensure pipelines use the detected **target version** dynamically:
 1. "Summarize build/test results post-upgrade for <ProjectName>."
 1. "Create PR description and checklist for the upgrade."
 
----
+______________________________________________________________________

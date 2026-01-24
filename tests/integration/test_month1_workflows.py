@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Integration Tests for Month 1 Core Workflows
+"""Integration Tests for Month 1 Core Workflows
 
 Tests all 5 production workflows:
 - Issue triage
@@ -504,7 +503,7 @@ class TestMonth1Integration:
             updated = github_client.get_issue(issue_number)
             assert updated["state"] == "closed"
 
-        except Exception as e:
+        except Exception:
             github_client.close_issue(issue["number"])
             raise
 

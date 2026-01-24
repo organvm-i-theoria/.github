@@ -1,9 +1,6 @@
----
-name: Csharp Dotnet Development
-description: Essential prompts, instructions, and chat modes for C# and .NET development including testing, documentation, and best practices.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Csharp Dotnet Development description: Essential prompts, instructions, and chat modes for C# and .NET development including testing, documentation, and best practices. tags: \[\] updated: 2026-01-13
 
 # C# .NET Development
 

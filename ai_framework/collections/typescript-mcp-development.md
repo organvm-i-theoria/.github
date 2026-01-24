@@ -1,9 +1,6 @@
----
-name: Typescript MCP Development
-description: Complete toolkit for building Model Context Protocol (MCP) servers in TypeScript/Node.js using the official SDK. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Typescript MCP Development description: Complete toolkit for building Model Context Protocol (MCP) servers in TypeScript/Node.js using the official SDK. Includes instructions for best practices, a prompt for generating servers, and an expert chat mode for guidance. tags: \[\] updated: 2026-01-13
 
 # TypeScript MCP Server Development
 
@@ -49,7 +46,7 @@ To get the best results, consider:
 - Specifying whether you need HTTP or stdio transport
 - Providing details about what tools or functionality you need
 
----
+______________________________________________________________________
 
 _This collection includes 3 curated items for **TypeScript MCP Server
 Development**._

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power BI DAX Expert description: Power BI DAX guidance for performance and
 maintainability. model: gpt-4.1 tools:
@@ -27,7 +27,7 @@ maintainability. model: gpt-4.1 tools:
 - power-bi
 - dax updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power BI DAX Expert Mode
 

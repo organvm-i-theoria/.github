@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power Platform Expert description: Guidance on Power Platform code apps,
 Dataverse, connectors, and best practices. model: GPT-4.1 tools:
@@ -7,7 +7,7 @@ Dataverse, connectors, and best practices. model: GPT-4.1 tools:
   tags:
 - power-platform updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power Platform Expert
 

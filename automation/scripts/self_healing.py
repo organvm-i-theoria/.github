@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Self-Healing Workflow System
+"""Self-Healing Workflow System
 
 Automatically detects, classifies, and resolves workflow failures:
 - Transient failures: Retry with exponential backoff
@@ -41,20 +40,19 @@ class SelfHealingEngine:
     """Self-healing engine for workflow failures."""
 
     def __init__(self, client: GitHubAPIClient, config: SelfHealingConfig):
-        """
-        Initialize self-healing engine.
+        """Initialize self-healing engine.
 
         Args:
             client: GitHub API client
             config: Self-healing configuration
+
         """
         self.client = client
         self.config = config
         self.logger = setup_logger(__name__)
 
     def analyze_and_heal(self, owner: str, repo: str, run_id: int) -> SelfHealingResult:
-        """
-        Analyze workflow failure and attempt healing.
+        """Analyze workflow failure and attempt healing.
 
         Args:
             owner: Repository owner
@@ -63,6 +61,7 @@ class SelfHealingEngine:
 
         Returns:
             Self-healing result with actions taken
+
         """
         self.logger.info(f"Analyzing workflow failure: {owner}/{repo} run {run_id}")
 
@@ -75,8 +74,7 @@ class SelfHealingEngine:
             "cancelled",
         ]:
             raise ValueError(
-                f"Run {run_id} is not a failed run (status: {run['status']}, "
-                f"conclusion: {run['conclusion']})"
+                f"Run {run_id} is not a failed run (status: {run['status']}, conclusion: {run['conclusion']})"
             )
 
         # Get workflow jobs for detailed error analysis
@@ -86,8 +84,7 @@ class SelfHealingEngine:
         classification = self._classify_failure(run, jobs)
 
         self.logger.info(
-            f"Failure classified as: {classification.failure_type.value} "
-            f"(confidence: {classification.confidence:.2f})"
+            f"Failure classified as: {classification.failure_type.value} (confidence: {classification.confidence:.2f})"
         )
 
         # Determine healing strategy
@@ -97,8 +94,7 @@ class SelfHealingEngine:
         result = self._execute_strategy(owner, repo, run, classification, strategy)
 
         self.logger.info(
-            f"Healing {'successful' if result.healed else 'unsuccessful'}: "
-            f"{result.resolution}"
+            f"Healing {'successful' if result.healed else 'unsuccessful'}: {result.resolution}"
         )
 
         return result
@@ -115,8 +111,7 @@ class SelfHealingEngine:
         return response.get("jobs", [])
 
     def _classify_failure(self, run: Dict, jobs: List[Dict]) -> FailureClassification:
-        """
-        Classify failure type based on error patterns.
+        """Classify failure type based on error patterns.
 
         Args:
             run: Workflow run data
@@ -124,6 +119,7 @@ class SelfHealingEngine:
 
         Returns:
             Failure classification with confidence score
+
         """
         # Collect error messages from failed jobs
         failed_steps = []
@@ -285,14 +281,14 @@ class SelfHealingEngine:
         return Priority.P3
 
     def _determine_strategy(self, classification: FailureClassification) -> str:
-        """
-        Determine healing strategy based on classification.
+        """Determine healing strategy based on classification.
 
         Args:
             classification: Failure classification
 
         Returns:
             Strategy name
+
         """
         if classification.failure_type == FailureType.TRANSIENT:
             return "retry_exponential"
@@ -311,8 +307,7 @@ class SelfHealingEngine:
         classification: FailureClassification,
         strategy: str,
     ) -> SelfHealingResult:
-        """
-        Execute healing strategy.
+        """Execute healing strategy.
 
         Args:
             owner: Repository owner
@@ -323,6 +318,7 @@ class SelfHealingEngine:
 
         Returns:
             Healing result
+
         """
         self.logger.info(f"Executing strategy: {strategy}")
 
@@ -342,8 +338,7 @@ class SelfHealingEngine:
         run: Dict,
         classification: FailureClassification,
     ) -> SelfHealingResult:
-        """
-        Retry with exponential backoff for transient failures.
+        """Retry with exponential backoff for transient failures.
 
         Args:
             owner: Repository owner
@@ -353,6 +348,7 @@ class SelfHealingEngine:
 
         Returns:
             Healing result
+
         """
         retry_count = self._get_retry_count(owner, repo, run["id"])
 
@@ -381,8 +377,7 @@ class SelfHealingEngine:
         )
 
         self.logger.info(
-            f"Retry {retry_count + 1}/{self.config.max_retry_attempts} "
-            f"after {delay}s delay"
+            f"Retry {retry_count + 1}/{self.config.max_retry_attempts} after {delay}s delay"
         )
 
         if self.config.enable_auto_retry:
@@ -458,8 +453,7 @@ class SelfHealingEngine:
         run: Dict,
         classification: FailureClassification,
     ) -> SelfHealingResult:
-        """
-        Wait for dependencies and retry.
+        """Wait for dependencies and retry.
 
         Args:
             owner: Repository owner
@@ -469,6 +463,7 @@ class SelfHealingEngine:
 
         Returns:
             Healing result
+
         """
         wait_time = self.config.dependency_wait_time
 
@@ -552,8 +547,7 @@ class SelfHealingEngine:
         run: Dict,
         classification: FailureClassification,
     ) -> SelfHealingResult:
-        """
-        Alert team and escalate for permanent failures.
+        """Alert team and escalate for permanent failures.
 
         Args:
             owner: Repository owner
@@ -563,6 +557,7 @@ class SelfHealingEngine:
 
         Returns:
             Healing result
+
         """
         self.logger.warning(f"Permanent failure detected: {classification.reason}")
 
@@ -658,10 +653,7 @@ class SelfHealingEngine:
     ) -> Optional[int]:
         """Create GitHub issue for failure tracking."""
         try:
-            title = (
-                f"🔧 Workflow Failure: {run['name']} "
-                f"({classification.failure_type.value})"
-            )
+            title = f"🔧 Workflow Failure: {run['name']} ({classification.failure_type.value})"
 
             body = """## Workflow Failure Report
 
@@ -768,32 +760,32 @@ def main():
         result = engine.analyze_and_heal(args.owner, args.repo, args.run_id)
 
         # Output result
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Self-Healing Analysis Result")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(f"Repository: {result.repository}")
         print(f"Run ID: {result.run_id}")
         print(f"Timestamp: {result.timestamp.isoformat()}")
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Classification")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(f"Failure Type: {result.classification.failure_type.value}")
         print(f"Confidence: {result.classification.confidence:.0%}")
         print(f"Priority: {result.classification.priority.value}")
         print(f"Reason: {result.classification.reason}")
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Healing Attempt")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         print(f"Strategy: {result.strategy}")
         print(f"Healed: {'✅ Yes' if result.healed else '❌ No'}")
         print(f"Resolution: {result.resolution}")
         print(f"Retry Count: {result.retry_count}")
-        print(f"\n{'='*70}")
+        print(f"\n{'=' * 70}")
         print("Actions Taken")
-        print(f"{'='*70}")
+        print(f"{'=' * 70}")
         for i, action in enumerate(result.actions_taken, 1):
             print(f"{i}. {action}")
-        print(f"{'='*70}\n")
+        print(f"{'=' * 70}\n")
 
         sys.exit(0 if result.healed else 1)
 

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Ultimate Transparent Thinking Beast Mode title: Ultimate Transparent
 Thinking Beast Mode description: Ultimate Transparent Thinking Beast Mode.
@@ -9,7 +9,7 @@ tools:
 - beast
 - agent updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## title: 'Ultimate Transparent Thinking Beast Mode' description: 'Ultimate Transparent Thinking Beast Mode'
 

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Power BI Data Modeling Expert description: Power BI data modeling guidance
 using star schema principles and best practices. model: gpt-4.1 tools:
@@ -27,7 +27,7 @@ using star schema principles and best practices. model: gpt-4.1 tools:
 - power-bi
 - data-modeling updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Power BI Data Modeling Expert Mode
 

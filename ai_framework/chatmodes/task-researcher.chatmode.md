@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Task Researcher description: Task research specialist for comprehensive
 project analysis. tools:
@@ -30,7 +30,7 @@ project analysis. tools:
 - planning
 - research updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Task Researcher Instructions
 

@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/secret_manager.py
+"""Unit tests for automation/scripts/secret_manager.py
 Focus: 1Password CLI integration, secret retrieval, error handling
 """
 
+from secret_manager import (
+    _print_secret_error,
+    ensure_github_token,
+    ensure_secret,
+    get_github_token,
+    get_secret,
+)
+import secret_manager
 import importlib
 import subprocess
 import sys
-from io import StringIO
 from pathlib import Path
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -21,17 +27,8 @@ if "secret_manager" in sys.modules:
     # Remove any mock that might have been set by other tests
     del sys.modules["secret_manager"]
 
-import secret_manager
 
 importlib.reload(secret_manager)
-
-from secret_manager import (
-    _print_secret_error,
-    ensure_github_token,
-    ensure_secret,
-    get_github_token,
-    get_secret,
-)
 
 
 class TestGetSecret:
@@ -366,7 +363,7 @@ class TestIntegration:
 
             api_key = get_secret("datadog-api-key", "credential", "Work")
 
-            assert api_key == "api-key-12345"
+            assert api_key == "api-key-12345"  # pragma: allowlist secret
             call_args = mock_run.call_args[0][0]
             assert "credential" in call_args
             assert "--vault" in call_args

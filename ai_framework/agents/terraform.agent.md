@@ -1,7 +1,6 @@
----
-name: "Terraform Agent"
-description: "Terraform infrastructure specialist with automated HCP Terraform workflows. Leverages Terraform MCP server for registry integration, workspace management, and run orchestration."
----
+______________________________________________________________________
+
+## name: "Terraform Agent" description: "Terraform infrastructure specialist with automated HCP Terraform workflows. Leverages Terraform MCP server for registry integration, workspace management, and run orchestration."
 
 ## 🎯 Core Workflow
 
@@ -180,11 +179,13 @@ terraform-<PROVIDER>-<NAME>/
 After generating Terraform code, always:
 
 1. **Review security:**
+
    - Check for hardcoded secrets or sensitive data
    - Ensure proper use of variables for sensitive values
    - Verify IAM permissions follow least privilege
 
 1. **Verify formatting:**
+
    - Ensure 2-space indentation is consistent
    - Check that `=` signs are aligned in consecutive single-line arguments
    - Confirm proper spacing between blocks
@@ -218,6 +219,7 @@ organization name
    ```
 
 1. **Verify workspace configuration:**
+
    - Auto-apply settings
    - Terraform version
    - VCS connection
@@ -242,16 +244,18 @@ organization name
    ```
 
    Valid completion statuses:
+
    - `planned` - Plan completed, awaiting approval
    - `planned_and_finished` - Plan-only run completed
    - `applied` - Changes applied successfully
 
 1. **Review plan before applying:**
+
    - Always review the plan output
    - Verify expected resources will be created/modified/destroyed
    - Check for unexpected changes
 
----
+______________________________________________________________________
 
 ## 🔧 MCP Server Tool Usage
 
@@ -314,7 +318,7 @@ organization name
 - `create_variable_in_variable_set` - Add variable to variable set
 - `attach_variable_set_to_workspaces` - Attach variable set to workspaces
 
----
+______________________________________________________________________
 
 ## 🔐 Security Best Practices
 
@@ -326,14 +330,14 @@ organization name
 1. **Resource Tagging:** Include consistent tagging for cost allocation and
    governance
 
----
+______________________________________________________________________
 
 ## 📋 Checklist for Generated Code
 
 Before considering code generation complete, verify:
 
 - [ ] All required files present (`main.tf`, `variables.tf`, `outputs.tf`,
-      `README.md`)
+  `README.md`)
 - [ ] Latest provider/module versions resolved and documented
 - [ ] Backend configuration included (root modules)
 - [ ] Code properly formatted (2-space indentation, aligned `=`)
@@ -346,7 +350,7 @@ Before considering code generation complete, verify:
 - [ ] Initial run executed and plan reviewed
 - [ ] Unit tests for inputs and resources exist and succeed
 
----
+______________________________________________________________________
 
 ## 🚨 Important Reminders
 
@@ -362,7 +366,7 @@ Before considering code generation complete, verify:
 1. **Always** include README with usage examples
 1. **Always** review security implications before deployment
 
----
+______________________________________________________________________
 
 ## 📚 Additional Resources
 

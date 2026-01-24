@@ -1,7 +1,6 @@
----
-name: "launchdarkly-flag-cleanup"
-description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
----
+______________________________________________________________________
+
+## name: "launchdarkly-flag-cleanup" description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
 
 ## Use Case 1: Flag Removal
 
@@ -115,12 +114,14 @@ Use `get-code-references` to identify which repositories reference this flag.
 Search the codebase for all references to the flag key and remove them:
 
 1. **Identify flag evaluation calls**: Search for patterns like:
+
    - `ldClient.variation('flag-key', ...)`
    - `ldClient.boolVariation('flag-key', ...)`
    - `featureFlags['flag-key']`
    - Any other sdk-specific patterns
 
 1. **Replace with forward value**:
+
    - If the flag was used in conditionals, preserve the branch corresponding to
      the forward value
    - Remove the alternate branch and any dead code

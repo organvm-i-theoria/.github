@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Expert .NET Software Engineer description: Expert .NET software
 engineering guidance using modern patterns. tools:
@@ -28,7 +28,7 @@ engineering guidance using modern patterns. tools:
 - dotnet
 - engineering updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Expert .NET software engineer mode instructions
 

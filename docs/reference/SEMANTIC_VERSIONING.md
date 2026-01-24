@@ -13,7 +13,7 @@ management.
 - [Pre-release Versions](#pre-release-versions)
 - [Tools & Configuration](#tools--configuration)
 
----
+______________________________________________________________________
 
 ## Semantic Versioning Basics
 
@@ -47,7 +47,7 @@ management.
 2.0.0  → Breaking API change
 ```
 
----
+______________________________________________________________________
 
 ## Conventional Commits
 
@@ -116,7 +116,7 @@ BREAKING CHANGE: User model field 'name' split into 'firstName' and 'lastName'
 BREAKING CHANGE: API endpoint /users now requires authentication"
 ```
 
----
+______________________________________________________________________
 
 ## Automated Releases
 
@@ -153,7 +153,7 @@ on:
 gh workflow run semantic-release.yml
 ```
 
----
+______________________________________________________________________
 
 ## Version Ranges
 
@@ -205,7 +205,7 @@ package = ">=1.2.0, <2.0"   # Range
 package = "*"               # Latest (avoid!)
 ```
 
----
+______________________________________________________________________
 
 ## Breaking Changes
 
@@ -364,7 +364,7 @@ beta         → 1.0.0-beta.1, 1.0.0-beta.2 (testing)
 alpha        → 1.0.0-alpha.1, 1.0.0-alpha.2 (experimental)
 ```
 
----
+______________________________________________________________________
 
 ## Tools & Configuration
 
@@ -433,7 +433,7 @@ cargo bump major
 cargo publish
 ```
 
----
+______________________________________________________________________
 
 ## Version Files by Language
 
@@ -479,7 +479,7 @@ name = "my-package"
 version = "1.2.3"
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -504,7 +504,7 @@ version = "1.2.3"
 1. **Rush Major Versions**: Plan breaking changes
 1. **Forget Deprecation**: Warn before removing
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -550,7 +550,7 @@ BREAKING CHANGE: This breaks everything"
 # Set to: "Read and write permissions"
 ```
 
----
+______________________________________________________________________
 
 ## Quick Reference
 
@@ -574,7 +574,7 @@ npm version major  # 1.0.0 → 2.0.0
 npm version prerelease --preid=beta  # 1.0.0 → 1.0.1-beta.0
 ```
 
----
+______________________________________________________________________
 
 ## Resources
 
@@ -585,6 +585,6 @@ npm version prerelease --preid=beta  # 1.0.0 → 1.0.1-beta.0
 - [GoReleaser](https://goreleaser.com/)
 - [Keep a Changelog](https://keepachangelog.com/)
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-11-08

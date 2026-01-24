@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure AVM Bicep description: Create, update, or review Azure IaC in Bicep
 using Azure Verified Modules (AVM). tools:
@@ -30,7 +30,7 @@ using Azure Verified Modules (AVM). tools:
 - azure
 - avm updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure AVM Bicep mode
 

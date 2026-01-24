@@ -163,7 +163,7 @@ vulnerabilities:
 
 _No vulnerabilities reported yet._
 
----
+______________________________________________________________________
 
 **Last Updated:** January 12, 2026
 
@@ -266,6 +266,6 @@ We thank the following researchers for responsibly disclosing security issues:
 
 - (Names will be added as issues are resolved)
 
----
+______________________________________________________________________
 
 **Last Updated**: 2024-12-31

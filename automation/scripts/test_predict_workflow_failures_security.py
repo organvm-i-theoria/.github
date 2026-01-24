@@ -1,18 +1,16 @@
-
-import sys
 import os
-import pickle
-import pytest
+import sys
 from pathlib import Path
-import shutil
+
+import pytest
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from predict_workflow_failures import WorkflowPredictor
 
-class TestWorkflowPredictorSecurity:
 
+class TestWorkflowPredictorSecurity:
     @pytest.fixture
     def predictor(self):
         model_path = Path("automation/ml/test_security_model.pkl")

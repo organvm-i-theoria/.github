@@ -55,6 +55,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Args:
             node: AST module node
+
         """
         docstring = ast.get_docstring(node)
         if docstring:
@@ -66,6 +67,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Args:
             node: AST class definition node
+
         """
         docstring = ast.get_docstring(node)
         bases = [self._get_name(base) for base in node.bases]
@@ -93,6 +95,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Args:
             node: AST function definition node
+
         """
         docstring = ast.get_docstring(node)
 
@@ -125,6 +128,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Args:
             node: AST async function definition node
+
         """
         self.visit_FunctionDef(node)
 
@@ -136,6 +140,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Returns:
             String representation of the node
+
         """
         if node is None:
             return ""
@@ -163,6 +168,7 @@ class DocstringExtractor(ast.NodeVisitor):
 
         Returns:
             List of argument dictionaries with name and type
+
         """
         result = []
 
@@ -201,6 +207,7 @@ class DocumentationGenerator:
         Args:
             src_dir: Source directory containing Python files
             output_dir: Output directory for generated documentation
+
         """
         self.src_dir = Path(src_dir)
         self.output_dir = Path(output_dir) if output_dir else None
@@ -235,6 +242,7 @@ class DocumentationGenerator:
 
         Args:
             file_path: Path to Python file
+
         """
         print(f"  ├─ Processing: {file_path.relative_to(self.src_dir)}")
 
@@ -275,6 +283,7 @@ class DocumentationGenerator:
 
         Returns:
             Module name (e.g., 'src.utils.helpers')
+
         """
         rel_path = file_path.relative_to(self.src_dir)
         parts = list(rel_path.parts[:-1]) + [rel_path.stem]
@@ -329,6 +338,7 @@ class DocumentationGenerator:
 
         Args:
             module_info: Module information dictionary
+
         """
         module_name = module_info["name"]
         doc_file = f"{module_name.replace('.', '_')}.md"
@@ -364,6 +374,7 @@ class DocumentationGenerator:
         Args:
             f: File object
             cls: Class information dictionary
+
         """
         f.write(f"### `{cls['name']}`\n\n")
 
@@ -391,6 +402,7 @@ class DocumentationGenerator:
             f: File object
             func: Function information dictionary
             indent: Markdown heading level
+
         """
         # Signature
         async_prefix = "async " if func.get("is_async") else ""
@@ -414,6 +426,7 @@ class DocumentationGenerator:
 
         Returns:
             Markdown-formatted summary of modules
+
         """
         if not self.modules_info:
             return ""
@@ -442,6 +455,7 @@ def update_readme(readme_path: Path, summary: str) -> None:
     Args:
         readme_path: Path to README.md file
         summary: Module summary to insert
+
     """
     if not readme_path.exists():
         print(f"⚠️  Warning: {readme_path} does not exist, creating new file")

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: voidBeast GPT41 Enhanced description: Advanced autonomous developer agent
 with multi-mode capabilities. tools:
@@ -29,7 +29,7 @@ with multi-mode capabilities. tools:
 - beast
 - agent updated: 2026-01-13
 
----
+______________________________________________________________________
 
 ## Operating Modes
 
@@ -47,7 +47,7 @@ available for coding, testing, and deployment **Output**: Working solution via
 `attempt_completion` **Rule**: Follow the plan step-by-step with continuous
 validation
 
----
+______________________________________________________________________
 
 ## Special Modes
 
@@ -117,7 +117,7 @@ creation) **Critical Rules**:
    - Provide validation steps and success criteria
    - **Ask user permission** before implementing the generated prompt
 
----
+______________________________________________________________________
 
 ## Tool Categories
 
@@ -145,7 +145,7 @@ creation) **Critical Rules**:
 
 `terminalLastCommand` `terminalSelection` `updateUserPreferences`
 
----
+______________________________________________________________________
 
 ## Core Workflow Framework
 
@@ -178,7 +178,7 @@ creation) **Critical Rules**:
 - **Review**: Final check against QA Rule and completion criteria
 - **Deliver**: Present solution via `attempt_completion`
 
----
+______________________________________________________________________
 
 ## Technology Decision Matrix
 
@@ -192,7 +192,7 @@ creation) **Critical Rules**:
 **Philosophy**: Choose the simplest tool that meets requirements. Only suggest
 frameworks when they add genuine value.
 
----
+______________________________________________________________________
 
 ## Completion Criteria
 
@@ -221,7 +221,7 @@ frameworks when they add genuine value.
 - [ ] Validation steps defined
 - [ ] **User permission requested** before any implementation
 
----
+______________________________________________________________________
 
 ## Key Principles
 
@@ -243,7 +243,7 @@ excellently.
 📊 **PLAN THOROUGHLY**: Measure twice, cut once. Plan carefully, implement
 systematically.
 
----
+______________________________________________________________________
 
 ## System Context
 

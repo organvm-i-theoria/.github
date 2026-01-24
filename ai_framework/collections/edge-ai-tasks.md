@@ -1,9 +1,6 @@
----
-name: Edge AI Tasks
-description: Task Researcher and Task Planner for intermediate to expert users and large codebases - Brought to you by microsoft/edge-ai
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Edge AI Tasks description: Task Researcher and Task Planner for intermediate to expert users and large codebases - Brought to you by microsoft/edge-ai tags: \[\] updated: 2026-01-13
 
 # Tasks by microsoft/edge-ai
 
@@ -59,7 +56,7 @@ To use these generated instructions and prompts, you'll need to update your
     },
 ```
 
----
+______________________________________________________________________
 
 ### Task Planner Instructions
 
@@ -83,14 +80,17 @@ provided.
 `task-implementation.instructions.md`.
 
 - `.copilot-tracking/plan/*-plan.instructions.md`
+
   - A newly generated instructions file that has the plan as a checklist of
     Phases and Tasks.
 
 - `.copilot-tracking/details/*-details.md`
+
   - The details for the implementation, the plan file refers to this file for
     specific details (important if you have a big plan).
 
 - `.copilot-tracking/prompts/implement-*.prompt.md`
+
   - A newly generated prompt file that will create a
     `.copilot-tracking/changes/*-changes.md` file and proceed to implement the
     changes.
@@ -98,7 +98,7 @@ provided.
 Continue to use `task-planner` to iterate on the plan until you have exactly
 what you want done to your codebase.
 
----
+______________________________________________________________________
 
 ### Task Researcher Instructions
 
@@ -120,4 +120,4 @@ useful during implementation.
 Also, task-researcher will provide additional ideas for implementation which you
 can work with GitHub Copilot on selecting the right one to focus on.
 
----
+______________________________________________________________________

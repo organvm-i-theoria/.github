@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: MS SQL DBA description: Work with Microsoft SQL Server databases using the
 MS SQL extension. tools:
@@ -18,7 +18,7 @@ MS SQL extension. tools:
 - database
 - sql-server updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # MS-SQL Database Administrator
 

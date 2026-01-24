@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Universal Secret Manager for GitHub Copilot Automation
+"""Universal Secret Manager for GitHub Copilot Automation
 
 Securely retrieves secrets from 1Password CLI ONLY.
 No environment variable fallback - proper security, no compromises.
@@ -54,8 +53,7 @@ from typing import Optional
 def get_secret(
     item_name: str, field: str = "password", vault: str = "Private"
 ) -> Optional[str]:
-    """
-    Get secret from 1Password CLI.
+    """Get secret from 1Password CLI.
 
     Args:
         item_name: Name of the 1Password item
@@ -76,6 +74,7 @@ def get_secret(
         >>> api_key = get_secret("datadog-api-key", "credential")
         >>> db_password = get_secret("postgres-prod", "password")
         >>> ssh_key = get_secret("deploy-key", "private key")
+
     """
     try:
         cmd = ["op", "item", "get", item_name, "--fields", field, "--reveal"]
@@ -103,8 +102,7 @@ def get_secret(
 def ensure_secret(
     item_name: str, field: str = "password", vault: str = "Private"
 ) -> str:
-    """
-    Get secret from 1Password or exit if unavailable.
+    """Get secret from 1Password or exit if unavailable.
 
     Args:
         item_name: Name of the 1Password item
@@ -116,6 +114,7 @@ def ensure_secret(
 
     Raises:
         SystemExit: If secret cannot be retrieved
+
     """
     secret = get_secret(item_name, field, vault)
     if not secret:
@@ -125,8 +124,7 @@ def ensure_secret(
 
 
 def get_github_token(item_name: str) -> Optional[str]:
-    """
-    Get GitHub token from environment variable or 1Password CLI.
+    """Get GitHub token from environment variable or 1Password CLI.
 
     Checks environment variables first (for dev containers and CI/CD
     environments where 1Password may not be available), then falls back
@@ -152,6 +150,7 @@ def get_github_token(item_name: str) -> Optional[str]:
         1. Converting to uppercase
         2. Replacing hyphens with underscores
         Example: 'org-label-sync-token' -> ORG_LABEL_SYNC_TOKEN
+
     """
     if not item_name:
         raise ValueError(
@@ -175,8 +174,7 @@ def get_github_token(item_name: str) -> Optional[str]:
 
 
 def ensure_github_token(item_name: str) -> str:
-    """
-    Get GitHub token from 1Password or exit if unavailable.
+    """Get GitHub token from 1Password or exit if unavailable.
 
     Args:
         item_name: REQUIRED. Name of 1Password item containing the token.
@@ -187,6 +185,7 @@ def ensure_github_token(item_name: str) -> str:
 
     Raises:
         SystemExit: If token cannot be retrieved
+
     """
     return ensure_secret(item_name, "password")
 

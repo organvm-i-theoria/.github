@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Research Technical Spike description: Research and validate technical
 spike documents through investigation and experimentation. tools:
@@ -23,7 +23,7 @@ spike documents through investigation and experimentation. tools:
 - planning
 - research updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Technical spike research mode
 

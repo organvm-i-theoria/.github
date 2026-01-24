@@ -230,7 +230,7 @@ When updating templates:
 - Use `bug_report.yml` to report template issues
 - Tag with `template-issue` label
 
----
+______________________________________________________________________
 
 **Last Updated:** 2026-01-15\
 **Maintained by:** Documentation Team

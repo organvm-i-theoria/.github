@@ -10,7 +10,7 @@ standardize common CI/CD patterns across all repositories. These workflows
 reduce duplication, improve maintainability, and ensure consistent quality
 standards.
 
----
+______________________________________________________________________
 
 ## 📦 Available Reusable Workflows
 
@@ -68,7 +68,7 @@ jobs:
       test-command: "pytest tests/"
 ```
 
----
+______________________________________________________________________
 
 ### 2. Node.js Setup & Build
 
@@ -127,7 +127,7 @@ jobs:
       package-manager: "pnpm"
 ```
 
----
+______________________________________________________________________
 
 ### 3. Docker Build & Push
 
@@ -196,7 +196,7 @@ jobs:
       registry-password: ${{ secrets.DOCKER_TOKEN }}
 ```
 
----
+______________________________________________________________________
 
 ### 4. GitHub CLI PR Operations
 
@@ -266,7 +266,7 @@ jobs:
       review-body: "LGTM! Auto-approved by workflow."
 ```
 
----
+______________________________________________________________________
 
 ### 5. Security Scanning
 
@@ -339,7 +339,7 @@ jobs:
       actions: read
 ```
 
----
+______________________________________________________________________
 
 ### 6. Artifact Management
 
@@ -405,7 +405,7 @@ jobs:
       - run: npm test
 ```
 
----
+______________________________________________________________________
 
 ## 🔧 Composite Actions
 
@@ -465,7 +465,7 @@ jobs:
 - ✅ Centralized updates and security patches
 - ✅ Outputs commit info for downstream steps
 
----
+______________________________________________________________________
 
 ## 🚀 Migration Guide
 
@@ -544,14 +544,17 @@ jobs:
    ```
 
 1. **Update 1-2 workflows first:**
+
    - Start with simple, non-critical workflows
    - Verify they run successfully
 
 1. **Gradually migrate remaining workflows:**
+
    - Update 3-5 workflows at a time
    - Test thoroughly before merging
 
 1. **Monitor workflow runs:**
+
    - Check Actions tab for any failures
    - Compare run times (should be similar or faster)
 
@@ -569,7 +572,7 @@ This repository uses [organization reusable workflows](https://github.com/ivviiv
 - Security scanning: `security-scanning.yml`
 ```
 
----
+______________________________________________________________________
 
 ## 📊 Benefits & Impact
 
@@ -595,7 +598,7 @@ This repository uses [organization reusable workflows](https://github.com/ivviiv
 - **Parallel execution**: Matrix builds built-in
 - **Efficient resource use**: Standardized timeouts and concurrency
 
----
+______________________________________________________________________
 
 ## 🛠️ Best Practices
 
@@ -664,7 +667,7 @@ on:
         default: "false"
 ```
 
----
+______________________________________________________________________
 
 ## 📖 Additional Resources
 
@@ -681,7 +684,7 @@ on:
   guidelines
 - **[Contributing Guide](../CONTRIBUTING.md)** - How to contribute
 
----
+______________________________________________________________________
 
 ## 🤝 Contributing
 
@@ -701,7 +704,7 @@ Have ideas for new reusable workflows? See our
 - [ ] Documentation generation
 - [ ] Release automation
 
----
+______________________________________________________________________
 
 ## 📝 Changelog
 
@@ -724,7 +727,7 @@ Have ideas for new reusable workflows? See our
 1. ✅ Artifact Management
 1. ✅ Checkout Composite Action
 
----
+______________________________________________________________________
 
 **Questions or Issues?**
 
@@ -735,6 +738,6 @@ Have ideas for new reusable workflows? See our
 - 🐛
   [Report an Issue](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_

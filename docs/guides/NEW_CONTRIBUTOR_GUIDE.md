@@ -5,7 +5,7 @@
 
 **Estimated Time to Setup**: 30-45 minutes
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@
 - [FAQ](#faq)
 - [Getting Help](#getting-help)
 
----
+______________________________________________________________________
 
 ## Welcome
 
@@ -44,7 +44,7 @@ By following this guide, you'll learn how to:
 1. Test your changes before submitting
 1. Submit pull requests that get merged quickly
 
----
+______________________________________________________________________
 
 ## Quick Start
 
@@ -74,7 +74,7 @@ gh pr create --fill
 
 **Done!** Continue reading for detailed explanations.
 
----
+______________________________________________________________________
 
 ## Development Environment Setup
 
@@ -100,6 +100,7 @@ Install these tools before starting:
 **Steps:**
 
 1. **Install Prerequisites**:
+
    - VS Code +
      [Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)<!-- link:docs.vscode_remote_containers -->
    - Docker Desktop (running)
@@ -113,6 +114,7 @@ Install these tools before starting:
    ```
 
 1. **Reopen in Container**:
+
    - VS Code will prompt: "Reopen in Container"
    - Or manually: `Cmd/Ctrl + Shift + P` → "Dev Containers: Reopen in Container"
    - Wait 5-10 minutes for first-time build
@@ -198,7 +200,7 @@ gh auth status
 
 **Expected Output**: All commands should complete without errors.
 
----
+______________________________________________________________________
 
 ## Repository Structure
 
@@ -286,7 +288,7 @@ project_meta/           # Project metadata and tracking
 | `.pre-commit-config.yaml` | Pre-commit hooks (formatting, linting, tests) |
 | `README.md`               | Repository overview                           |
 
----
+______________________________________________________________________
 
 ## Making Your First Contribution
 
@@ -518,7 +520,7 @@ git push origin feature/add-monitoring-dashboard
 - Be open to suggestions
 - Thank reviewers for their time
 
----
+______________________________________________________________________
 
 ## Testing Your Changes
 
@@ -627,7 +629,7 @@ pytest --cov --cov-report=html
 open htmlcov/index.html
 ```
 
----
+______________________________________________________________________
 
 ## Documentation Guidelines
 
@@ -715,7 +717,7 @@ When creating new documentation, add it to `docs/INDEX.md`:
 - [Your New Doc](path/to/your-doc.md) - Brief description
 ```
 
----
+______________________________________________________________________
 
 ## Workflow Development
 
@@ -838,7 +840,7 @@ jobs:
       token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -982,7 +984,7 @@ gh workflow run my-workflow.yml
 1. **Ask in Discussions** - Team is happy to help
 1. **Pair with a mentor** - Reach out to experienced contributors
 
----
+______________________________________________________________________
 
 ## FAQ
 
@@ -1086,7 +1088,7 @@ a pattern across the organization.
 A: Yes, but they must be pinned to SHAs and reviewed for security. Prefer
 official actions when possible.
 
----
+______________________________________________________________________
 
 ## Getting Help
 
@@ -1136,7 +1138,7 @@ official actions when possible.
 - Slack: \[If applicable\]
 - Maintainers: Check [CODEOWNERS](../../.github/CODEOWNERS)
 
----
+______________________________________________________________________
 
 ## Next Steps
 
@@ -1166,7 +1168,7 @@ Now that you've read this guide:
 1. [Monitoring Guide](monitoring.md)
 1. [Workflow Optimization Analysis](../COMPREHENSIVE_WORKFLOW_OPTIMIZATION_ANALYSIS.md)
 
----
+______________________________________________________________________
 
 ## Thank You
 
@@ -1177,7 +1179,7 @@ small, helps improve our organization's shared infrastructure.
 
 **Ready to contribute?** Find a `good first issue` and get started!
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Maintained by: Documentation Team_ _Contributors:
 \[Your name here after your first PR!\]_

@@ -2,7 +2,9 @@
 
 ## Overview
 
-`pre_deployment_checklist.py` is a comprehensive validation tool that verifies all prerequisites are met before executing workflow deployment. It performs 8 critical checks to ensure smooth deployment.
+`pre_deployment_checklist.py` is a comprehensive validation tool that verifies
+all prerequisites are met before executing workflow deployment. It performs 8
+critical checks to ensure smooth deployment.
 
 ## Features
 
@@ -175,7 +177,7 @@ fi
   run: |
     cd automation/scripts
     python3 pre_deployment_checklist.py --phase 1
-  
+
 - name: Deploy workflows
   if: success()
   run: |
@@ -190,17 +192,17 @@ fi
 # Full deployment pipeline
 for phase in 1 2 3; do
   echo "=== Phase $phase ==="
-  
+
   # Pre-flight checks
   if ! python3 pre_deployment_checklist.py --phase $phase; then
     echo "Phase $phase checks failed. Stopping."
     exit 1
   fi
-  
+
   # Deploy
   python3 batch_onboard_repositories.py \
     --config "../config/batch-onboard-week11-phase${phase}-*.yml"
-  
+
   # Verify
   echo "Phase $phase deployed. Verify before continuing."
   read -p "Press Enter to continue to next phase..."
@@ -209,11 +211,11 @@ done
 
 ## Command-Line Options
 
-| Option | Description |
-|--------|-------------|
-| `--phase N` | Deployment phase to validate (1, 2, or 3) - **Required** |
-| `--skip-labels` | Skip label deployment validation |
-| `--verbose` or `-v` | Show detailed output for each check |
+| Option              | Description                                              |
+| ------------------- | -------------------------------------------------------- |
+| `--phase N`         | Deployment phase to validate (1, 2, or 3) - **Required** |
+| `--skip-labels`     | Skip label deployment validation                         |
+| `--verbose` or `-v` | Show detailed output for each check                      |
 
 ## Exit Codes
 
@@ -251,7 +253,8 @@ fi
    Expected at: /workspace/automation/config/...
 ```
 
-**Solution**: Ensure you're running from correct directory or config file exists.
+**Solution**: Ensure you're running from correct directory or config file
+exists.
 
 ### Repository Access Denied
 
@@ -273,8 +276,8 @@ fi
 **Solutions**:
 
 1. **Auto-fix**: `python3 validate_labels.py --config ... --fix`
-2. **Manual**: Deploy via Web UI (see manual deployment guide)
-3. **Skip**: Use `--skip-labels` flag (not recommended for production)
+1. **Manual**: Deploy via Web UI (see manual deployment guide)
+1. **Skip**: Use `--skip-labels` flag (not recommended for production)
 
 ### Workflow Templates Missing
 
@@ -295,9 +298,12 @@ fi
 ## See Also
 
 - [validate_labels.py](README_VALIDATION.md) - Label validation and deployment
-- [batch_onboard_repositories.py](../../docs/WEEK_11_PHASE1_STATUS.md) - Main deployment script
-- [WEEK_11_DEPLOYMENT_READINESS.md](../../docs/WEEK_11_DEPLOYMENT_READINESS.md) - Complete deployment plan
-- [WEEK_11_NEXT_STEPS_QUICK_REF.md](../../docs/WEEK_11_NEXT_STEPS_QUICK_REF.md) - Quick reference guide
+- [batch_onboard_repositories.py](../../docs/WEEK_11_PHASE1_STATUS.md) - Main
+  deployment script
+- [WEEK_11_DEPLOYMENT_READINESS.md](../../docs/WEEK_11_DEPLOYMENT_READINESS.md)
+  \- Complete deployment plan
+- [WEEK_11_NEXT_STEPS_QUICK_REF.md](../../docs/WEEK_11_NEXT_STEPS_QUICK_REF.md)
+  \- Quick reference guide
 
 ## Examples
 

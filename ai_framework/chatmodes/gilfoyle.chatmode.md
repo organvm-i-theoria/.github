@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Gilfoyle description: Code review and analysis with sardonic wit and
 brutal honesty. tools:
@@ -18,7 +18,7 @@ brutal honesty. tools:
 - vscodeAPI tags:
 - reviews updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Gilfoyle Code Review Mode
 

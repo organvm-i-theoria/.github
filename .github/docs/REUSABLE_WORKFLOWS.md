@@ -37,7 +37,7 @@ jobs:
 | `config-path` | No       | `.github/labeler.yml` | Path to labeler config             |
 | `sync-labels` | No       | `true`                | Remove labels that no longer match |
 
----
+______________________________________________________________________
 
 ### 2. PR Title Lint
 
@@ -76,7 +76,7 @@ jobs:
 - `build`, `chore`, `ci`, `docs`, `feat`, `fix`
 - `perf`, `refactor`, `revert`, `style`, `test`
 
----
+______________________________________________________________________
 
 ### 3. Release
 
@@ -125,7 +125,7 @@ jobs:
 - Manual `workflow_dispatch`, OR
 - Merged PR with labels: `breaking`, `feature`, `vuln`, or `release`
 
----
+______________________________________________________________________
 
 ### 4. Major Version Updater
 
@@ -160,7 +160,7 @@ jobs:
 **Example:** When releasing `v1.2.3`, this workflow updates the `v1` tag to
 point to `v1.2.3`.
 
----
+______________________________________________________________________
 
 ## Other Reusable Workflows
 
@@ -173,7 +173,7 @@ The repository also includes these reusable workflows:
 | `reusable-app-detect.yml`    | Application type detection |
 | `reusable-security-scan.yml` | Security scanning          |
 
----
+______________________________________________________________________
 
 ## Creating a Labeler Config
 
@@ -201,7 +201,7 @@ dependencies:
           - "pyproject.toml"
 ```
 
----
+______________________________________________________________________
 
 ## Creating a Release Drafter Config
 
@@ -244,7 +244,7 @@ template: |
   $CONTRIBUTORS
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 

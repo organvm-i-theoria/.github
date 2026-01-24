@@ -14,7 +14,7 @@ Comprehensive guide for the automated PR creation, push, and merge system.
 - [Troubleshooting](#troubleshooting)
 - [Best Practices](#best-practices)
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -28,7 +28,7 @@ The PR Automation System streamlines your development workflow by:
 This system integrates seamlessly with your existing Git workflow and follows
 the organization's branching strategy.
 
----
+______________________________________________________________________
 
 ## Features
 
@@ -57,7 +57,7 @@ the organization's branching strategy.
 - **Notification system** for complex conflicts requiring manual resolution
 - **Detailed guidance** for conflict resolution
 
----
+______________________________________________________________________
 
 ## Quick Start
 
@@ -112,7 +112,7 @@ git commit -m "feat: work in progress [skip-auto-pr]"
 
 **Skip Auto Merge:** Include `[skip-auto-merge]` in PR title or description.
 
----
+______________________________________________________________________
 
 ## Auto PR Creation
 
@@ -186,7 +186,7 @@ Auto-generated PR for `feature/user-authentication`
 - [ ] Tests pass locally
 ```
 
----
+______________________________________________________________________
 
 ## Auto Merge
 
@@ -289,7 +289,7 @@ This PR has merge conflicts that cannot be automatically resolved.
 Once conflicts are resolved and all checks pass, auto-merge will proceed.
 ```
 
----
+______________________________________________________________________
 
 ## Configuration
 
@@ -348,7 +348,7 @@ notifications:
 1. Commit and push changes
 1. New settings take effect immediately
 
----
+______________________________________________________________________
 
 ## Usage Examples
 
@@ -431,7 +431,7 @@ gh pr edit <PR_NUMBER> --add-label "do-not-merge"
 # ❌ Auto-merge disabled until label removed
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -517,7 +517,7 @@ git branch -d feature/my-feature
 git push origin --delete feature/my-feature
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -540,16 +540,19 @@ git push origin --delete feature/my-feature
    ```
 
 1. **Keep PRs focused and small**
+
    - One feature/fix per PR
    - Easier to review and merge
    - Reduces conflict likelihood
 
 1. **Update PR descriptions**
+
    - Auto-generated descriptions are starting points
    - Add context and testing details
    - Link related issues
 
 1. **Monitor auto-merge status**
+
    - Check workflow summaries
    - Address failed checks promptly
    - Respond to review feedback
@@ -572,21 +575,24 @@ git push origin --delete feature/my-feature
    ```
 
 1. **Don't ignore merge conflicts**
+
    - Address conflicts promptly
    - Test after resolving
    - Don't just accept all changes
 
 1. **Don't disable safety features**
+
    - Keep required approvals
    - Maintain status checks
    - Use branch protection
 
 1. **Don't use auto-merge for breaking changes**
+
    - Breaking changes need careful review
    - Add `do-not-merge` label
    - Coordinate with team
 
----
+______________________________________________________________________
 
 ## Workflow Integration
 
@@ -608,7 +614,7 @@ The PR automation system works alongside:
 1. **All conditions met** → Auto Merge
 1. **Merge successful** → Branch cleanup
 
----
+______________________________________________________________________
 
 ## Advanced Usage
 
@@ -649,7 +655,7 @@ gh workflow run auto-merge.yml -f pr_number=123
 # Actions → Auto Merge Pull Request → Run workflow → Enter PR number
 ```
 
----
+______________________________________________________________________
 
 ## Security Considerations
 
@@ -681,7 +687,7 @@ permissions:
   checks: read # Read status checks
 ```
 
----
+______________________________________________________________________
 
 ## Support
 
@@ -702,7 +708,7 @@ When reporting issues, include:
 - Configuration settings
 - Steps to reproduce
 
----
+______________________________________________________________________
 
 ## Changelog
 
@@ -717,19 +723,19 @@ Initial release:
 - Comprehensive configuration options
 - Full documentation
 
----
+______________________________________________________________________
 
 ## Related Documentation
 
-- [Git Workflow Guide](../workflows/GIT_WORKFLOW.md) - Branching strategy and commit
-  conventions
+- [Git Workflow Guide](../workflows/GIT_WORKFLOW.md) - Branching strategy and
+  commit conventions
 - [Automation Master Guide](AUTOMATION_MASTER_GUIDE.md) - Overall automation
   architecture
 - [Contributing Guidelines](../CONTRIBUTING.md) - How to contribute to the
   organization
 - [Branch Protection](../BRANCH_PROTECTION.md) - Branch protection configuration
 
----
+______________________________________________________________________
 
 **Last Updated:** 2024-11-18 **Maintainer:** ivi374forivi organization
 **License:** MIT

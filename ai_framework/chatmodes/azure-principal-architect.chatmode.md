@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Azure Principal Architect description: Provide expert Azure Principal
 Architect guidance using WAF principles and Microsoft best practices. tools:
@@ -33,7 +33,7 @@ Architect guidance using WAF principles and Microsoft best practices. tools:
 - architecture
 - waf updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Azure Principal Architect mode instructions
 

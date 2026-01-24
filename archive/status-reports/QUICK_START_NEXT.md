@@ -27,7 +27,7 @@
 
 **Solution:** Need Personal Access Token with `project` + `read:org` scopes
 
----
+______________________________________________________________________
 
 ## 🚀 Three Ways to Deploy (Choose One)
 
@@ -71,7 +71,7 @@ cd /workspace/scripts
 ./deploy.sh
 ```
 
----
+______________________________________________________________________
 
 ## 📋 What Happens During Deployment
 
@@ -97,7 +97,7 @@ cd /workspace/scripts
 ✓ All projects configured!
 ```
 
----
+______________________________________________________________________
 
 ## 🎓 After Deployment (1-2 hours)
 
@@ -133,7 +133,7 @@ Add existing issues/PRs to projects:
 gh project item-add PROJECT_NUMBER --owner ivviiviivvi --url "issue_url"
 ```
 
----
+______________________________________________________________________
 
 ## 📚 Documentation Index
 
@@ -164,7 +164,7 @@ gh project item-add PROJECT_NUMBER --owner ivviiviivvi --url "issue_url"
 - **[GITHUB_PROJECTS_CONFIGURATION.md](../docs/GITHUB_PROJECTS_CONFIGURATION.md)**
   \- Configuration details
 
----
+______________________________________________________________________
 
 ## 🔧 Troubleshooting
 
@@ -196,7 +196,7 @@ op account add
 **Solution:** Check token scopes and
 organization permissions
 
----
+______________________________________________________________________
 
 ## 💡 Quick Commands Cheat Sheet
 
@@ -222,7 +222,7 @@ export GH_TOKEN="ghp_your_token"
 open "https://github.com/orgs/ivviiviivvi/projects"
 ```
 
----
+______________________________________________________________________
 
 ## 📊 Project Overview
 
@@ -238,7 +238,7 @@ open "https://github.com/orgs/ivviiviivvi/projects"
 
 **Total:** 49 fields, 42 views, 35+ automations
 
----
+______________________________________________________________________
 
 ## ⏱️ Timeline
 
@@ -258,7 +258,7 @@ open "https://github.com/orgs/ivviiviivvi/projects"
 **Time to completion:** ~15 minutes (after
 token setup)
 
----
+______________________________________________________________________
 
 ## 🎯 Next Action
 
@@ -273,7 +273,7 @@ cd /workspace/scripts && ./setup-and-deploy.sh
 - [TOKEN_SETUP_GUIDE.md](TOKEN_SETUP_GUIDE.md) - Detailed token setup
 - [DEPLOYMENT_STATUS.md](../DEPLOYMENT_STATUS.md) - Full status report
 
----
+______________________________________________________________________
 
 **Questions?** Check [TOKEN_SETUP_GUIDE.md](TOKEN_SETUP_GUIDE.md) or ask in
 Copilot chat.

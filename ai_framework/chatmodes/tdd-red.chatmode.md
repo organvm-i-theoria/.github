@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: TDD Red description: Write failing tests first based on issue
 requirements. tools:
@@ -17,7 +17,7 @@ requirements. tools:
 - tdd
 - testing updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # TDD Red Phase - Write Failing Tests First
 

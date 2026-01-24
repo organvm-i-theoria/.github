@@ -57,10 +57,12 @@ docs/                                   # Jekyll site root
 1. **Check GitHub Actions** to see the workflows in progress
 
 1. **Review PRs** created by the automation:
+
    - AgentSphere deployment PR with live demo link
    - Deployment configuration PR with strategy details
 
 1. **Access your app** through:
+
    - Gallery: https://ivviiviivvi.github.io
    - Direct live demo: Check PR description for URL
    - AgentSphere: Badge added to your README
@@ -68,16 +70,19 @@ docs/                                   # Jekyll site root
 ### For Organization Admins
 
 1. **Enable GitHub Pages**:
+
    - Go to Settings → Pages
    - Source: GitHub Actions
    - No custom domain needed initially
 
 1. **Configure Secrets** (optional):
+
    - `DOCKER_USERNAME` - Docker Hub username (for Docker strategy)
    - `DOCKER_TOKEN` - Docker Hub access token
    - `AGENTSPHERE_API_KEY` - AgentSphere API key (if using real API)
 
 1. **Monitor the Gallery**:
+
    - Visit https://ivviiviivvi.github.io
    - Check that new apps appear automatically
    - Review deployment statuses
@@ -304,7 +309,7 @@ This configuration is part of the organization's infrastructure.
 - ✅ Documentation complete and accessible
 - ✅ Full automation (zero manual intervention)
 
----
+______________________________________________________________________
 
 **Ready for organization-wide deployment! 🚀**
 

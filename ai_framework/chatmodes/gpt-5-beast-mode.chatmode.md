@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: GPT-5 Beast Mode title: GPT 5 Beast Mode description: Beast Mode 2.0 tuned
 for GPT-5 to solve complex problems iteratively. model: GPT-5 (copilot) tools:
@@ -23,7 +23,7 @@ for GPT-5 to solve complex problems iteratively. model: GPT-5 (copilot) tools:
 - beast
 - agent updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Operating principles
 

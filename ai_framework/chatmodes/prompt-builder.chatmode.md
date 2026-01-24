@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Prompt Builder description: Expert prompt engineering and validation
 system for creating high-quality prompts. tools:
@@ -20,7 +20,7 @@ system for creating high-quality prompts. tools:
 - prompts
 - planning updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Prompt Builder Instructions
 

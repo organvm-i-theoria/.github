@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Janitor description: Perform janitorial tasks on any codebase including
 cleanup, simplification, and tech debt remediation. tools:
@@ -27,7 +27,7 @@ cleanup, simplification, and tech debt remediation. tools:
 - github tags:
 - cleanup updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Universal Janitor
 

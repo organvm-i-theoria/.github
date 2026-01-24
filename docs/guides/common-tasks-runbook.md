@@ -6,7 +6,7 @@
 This runbook provides step-by-step instructions for common maintenance and
 development tasks. Use this as a quick reference guide.
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ development tasks. Use this as a quick reference guide.
 - [AI Framework Management](#ai-framework-management)
 - [Emergency Procedures](#emergency-procedures)
 
----
+______________________________________________________________________
 
 ## Repository Management
 
@@ -120,7 +120,7 @@ git push origin your-branch
 
 **Expected Result**: Conflicts resolved, clean merge/rebase
 
----
+______________________________________________________________________
 
 ## Workflow Operations
 
@@ -258,7 +258,7 @@ gh api /repos/ivviiviivvi/.github/actions/billing/usage
 
 **Expected Result**: Usage statistics displayed
 
----
+______________________________________________________________________
 
 ## Testing & Quality Assurance
 
@@ -388,7 +388,7 @@ git commit -m "your message"
 
 **Expected Result**: Pre-commit hooks pass
 
----
+______________________________________________________________________
 
 ## Documentation Maintenance
 
@@ -480,7 +480,7 @@ git push
 
 **Expected Result**: All docs accessible via index
 
----
+______________________________________________________________________
 
 ## Monitoring & Troubleshooting
 
@@ -592,7 +592,7 @@ gh workflow run metrics-collection.yml
 
 **Expected Result**: Alert resolved and documented
 
----
+______________________________________________________________________
 
 ## Security Tasks
 
@@ -680,7 +680,7 @@ gh issue create --title "Security: Fix X" --label security
 
 **Expected Result**: Security issues tracked and resolved
 
----
+______________________________________________________________________
 
 ## AI Framework Management
 
@@ -765,7 +765,7 @@ git push
 
 **Expected Result**: Copilot uses updated instructions
 
----
+______________________________________________________________________
 
 ## Emergency Procedures
 
@@ -865,7 +865,7 @@ gh run watch
 
 **Expected Result**: Issue escalated to appropriate team
 
----
+______________________________________________________________________
 
 ## Quick Reference
 
@@ -912,7 +912,7 @@ alias ghrun='gh run list --limit 5'
 alias ghwatch='gh run watch'
 ```
 
----
+______________________________________________________________________
 
 ## Additional Resources
 
@@ -921,12 +921,12 @@ alias ghwatch='gh run watch'
 - [Testing Best Practices](testing-best-practices.md) - Testing standards
 - [Contributing Guidelines](../CONTRIBUTING.md) - Contribution process
 
----
+______________________________________________________________________
 
 **Need help?** Check
 [NEW_CONTRIBUTOR_GUIDE.md#getting-help](NEW_CONTRIBUTOR_GUIDE.md#getting-help)
 or ask in GitHub Discussions.
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Maintained by: Documentation Team_

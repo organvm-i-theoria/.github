@@ -1,5 +1,4 @@
-"""
-Base utilities for Month 3 advanced automation.
+"""Base utilities for Month 3 advanced automation.
 
 Provides common functionality used across all Month 3 components:
 - GitHub API client with rate limiting
@@ -26,8 +25,7 @@ from secret_manager import get_secret
 
 
 def setup_logger(name: str, level: str = "INFO") -> logging.Logger:
-    """
-    Set up a logger with consistent formatting.
+    """Set up a logger with consistent formatting.
 
     Args:
         name: Logger name
@@ -35,6 +33,7 @@ def setup_logger(name: str, level: str = "INFO") -> logging.Logger:
 
     Returns:
         Configured logger instance
+
     """
     logger = logging.getLogger(name)
     logger.setLevel(getattr(logging, level.upper()))
@@ -63,18 +62,17 @@ class ConfigLoader:
     """Load and validate configuration from YAML files."""
 
     def __init__(self, config_dir: Path = Path(".github")):
-        """
-        Initialize config loader.
+        """Initialize config loader.
 
         Args:
             config_dir: Directory containing configuration files
+
         """
         self.config_dir = config_dir
         self.logger = setup_logger(__name__)
 
     def load(self, filename: str) -> Dict[str, Any]:
-        """
-        Load configuration from YAML file.
+        """Load configuration from YAML file.
 
         Args:
             filename: Configuration file name
@@ -85,6 +83,7 @@ class ConfigLoader:
         Raises:
             FileNotFoundError: If config file doesn't exist
             yaml.YAMLError: If config file is invalid YAML
+
         """
         config_path = self.config_dir / filename
 
@@ -94,7 +93,7 @@ class ConfigLoader:
         self.logger.info(f"Loading configuration from {config_path}")
 
         try:
-            with open(config_path, "r", encoding="utf-8") as f:
+            with open(config_path, encoding="utf-8") as f:
                 config = yaml.safe_load(f)
             return config or {}
         except yaml.YAMLError as e:
@@ -102,8 +101,7 @@ class ConfigLoader:
             raise
 
     def get(self, filename: str, key: str, default: Any = None) -> Any:
-        """
-        Get configuration value with optional default.
+        """Get configuration value with optional default.
 
         Args:
             filename: Configuration file name
@@ -112,6 +110,7 @@ class ConfigLoader:
 
         Returns:
             Configuration value or default
+
         """
         try:
             config = self.load(filename)
@@ -136,12 +135,12 @@ class RateLimiter:
     """Thread-safe rate limiter for GitHub API requests."""
 
     def __init__(self, max_requests: int = 5000, window: int = 3600):
-        """
-        Initialize rate limiter.
+        """Initialize rate limiter.
 
         Args:
             max_requests: Maximum requests per window
             window: Time window in seconds (default: 1 hour)
+
         """
         import threading
 
@@ -152,11 +151,11 @@ class RateLimiter:
         self.logger = setup_logger(__name__)
 
     def acquire(self) -> bool:
-        """
-        Check if request can proceed (thread-safe).
+        """Check if request can proceed (thread-safe).
 
         Returns:
             True if request can proceed, False if rate limited
+
         """
         now = time.time()
 
@@ -174,11 +173,11 @@ class RateLimiter:
             return False
 
     def wait_time(self) -> float:
-        """
-        Calculate wait time until next request can proceed (thread-safe).
+        """Calculate wait time until next request can proceed (thread-safe).
 
         Returns:
             Wait time in seconds (0 if can proceed now)
+
         """
         with self._lock:
             if not self.requests:
@@ -200,11 +199,11 @@ class GitHubAPIClient:
     """GitHub API client with rate limiting and error handling."""
 
     def __init__(self, token: Optional[str] = None):
-        """
-        Initialize GitHub API client.
+        """Initialize GitHub API client.
 
         Args:
             token: GitHub API token (optional - defaults to gh CLI token)
+
         """
         # Try to get token from parameter, fall back to gh CLI
         if token is None:
@@ -253,8 +252,7 @@ class GitHubAPIClient:
         json_data: Optional[Dict] = None,
         retry: bool = True,
     ) -> Dict[str, Any]:
-        """
-        Make a GitHub API request with rate limiting and retries.
+        """Make a GitHub API request with rate limiting and retries.
 
         Args:
             method: HTTP method (GET, POST, PUT, PATCH, DELETE)
@@ -268,6 +266,7 @@ class GitHubAPIClient:
 
         Raises:
             requests.HTTPError: If request fails after retries
+
         """
         # Wait if rate limited
         if not self.rate_limiter.acquire():
@@ -300,8 +299,7 @@ class GitHubAPIClient:
                 if attempt < max_attempts:
                     delay = 2**attempt + random.uniform(0, 1)
                     self.logger.warning(
-                        f"Request timeout (attempt {attempt}/{max_attempts}). "
-                        f"Retrying in {delay:.1f}s..."
+                        f"Request timeout (attempt {attempt}/{max_attempts}). Retrying in {delay:.1f}s..."
                     )
                     time.sleep(delay)
                 else:
@@ -386,8 +384,7 @@ class APIError(AutomationError):
 
 
 def safe_get(data: Dict, path: str, default: Any = None) -> Any:
-    """
-    Safely get nested dictionary value using dot notation.
+    """Safely get nested dictionary value using dot notation.
 
     Args:
         data: Dictionary to search
@@ -403,6 +400,7 @@ def safe_get(data: Dict, path: str, default: Any = None) -> Any:
         "Alice"
         >>> safe_get(data, "user.profile.age", 25)
         25
+
     """
     keys = path.split(".")
     value = data
@@ -425,8 +423,7 @@ def safe_get(data: Dict, path: str, default: Any = None) -> Any:
 
 
 def read_json(filepath: Path) -> Dict[str, Any]:
-    """
-    Read and parse JSON file.
+    """Read and parse JSON file.
 
     Args:
         filepath: Path to JSON file
@@ -437,19 +434,20 @@ def read_json(filepath: Path) -> Dict[str, Any]:
     Raises:
         FileNotFoundError: If file doesn't exist
         json.JSONDecodeError: If file is invalid JSON
+
     """
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, encoding="utf-8") as f:
         return json.load(f)
 
 
 def write_json(filepath: Path, data: Dict[str, Any], indent: int = 2) -> None:
-    """
-    Write data to JSON file.
+    """Write data to JSON file.
 
     Args:
         filepath: Path to JSON file
         data: Data to write
         indent: JSON indentation (default: 2 spaces)
+
     """
     # Create parent directory if it doesn't exist
     filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -459,8 +457,7 @@ def write_json(filepath: Path, data: Dict[str, Any], indent: int = 2) -> None:
 
 
 def read_yaml(filepath: Path) -> Dict[str, Any]:
-    """
-    Read and parse YAML file.
+    """Read and parse YAML file.
 
     Args:
         filepath: Path to YAML file
@@ -471,18 +468,19 @@ def read_yaml(filepath: Path) -> Dict[str, Any]:
     Raises:
         FileNotFoundError: If file doesn't exist
         yaml.YAMLError: If file is invalid YAML
+
     """
-    with open(filepath, "r", encoding="utf-8") as f:
+    with open(filepath, encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
 def write_yaml(filepath: Path, data: Dict[str, Any]) -> None:
-    """
-    Write data to YAML file.
+    """Write data to YAML file.
 
     Args:
         filepath: Path to YAML file
         data: Data to write
+
     """
     # Create parent directory if it doesn't exist
     filepath.parent.mkdir(parents=True, exist_ok=True)
@@ -494,8 +492,7 @@ def write_yaml(filepath: Path, data: Dict[str, Any]) -> None:
 def load_config(
     config_path: str, default: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
-    """
-    Load configuration from YAML file with fallback to default.
+    """Load configuration from YAML file with fallback to default.
 
     Args:
         config_path: Path to configuration file (relative or absolute)
@@ -503,6 +500,7 @@ def load_config(
 
     Returns:
         Configuration dictionary
+
     """
     path = Path(config_path)
     if path.exists():
@@ -523,8 +521,7 @@ def retry_with_backoff(
     backoff_factor: float = 2.0,
     jitter: bool = True,
 ):
-    """
-    Retry a function with exponential backoff.
+    """Retry a function with exponential backoff.
 
     Args:
         func: Function to retry
@@ -539,6 +536,7 @@ def retry_with_backoff(
 
     Raises:
         Last exception if all attempts fail
+
     """
     logger = setup_logger(__name__)
     attempt = 0
@@ -561,8 +559,7 @@ def retry_with_backoff(
                     delay += random.uniform(0, 1)
 
                 logger.warning(
-                    f"Attempt {attempt}/{max_attempts} failed: {e}. "
-                    f"Retrying in {delay:.1f}s..."
+                    f"Attempt {attempt}/{max_attempts} failed: {e}. Retrying in {delay:.1f}s..."
                 )
                 time.sleep(delay)
             else:

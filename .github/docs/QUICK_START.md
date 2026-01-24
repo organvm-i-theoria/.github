@@ -29,26 +29,31 @@ walkthrough video in just 5 minutes.
 Fill in the workflow parameters:
 
 - **Duration** (30-120 seconds)
+
   - Recommended: 60 seconds for general demos
   - Short demos: 30-45 seconds
   - Detailed walkthroughs: 90-120 seconds
 
 - **Voiceover Style**
+
   - `professional` - Business presentations and client demos
   - `casual` - Team updates and informal explanations
   - `technical` - Deep-dives for developers
 
 - **Focus Areas** (comma-separated)
+
   - Examples: `user authentication, dashboard, data visualization`
   - Be specific: `login form, create post button, user profile page`
 
 - **Start Command** (optional)
+
   - React: `npm start`
   - Flask: `python app.py`
   - Vue: `npm run serve`
   - Leave blank to auto-detect
 
 - **Port** (optional)
+
   - React default: `3000`
   - Flask default: `5000`
   - Vue default: `8080`
@@ -106,7 +111,7 @@ Focus Areas: dashboard overview, key features, value proposition
 **What you'll get**: Polished, business-focused walkthrough highlighting core
 functionality and benefits.
 
----
+______________________________________________________________________
 
 ### Example 2: Casual 90-Second Explainer for Team
 
@@ -121,7 +126,7 @@ Focus Areas: project structure, main components, development workflow
 **What you'll get**: Friendly, approachable explanation of how the application
 works and where things are located.
 
----
+______________________________________________________________________
 
 ### Example 3: Technical 45-Second Deep-Dive for Developers
 
@@ -136,7 +141,7 @@ Focus Areas: API endpoints, state management, database operations
 **What you'll get**: Technical walkthrough focusing on implementation details,
 architecture, and code structure.
 
----
+______________________________________________________________________
 
 ## Common Questions
 
@@ -312,7 +317,7 @@ available._
   Automated recurring walkthroughs
 - [Contributing](../../docs/CONTRIBUTING.md) - Help improve the system
 
----
+______________________________________________________________________
 
 **Questions?**
 [Open a discussion](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->.
@@ -320,6 +325,6 @@ available._
 **Found a bug?**
 [Report it here](https://github.com/ivviiviivvi/.github/issues/new).
 
----
+______________________________________________________________________
 
 _Last updated: 2025-12-21 | Version: 1.0.0 | Maintained by @4444JPP_

@@ -1,8 +1,9 @@
 # Repository Organization Quick Reference
 
-Quick reference for repository structure standards. See [REPOSITORY_STRUCTURE.md](./REPOSITORY_STRUCTURE.md) for full details.
+Quick reference for repository structure standards. See
+[REPOSITORY_STRUCTURE.md](./REPOSITORY_STRUCTURE.md) for full details.
 
----
+______________________________________________________________________
 
 ## Essential Checklist
 
@@ -21,7 +22,7 @@ Quick reference for repository structure standards. See [REPOSITORY_STRUCTURE.md
 - [ ] `CHANGELOG.md` - Version history
 - [ ] `CONTRIBUTING.md` - Contribution guide
 
----
+______________________________________________________________________
 
 ## Quick Decision Tree
 
@@ -60,7 +61,7 @@ Where does this file go?
    └─ Secondary? → .config/ or config/
 ```
 
----
+______________________________________________________________________
 
 ## Standard Directory Structure
 
@@ -99,20 +100,20 @@ repository/
 └── [language config]        # pyproject.toml, package.json, etc.
 ```
 
----
+______________________________________________________________________
 
 ## File Naming Rules
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Docs | UPPER_SNAKE_CASE.md | `GETTING_STARTED.md` |
-| Python | snake_case.py | `user_service.py` |
-| JavaScript | camelCase.js | `userService.js` |
-| Shell scripts | kebab-case.sh | `run-tests.sh` |
-| Config | kebab-case.yml | `docker-compose.yml` |
-| Dotfiles | .filename | `.gitignore` |
+| Type          | Convention          | Example              |
+| ------------- | ------------------- | -------------------- |
+| Docs          | UPPER_SNAKE_CASE.md | `GETTING_STARTED.md` |
+| Python        | snake_case.py       | `user_service.py`    |
+| JavaScript    | camelCase.js        | `userService.js`     |
+| Shell scripts | kebab-case.sh       | `run-tests.sh`       |
+| Config        | kebab-case.yml      | `docker-compose.yml` |
+| Dotfiles      | .filename           | `.gitignore`         |
 
----
+______________________________________________________________________
 
 ## Root Directory Rules
 
@@ -134,19 +135,19 @@ repository/
 - Temporary files
 - Build artifacts
 
----
+______________________________________________________________________
 
 ## Common Anti-Patterns
 
-| Anti-Pattern | Solution |
-|--------------|----------|
-| 30+ files in root | Move to appropriate subdirs |
-| Tests in src/ | Move to tests/ |
-| Docs scattered everywhere | Consolidate in docs/ |
-| Status files in root | Move to reports/ or archive/ |
-| Build artifacts committed | Add to .gitignore |
+| Anti-Pattern              | Solution                     |
+| ------------------------- | ---------------------------- |
+| 30+ files in root         | Move to appropriate subdirs  |
+| Tests in src/             | Move to tests/               |
+| Docs scattered everywhere | Consolidate in docs/         |
+| Status files in root      | Move to reports/ or archive/ |
+| Build artifacts committed | Add to .gitignore            |
 
----
+______________________________________________________________________
 
 ## Quick Cleanup Commands
 
@@ -166,7 +167,7 @@ mkdir -p docs/{guides,reference,governance} tests scripts
 ./scripts/validate-repository-structure.sh
 ```
 
----
+______________________________________________________________________
 
 ## Validation
 
@@ -181,23 +182,23 @@ ls -la | wc -l  # Should be < 20 items
 find . -maxdepth 1 -name "*STATUS*" -o -name "*COMPLETE*"
 ```
 
----
+______________________________________________________________________
 
 ## Common Questions
 
-**Q: Where do I put a new feature's documentation?**
-A: `docs/guides/` for how-to, `docs/reference/` for technical details.
+**Q: Where do I put a new feature's documentation?** A: `docs/guides/` for
+how-to, `docs/reference/` for technical details.
 
-**Q: Can I have tests alongside source code?**
-A: Yes, for Python (`test_*.py` next to modules) or JavaScript (`*.test.js`), but prefer `tests/` for clarity.
+**Q: Can I have tests alongside source code?** A: Yes, for Python (`test_*.py`
+next to modules) or JavaScript (`*.test.js`), but prefer `tests/` for clarity.
 
-**Q: What about monorepo structures?**
-A: Each package follows these standards within its directory.
+**Q: What about monorepo structures?** A: Each package follows these standards
+within its directory.
 
-**Q: How do I handle legacy files?**
-A: Move to `archive/` with a README explaining the contents.
+**Q: How do I handle legacy files?** A: Move to `archive/` with a README
+explaining the contents.
 
----
+______________________________________________________________________
 
 ## Related Documents
 

@@ -5,7 +5,7 @@
 This guide provides the **exact steps** to implement the workflow optimization
 analysis, prioritized by impact and effort.
 
----
+______________________________________________________________________
 
 ## Week 1: Critical Fixes & Quick Wins (3 days)
 
@@ -43,7 +43,7 @@ gh api repos/aquasecurity/trivy-action/releases/latest --jq '.tag_name'
 
 **Verify**: Run workflows to ensure they still work.
 
----
+______________________________________________________________________
 
 ### Day 1 - Afternoon (2 hours): Enable Caching
 
@@ -95,7 +95,7 @@ Find the `setup-python` step and add `cache: 'pip'`:
 
 **Expected impact**: 30-40% faster builds on second run
 
----
+______________________________________________________________________
 
 ### Day 2 (3 hours): Documentation & Clarity
 
@@ -225,7 +225,7 @@ jobs:
 
 **Commit message**: `fix: clarify AgentSphere workflow is in simulation mode`
 
----
+______________________________________________________________________
 
 ### Day 3 (2 hours): Validation & Verification
 
@@ -276,7 +276,7 @@ gh run view --log
 
 **Commit message**: `chore: add baseline metrics for tracking progress`
 
----
+______________________________________________________________________
 
 ## End of Week 1 Checklist
 
@@ -295,7 +295,7 @@ gh run view --log
 - ✅ Clear transparency about simulation mode
 - ✅ Progress trackable with metrics
 
----
+______________________________________________________________________
 
 ## Week 2-4: Performance Optimization (Phase 2)
 
@@ -314,6 +314,7 @@ gh run view --log
    ```
 
 1. For each workflow found, add appropriate caching:
+
    - Python: `cache: 'pip'` in setup-python
    - Node.js: `cache: 'npm'` in setup-node
    - Ruby: `bundler-cache: true` in setup-ruby
@@ -324,7 +325,7 @@ gh run view --log
 **Batch commits**: Group similar changes (e.g., "perf: enable pip caching for
 Python workflows")
 
----
+______________________________________________________________________
 
 #### Task 2: Create First Reusable Workflow (2 days)
 
@@ -408,7 +409,7 @@ jobs:
 
 **Commit message**: `refactor: extract app detection to reusable workflow`
 
----
+______________________________________________________________________
 
 #### Task 3: Set Up Basic Metrics Collection (2 days)
 
@@ -638,7 +639,7 @@ gh api /repos/:owner/:repo/actions/runs/<run-id> --jq '.run_duration_ms'
 gh run view <run-id> --json jobs --jq '.jobs[] | {name, conclusion, duration: .completed_at - .started_at}'
 ```
 
----
+______________________________________________________________________
 
 ## Tracking Progress
 
@@ -678,7 +679,7 @@ Compare against baseline:
 - Success rate improvement
 - Cache effectiveness
 
----
+______________________________________________________________________
 
 ## Getting Help
 
@@ -701,7 +702,7 @@ Compare against baseline:
 - Tag workflow changes in PR for review
 - Use #workflow-optimization Slack channel (if available)
 
----
+______________________________________________________________________
 
 ## Success Criteria
 
@@ -727,7 +728,7 @@ Compare against baseline:
 - 60% build time reduction
 - Workflow dashboard operational
 
----
+______________________________________________________________________
 
 **Questions or need clarification?** Open an issue or reach out to the workflow
 optimization team.

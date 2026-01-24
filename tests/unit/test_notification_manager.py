@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/notification_manager.py
+"""Unit tests for automation/scripts/notification_manager.py
 Focus: Multi-channel notifications, rate limiting, deduplication, delivery tracking
 """
 

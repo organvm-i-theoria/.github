@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Auto-Merge Eligibility Checker
+"""Auto-Merge Eligibility Checker
 
 Checks if a pull request meets all safety criteria for automatic merging.
 Implements comprehensive validation including:
@@ -45,12 +44,12 @@ class AutoMergeChecker:
     """Check PR eligibility for auto-merge."""
 
     def __init__(self, client: GitHubAPIClient, config: AutoMergeConfig):
-        """
-        Initialize auto-merge checker.
+        """Initialize auto-merge checker.
 
         Args:
             client: GitHub API client
             config: Auto-merge configuration
+
         """
         self.client = client
         self.config = config
@@ -59,8 +58,7 @@ class AutoMergeChecker:
     def check_eligibility(
         self, owner: str, repo: str, pr_number: int
     ) -> AutoMergeEligibility:
-        """
-        Check if PR is eligible for auto-merge.
+        """Check if PR is eligible for auto-merge.
 
         Args:
             owner: Repository owner
@@ -69,6 +67,7 @@ class AutoMergeChecker:
 
         Returns:
             Auto-merge eligibility result
+
         """
         self.logger.info(
             f"Checking auto-merge eligibility for {owner}/{repo}#{pr_number}"
@@ -143,8 +142,7 @@ class AutoMergeChecker:
         )
 
     def _check_tests_passed(self, owner: str, repo: str, pr: Dict) -> bool:
-        """
-        Check if all required tests have passed.
+        """Check if all required tests have passed.
 
         Args:
             owner: Repository owner
@@ -153,6 +151,7 @@ class AutoMergeChecker:
 
         Returns:
             True if all tests passed
+
         """
         head_sha = pr["head"]["sha"]
 
@@ -188,8 +187,7 @@ class AutoMergeChecker:
         return True
 
     def _check_reviews_approved(self, owner: str, repo: str, pr: Dict) -> bool:
-        """
-        Check if PR has required number of approvals.
+        """Check if PR has required number of approvals.
 
         Args:
             owner: Repository owner
@@ -198,6 +196,7 @@ class AutoMergeChecker:
 
         Returns:
             True if minimum reviews approved
+
         """
         pr_number = pr["number"]
         endpoint = f"/repos/{owner}/{repo}/pulls/{pr_number}/reviews"
@@ -220,14 +219,14 @@ class AutoMergeChecker:
         return approved_count >= self.config.min_reviews
 
     def _check_no_conflicts(self, pr: Dict) -> bool:
-        """
-        Check if PR has no merge conflicts.
+        """Check if PR has no merge conflicts.
 
         Args:
             pr: Pull request data
 
         Returns:
             True if no conflicts
+
         """
         mergeable = pr.get("mergeable")
         if mergeable is None:
@@ -238,14 +237,14 @@ class AutoMergeChecker:
         return mergeable is True
 
     def _check_branch_up_to_date(self, pr: Dict) -> bool:
-        """
-        Check if PR branch is up-to-date with base.
+        """Check if PR branch is up-to-date with base.
 
         Args:
             pr: Pull request data
 
         Returns:
             True if branch is current
+
         """
         # mergeable_state provides detailed status
         mergeable_state = pr.get("mergeable_state", "")
@@ -267,8 +266,7 @@ class AutoMergeChecker:
         return is_current
 
     def _check_coverage_threshold(self, owner: str, repo: str, pr: Dict) -> bool:
-        """
-        Check if code coverage meets minimum threshold.
+        """Check if code coverage meets minimum threshold.
 
         Args:
             owner: Repository owner
@@ -277,6 +275,7 @@ class AutoMergeChecker:
 
         Returns:
             True if coverage threshold met
+
         """
         head_sha = pr["head"]["sha"]
 
@@ -335,8 +334,7 @@ class AutoMergeChecker:
             return False
 
     def _calculate_confidence(self, pr: Dict, checks: AutoMergeSafetyChecks) -> float:
-        """
-        Calculate confidence score for auto-merge decision.
+        """Calculate confidence score for auto-merge decision.
 
         Factors:
         - Age of PR (older = more confident)
@@ -350,6 +348,7 @@ class AutoMergeChecker:
 
         Returns:
             Confidence score (0.0 to 1.0)
+
         """
         confidence = 0.0
 
@@ -424,9 +423,9 @@ def main():
         result = checker.check_eligibility(args.owner, args.repo, args.pr)
 
         # Output result
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print("Auto-Merge Eligibility Check")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
         print(f"Repository: {result.repository}")
         print(f"PR Number: {result.pr_number}")
         print(f"Timestamp: {result.timestamp.isoformat()}")
@@ -455,7 +454,7 @@ def main():
             for reason in result.reasons:
                 print(f"  • {reason}")
 
-        print(f"{'='*60}\n")
+        print(f"{'=' * 60}\n")
 
         # Exit with appropriate code
         sys.exit(0 if result.eligible else 1)

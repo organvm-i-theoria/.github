@@ -15,7 +15,7 @@
 - [Runbooks](#runbooks)
 - [Troubleshooting](#troubleshooting)
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -38,7 +38,7 @@ to ensure:
 | GitHub Actions Minutes Used | \<80% of quota | >90%            |
 | Security Scan Findings      | 0 critical     | >0 critical     |
 
----
+______________________________________________________________________
 
 ## Monitoring Infrastructure
 
@@ -164,7 +164,7 @@ gh workflow run usage-monitoring.yml -f report_type=weekly
 gh workflow run usage-monitoring.yml -f alert_threshold=90
 ```
 
----
+______________________________________________________________________
 
 ## Workflow Failure Alerts
 
@@ -210,7 +210,7 @@ Repo: ivviiviivvi/.github
 Run: https://github.com/ivviiviivvi/.github/actions/runs/123456789
 ```
 
----
+______________________________________________________________________
 
 ## Metrics Collection
 
@@ -284,7 +284,7 @@ curl -H "Authorization: token $GITHUB_TOKEN" \
 
 Navigate to: `https://github.com/ivviiviivvi/.github/tree/main/metrics`
 
----
+______________________________________________________________________
 
 ## Usage Monitoring
 
@@ -351,7 +351,7 @@ Alerts triggered when:
 gh workflow run usage-monitoring.yml -f alert_threshold=85
 ```
 
----
+______________________________________________________________________
 
 ## Dashboard Access
 
@@ -389,7 +389,7 @@ open metrics-dashboard.html
 
 Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
 
----
+______________________________________________________________________
 
 ## Alert Thresholds
 
@@ -412,7 +412,7 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
 1. **Severity Assessment** → Use runbooks below
 1. **Resolution** → Document in post-mortem (if critical)
 
----
+______________________________________________________________________
 
 ## Runbooks
 
@@ -423,6 +423,7 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
 **Steps**:
 
 1. **Assess Impact**:
+
    - Click the run link in alert
    - Review error logs
    - Determine if user-facing service affected
@@ -438,6 +439,7 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    ```
 
 1. **Common Causes**:
+
    - **Flaky Tests**: Re-run workflow
    - **Rate Limiting**: Wait and retry
    - **Dependency Issues**: Check upstream services
@@ -445,11 +447,13 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    - **Resource Exhaustion**: Check runner capacity
 
 1. **Resolution**:
+
    - Fix identified issue
    - Re-run workflow to verify
    - Update discussion with resolution
 
 1. **Prevention**:
+
    - Add tests if regression
    - Update documentation if config issue
    - Implement retry logic if transient
@@ -468,6 +472,7 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    ```
 
 1. **Optimization Strategies**:
+
    - **Cancel redundant runs**: Enable `concurrency` in workflows
    - **Reduce test matrix**: Limit to essential OS/version combos
    - **Use caching**: Add `cache` to setup actions
@@ -490,11 +495,13 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    ```
 
 1. **Immediate Actions**:
+
    - Disable non-critical scheduled workflows
    - Reduce cron frequency (e.g., hourly → daily)
    - Defer integration tests to manual trigger
 
 1. **Long-term**:
+
    - Request quota increase from GitHub
    - Consider self-hosted runners for heavy workloads
 
@@ -512,17 +519,20 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    ```
 
 1. **Root Cause Analysis**:
+
    - Are failures isolated to one workflow?
    - Are failures recent or ongoing?
    - Do logs show consistent error patterns?
 
 1. **Common Patterns**:
+
    - **Flaky Tests**: Add retries, increase timeouts
    - **External Dependencies**: Mock or add fallbacks
    - **Resource Constraints**: Increase `timeout-minutes`
    - **Race Conditions**: Add synchronization
 
 1. **Resolution**:
+
    - Fix identified issues
    - Add monitoring for early detection
    - Update tests to be more reliable
@@ -544,12 +554,14 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    ```
 
 1. **Prioritize Testing**:
+
    - Critical paths: 100% coverage required
    - Security-related: 100% coverage required
    - Core functionality: 80%+ coverage
    - Utilities: 70%+ coverage
 
 1. **Add Tests**:
+
    - Use `pytest` with appropriate markers
    - Follow `docs/guides/testing-best-practices.md`
    - Run locally before pushing: `pytest tests/ --cov`
@@ -561,7 +573,7 @@ Navigate to: `Actions > Metrics Dashboard > [Latest Run] > Artifacts`
    pytest tests/ --cov --cov-report=term-missing
    ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -673,7 +685,7 @@ grep "cron:" .github/workflows/usage-monitoring.yml
 gh workflow run usage-monitoring.yml -f alert_threshold=80
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -705,7 +717,7 @@ gh workflow run usage-monitoring.yml -f alert_threshold=80
 - **Test alerts**: Periodically verify alert delivery
 - **Escalate appropriately**: Critical issues need immediate attention
 
----
+______________________________________________________________________
 
 ## Additional Resources
 
@@ -741,7 +753,7 @@ gh run list --limit 20
 gh run watch
 ```
 
----
+______________________________________________________________________
 
 ## Questions or Feedback?
 
@@ -749,6 +761,6 @@ gh run watch
 - **Discussions**: Post in GitHub Discussions
 - **Urgent**: Tag in Discussion #1 for immediate attention
 
----
+______________________________________________________________________
 
 _Last Updated: 2025-01-XX_ _Maintained by: DevOps Team_

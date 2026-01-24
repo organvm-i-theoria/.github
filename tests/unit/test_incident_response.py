@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/incident_response.py
+"""Unit tests for automation/scripts/incident_response.py
 Focus: Incident creation, severity classification, runbook execution, status updates
 """
 
@@ -23,7 +22,6 @@ from models import (
     IncidentConfig,
     IncidentSeverity,
     IncidentStatus,
-    RunbookStep,
 )
 
 

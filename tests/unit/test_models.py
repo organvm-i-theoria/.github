@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/models.py
+"""Unit tests for automation/scripts/models.py
 Focus: Pydantic models, validators, enums, field constraints
 """
 
@@ -15,7 +14,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "automation" / "scr
 
 from models import (  # Enums; Auto-merge models; Routing models; Self-healing models; Maintenance models; Analytics models; SLA models; Incident models; Validation models; Audit models
     AnalyticsConfig,
-    AnalyticsPrediction,
     AuditLogEntry,
     AutoMergeConfig,
     AutoMergeEligibility,
@@ -32,7 +30,6 @@ from models import (  # Enums; Auto-merge models; Routing models; Self-healing m
     MaintenanceTask,
     MaintenanceWindow,
     MergeStrategy,
-    PostIncidentReport,
     Priority,
     ResolutionTimeMetric,
     ResponseTimeMetric,
@@ -43,10 +40,7 @@ from models import (  # Enums; Auto-merge models; Routing models; Self-healing m
     RunbookStep,
     SelfHealingConfig,
     SelfHealingResult,
-    SLABreach,
-    SLAConfig,
     SLAMetrics,
-    SLAReport,
     SLAThresholds,
     SuccessRateMetric,
     ValidationResult,

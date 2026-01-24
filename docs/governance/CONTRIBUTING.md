@@ -107,17 +107,19 @@ issues.
 
 ## Repository Organization Guidelines
 
-Follow our [Repository Structure Standards](../reference/REPOSITORY_STRUCTURE.md) when adding files.
+Follow our
+[Repository Structure Standards](../reference/REPOSITORY_STRUCTURE.md) when
+adding files.
 
 ### File Placement
 
-| Content Type | Location |
-|--------------|----------|
-| Documentation | `docs/guides/`, `docs/reference/` |
-| Tests | `tests/` |
-| Scripts | `scripts/` |
-| Workflows | `.github/workflows/` |
-| Status reports | `reports/` or `archive/` |
+| Content Type   | Location                          |
+| -------------- | --------------------------------- |
+| Documentation  | `docs/guides/`, `docs/reference/` |
+| Tests          | `tests/`                          |
+| Scripts        | `scripts/`                        |
+| Workflows      | `.github/workflows/`              |
+| Status reports | `reports/` or `archive/`          |
 
 ### Root Directory
 
@@ -140,7 +142,8 @@ Run the validation script before submitting:
 ./scripts/validate-repository-structure.sh
 ```
 
-See the [Quick Reference](../reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) for more details.
+See the [Quick Reference](../reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) for
+more details.
 
 ## Code Style Guidelines
 

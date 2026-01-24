@@ -2,14 +2,14 @@
 
 **Integrating Context Handoff System with Your Project**
 
----
+______________________________________________________________________
 
 ## Overview
 
 This guide covers integrating the Context Handoff System into various project
 types and orchestration frameworks.
 
----
+______________________________________________________________________
 
 ## Python Orchestrator Integration
 
@@ -144,7 +144,7 @@ class Orchestrator:
         )
 ```
 
----
+______________________________________________________________________
 
 ## CI/CD Integration
 
@@ -238,7 +238,7 @@ generate_context:
     - web
 ```
 
----
+______________________________________________________________________
 
 ## CLI Integration
 
@@ -288,7 +288,7 @@ Usage:
 python cli.py handoff --level standard
 ```
 
----
+______________________________________________________________________
 
 ## Jupyter Notebook Integration
 
@@ -317,7 +317,7 @@ def handoff(level):
 # %handoff standard
 ```
 
----
+______________________________________________________________________
 
 ## Docker Integration
 
@@ -357,7 +357,7 @@ services:
       - LEVEL=standard
 ```
 
----
+______________________________________________________________________
 
 ## Web API Integration
 
@@ -433,7 +433,7 @@ async def generate_handoff(request: HandoffRequest):
         raise HTTPException(status_code=500, detail=str(e))
 ```
 
----
+______________________________________________________________________
 
 ## Monitoring Integration
 
@@ -471,7 +471,7 @@ class MonitoredOrchestrator:
             raise
 ```
 
----
+______________________________________________________________________
 
 ## Testing Integration
 
@@ -527,7 +527,7 @@ def test_full_context(example_state):
     assert tokens <= 2000, f"Token count {tokens} exceeds full target"
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -558,7 +558,7 @@ def test_full_context(example_state):
 1. **Stale state** - Ensure state file is updated before generating context
 1. **Template misalignment** - Keep templates in sync with schema changes
 
----
+______________________________________________________________________
 
 ## Support
 
@@ -569,6 +569,6 @@ For integration assistance:
 - Consult schema documentation in `docs/SCHEMA.md`
 - Open issues for integration questions
 
----
+______________________________________________________________________
 
 _Context Handoff System v1.0.0_

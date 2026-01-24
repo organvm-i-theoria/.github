@@ -38,7 +38,7 @@ efficiently.
 
 - `branch-cleanup-notify.yml`, `version-bump.yml`, `link-checker.yml`, etc.
 
----
+______________________________________________________________________
 
 ## Adding or Modifying a Workflow
 
@@ -47,7 +47,7 @@ efficiently.
 Before creating or modifying a workflow, ensure:
 
 - [ ] **Pin all actions** to commit SHAs or specific versions (never `@master`
-      or `@main`)
+  or `@main`)
 - [ ] **Set minimal permissions** explicitly (never use default permissions)
 - [ ] **Add timeout-minutes** to all jobs (prevent hanging jobs)
 - [ ] **Implement concurrency control** (prevent redundant runs)
@@ -93,7 +93,7 @@ jobs:
         run: echo "Hello World"
 ```
 
----
+______________________________________________________________________
 
 ## Common Tasks
 
@@ -193,7 +193,7 @@ on:
       - "!docs/**" # Exclude docs/
 ```
 
----
+______________________________________________________________________
 
 ## Debugging Workflows
 
@@ -292,7 +292,7 @@ gh run view <run-id> --log
 gh run rerun <run-id> --failed
 ```
 
----
+______________________________________________________________________
 
 ## Security Best Practices
 
@@ -350,7 +350,7 @@ If workflow accepts manual input, validate it:
     fi
 ```
 
----
+______________________________________________________________________
 
 ## Performance Optimization
 
@@ -394,7 +394,7 @@ strategy:
   max-parallel: 3
 ```
 
----
+______________________________________________________________________
 
 ## Getting Help
 
@@ -426,7 +426,7 @@ strategy:
 1. **Test locally with act** - Faster iteration than push-and-wait
 1. **Ask in PR** - Tag reviewers for workflow-specific questions
 
----
+______________________________________________________________________
 
 ## Workflow Review Checklist
 
@@ -443,7 +443,7 @@ Before submitting a PR with workflow changes:
 - [ ] No hardcoded secrets
 - [ ] Documentation updated (if needed)
 
----
+______________________________________________________________________
 
 ## Examples from Our Repository
 
@@ -475,7 +475,7 @@ See `.github/workflows/docker-build-push.yml` for deployment with:
 - ✅ Artifact generation
 - ✅ Security scanning
 
----
+______________________________________________________________________
 
 ## Conventions
 
@@ -505,7 +505,7 @@ Add comments for complex logic:
     fi
 ```
 
----
+______________________________________________________________________
 
 **Questions?** Check the [Quick Reference](WORKFLOW_QUICK_REFERENCE.md) or open
 an issue!

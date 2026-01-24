@@ -150,10 +150,10 @@ ______________________________________________________________________
    export SLACK_WEBHOOK_URL="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
    export SLACK_INCIDENTS_WEBHOOK="https://hooks.slack.com/services/INCIDENTS/WEBHOOK"
    export SLACK_AUTOMATION_WEBHOOK="https://hooks.slack.com/services/AUTOMATION/WEBHOOK"
-   export PAGERDUTY_INTEGRATION_KEY="your-pagerduty-key"
+   export PAGERDUTY_INTEGRATION_KEY="your-pagerduty-key"  # pragma: allowlist secret
    export SMTP_SERVER="smtp.gmail.com"
    export SMTP_USERNAME="automation@example.com"
-   export SMTP_PASSWORD="your-password"
+   export SMTP_PASSWORD="your-password"  # pragma: allowlist secret
    ```
 
 1. **Test configuration**:

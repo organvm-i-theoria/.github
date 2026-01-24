@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Integration Tests for Month 2 Features
+"""Integration Tests for Month 2 Features
 
 Tests all Month 2 implementations:
 - Week 5: Slack integration (notifications, daily summaries)

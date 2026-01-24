@@ -1,12 +1,14 @@
 # Repository Structure Standards
 
-This document defines the organization-wide standards for repository structure, file naming, and content placement.
+This document defines the organization-wide standards for repository structure,
+file naming, and content placement.
 
 ## Core Principles
 
 ### 1. Separation of Concerns
 
-- **Source code** belongs in language-specific directories (`src/`, `lib/`, `pkg/`)
+- **Source code** belongs in language-specific directories (`src/`, `lib/`,
+  `pkg/`)
 - **Documentation** belongs in `docs/`
 - **Tests** belong in `tests/` or alongside source (language-dependent)
 - **Configuration** belongs in root or `.config/`
@@ -36,7 +38,7 @@ repository/
 - Use standard directory names
 - Minimize custom organization patterns
 
----
+______________________________________________________________________
 
 ## Standard Repository Layout
 
@@ -157,7 +159,7 @@ reports/
 └── metrics/                 # Metrics and dashboards
 ```
 
----
+______________________________________________________________________
 
 ## Language-Specific Layouts
 
@@ -222,62 +224,62 @@ repository/
 └── pom.xml                  # Maven config (alternative)
 ```
 
----
+______________________________________________________________________
 
 ## File Naming Conventions
 
 ### Documentation Files
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Guides | UPPER_SNAKE_CASE.md | `GETTING_STARTED.md` |
-| Reference | UPPER_SNAKE_CASE.md | `API_REFERENCE.md` |
-| Indexes | INDEX.md or README.md | `docs/INDEX.md` |
+| Type      | Convention            | Example              |
+| --------- | --------------------- | -------------------- |
+| Guides    | UPPER_SNAKE_CASE.md   | `GETTING_STARTED.md` |
+| Reference | UPPER_SNAKE_CASE.md   | `API_REFERENCE.md`   |
+| Indexes   | INDEX.md or README.md | `docs/INDEX.md`      |
 
 ### Source Code Files
 
-| Language | Convention | Example |
-|----------|------------|---------|
-| Python | snake_case.py | `user_service.py` |
-| JavaScript/TypeScript | camelCase.js | `userService.js` |
-| Go | lowercase.go | `userservice.go` |
-| Java/Kotlin | PascalCase.java | `UserService.java` |
-| Rust | snake_case.rs | `user_service.rs` |
+| Language              | Convention      | Example            |
+| --------------------- | --------------- | ------------------ |
+| Python                | snake_case.py   | `user_service.py`  |
+| JavaScript/TypeScript | camelCase.js    | `userService.js`   |
+| Go                    | lowercase.go    | `userservice.go`   |
+| Java/Kotlin           | PascalCase.java | `UserService.java` |
+| Rust                  | snake_case.rs   | `user_service.rs`  |
 
 ### Configuration Files
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Dotfiles | .filename | `.gitignore`, `.env` |
-| YAML | kebab-case.yml | `docker-compose.yml` |
-| JSON | kebab-case.json | `tsconfig.json` |
-| TOML | kebab-case.toml | `pyproject.toml` |
+| Type     | Convention      | Example              |
+| -------- | --------------- | -------------------- |
+| Dotfiles | .filename       | `.gitignore`, `.env` |
+| YAML     | kebab-case.yml  | `docker-compose.yml` |
+| JSON     | kebab-case.json | `tsconfig.json`      |
+| TOML     | kebab-case.toml | `pyproject.toml`     |
 
 ### Scripts
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Shell | kebab-case.sh | `run-tests.sh` |
-| Python | snake_case.py | `run_migration.py` |
+| Type    | Convention        | Example              |
+| ------- | ----------------- | -------------------- |
+| Shell   | kebab-case.sh     | `run-tests.sh`       |
+| Python  | snake_case.py     | `run_migration.py`   |
 | General | verb-noun pattern | `validate-schema.sh` |
 
----
+______________________________________________________________________
 
 ## Content Placement Guidelines
 
 ### What Goes Where
 
-| Content Type | Location | Example |
-|--------------|----------|---------|
-| Project overview | `README.md` (root) | Features, installation |
-| API documentation | `docs/reference/` | API endpoints, schemas |
-| User guides | `docs/guides/` | Tutorials, how-tos |
-| Architecture | `docs/reference/` | System design |
-| Contributing | `docs/governance/` or root | Contribution guide |
-| Status reports | `reports/status/` or `archive/` | Progress updates |
-| Test results | `reports/` or `.gitignore` | Coverage, results |
-| Build artifacts | `.gitignore` | Never commit |
-| Secrets | `.gitignore` + secrets manager | Never commit |
+| Content Type      | Location                        | Example                |
+| ----------------- | ------------------------------- | ---------------------- |
+| Project overview  | `README.md` (root)              | Features, installation |
+| API documentation | `docs/reference/`               | API endpoints, schemas |
+| User guides       | `docs/guides/`                  | Tutorials, how-tos     |
+| Architecture      | `docs/reference/`               | System design          |
+| Contributing      | `docs/governance/` or root      | Contribution guide     |
+| Status reports    | `reports/status/` or `archive/` | Progress updates       |
+| Test results      | `reports/` or `.gitignore`      | Coverage, results      |
+| Build artifacts   | `.gitignore`                    | Never commit           |
+| Secrets           | `.gitignore` + secrets manager  | Never commit           |
 
 ### Root Directory Rules
 
@@ -296,7 +298,7 @@ repository/
 - Deployment artifacts
 - Multiple similar config files
 
----
+______________________________________________________________________
 
 ## Anti-Patterns to Avoid
 
@@ -376,7 +378,7 @@ config/
 └── config.json
 ```
 
----
+______________________________________________________________________
 
 ## Validation
 
@@ -394,13 +396,14 @@ The script checks:
 - File naming conventions are followed
 - Build artifacts are gitignored
 
----
+______________________________________________________________________
 
 ## Migration
 
-For existing repositories, see [REPOSITORY_ORGANIZATION_MIGRATION.md](./REPOSITORY_ORGANIZATION_MIGRATION.md).
+For existing repositories, see
+[REPOSITORY_ORGANIZATION_MIGRATION.md](./REPOSITORY_ORGANIZATION_MIGRATION.md).
 
----
+______________________________________________________________________
 
 ## Related Documents
 
@@ -408,10 +411,10 @@ For existing repositories, see [REPOSITORY_ORGANIZATION_MIGRATION.md](./REPOSITO
 - [Migration Guide](./REPOSITORY_ORGANIZATION_MIGRATION.md)
 - [Contributing Guidelines](../governance/CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 ## Version History
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0 | 2026-01-23 | Initial standards document |
+| Version | Date       | Changes                    |
+| ------- | ---------- | -------------------------- |
+| 1.0     | 2026-01-23 | Initial standards document |

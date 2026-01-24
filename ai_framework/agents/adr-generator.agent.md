@@ -1,7 +1,6 @@
----
-name: "ADR Generator"
-description: "Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability."
----
+______________________________________________________________________
+
+## name: "ADR Generator" description: "Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability."
 
 ## Core Workflow
 
@@ -39,7 +38,7 @@ these requirements:
 - Structure content for both machine parsing and human reference
 - Save the file to `/docs/adr/` with proper naming convention
 
----
+______________________________________________________________________
 
 ## Required ADR Structure (template)
 
@@ -146,7 +145,7 @@ For each alternative:
 - Include external resources that informed the decision
 - Reference relevant standards or frameworks
 
----
+______________________________________________________________________
 
 ## File Naming and Location
 
@@ -171,7 +170,7 @@ All ADRs must be saved in: `/docs/adr/`
 - Remove special characters
 - Keep it concise (3-5 words maximum)
 
----
+______________________________________________________________________
 
 ## Quality Checklist
 
@@ -193,7 +192,7 @@ Before finalizing the ADR, verify:
 - [ ] Language is precise and avoids ambiguity
 - [ ] Document is formatted for readability
 
----
+______________________________________________________________________
 
 ## Important Guidelines
 
@@ -208,7 +207,7 @@ Before finalizing the ADR, verify:
 1. **Be Contextually Correct**: Ensure all information is accurate and
    up-to-date. Use the current repository state as the source of truth.
 
----
+______________________________________________________________________
 
 ## Agent Success Criteria
 

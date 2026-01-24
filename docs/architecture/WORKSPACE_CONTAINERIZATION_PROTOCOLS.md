@@ -246,7 +246,7 @@ ______________________________________________________________________
 
 1. **Access Methods**:
 
-   - **Web**: https://github.dev or github.com/codespaces
+   - **Web**: <https://github.dev> or github.com/codespaces
    - **Desktop**: Connect via VS Code Desktop
    - **SSH**: `gh codespace ssh`
 
@@ -369,7 +369,7 @@ volumes:
   code-server-data:
 ```
 
-2. **Configure Nginx**:
+1. **Configure Nginx**:
 
 `nginx.conf`:
 
@@ -407,7 +407,7 @@ http {
 }
 ```
 
-3. **Deploy**:
+1. **Deploy**:
 
 ```bash
 # Set environment variables
@@ -1283,7 +1283,7 @@ if [ ! -f .env ]; then
   echo "📝 Creating .env file..."
   cat > .env <<EOF
 # Database
-DATABASE_URL=postgresql://devuser:devpass@postgres:5432/devdb
+DATABASE_URL=postgresql://devuser:devpass@postgres:5432/devdb  # pragma: allowlist secret
 
 # Redis
 REDIS_URL=redis://redis:6379

@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Integration Tests for Month 3 Advanced Features
+"""Integration Tests for Month 3 Advanced Features
 
 Tests all Month 3 implementations (Week 9-12):
 - Auto-merge system with safety checks
@@ -18,16 +17,9 @@ NOTE: Many of these tests check for Month 3 features that are not yet implemente
       Tests are marked as xfail until the corresponding features are built.
 """
 
-import json
 import os
-import subprocess
-import time
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
-from unittest.mock import Mock, patch
 
 import pytest
-import requests
 
 # Month 3 advanced features are now implemented
 # Previously marked as xfail, now all tests should pass

@@ -2,7 +2,7 @@
 
 **Get started with Context Handoff System in 5 minutes**
 
----
+______________________________________________________________________
 
 ## Installation
 
@@ -36,7 +36,7 @@ docs/
 README.md
 ```
 
----
+______________________________________________________________________
 
 ## First Context Generation
 
@@ -123,7 +123,7 @@ cat context_payload.json
 python -m json.tool context_payload.json
 ```
 
----
+______________________________________________________________________
 
 ## Using the Context
 
@@ -168,7 +168,7 @@ Before proceeding, confirm:
 Reply "CONFIRMED" with brief summary.
 ```
 
----
+______________________________________________________________________
 
 ## Testing
 
@@ -208,7 +208,7 @@ Status:      ✅ PASS
 ================================================================================
 ```
 
----
+______________________________________________________________________
 
 ## Integration
 
@@ -228,7 +228,7 @@ class MyOrchestrator:
         print(f"✓ Handoff created ({self.context_gen.get_token_count(context)} tokens)")
 ```
 
----
+______________________________________________________________________
 
 ## Next Steps
 
@@ -267,7 +267,7 @@ if token_count > 150000:
     print("Ready for session handoff!")
 ```
 
----
+______________________________________________________________________
 
 ## Common Issues
 
@@ -297,7 +297,7 @@ export PYTHON=python3.10
 ./generate_context.sh standard
 ```
 
----
+______________________________________________________________________
 
 ## Compression Level Comparison
 
@@ -307,7 +307,7 @@ export PYTHON=python3.10
 | **Standard** | ~1200  | Regular sessions | \<1 minute      |
 | **Full**     | ~2000  | Multi-day breaks | \<2 minutes     |
 
----
+______________________________________________________________________
 
 ## Example Workflow
 
@@ -340,7 +340,7 @@ cd context-handoff
 ./generate_context.sh minimal
 ```
 
----
+______________________________________________________________________
 
 ## Resources
 
@@ -350,7 +350,7 @@ cd context-handoff
 - **Example State**: See
   [examples/.orchestrator_state.json](examples/.orchestrator_state.json)
 
----
+______________________________________________________________________
 
 ## Getting Help
 
@@ -359,12 +359,12 @@ cd context-handoff
 - Check validation: `tests/validate_context.py`
 - Read detailed docs in `docs/` directory
 
----
+______________________________________________________________________
 
 **You're all set!** 🎉
 
 Start generating context handoffs and enjoy seamless AI session coordination.
 
----
+______________________________________________________________________
 
 _Context Handoff System v1.0.0_ _Quick Start Guide_

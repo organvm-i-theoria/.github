@@ -11,7 +11,7 @@ validation:
     # Run validations automatically
     auto_run: true
     # Cron schedule: Daily at 2 AM
-    cron: "0 2 * * *"
+    cron: 0 2 * * *
     # Validation interval (hours)
     interval_hours: 24
 
@@ -20,10 +20,10 @@ validation:
     on_failure: true
     on_success: false # Only notify failures by default
     channels:
-      - type: "slack"
-        channel: "#automation-validation"
-      - type: "email"
-        recipients: ["automation-team@example.com"]
+    - type: slack
+      channel: '#automation-validation'
+    - type: email
+      recipients: [automation-team@example.com]
 
 # Capability-Specific Validation Settings
 capabilities:
@@ -84,22 +84,22 @@ metrics:
 
   # Metrics to collect
   tracked_metrics:
-    - auto_merge_eligibility_rate
-    - auto_merge_success_rate
-    - routing_assignment_rate
-    - routing_review_time
-    - self_healing_recovery_rate
-    - maintenance_completion_rate
-    - analytics_prediction_accuracy
-    - sla_compliance_rate
-    - incident_detection_time
-    - incident_mttr
+  - auto_merge_eligibility_rate
+  - auto_merge_success_rate
+  - routing_assignment_rate
+  - routing_review_time
+  - self_healing_recovery_rate
+  - maintenance_completion_rate
+  - analytics_prediction_accuracy
+  - sla_compliance_rate
+  - incident_detection_time
+  - incident_mttr
 
   # Export metrics to Prometheus
   export:
     enabled: true
-    format: "prometheus"
-    endpoint: "/metrics/validation"
+    format: prometheus
+    endpoint: /metrics/validation
 
 # Reporting
 reporting:
@@ -110,34 +110,34 @@ reporting:
   schedules:
     daily:
       enabled: true
-      time: "08:00"
-      recipients: ["automation-team@example.com"]
+      time: 08:00
+      recipients: [automation-team@example.com]
 
     weekly:
       enabled: true
-      day: "Monday"
-      time: "09:00"
-      recipients: ["automation-team@example.com", "management@example.com"]
+      day: Monday
+      time: 09:00
+      recipients: [automation-team@example.com, management@example.com]
 
     monthly:
       enabled: true
       day: 1
-      time: "10:00"
-      recipients: ["all"]
+      time: 10:00
+      recipients: [all]
 
   # Report formats
   formats:
-    - json
-    - markdown
-    - html
+  - json
+  - markdown
+  - html
 
   # Report content
   include:
-    - validation_summary
-    - capability_status
-    - metrics_trends
-    - issues_and_warnings
-    - recommendations
+  - validation_summary
+  - capability_status
+  - metrics_trends
+  - issues_and_warnings
+  - recommendations
 
 # Thresholds and Alerts
 thresholds:
@@ -148,9 +148,9 @@ thresholds:
   # Capability-specific thresholds
   critical_capabilities:
     # These must always pass
-    - sla-monitoring
-    - incident-response
-    - self-healing
+  - sla-monitoring
+  - incident-response
+  - self-healing
 
   # Degradation alerts
   degradation:
@@ -168,20 +168,20 @@ remediation:
   # Actions to take on validation failures
   actions:
     configuration_missing:
-      - create_default_config
-      - notify_team
+    - create_default_config
+    - notify_team
 
     low_accuracy:
-      - retrain_model
-      - notify_team
+    - retrain_model
+    - notify_team
 
     sla_breach:
-      - investigate_cause
-      - create_incident
+    - investigate_cause
+    - create_incident
 
     repeated_failures:
-      - escalate_to_management
-      - create_critical_incident
+    - escalate_to_management
+    - create_critical_incident
 
 # Advanced Options
 advanced:
@@ -194,7 +194,7 @@ advanced:
   retention:
     days: 90
     export_before_delete: true
-    export_format: "json"
+    export_format: json
 
   # Integration testing
   integration_tests:

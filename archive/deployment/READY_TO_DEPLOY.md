@@ -145,6 +145,6 @@ Agreed. No compromises. Proper security implementation.
 
 All environment variable usage eliminated. 1Password CLI only.
 
----
+______________________________________________________________________
 
 **Ready to deploy?** Run the commands above! 🚀

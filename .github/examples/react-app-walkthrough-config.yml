@@ -5,43 +5,43 @@
 app_type: react
 
 # Core Configuration
-start_command: "npm start"
+start_command: npm start
 port: 3000
-install_command: "npm install"
+install_command: npm install
 
 # Walkthrough Settings
 duration: 60 # seconds
-voiceover_style: "professional" # Options: professional, casual, technical
+voiceover_style: professional   # Options: professional, casual, technical
 
 # Focus Areas
 # List the key features and components you want to highlight in the walkthrough
 focus_areas:
-  - "Application homepage and navigation"
-  - "Interactive UI components (buttons, forms, modals)"
-  - "State management and data flow"
-  - "User authentication flow"
-  - "Main dashboard or primary feature"
+- Application homepage and navigation
+- Interactive UI components (buttons, forms, modals)
+- State management and data flow
+- User authentication flow
+- Main dashboard or primary feature
 
 # Demo Flow
 # Define the step-by-step journey through your application
 demo_flow:
-  - "Navigate to application homepage"
-  - "Demonstrate responsive navigation menu"
-  - "Show user login/authentication"
-  - "Navigate to main dashboard"
-  - "Interact with primary features"
-  - "Demonstrate form submissions"
-  - "Show state updates and reactivity"
-  - "Display data visualization components"
-  - "Navigate through different routes"
-  - "Demonstrate user profile or settings"
+- Navigate to application homepage
+- Demonstrate responsive navigation menu
+- Show user login/authentication
+- Navigate to main dashboard
+- Interact with primary features
+- Demonstrate form submissions
+- Show state updates and reactivity
+- Display data visualization components
+- Navigate through different routes
+- Demonstrate user profile or settings
 
 # Environment Variables (optional)
 # Add any required environment variables for development
 environment_variables:
   NODE_ENV: development
-  REACT_APP_API_URL: "http://localhost:3000"
-  REACT_APP_DEBUG: "true"
+  REACT_APP_API_URL: http://localhost:3000
+  REACT_APP_DEBUG: 'true'
 
 # Additional Settings
 startup_wait: 15 # seconds to wait for app to be ready after starting
@@ -53,17 +53,17 @@ viewport:
 # Feature Highlights
 # Specific UI elements or functionality to emphasize
 feature_highlights:
-  - element: "#login-button"
-    description: "User authentication entry point"
-    duration: 3 # seconds to focus on this element
+- element: '#login-button'
+  description: User authentication entry point
+  duration: 3   # seconds to focus on this element
 
-  - element: ".dashboard-widgets"
-    description: "Interactive dashboard components"
-    duration: 5
+- element: .dashboard-widgets
+  description: Interactive dashboard components
+  duration: 5
 
-  - element: "#user-profile"
-    description: "User profile management"
-    duration: 4
+- element: '#user-profile'
+  description: User profile management
+  duration: 4
 
 # Custom Scripts (optional)
 # Run additional scripts before or after main demo

@@ -266,8 +266,10 @@ ______________________________________________________________________
 ### Support
 
 - 📖 [CONTRIBUTING.md](CONTRIBUTING.md)
-- 💬 [Discussions](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
-- 🐛 [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+- 💬
+  [Discussions](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
+- 🐛
+  [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 
 ______________________________________________________________________
 
@@ -349,8 +351,10 @@ Questions or issues?
 
 - 📖 Check the [Complete Guide](docs/SCHEMA_ORG_SEMVER_GUIDE.md)
 - 🔍 Review [Quick Reference](QUICK_REFERENCE_SCHEMA_SEMVER.md)
-- 💬 [Start a Discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
-- 🐛 [Open an Issue](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+- 💬
+  [Start a Discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->
+- 🐛
+  [Open an Issue](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 
 ______________________________________________________________________
 

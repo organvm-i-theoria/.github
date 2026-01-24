@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Generate HTML email digest from workflow metrics.
+"""Generate HTML email digest from workflow metrics.
 
 Usage:
     python3 generate_email_digest.py --metrics metrics.json --events events.json --output digest.html  # noqa: E501
@@ -257,7 +256,7 @@ EVENT_ITEM_TEMPLATE = """
 
 def load_json(file_path: Path) -> dict:
     """Load JSON from file."""
-    with open(file_path, "r") as f:
+    with open(file_path) as f:
         return json.load(f)
 
 
@@ -363,9 +362,7 @@ def generate_email(metrics_file: Path, events_file: Path, output_file: Path):
                     time_ago=format_time_ago(event["created_at"]),
                 )
             )
-        events_html = EVENTS_SECTION_TEMPLATE.format(
-            events="\n".join(event_items)
-        )
+        events_html = EVENTS_SECTION_TEMPLATE.format(events="\n".join(event_items))
 
     # Generate HTML
     digest_html = EMAIL_TEMPLATE.format(

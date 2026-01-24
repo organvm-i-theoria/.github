@@ -15,7 +15,7 @@
 - [Common Patterns](#common-patterns)
 - [Troubleshooting](#troubleshooting)
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -28,7 +28,7 @@ organization. Following these practices ensures:
 - ✅ **CI/CD integration** with automated checks
 - ✅ **Consistent patterns** across the codebase
 
----
+______________________________________________________________________
 
 ## Testing Philosophy
 
@@ -54,7 +54,7 @@ organization. Following these practices ensures:
 
 **Focus**: 80% unit tests, 15% integration tests, 5% end-to-end tests
 
----
+______________________________________________________________________
 
 ## Test Structure
 
@@ -83,7 +83,7 @@ tests/
 - **Test classes**: `Test<Feature>` (e.g., `TestSSRFProtection`)
 - **Test functions**: `test_<behavior>` (e.g., `test_blocks_private_ips`)
 
----
+______________________________________________________________________
 
 ## Coverage Requirements
 
@@ -117,7 +117,7 @@ Exclude from coverage (in `pytest.ini`):
 - Type checking imports (TYPE_CHECKING)
 ```
 
----
+______________________________________________________________________
 
 ## Writing Tests
 
@@ -223,7 +223,7 @@ def test_api_call(mock_get):
     mock_get.assert_called_once()
 ```
 
----
+______________________________________________________________________
 
 ## Running Tests
 
@@ -272,7 +272,7 @@ pytest tests/ --cov=automation/scripts --cov-report=term-missing
 pytest tests/ --cov=automation/scripts --cov-fail-under=80
 ```
 
----
+______________________________________________________________________
 
 ## CI/CD Integration
 
@@ -318,7 +318,7 @@ pre-commit run pytest-check --all-files
 - **PR reviews** show coverage delta
 - **Annotations** highlight uncovered lines
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -344,7 +344,7 @@ pre-commit run pytest-check --all-files
 - **Don't test external services**: Mock them
 - **Don't write slow unit tests**: Mock I/O operations
 
----
+______________________________________________________________________
 
 ## Common Patterns
 
@@ -409,7 +409,7 @@ def test_handles_connection_error():
             fetch_data("https://example.com")
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -424,7 +424,7 @@ def test_handles_connection_error():
 - Check file path assumptions
 - Review timezone/locale dependencies
 
----
+______________________________________________________________________
 
 **Problem**: Slow test suite
 
@@ -435,7 +435,7 @@ def test_handles_connection_error():
 - Use mocks instead of real I/O
 - Parallelize: `pytest -n auto` (requires pytest-xdist)
 
----
+______________________________________________________________________
 
 **Problem**: Flaky tests
 
@@ -446,7 +446,7 @@ def test_handles_connection_error():
 - Use deterministic test data
 - Fix race conditions in async code
 
----
+______________________________________________________________________
 
 **Problem**: Low coverage despite tests
 
@@ -457,7 +457,7 @@ def test_handles_connection_error():
 - Add parametrized tests
 - Review uncovered lines: `--cov-report=term-missing`
 
----
+______________________________________________________________________
 
 **Problem**: ImportError in tests
 
@@ -468,7 +468,7 @@ def test_handles_connection_error():
 - Install missing test dependencies
 - Use `PYTHONPATH` environment variable
 
----
+______________________________________________________________________
 
 ## Additional Resources
 
@@ -494,7 +494,7 @@ def test_handles_connection_error():
   configuration
 - [CLEANUP_ROADMAP.md](../../CLEANUP_ROADMAP.md) - Phase 8 details
 
----
+______________________________________________________________________
 
 ## Success Metrics
 
@@ -503,7 +503,7 @@ def test_handles_connection_error():
 - [x] ✅ `pytest.ini` configured with 80% coverage target
 - [x] ✅ Test directory structure created (`unit/`, `integration/`, `fixtures/`)
 - [x] ✅ Unit tests for critical scripts (web_crawler, ecosystem_visualizer,
-      sync_labels)
+  sync_labels)
 - [x] ✅ Shared fixtures in `conftest.py`
 - [x] ✅ CI workflow for automated testing
 - [x] ✅ Pre-commit hooks for test execution
@@ -522,6 +522,6 @@ def test_handles_connection_error():
 1. CI pipeline green
 1. Code review approved
 
----
+______________________________________________________________________
 
 _Last Updated: 2026-01-14_ _Phase 8: Testing & Quality Assurance_

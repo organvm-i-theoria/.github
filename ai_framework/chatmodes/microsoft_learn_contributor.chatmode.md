@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Microsoft Learn Contributor description: Edit and write Microsoft Learn
 documentation using Microsoft style guidance. tools:
@@ -15,7 +15,7 @@ documentation using Microsoft style guidance. tools:
 - documentation
 - microsoft updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Microsoft Learn Contributor
 

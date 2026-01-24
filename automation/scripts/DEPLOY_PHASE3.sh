@@ -74,15 +74,15 @@ for repo in "${REPOS[@]}"; do
   repo_name=$(basename "$repo")
   echo "📦 Processing: $repo_name"
   echo "───────────────────────────────────────────────────────────────────────"
-  
+
   repo_start=$(date +%s)
-  
+
   # Deploy labels
   echo "  🏷️  Deploying labels..."
   label_count=0
   for label_key in "${!LABELS[@]}"; do
     IFS='|' read -r color description <<< "${LABELS[$label_key]}"
-    
+
     if gh label create "$label_key" \
       --repo "$repo" \
       --color "$color" \
@@ -92,24 +92,24 @@ for repo in "${REPOS[@]}"; do
     fi
   done
   echo "     ✅ $label_count/${#LABELS[@]} labels created"
-  
+
   # Deploy workflows
   echo "  ⚙️  Deploying workflows..."
   workflow_count=0
   for workflow in "${WORKFLOWS[@]}"; do
     workflow_path="$WORKFLOW_DIR/$workflow"
-    
+
     if [ ! -f "$workflow_path" ]; then
       echo "     ❌ Workflow file not found: $workflow"
       continue
     fi
-    
+
     # Base64 encode content
     content=$(base64 -w 0 "$workflow_path")
-    
+
     # Check if file exists
     existing_sha=$(gh api "repos/$repo/contents/.github/workflows/$workflow" 2>/dev/null | jq -r '.sha' || echo "")
-    
+
     # Create or update workflow
     if [ -n "$existing_sha" ]; then
       # Update existing file
@@ -131,14 +131,14 @@ for repo in "${REPOS[@]}"; do
         ((workflow_count++))
       fi
     fi
-    
+
     sleep 1  # Rate limit protection
   done
   echo "     ✅ $workflow_count/${#WORKFLOWS[@]} workflows deployed"
-  
+
   repo_end=$(date +%s)
   repo_duration=$((repo_end - repo_start))
-  
+
   if [ "$workflow_count" -eq "${#WORKFLOWS[@]}" ] && [ "$label_count" -eq "${#LABELS[@]}" ]; then
     echo "  ✅ Repository complete ($repo_duration seconds)"
     ((SUCCESS_COUNT++))
@@ -146,7 +146,7 @@ for repo in "${REPOS[@]}"; do
     echo "  ⚠️  Repository incomplete ($repo_duration seconds)"
     ((FAILED_COUNT++))
   fi
-  
+
   echo ""
 done
 

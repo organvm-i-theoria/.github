@@ -4,32 +4,32 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - "automation/**"
-      - ".github/workflows/**"
-      - "tests/**"
-      - "pytest.ini"
+    - automation/**
+    - .github/workflows/**
+    - tests/**
+    - pytest.ini
   push:
     branches: [main]
     paths:
-      - "automation/**"
-      - ".github/workflows/**"
-      - "tests/**"
+    - automation/**
+    - .github/workflows/**
+    - tests/**
   workflow_dispatch:
     inputs:
       test_suite:
-        description: "Test suite to run"
+        description: Test suite to run
         required: false
-        default: "all"
+        default: all
         type: choice
         options:
-          - all
-          - month1
-          - month2
-          - month3
-          - critical
+        - all
+        - month1
+        - month2
+        - month3
+        - critical
   schedule:
     # Run nightly at 2 AM UTC
-    - cron: "0 2 * * *"
+  - cron: 0 2 * * *
 
 permissions:
   contents: read
@@ -47,51 +47,51 @@ jobs:
       github.event.inputs.test_suite == 'month1'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r tests/requirements-test.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tests/requirements-test.txt
 
-      - name: Run Month 1 tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TEST_REPO: ${{ github.repository }}
-        run: |
-          pytest tests/integration/test_month1_workflows.py \
-            -v \
-            -m "month1" \
-            --tb=short \
-            --junitxml=test-results/month1-results.xml \
-            --cov=automation \
-            --cov-report=xml:coverage-month1.xml \
-            --cov-report=html:htmlcov-month1
+    - name: Run Month 1 tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+      run: |
+        pytest tests/integration/test_month1_workflows.py \
+          -v \
+          -m "month1" \
+          --tb=short \
+          --junitxml=test-results/month1-results.xml \
+          --cov=automation \
+          --cov-report=xml:coverage-month1.xml \
+          --cov-report=html:htmlcov-month1
 
-      - name: Upload Month 1 test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: month1-test-results
-          path: |
-            test-results/month1-results.xml
-            coverage-month1.xml
-            htmlcov-month1/
+    - name: Upload Month 1 test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: month1-test-results
+        path: |
+          test-results/month1-results.xml
+          coverage-month1.xml
+          htmlcov-month1/
 
-      - name: Publish Month 1 test report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Month 1 Test Results
-          path: test-results/month1-results.xml
-          reporter: java-junit
+    - name: Publish Month 1 test report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Month 1 Test Results
+        path: test-results/month1-results.xml
+        reporter: java-junit
 
   test-month2:
     name: Month 2 Features
@@ -102,52 +102,52 @@ jobs:
       github.event.inputs.test_suite == 'month2'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r tests/requirements-test.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tests/requirements-test.txt
 
-      - name: Run Month 2 tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TEST_REPO: ${{ github.repository }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          pytest tests/integration/test_month2_features.py \
-            -v \
-            -m "month2" \
-            --tb=short \
-            --junitxml=test-results/month2-results.xml \
-            --cov=automation \
-            --cov-report=xml:coverage-month2.xml \
-            --cov-report=html:htmlcov-month2
+    - name: Run Month 2 tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        pytest tests/integration/test_month2_features.py \
+          -v \
+          -m "month2" \
+          --tb=short \
+          --junitxml=test-results/month2-results.xml \
+          --cov=automation \
+          --cov-report=xml:coverage-month2.xml \
+          --cov-report=html:htmlcov-month2
 
-      - name: Upload Month 2 test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: month2-test-results
-          path: |
-            test-results/month2-results.xml
-            coverage-month2.xml
-            htmlcov-month2/
+    - name: Upload Month 2 test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: month2-test-results
+        path: |
+          test-results/month2-results.xml
+          coverage-month2.xml
+          htmlcov-month2/
 
-      - name: Publish Month 2 test report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Month 2 Test Results
-          path: test-results/month2-results.xml
-          reporter: java-junit
+    - name: Publish Month 2 test report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Month 2 Test Results
+        path: test-results/month2-results.xml
+        reporter: java-junit
 
   test-month3:
     name: Month 3 Advanced Automation
@@ -158,52 +158,52 @@ jobs:
       github.event.inputs.test_suite == 'month3'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r tests/requirements-test.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tests/requirements-test.txt
 
-      - name: Run Month 3 tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TEST_REPO: ${{ github.repository }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          pytest tests/integration/test_month3_advanced.py \
-            -v \
-            -m "month3" \
-            --tb=short \
-            --junitxml=test-results/month3-results.xml \
-            --cov=automation \
-            --cov-report=xml:coverage-month3.xml \
-            --cov-report=html:htmlcov-month3
+    - name: Run Month 3 tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      run: |
+        pytest tests/integration/test_month3_advanced.py \
+          -v \
+          -m "month3" \
+          --tb=short \
+          --junitxml=test-results/month3-results.xml \
+          --cov=automation \
+          --cov-report=xml:coverage-month3.xml \
+          --cov-report=html:htmlcov-month3
 
-      - name: Upload Month 3 test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: month3-test-results
-          path: |
-            test-results/month3-results.xml
-            coverage-month3.xml
-            htmlcov-month3/
+    - name: Upload Month 3 test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: month3-test-results
+        path: |
+          test-results/month3-results.xml
+          coverage-month3.xml
+          htmlcov-month3/
 
-      - name: Publish Month 3 test report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Month 3 Test Results
-          path: test-results/month3-results.xml
-          reporter: java-junit
+    - name: Publish Month 3 test report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Month 3 Test Results
+        path: test-results/month3-results.xml
+        reporter: java-junit
 
   test-critical:
     name: Critical Path Tests
@@ -214,43 +214,43 @@ jobs:
       github.event.inputs.test_suite == 'critical'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r tests/requirements-test.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tests/requirements-test.txt
 
-      - name: Run critical tests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TEST_REPO: ${{ github.repository }}
-        run: |
-          pytest tests/ \
-            -v \
-            -m "critical" \
-            --tb=short \
-            --junitxml=test-results/critical-results.xml
+    - name: Run critical tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+      run: |
+        pytest tests/ \
+          -v \
+          -m "critical" \
+          --tb=short \
+          --junitxml=test-results/critical-results.xml
 
-      - name: Upload critical test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: critical-test-results
-          path: test-results/critical-results.xml
+    - name: Upload critical test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: critical-test-results
+        path: test-results/critical-results.xml
 
-      - name: Fail if critical tests failed
-        if: failure()
-        run: |
-          echo "::error::Critical tests failed! This build cannot proceed."
-          exit 1
+    - name: Fail if critical tests failed
+      if: failure()
+      run: |
+        echo "::error::Critical tests failed! This build cannot proceed."
+        exit 1
 
   aggregate-results:
     name: Aggregate Test Results
@@ -259,81 +259,81 @@ jobs:
     if: always()
 
     steps:
-      - name: Download all test results
-        uses: actions/download-artifact@v4
-        with:
-          path: test-results
+    - name: Download all test results
+      uses: actions/download-artifact@v4
+      with:
+        path: test-results
 
-      - name: Combine coverage reports
-        run: |
-          pip install coverage
-          coverage combine test-results/*/coverage-*.xml || true
-          coverage report || true
-          coverage html -d htmlcov-combined || true
+    - name: Combine coverage reports
+      run: |
+        pip install coverage
+        coverage combine test-results/*/coverage-*.xml || true
+        coverage report || true
+        coverage html -d htmlcov-combined || true
 
-      - name: Upload combined coverage
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: combined-coverage
-          path: htmlcov-combined/
+    - name: Upload combined coverage
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: combined-coverage
+        path: htmlcov-combined/
 
-      - name: Comment test summary on PR
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
+    - name: Comment test summary on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
 
-            // Read test results
-            let month1_passed = true;
-            let month2_passed = true;
-            let month3_passed = true;
-            let critical_passed = true;
+          // Read test results
+          let month1_passed = true;
+          let month2_passed = true;
+          let month3_passed = true;
+          let critical_passed = true;
 
-            // Check job outcomes
-            const jobs = context.payload.workflow_run?.jobs || [];
-            for (const job of jobs) {
-              if (job.name.includes('Month 1') && job.conclusion === 'failure') month1_passed = false;
-              if (job.name.includes('Month 2') && job.conclusion === 'failure') month2_passed = false;
-              if (job.name.includes('Month 3') && job.conclusion === 'failure') month3_passed = false;
-              if (job.name.includes('Critical') && job.conclusion === 'failure') critical_passed = false;
-            }
+          // Check job outcomes
+          const jobs = context.payload.workflow_run?.jobs || [];
+          for (const job of jobs) {
+            if (job.name.includes('Month 1') && job.conclusion === 'failure') month1_passed = false;
+            if (job.name.includes('Month 2') && job.conclusion === 'failure') month2_passed = false;
+            if (job.name.includes('Month 3') && job.conclusion === 'failure') month3_passed = false;
+            if (job.name.includes('Critical') && job.conclusion === 'failure') critical_passed = false;
+          }
 
-            // Create comment body
-            const body = `## 🧪 Integration Test Results
+          // Create comment body
+          const body = `## 🧪 Integration Test Results
 
-            | Test Suite | Status |
-            |-----------|--------|
-            | Month 1 Core Workflows | ${month1_passed ? '✅ Passed' : '❌ Failed'} |
-            | Month 2 Features | ${month2_passed ? '✅ Passed' : '❌ Failed'} |
-            | Month 3 Advanced | ${month3_passed ? '✅ Passed' : '❌ Failed'} |
-            | Critical Path | ${critical_passed ? '✅ Passed' : '❌ Failed'} |
+          | Test Suite | Status |
+          |-----------|--------|
+          | Month 1 Core Workflows | ${month1_passed ? '✅ Passed' : '❌ Failed'} |
+          | Month 2 Features | ${month2_passed ? '✅ Passed' : '❌ Failed'} |
+          | Month 3 Advanced | ${month3_passed ? '✅ Passed' : '❌ Failed'} |
+          | Critical Path | ${critical_passed ? '✅ Passed' : '❌ Failed'} |
 
-            **Overall**: ${month1_passed && month2_passed && month3_passed && critical_passed ? '✅ All tests passed!' : '⚠️ Some tests failed'}
+          **Overall**: ${month1_passed && month2_passed && month3_passed && critical_passed ? '✅ All tests passed!' : '⚠️ Some tests failed'}
 
-            <details>
-            <summary>View detailed test reports</summary>
+          <details>
+          <summary>View detailed test reports</summary>
 
-            - [Month 1 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            - [Month 2 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            - [Month 3 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - [Month 1 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - [Month 2 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - [Month 3 Test Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-            </details>
-            `;
+          </details>
+          `;
 
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: body
+          });
 
-      - name: Set overall status
-        if: always()
-        run: |
-          echo "Test suite execution complete"
-          if [ "${{ needs.test-critical.result }}" != "success" ]; then
-            echo "::error::Critical tests failed!"
-            exit 1
-          fi
+    - name: Set overall status
+      if: always()
+      run: |
+        echo "Test suite execution complete"
+        if [ "${{ needs.test-critical.result }}" != "success" ]; then
+          echo "::error::Critical tests failed!"
+          exit 1
+        fi

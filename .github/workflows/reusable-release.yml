@@ -1,6 +1,6 @@
 # Reusable workflow for creating releases with release-drafter
 # Can be called from other repositories using workflow_call
-name: "Reusable: Release"
+name: 'Reusable: Release'
 
 on:
   workflow_call:
@@ -55,17 +55,17 @@ jobs:
       contents: write
       pull-requests: read
     steps:
-      - name: Create Release with Release Drafter
-        uses: release-drafter/release-drafter@b1476f6e6eb133afa41ed8589daba6dc69b4d3f5 # v6.1.0
-        id: release-drafter
-        env:
-          GITHUB_TOKEN: ${{ secrets.github-token }}
-        with:
-          config-name: ${{ inputs.release-config-name }}
-          publish: ${{ inputs.publish }}
+    - name: Create Release with Release Drafter
+      uses: release-drafter/release-drafter@b1476f6e6eb133afa41ed8589daba6dc69b4d3f5   # v6.1.0
+      id: release-drafter
+      env:
+        GITHUB_TOKEN: ${{ secrets.github-token }}
+      with:
+        config-name: ${{ inputs.release-config-name }}
+        publish: ${{ inputs.publish }}
 
-      - name: Extract Short Tag
-        id: get-tag-name
-        run: |
-          short_tag=$(echo "${{ steps.release-drafter.outputs.tag_name }}" | cut -d. -f1)
-          echo "SHORT_TAG=$short_tag" >> "$GITHUB_OUTPUT"
+    - name: Extract Short Tag
+      id: get-tag-name
+      run: |
+        short_tag=$(echo "${{ steps.release-drafter.outputs.tag_name }}" | cut -d. -f1)
+        echo "SHORT_TAG=$short_tag" >> "$GITHUB_OUTPUT"

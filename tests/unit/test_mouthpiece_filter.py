@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-Unit tests for mouthpiece_filter.py
+"""Unit tests for mouthpiece_filter.py
 Focus: Content filtering, safety checks, error handling
 """
 
 # Import module under test
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pytest
 

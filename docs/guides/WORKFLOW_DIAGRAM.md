@@ -185,7 +185,7 @@ Live Outputs:
 └── ghcr.io/ivviiviivvi/[repo]:latest (Strategy B)
 ```
 
----
+______________________________________________________________________
 
 **Legend:**
 

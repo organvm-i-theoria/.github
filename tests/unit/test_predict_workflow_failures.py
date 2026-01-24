@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""
-Unit tests for automation/scripts/predict_workflow_failures.py
+"""Unit tests for automation/scripts/predict_workflow_failures.py
 Focus: Feature extraction, model training, prediction, safe serialization
 """
 
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 

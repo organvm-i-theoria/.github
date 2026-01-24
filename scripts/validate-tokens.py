@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Token Health Check
+"""Token Health Check
 Validates all organization tokens are working correctly
 
 Usage:

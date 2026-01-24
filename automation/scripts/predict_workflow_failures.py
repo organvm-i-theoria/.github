@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Workflow Failure Prediction Model
+"""Workflow Failure Prediction Model
 
 Collects historical workflow data and trains a machine learning model
 to predict the likelihood of workflow failures.
@@ -51,14 +50,14 @@ class WorkflowPredictor:
         self.feature_columns: List[str] = []
 
     def collect_historical_data(self, days: int = 90) -> pd.DataFrame:
-        """
-        Collect historical workflow data from GitHub Actions.
+        """Collect historical workflow data from GitHub Actions.
 
         Args:
             days: Number of days of history to collect
 
         Returns:
             DataFrame with workflow execution data
+
         """
         print(f"Collecting {days} days of workflow data...")
 
@@ -146,14 +145,14 @@ class WorkflowPredictor:
             return None
 
     def prepare_features(self, df: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Prepare features for training.
+        """Prepare features for training.
 
         Args:
             df: DataFrame with workflow data
 
         Returns:
             Tuple of (X, y) features and labels
+
         """
         # Define feature columns
         self.feature_columns = [
@@ -173,8 +172,7 @@ class WorkflowPredictor:
         return X, y
 
     def train(self, df: pd.DataFrame, test_size: float = 0.15) -> Dict:
-        """
-        Train the prediction model.
+        """Train the prediction model.
 
         Args:
             df: DataFrame with workflow data
@@ -182,6 +180,7 @@ class WorkflowPredictor:
 
         Returns:
             Dictionary with training metrics
+
         """
         print("Training prediction model...")
 
@@ -252,8 +251,7 @@ class WorkflowPredictor:
         return metrics
 
     def predict(self, workflow_name: str, repository: str) -> Dict:
-        """
-        Predict failure probability for a workflow.
+        """Predict failure probability for a workflow.
 
         Args:
             workflow_name: Name of the workflow
@@ -261,6 +259,7 @@ class WorkflowPredictor:
 
         Returns:
             Dictionary with prediction results
+
         """
         if self.model is None:
             self.load_model()
@@ -312,14 +311,14 @@ class WorkflowPredictor:
         return result
 
     def get_high_risk_workflows(self, threshold: float = 0.15) -> List[Dict]:
-        """
-        Identify workflows at high risk of failure.
+        """Identify workflows at high risk of failure.
 
         Args:
             threshold: Probability threshold for high risk
 
         Returns:
             List of high-risk workflow predictions
+
         """
         # Get list of workflows
         try:
@@ -467,17 +466,17 @@ def main():
             if args.json:
                 print(json.dumps(result, indent=2))
             else:
-                print(f"\n{'='*60}")
+                print(f"\n{'=' * 60}")
                 print(f"Workflow: {result['workflow']}")
                 print(f"Repository: {result['repository']}")
-                print(f"{'='*60}")
+                print(f"{'=' * 60}")
                 print(f"Failure Probability: {result['failure_probability']:.1%}")
                 print(f"Prediction: {result['prediction']}")
                 print(
                     f"Risk Level: {result['risk_level']} ({result['risk_color']})"  # noqa: E501
                 )
                 print(f"Confidence: {result['confidence']:.1%}")
-                print(f"{'='*60}")
+                print(f"{'=' * 60}")
 
         elif args.high_risk:
             # List high-risk workflows
@@ -487,7 +486,7 @@ def main():
                 print(json.dumps(workflows, indent=2))
             else:
                 print(f"\nHigh-Risk Workflows (threshold: {args.threshold:.0%}):")
-                print(f"{'='*80}")
+                print(f"{'=' * 80}")
 
                 if not workflows:
                     print("No high-risk workflows detected.")
@@ -500,7 +499,7 @@ def main():
                         print(f"   Risk Level: {wf['risk_level']}")
                         print(f"   Confidence: {wf['confidence']:.1%}")
 
-                print(f"\n{'='*80}")
+                print(f"\n{'=' * 80}")
         else:
             parser.print_help()
 

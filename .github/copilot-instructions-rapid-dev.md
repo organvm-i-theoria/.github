@@ -4,7 +4,7 @@
 >
 > **Philosophy: Speed over Perfection. Ship Fast, Fix Forward.**
 
----
+______________________________________________________________________
 
 ## Core Philosophy
 
@@ -22,7 +22,7 @@ and ship features rapidly with minimal friction and maximum automation.**
 1. **Fix Forward** - Don't let perfection be the enemy of good enough
 1. **Batch Similar Work** - Group related changes to minimize context switching
 
----
+______________________________________________________________________
 
 ## AI Responsibilities
 
@@ -66,7 +66,7 @@ and ship features rapidly with minimal friction and maximum automation.**
 - Run linters in warn-only mode
 - Apply security fixes for HIGH/MEDIUM vulnerabilities
 
----
+______________________________________________________________________
 
 ## Human Responsibilities
 
@@ -75,29 +75,33 @@ and ship features rapidly with minimal friction and maximum automation.**
 The lazy human only needs to intervene for:
 
 1. **Strategic Decisions**
+
    - Architecture and design choices
    - Technology stack selection
    - Breaking changes that affect APIs
    - Major refactoring decisions
 
 1. **Security Reviews**
+
    - Review HIGH severity security vulnerabilities
    - Approve changes to authentication/authorization
    - Review secrets management changes
 
 1. **Deployments**
+
    - Production deployments (after CI passes)
    - Infrastructure changes
    - Database migrations in production
 
 1. **Final Approval**
+
    - PR merge (but can be auto-merged if configured)
    - Release tagging
    - Public announcements
 
 **Everything else is automated.**
 
----
+______________________________________________________________________
 
 ## Modified Standards for Rapid Development
 
@@ -123,7 +127,7 @@ The lazy human only needs to intervene for:
 1. **Test Coverage**: Focus on critical paths, skip trivial getters/setters
 1. **Code Review**: Auto-merge when CI passes, unless labeled "needs-review"
 
----
+______________________________________________________________________
 
 ## Pre-commit Hooks in Auto-fix Mode
 
@@ -153,7 +157,7 @@ pre-commit install
 1. **Warn-only**: flake8, eslint, mypy
 1. **Security**: bandit (HIGH/MEDIUM), detect-secrets
 
----
+______________________________________________________________________
 
 ## AI-Generated Commit Messages
 
@@ -200,7 +204,7 @@ AI determines scope from file paths:
 - `docs/*` → scope: docs
 - `tests/*` → scope: test
 
----
+______________________________________________________________________
 
 ## Relaxed Branch Protection for Solo Dev
 
@@ -236,7 +240,7 @@ branches:
 - `batch:*` - Merge together with other PRs in same batch
 - `breaking-change` - Block auto-merge, require explicit approval
 
----
+______________________________________________________________________
 
 ## CI/CD Optimized for Speed
 
@@ -291,7 +295,7 @@ jobs:
       - run: bandit -r . -f json -o bandit-report.json -ll # HIGH only
 ```
 
----
+______________________________________________________________________
 
 ## Auto-documentation Approach
 
@@ -336,7 +340,7 @@ def calculate_score(user_id: int, metrics: dict[str, float]) -> float:
     # Implementation...
 ```
 
----
+______________________________________________________________________
 
 ## Workflow Quick Reference
 
@@ -395,7 +399,7 @@ git push
 # Done! (Skip CI for docs-only changes)
 ```
 
----
+______________________________________________________________________
 
 ## Success Metrics
 
@@ -415,7 +419,7 @@ git push
 - **Bug Fix Cycle**: \<2 hours from report to fix deployed
 - **Documentation Lag**: \<24 hours (docs updated within 1 day of code)
 
----
+______________________________________________________________________
 
 ## Workflow Decision Tree
 
@@ -447,7 +451,7 @@ git push
                                    └─ Security issues? ─────────► Human reviews
 ```
 
----
+______________________________________________________________________
 
 ## Tips for Maximizing Speed
 
@@ -469,7 +473,7 @@ rapid dev ❌ **Don't write docs manually** - Use auto-docs script ❌ **Don't
 create long-lived branches** - Merge or close within 48h ❌ **Don't skip security
 scans** - Always run Bandit/CodeQL
 
----
+______________________________________________________________________
 
 ## Switching Modes
 
@@ -497,7 +501,7 @@ pre-commit install
 # Enable stricter checks
 ```
 
----
+______________________________________________________________________
 
 ## Troubleshooting
 
@@ -526,7 +530,7 @@ pre-commit install
 1. Run `pre-commit run --all-files` to see errors
 1. Check hook configuration for `fail_fast: false`
 
----
+______________________________________________________________________
 
 ## References
 

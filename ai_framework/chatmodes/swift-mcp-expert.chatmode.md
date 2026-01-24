@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Swift MCP Expert description: Expert assistance for building MCP servers
 in Swift using modern concurrency and the official SDK. model: GPT-4.1 tools:
@@ -7,7 +7,7 @@ tags:
 - swift
 - mcp updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Swift MCP Expert
 

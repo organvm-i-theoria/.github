@@ -28,7 +28,7 @@ frameworks
 **Use this when**: Building React, Next.js, or similar component-based
 applications
 
----
+______________________________________________________________________
 
 ### 2. Python Flask Application
 
@@ -45,7 +45,7 @@ applications
 
 **Use this when**: Building Flask, FastAPI, or similar Python web applications
 
----
+______________________________________________________________________
 
 ### 3. Vue.js Application
 
@@ -63,7 +63,7 @@ applications
 **Use this when**: Building Vue.js, Nuxt.js, or similar reactive framework
 applications
 
----
+______________________________________________________________________
 
 ### 4. Full-Stack Application
 
@@ -81,7 +81,7 @@ applications
 
 **Use this when**: Demonstrating end-to-end application functionality
 
----
+______________________________________________________________________
 
 ## How to Use These Examples
 
@@ -120,7 +120,7 @@ npm start    # or python app.py
 1. Run "Generate Application Walkthrough"
 1. The workflow will use your custom configuration
 
----
+______________________________________________________________________
 
 ## Configuration Options Explained
 
@@ -236,7 +236,7 @@ demo_flow:
   - "Access user settings"
 ```
 
----
+______________________________________________________________________
 
 ## Common Modifications
 
@@ -291,7 +291,7 @@ duration: 90   # Detailed explanation
 duration: 120  # Comprehensive tour
 ```
 
----
+______________________________________________________________________
 
 ## Multi-Service Applications
 
@@ -319,7 +319,7 @@ services:
     port: 3000
 ```
 
----
+______________________________________________________________________
 
 ## Framework-Specific Notes
 
@@ -365,7 +365,7 @@ services:
 - Show admin interface
 - Demonstrate ORM queries and views
 
----
+______________________________________________________________________
 
 ## Troubleshooting Configuration Issues
 
@@ -414,7 +414,7 @@ environment_variables:
 startup_wait: 30 # seconds to wait after starting
 ```
 
----
+______________________________________________________________________
 
 ## Best Practices
 
@@ -428,7 +428,7 @@ startup_wait: 30 # seconds to wait after starting
    `react-dashboard-config.yml`)
 1. **Version Control**: Commit your config file to track changes over time
 
----
+______________________________________________________________________
 
 ## Need Help?
 
@@ -440,7 +440,7 @@ startup_wait: 30 # seconds to wait after starting
 - **Contact**:
   [@4444JPP](https://github.com/4444JPP)<!-- link:examples.sample_profile -->
 
----
+______________________________________________________________________
 
 ## Contributing Examples
 
@@ -453,6 +453,6 @@ Have a configuration for a framework not listed here? We welcome contributions!
 
 See [Contributing Guidelines](../../docs/CONTRIBUTING.md) for details.
 
----
+______________________________________________________________________
 
 _Last updated: 2025-12-21 | Maintained by @4444JPP_

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Rust MCP Expert description: Expert assistant for Rust MCP server
 development using the rmcp SDK with tokio async runtime. model: GPT-4.1 tools:
@@ -7,7 +7,7 @@ tags:
 - rust
 - mcp updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Rust MCP Expert
 
@@ -378,6 +378,7 @@ mod tests {
 Advise on performance:
 
 1. **Use appropriate lock types:**
+
    - `RwLock` for read-heavy workloads
    - `Mutex` for write-heavy workloads
    - Consider `DashMap` for concurrent hash maps

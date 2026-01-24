@@ -16,7 +16,7 @@ formatting standards.
 - [File Naming](#file-naming)
 - [Version Control](#version-control)
 
----
+______________________________________________________________________
 
 ## Purpose
 
@@ -32,7 +32,7 @@ documentation in this organization. It defines:
 This is a **living document** that evolves with our needs while maintaining
 backward compatibility.
 
----
+______________________________________________________________________
 
 ## Core Principles
 
@@ -88,7 +88,7 @@ Write documentation that is easy to update and refactor.
 - Feature C
 ```
 
----
+______________________________________________________________________
 
 ## Language Standards
 
@@ -199,7 +199,7 @@ Avoid Latin abbreviations; use English equivalents:
 | etc.  | and so on          |
 | via   | through, by way of |
 
----
+______________________________________________________________________
 
 ## Markdown Formatting
 
@@ -571,7 +571,7 @@ Text after rule.
 
 Use sparingly to separate major sections.
 
----
+______________________________________________________________________
 
 ## Document Structure
 
@@ -681,7 +681,7 @@ Include at end of long-lived documents:
 **Last Updated**: 2025-11-25
 ```
 
----
+______________________________________________________________________
 
 ## Writing Style
 
@@ -857,7 +857,7 @@ Before starting, ensure you have:
 - Admin permissions on your system
 ````
 
----
+______________________________________________________________________
 
 ## Code Examples
 
@@ -1038,7 +1038,7 @@ information"
 
 **Right**: Break into multiple paragraphs (3-4 sentences each)
 
----
+______________________________________________________________________
 
 ## Checklist for New Documents
 
@@ -1058,7 +1058,7 @@ Before publishing documentation:
 - [ ] Last updated date included
 - [ ] Appropriate front matter included
 
----
+______________________________________________________________________
 
 ## Evolution of This Guide
 
@@ -1070,7 +1070,7 @@ This is a **living document**. To propose changes:
 1. Get approval from documentation team
 1. Update existing docs to conform (if needed)
 
----
+______________________________________________________________________
 
 ## Related Documentation
 
@@ -1079,6 +1079,6 @@ This is a **living document**. To propose changes:
   Version control standards
 - [README.md](../../README.md) - Repository overview
 
----
+______________________________________________________________________
 
 **Last Updated**: 2025-11-25

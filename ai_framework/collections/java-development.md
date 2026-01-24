@@ -1,9 +1,6 @@
----
-name: Java Development
-description: Comprehensive collection of prompts and instructions for Java development including Spring Boot, Quarkus, testing, documentation, and best practices.
-tags: []
-updated: 2026-01-13
----
+______________________________________________________________________
+
+## name: Java Development description: Comprehensive collection of prompts and instructions for Java development including Spring Boot, Quarkus, testing, documentation, and best practices. tags: \[\] updated: 2026-01-13
 
 # Java Development
 

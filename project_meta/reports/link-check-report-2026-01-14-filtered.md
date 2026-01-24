@@ -178,7 +178,7 @@
   401\)
 - /workspace/docs/CODESPACES_GUIDE.md: ../../docs/ (missing:
   /workspace/docs/../../docs)
-- /workspace/docs/CODE*SERVER_SETUP.md:
+- /workspace/docs/CODE\*SERVER_SETUP.md:
   https://github.com/coder/code-server/releases/download/v$VERSION/code-server*${VERSION}\_amd64.deb
   (HTTPError 404)
 - /workspace/docs/COMPLETE_DEPLOYMENT_README.md: ../../discussions (missing:

@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Drupal Expert description: Expert Drupal development guidance with PHP
 8.3+ and modern Drupal patterns. model: GPT-4.1 tools:
@@ -13,7 +13,7 @@ name: Drupal Expert description: Expert Drupal development guidance with PHP
 - drupal
 - php updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Drupal Expert
 

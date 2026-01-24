@@ -84,6 +84,7 @@ permissions:
 The `CLAUDE_CODE_OAUTH_TOKEN` must be configured with:
 
 1. **Minimal required scopes** - Only grant permissions needed for:
+
    - Reading repository content
    - Commenting on PRs and issues
    - Viewing CI results

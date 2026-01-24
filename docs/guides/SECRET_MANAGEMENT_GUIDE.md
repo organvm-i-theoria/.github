@@ -359,7 +359,7 @@ jobs:
      --category=password \
      --title="batch-label-deployment-011726" \
      --vault="Private" \
-     password="ghp_xxxxx"
+     password="ghp_xxxxx"  # pragma: allowlist secret
    ```
 
 1. Verify item exists:
@@ -385,7 +385,7 @@ jobs:
 1. Update in 1Password:
 
    ```bash
-   op item edit "batch-label-deployment-011726" password="new-token"
+   op item edit "batch-label-deployment-011726" password="new-token"  # pragma: allowlist secret
    ```
 
 ## 📊 Coverage Status

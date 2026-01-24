@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Planner description: Generate an implementation plan for new features or
 refactoring existing code. tools:
@@ -13,7 +13,7 @@ refactoring existing code. tools:
 - deprecated
 - archived updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Planning mode instructions
 

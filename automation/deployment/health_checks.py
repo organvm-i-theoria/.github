@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Post-Deployment Health Checks
+"""Post-Deployment Health Checks
 
 Validates that deployed workflows are functioning correctly.
 
@@ -16,7 +15,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import requests
 
@@ -25,24 +24,27 @@ class HealthChecker:
     """Performs health checks on deployed workflows."""
 
     def __init__(self, github_token: str):
-        """
-        Initialize health checker.
+        """Initialize health checker.
 
         Args:
             github_token: GitHub API token
+
         """
         self.github_token = github_token
         self.api_base = "https://api.github.com"
         self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": f"Bearer {github_token}",
-            "Accept": "application/vnd.github+json",
-            "X-GitHub-Api-Version": "2022-11-28",
-        })
+        self.session.headers.update(
+            {
+                "Authorization": f"Bearer {github_token}",
+                "Accept": "application/vnd.github+json",
+                "X-GitHub-Api-Version": "2022-11-28",
+            }
+        )
 
-    def check_repository(self, repo: str, workflows: Optional[List[str]] = None) -> Dict:
-        """
-        Check health of workflows in repository.
+    def check_repository(
+        self, repo: str, workflows: Optional[List[str]] = None
+    ) -> Dict:
+        """Check health of workflows in repository.
 
         Args:
             repo: Repository name (org/repo)
@@ -50,6 +52,7 @@ class HealthChecker:
 
         Returns:
             Dictionary with health check results
+
         """
         print(f"\n🏥 Health check: {repo}")
 
@@ -64,8 +67,7 @@ class HealthChecker:
         # Get workflow runs
         try:
             response = self.session.get(
-                f"{self.api_base}/repos/{repo}/actions/runs",
-                params={"per_page": 50}
+                f"{self.api_base}/repos/{repo}/actions/runs", params={"per_page": 50}
             )
 
             if response.status_code != 200:
@@ -78,8 +80,10 @@ class HealthChecker:
             # Filter recent runs (last 24 hours)
             cutoff = datetime.now() - timedelta(hours=24)
             recent_runs = [
-                run for run in runs
-                if datetime.fromisoformat(run["created_at"].replace("Z", "+00:00")) > cutoff
+                run
+                for run in runs
+                if datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+                > cutoff
             ]
 
             # Group by workflow
@@ -95,8 +99,7 @@ class HealthChecker:
 
             # Analyze each workflow
             for workflow_name, runs in workflow_runs.items():
-                workflow_health = self._analyze_workflow_health(
-                    workflow_name, runs)
+                workflow_health = self._analyze_workflow_health(workflow_name, runs)
                 results["workflows"][workflow_name] = workflow_health
 
                 if workflow_health["status"] != "healthy":
@@ -132,10 +135,8 @@ class HealthChecker:
             }
 
         total_runs = len(runs)
-        successful_runs = sum(
-            1 for run in runs if run.get("conclusion") == "success")
-        failed_runs = sum(1 for run in runs if run.get(
-            "conclusion") == "failure")
+        successful_runs = sum(1 for run in runs if run.get("conclusion") == "success")
+        failed_runs = sum(1 for run in runs if run.get("conclusion") == "failure")
 
         success_rate = successful_runs / total_runs if total_runs > 0 else 0
 
@@ -143,10 +144,8 @@ class HealthChecker:
         durations = []
         for run in runs:
             if run.get("conclusion") in ["success", "failure"]:
-                start = datetime.fromisoformat(
-                    run["created_at"].replace("Z", "+00:00"))
-                end = datetime.fromisoformat(
-                    run["updated_at"].replace("Z", "+00:00"))
+                start = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+                end = datetime.fromisoformat(run["updated_at"].replace("Z", "+00:00"))
                 duration = (end - start).total_seconds()
                 durations.append(duration)
 
@@ -179,18 +178,15 @@ class HealthChecker:
             }
 
         total_runs = len(runs)
-        successful = sum(1 for run in runs if run.get(
-            "conclusion") == "success")
+        successful = sum(1 for run in runs if run.get("conclusion") == "success")
         success_rate = successful / total_runs if total_runs > 0 else 0
 
         # Calculate average duration
         durations = []
         for run in runs:
             if run.get("conclusion") in ["success", "failure"]:
-                start = datetime.fromisoformat(
-                    run["created_at"].replace("Z", "+00:00"))
-                end = datetime.fromisoformat(
-                    run["updated_at"].replace("Z", "+00:00"))
+                start = datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+                end = datetime.fromisoformat(run["updated_at"].replace("Z", "+00:00"))
                 duration = (end - start).total_seconds()
                 durations.append(duration)
 
@@ -215,38 +211,37 @@ class HealthChecker:
             "unknown": "❓",
         }
 
-        print(
-            f"\n   Overall: {status_emoji.get(overall, '❓')} {overall.upper()}")
+        print(f"\n   Overall: {status_emoji.get(overall, '❓')} {overall.upper()}")
 
         # Display metrics
         metrics = results.get("metrics", {})
         if metrics:
-            print(f"\n   📊 Metrics (last 24 hours):")
+            print("\n   📊 Metrics (last 24 hours):")
             print(f"      Total runs: {metrics['total_runs']}")
             print(f"      Success rate: {metrics['success_rate']:.1%}")
-            print(
-                f"      Avg duration: {metrics['avg_duration_seconds']:.1f}s")
+            print(f"      Avg duration: {metrics['avg_duration_seconds']:.1f}s")
 
         # Display workflow details
         workflows = results.get("workflows", {})
         if workflows:
-            print(f"\n   🔧 Workflows:")
+            print("\n   🔧 Workflows:")
             for name, health in workflows.items():
                 status = health["status"]
                 emoji = status_emoji.get(status, "❓")
                 print(f"      {emoji} {name}")
                 print(
-                    f"         {health['runs']} runs, {health['success_rate']:.1%} success")
+                    f"         {health['runs']} runs, {health['success_rate']:.1%} success"
+                )
 
     def check_all_repositories(self, repos: List[str]) -> Dict[str, Dict]:
-        """
-        Check health of multiple repositories.
+        """Check health of multiple repositories.
 
         Args:
             repos: List of repository names
 
         Returns:
             Dictionary mapping repo to health results
+
         """
         print(f"\n🏥 Checking health of {len(repos)} repositories...\n")
 
@@ -260,18 +255,21 @@ class HealthChecker:
         print("HEALTH CHECK SUMMARY")
         print("=" * 60)
 
-        healthy = sum(1 for r in results.values()
-                      if r["overall_health"] == "healthy")
-        degraded = sum(1 for r in results.values()
-                       if r["overall_health"] == "degraded")
-        unhealthy = sum(1 for r in results.values()
-                        if r["overall_health"] == "unhealthy")
+        healthy = sum(1 for r in results.values() if r["overall_health"] == "healthy")
+        degraded = sum(1 for r in results.values() if r["overall_health"] == "degraded")
+        unhealthy = sum(
+            1 for r in results.values() if r["overall_health"] == "unhealthy"
+        )
 
         print(f"\n✅ Healthy: {healthy}/{len(repos)}")
         print(f"⚠️  Degraded: {degraded}/{len(repos)}")
         print(f"❌ Unhealthy: {unhealthy}/{len(repos)}")
 
-        overall_health = "healthy" if unhealthy == 0 and degraded == 0 else "degraded" if unhealthy == 0 else "unhealthy"
+        overall_health = (
+            "healthy"
+            if unhealthy == 0 and degraded == 0
+            else "degraded" if unhealthy == 0 else "unhealthy"
+        )
 
         print(f"\nOverall system health: {overall_health.upper()}")
 
@@ -287,16 +285,20 @@ class HealthChecker:
 
 def main():
     """Main health check execution."""
-    parser = argparse.ArgumentParser(
-        description="Health check for deployed workflows")
-    parser.add_argument("--repo", type=str,
-                        help="Repository to check (org/repo)")
-    parser.add_argument("--env", choices=["staging", "production", "development"],
-                        help="Environment to check (checks all repos in env)")
-    parser.add_argument("--workflows", type=str,
-                        help="Comma-separated workflow names")
-    parser.add_argument("--output", type=str, default="health-check-results.json",
-                        help="Output file for results")
+    parser = argparse.ArgumentParser(description="Health check for deployed workflows")
+    parser.add_argument("--repo", type=str, help="Repository to check (org/repo)")
+    parser.add_argument(
+        "--env",
+        choices=["staging", "production", "development"],
+        help="Environment to check (checks all repos in env)",
+    )
+    parser.add_argument("--workflows", type=str, help="Comma-separated workflow names")
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="health-check-results.json",
+        help="Output file for results",
+    )
 
     args = parser.parse_args()
 
@@ -320,6 +322,7 @@ def main():
     elif args.env:
         # Load environment config
         import yaml
+
         config_path = Path("automation/deployment/environments.yml")
         with open(config_path) as f:
             config = yaml.safe_load(f)
@@ -337,12 +340,12 @@ def main():
     if isinstance(results, dict):
         if "overall_health" in results:
             # Single repo
-            sys.exit(0 if results["overall_health"]
-                     in ["healthy", "degraded"] else 1)
+            sys.exit(0 if results["overall_health"] in ["healthy", "degraded"] else 1)
         else:
             # Multiple repos
-            any_unhealthy = any(r["overall_health"] ==
-                                "unhealthy" for r in results.values())
+            any_unhealthy = any(
+                r["overall_health"] == "unhealthy" for r in results.values()
+            )
             sys.exit(1 if any_unhealthy else 0)
 
 

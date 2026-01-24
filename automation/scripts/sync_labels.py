@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-GitHub Label Sync Script
+"""GitHub Label Sync Script
 
 Synchronizes standardized labels across all repositories in a GitHub organization  # noqa: E501
 using the PyGithub library.
@@ -127,25 +126,25 @@ class LabelSyncManager:
     """Manages label synchronization across GitHub repositories."""
 
     def __init__(self, github_token: str, dry_run: bool = False):
-        """
-        Initialize the label sync manager.
+        """Initialize the label sync manager.
 
         Args:
             github_token: GitHub personal access token
             dry_run: If True, only show what would be done without making changes  # noqa: E501
+
         """
         self.github = Github(github_token)
         self.dry_run = dry_run
 
     def get_repositories(self, org_name: str) -> List[Repository]:
-        """
-        Get all repositories for an organization.
+        """Get all repositories for an organization.
 
         Args:
             org_name: GitHub organization name
 
         Returns:
             List of Repository objects
+
         """
         try:
             org = self.github.get_organization(org_name)
@@ -157,14 +156,14 @@ class LabelSyncManager:
             sys.exit(1)
 
     def get_existing_labels(self, repo: Repository) -> Dict[str, Label]:
-        """
-        Get existing labels from a repository.
+        """Get existing labels from a repository.
 
         Args:
             repo: Repository object
 
         Returns:
             Dictionary mapping label names to Label objects
+
         """
         try:
             labels = {label.name: label for label in repo.get_labels()}
@@ -174,14 +173,14 @@ class LabelSyncManager:
             return {}
 
     def sync_labels(self, repo: Repository) -> Dict[str, int]:
-        """
-        Sync labels for a single repository.
+        """Sync labels for a single repository.
 
         Args:
             repo: Repository object
 
         Returns:
             Dictionary with sync statistics
+
         """
         stats = {"created": 0, "updated": 0, "unchanged": 0, "errors": 0}
 
@@ -235,12 +234,12 @@ class LabelSyncManager:
     def sync_organization(
         self, org_name: str, exclude_repos: Optional[List[str]] = None
     ) -> None:
-        """
-        Sync labels across all repositories in an organization.
+        """Sync labels across all repositories in an organization.
 
         Args:
             org_name: GitHub organization name
             exclude_repos: List of repository names to exclude
+
         """
         exclude_repos = exclude_repos or []
 

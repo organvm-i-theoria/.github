@@ -1,7 +1,7 @@
 # Reusable workflow for semantic PR title validation
 # Can be called from other repositories using workflow_call
 # Reference: https://github.com/amannn/action-semantic-pull-request
-name: "Reusable: PR Title Lint"
+name: 'Reusable: PR Title Lint'
 
 on:
   workflow_call:
@@ -24,7 +24,7 @@ on:
       scopes:
         required: false
         type: string
-        default: ""
+        default: ''
       requireScope:
         required: false
         type: boolean
@@ -46,11 +46,11 @@ jobs:
       pull-requests: read
       statuses: write
     steps:
-      - name: Validate Semantic PR Title
-        uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 # v5.5.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.github-token }}
-        with:
-          types: ${{ inputs.types }}
-          scopes: ${{ inputs.scopes }}
-          requireScope: ${{ inputs.requireScope }}
+    - name: Validate Semantic PR Title
+      uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017   # v5.5.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.github-token }}
+      with:
+        types: ${{ inputs.types }}
+        scopes: ${{ inputs.scopes }}
+        requireScope: ${{ inputs.requireScope }}

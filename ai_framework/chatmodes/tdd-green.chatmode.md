@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: TDD Green description: Implement minimal code to satisfy issue
 requirements and make tests pass. tools:
@@ -17,7 +17,7 @@ requirements and make tests pass. tools:
 - tdd
 - testing updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # TDD Green Phase - Make Tests Pass Quickly
 

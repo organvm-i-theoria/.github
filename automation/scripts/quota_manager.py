@@ -23,8 +23,7 @@ except ImportError:
 
 @contextmanager
 def acquire_lock(timeout=60):
-    """
-    Acquires a lock to prevent concurrent modifications.
+    """Acquires a lock to prevent concurrent modifications.
     Uses fcntl (flock) on Unix-like systems for robust process-based locking.
     Falls back to atomic directory creation on Windows or if fcntl is unavailable.  # noqa: E501
     """
@@ -49,7 +48,7 @@ def acquire_lock(timeout=60):
                     # Try to acquire exclusive lock without blocking
                     fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
                     break
-                except (IOError, OSError):
+                except OSError:
                     # Lock held by another process
                     if time.time() - start_time >= timeout:
                         raise TimeoutError(f"Could not acquire lock on {LOCK_FILE}")
@@ -62,7 +61,7 @@ def acquire_lock(timeout=60):
                 # Release lock and close file
                 try:
                     fcntl.flock(fd, fcntl.LOCK_UN)
-                except (IOError, OSError):
+                except OSError:
                     pass
                 fd.close()
     else:
@@ -87,7 +86,7 @@ def acquire_lock(timeout=60):
 def get_subscriptions():
     """Reads the subscriptions file and returns the subscriptions data."""
     try:
-        with open(SUBSCRIPTIONS_FILE, "r") as f:
+        with open(SUBSCRIPTIONS_FILE) as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return {"subscriptions": []}
@@ -106,7 +105,7 @@ def increment_usage(subscription_name, amount=1):
     """Increments the usage for a specific subscription."""
     with acquire_lock():
         try:
-            with open(SUBSCRIPTIONS_FILE, "r") as f:
+            with open(SUBSCRIPTIONS_FILE) as f:
                 data = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             data = {"subscriptions": []}
@@ -124,7 +123,7 @@ def reset_quotas():
     """Resets the usage for subscriptions based on their reset cadence."""
     with acquire_lock():
         try:
-            with open(SUBSCRIPTIONS_FILE, "r") as f:
+            with open(SUBSCRIPTIONS_FILE) as f:
                 data = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             return
@@ -153,7 +152,7 @@ def add_task_to_queue(task):
     """Adds a task to the task queue."""
     with acquire_lock():
         try:
-            with open(TASK_QUEUE_FILE, "r") as f:
+            with open(TASK_QUEUE_FILE) as f:
                 queue = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             queue = []
@@ -165,7 +164,7 @@ def add_task_to_queue(task):
 def get_tasks_from_queue():
     """Retrieves all tasks from the task queue."""
     try:
-        with open(TASK_QUEUE_FILE, "r") as f:
+        with open(TASK_QUEUE_FILE) as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return []
@@ -175,7 +174,7 @@ def remove_task_from_queue(task):
     """Removes a specific task from the task queue."""
     with acquire_lock():
         try:
-            with open(TASK_QUEUE_FILE, "r") as f:
+            with open(TASK_QUEUE_FILE) as f:
                 queue = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
             return

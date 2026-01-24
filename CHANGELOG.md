@@ -52,7 +52,7 @@ and this project adheres to
 - Reorganized documentation structure
 - Improved workflow organization
 
----
+______________________________________________________________________
 
 ## Legend
 
@@ -63,7 +63,7 @@ and this project adheres to
 - **Fixed** - Bug fixes
 - **Security** - Security vulnerability fixes
 
----
+______________________________________________________________________
 
 **Note:** This changelog started on January 14, 2026, following the successful
 merge of PRs #180-227. Previous changes are consolidated in the \[1.0.0\] entry.

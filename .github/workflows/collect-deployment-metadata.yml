@@ -3,9 +3,9 @@ name: Collect Deployment Metadata
 on:
   workflow_run:
     workflows:
-      - Deploy Live App to GitHub Pages
+    - Deploy Live App to GitHub Pages
     types:
-      - completed
+    - completed
   workflow_dispatch:
     inputs:
       run_id:
@@ -40,141 +40,141 @@ jobs:
       github.event.workflow_run.conclusion == 'success'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
-        with:
-          fetch-depth: 1
+    - name: Checkout repository
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683   # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # ratchet:actions/checkout@v4
+      with:
+        fetch-depth: 1
 
-      - name: Resolve source run and repository
-        id: resolve-run
-        run: |
-          # Determine the run_id
-          if [ "${{ github.event_name }}" = "workflow_run" ]; then
-            echo "run_id=${{ github.event.workflow_run.id }}" >> $GITHUB_OUTPUT
-            echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
-          elif [ "${{ github.event_name }}" = "workflow_call" ]; then
-            if [ -n "${{ inputs.run_id }}" ]; then
-              echo "run_id=${{ inputs.run_id }}" >> $GITHUB_OUTPUT
-            else
-              echo "::error::No run_id provided for workflow_call"
-              exit 1
-            fi
-            if [ -n "${{ inputs.repository }}" ]; then
-              echo "repository=${{ inputs.repository }}" >> $GITHUB_OUTPUT
-            else
-              echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
-            fi
-          elif [ -n "${{ github.event.inputs.run_id }}" ]; then
-            echo "run_id=${{ github.event.inputs.run_id }}" >> $GITHUB_OUTPUT
-            echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
+    - name: Resolve source run and repository
+      id: resolve-run
+      run: |
+        # Determine the run_id
+        if [ "${{ github.event_name }}" = "workflow_run" ]; then
+          echo "run_id=${{ github.event.workflow_run.id }}" >> $GITHUB_OUTPUT
+          echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
+        elif [ "${{ github.event_name }}" = "workflow_call" ]; then
+          if [ -n "${{ inputs.run_id }}" ]; then
+            echo "run_id=${{ inputs.run_id }}" >> $GITHUB_OUTPUT
           else
-            echo "::error::No run_id provided for manual ingestion"
+            echo "::error::No run_id provided for workflow_call"
             exit 1
           fi
-
-          echo "Resolved run_id: $(cat $GITHUB_OUTPUT | grep run_id)"
-          echo "Resolved repository: $(cat $GITHUB_OUTPUT | grep repository)"
-
-      - name: Download deployment metadata artifact
-        id: download-artifact
-        continue-on-error: true
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@v4
-        with:
-          name: app-deployment
-          path: app-deployment
-          run-id: ${{ steps.resolve-run.outputs.run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check artifact download
-        if: steps.download-artifact.outcome == 'failure'
-        run: |
-          echo "::warning::Failed to download artifact from run ${{ steps.resolve-run.outputs.run_id }}"
-          echo "This may be because:"
-          echo "  - The artifact has expired (7 day retention)"
-          echo "  - The workflow run did not produce an artifact"
-          echo "  - The artifact name does not match 'app-deployment'"
-          echo "Skipping metadata collection for this run."
-          exit 0
-
-      - name: Install Python dependencies
-        if: steps.download-artifact.outcome == 'success'
-        run: pip install --disable-pip-version-check pyyaml
-
-      - name: Validate deployment metadata
-        id: validate
-        if: steps.download-artifact.outcome == 'success'
-        run: |
-          set -euo pipefail
-          python <<-'PY'
-          import json
-          import sys
-          from pathlib import Path
-          from datetime import datetime
-
-          artifact_path = Path("app-deployment/deployment-metadata.json")
-          if not artifact_path.exists():
-              print("::error::deployment-metadata.json not found in artifact", file=sys.stderr)
-              sys.exit(1)
-
-          # Load and validate the metadata
-          with artifact_path.open() as f:
-              metadata = json.load(f)
-
-          # Required fields
-          required_fields = ["repository", "deployment_strategy", "app_type", "status"]
-          missing_fields = [field for field in required_fields if field not in metadata]
-
-          if missing_fields:
-              print(f"::error::Missing required fields: {', '.join(missing_fields)}", file=sys.stderr)
-              sys.exit(1)
-
-          # Normalize timestamp
-          if "last_updated" not in metadata or not metadata["last_updated"]:
-              metadata["last_updated"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
-
-          # Validation passed
-          print("✅ Metadata validation passed")
-          print(f"Repository: {metadata['repository']}")
-          print(f"Strategy: {metadata['deployment_strategy']}")
-          print(f"App Type: {metadata['app_type']}")
-          print(f"Status: {metadata['status']}")
-
-          # Write validated metadata back
-          with artifact_path.open('w') as f:
-              json.dump(metadata, f, indent=2)
-          PY
-
-      - name: Trigger gallery index update
-        if: steps.download-artifact.outcome == 'success' && steps.validate.outcome == 'success'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${{ github.repository_owner }}/.github/dispatches" \
-            -f event_type='deployment-updated' \
-            -f "client_payload[repository]=${{ steps.resolve-run.outputs.repository }}" \
-            -f "client_payload[run_id]=${{ steps.resolve-run.outputs.run_id }}" \
-            -f "client_payload[triggered_by]=${{ github.event_name }}"; then
-            echo "✅ Successfully triggered gallery index update"
+          if [ -n "${{ inputs.repository }}" ]; then
+            echo "repository=${{ inputs.repository }}" >> $GITHUB_OUTPUT
           else
-            echo "::error::Failed to trigger gallery index update - deployment won't be reflected in gallery"
-            exit 1
+            echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
           fi
+        elif [ -n "${{ github.event.inputs.run_id }}" ]; then
+          echo "run_id=${{ github.event.inputs.run_id }}" >> $GITHUB_OUTPUT
+          echo "repository=${{ github.repository }}" >> $GITHUB_OUTPUT
+        else
+          echo "::error::No run_id provided for manual ingestion"
+          exit 1
+        fi
 
-      - name: Summary
-        if: always()
-        run: |
-          echo "## Deployment Metadata Collection" >> $GITHUB_STEP_SUMMARY
+        echo "Resolved run_id: $(cat $GITHUB_OUTPUT | grep run_id)"
+        echo "Resolved repository: $(cat $GITHUB_OUTPUT | grep repository)"
 
-          if [ "${{ steps.download-artifact.outcome }}" = "failure" ]; then
-            echo "⚠️ Artifact download failed - see warnings above" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ steps.validate.outcome }}" = "success" ]; then
-            echo "✅ Metadata validated and gallery update triggered" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Repository**: ${{ steps.resolve-run.outputs.repository }}" >> $GITHUB_STEP_SUMMARY
-            echo "**Run ID**: ${{ steps.resolve-run.outputs.run_id }}" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ Metadata validation failed" >> $GITHUB_STEP_SUMMARY
-          fi
+    - name: Download deployment metadata artifact
+      id: download-artifact
+      continue-on-error: true
+      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16   # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # ratchet:actions/download-artifact@v4
+      with:
+        name: app-deployment
+        path: app-deployment
+        run-id: ${{ steps.resolve-run.outputs.run_id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check artifact download
+      if: steps.download-artifact.outcome == 'failure'
+      run: |
+        echo "::warning::Failed to download artifact from run ${{ steps.resolve-run.outputs.run_id }}"
+        echo "This may be because:"
+        echo "  - The artifact has expired (7 day retention)"
+        echo "  - The workflow run did not produce an artifact"
+        echo "  - The artifact name does not match 'app-deployment'"
+        echo "Skipping metadata collection for this run."
+        exit 0
+
+    - name: Install Python dependencies
+      if: steps.download-artifact.outcome == 'success'
+      run: pip install --disable-pip-version-check pyyaml
+
+    - name: Validate deployment metadata
+      id: validate
+      if: steps.download-artifact.outcome == 'success'
+      run: |
+        set -euo pipefail
+        python <<-'PY'
+        import json
+        import sys
+        from pathlib import Path
+        from datetime import datetime
+
+        artifact_path = Path("app-deployment/deployment-metadata.json")
+        if not artifact_path.exists():
+            print("::error::deployment-metadata.json not found in artifact", file=sys.stderr)
+            sys.exit(1)
+
+        # Load and validate the metadata
+        with artifact_path.open() as f:
+            metadata = json.load(f)
+
+        # Required fields
+        required_fields = ["repository", "deployment_strategy", "app_type", "status"]
+        missing_fields = [field for field in required_fields if field not in metadata]
+
+        if missing_fields:
+            print(f"::error::Missing required fields: {', '.join(missing_fields)}", file=sys.stderr)
+            sys.exit(1)
+
+        # Normalize timestamp
+        if "last_updated" not in metadata or not metadata["last_updated"]:
+            metadata["last_updated"] = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Validation passed
+        print("✅ Metadata validation passed")
+        print(f"Repository: {metadata['repository']}")
+        print(f"Strategy: {metadata['deployment_strategy']}")
+        print(f"App Type: {metadata['app_type']}")
+        print(f"Status: {metadata['status']}")
+
+        # Write validated metadata back
+        with artifact_path.open('w') as f:
+            json.dump(metadata, f, indent=2)
+        PY
+
+    - name: Trigger gallery index update
+      if: steps.download-artifact.outcome == 'success' && steps.validate.outcome == 'success'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        if gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          "/repos/${{ github.repository_owner }}/.github/dispatches" \
+          -f event_type='deployment-updated' \
+          -f "client_payload[repository]=${{ steps.resolve-run.outputs.repository }}" \
+          -f "client_payload[run_id]=${{ steps.resolve-run.outputs.run_id }}" \
+          -f "client_payload[triggered_by]=${{ github.event_name }}"; then
+          echo "✅ Successfully triggered gallery index update"
+        else
+          echo "::error::Failed to trigger gallery index update - deployment won't be reflected in gallery"
+          exit 1
+        fi
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "## Deployment Metadata Collection" >> $GITHUB_STEP_SUMMARY
+
+        if [ "${{ steps.download-artifact.outcome }}" = "failure" ]; then
+          echo "⚠️ Artifact download failed - see warnings above" >> $GITHUB_STEP_SUMMARY
+        elif [ "${{ steps.validate.outcome }}" = "success" ]; then
+          echo "✅ Metadata validated and gallery update triggered" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository**: ${{ steps.resolve-run.outputs.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Run ID**: ${{ steps.resolve-run.outputs.run_id }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Metadata validation failed" >> $GITHUB_STEP_SUMMARY
+        fi

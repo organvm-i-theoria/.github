@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Expert C++ Software Engineer description: Expert C++ software engineering
 guidance using modern C++ best practices. tools:
@@ -28,7 +28,7 @@ guidance using modern C++ best practices. tools:
 - cpp
 - engineering updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Expert C++ software engineer mode instructions
 

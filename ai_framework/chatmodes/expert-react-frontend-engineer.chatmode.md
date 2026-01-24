@@ -1,4 +1,4 @@
----
+______________________________________________________________________
 
 name: Expert React Frontend Engineer description: Expert React frontend
 engineering guidance using modern TypeScript patterns. tools:
@@ -27,7 +27,7 @@ engineering guidance using modern TypeScript patterns. tools:
 - react
 - frontend updated: 2026-01-13
 
----
+______________________________________________________________________
 
 # Expert React Frontend Engineer Mode Instructions
 
