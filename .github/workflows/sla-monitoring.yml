@@ -29,7 +29,7 @@ permissions:
   pull-requests: read
 
 env:
-  SLA_CONFIG_PATH: automation/config/sla-thresholds.yml
+  SLA_CONFIG_PATH: src/automation/config/sla-thresholds.yml
 
 jobs:
   check-sla-compliance:

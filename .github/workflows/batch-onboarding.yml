@@ -6,7 +6,7 @@ on:
       config_file:
         description: Configuration file path (relative to repo root)
         required: true
-        default: automation/config/batch-onboard-config.yml
+        default: src/automation/config/batch-onboard-config.yml
       dry_run:
         description: Run in dry-run mode (no changes)
         required: false
@@ -94,7 +94,7 @@ jobs:
           DRY_RUN_FLAG="--dry-run"
         fi
 
-        python automation/scripts/batch_onboard_repositories.py \
+        python src/automation/scripts/batch_onboard_repositories.py \
           --config "${{ github.event.inputs.config_file }}" \
           --max-concurrent "${{ github.event.inputs.max_concurrent }}" \
           --output onboarding_results.json \

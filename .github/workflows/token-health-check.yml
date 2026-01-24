@@ -9,8 +9,8 @@ on:
     branches:
     - main
     paths:
-    - automation/scripts/utils/validate-tokens.py
-    - automation/scripts/secret_manager.py
+    - src/automation/scripts/utils/validate-tokens.py
+    - src/automation/scripts/secret_manager.py
     - .github/workflows/token-health-check.yml
 
 jobs:
@@ -44,7 +44,7 @@ jobs:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
       run: |
         set +e  # Don't exit on error
-        python3 automation/scripts/utils/validate-tokens.py --ignore-planned --verbose
+        python3 src/automation/scripts/utils/validate-tokens.py --ignore-planned --verbose
         EXIT_CODE=$?
         echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
         exit 0  # Don't fail workflow yet
@@ -80,7 +80,7 @@ jobs:
 
           Run manually to debug:
           \`\`\`bash
-          python3 automation/scripts/utils/validate-tokens.py --verbose
+          python3 src/automation/scripts/utils/validate-tokens.py --verbose
           \`\`\`
 
           ---

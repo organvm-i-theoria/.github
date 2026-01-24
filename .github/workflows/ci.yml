@@ -4,13 +4,13 @@ on:
   push:
     branches: [main, master, develop]
     paths:
-    - automation/scripts/utils/**
+    - src/automation/scripts/utils/**
     - requirements*.txt
     - .github/workflows/ci.yml
   pull_request:
     branches: [main, master, develop]
     paths:
-    - automation/scripts/utils/**
+    - src/automation/scripts/utils/**
     - requirements*.txt
     - .github/workflows/ci.yml
   workflow_dispatch:
@@ -178,4 +178,4 @@ jobs:
       if: always()
       run: |
         # Run unit tests in scripts/utils directory
-        cd automation/scripts/utils && python3 -m unittest discover -p "test_*.py"
+        cd src/automation/scripts/utils && python3 -m unittest discover -p "test_*.py"

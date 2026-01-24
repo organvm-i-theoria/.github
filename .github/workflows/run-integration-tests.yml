@@ -4,14 +4,14 @@ on:
   pull_request:
     branches: [main]
     paths:
-    - automation/**
+    - src/automation/**
     - .github/workflows/**
     - tests/**
     - pytest.ini
   push:
     branches: [main]
     paths:
-    - automation/**
+    - src/automation/**
     - .github/workflows/**
     - tests/**
   workflow_dispatch:

@@ -1,7 +1,7 @@
 ## 2025-02-19 - \[Secure ML Model Persistence\]
 
 **Vulnerability:** Insecure deserialization in
-`automation/scripts/predict_workflow_failures.py`. The script used
+`src/automation/scripts/predict_workflow_failures.py`. The script used
 `pickle.load()` on model files without any integrity checks. An attacker who
 could modify the `.pkl` file could execute arbitrary code when the model was
 loaded. **Learning:** `pickle` is inherently insecure for untrusted data. While

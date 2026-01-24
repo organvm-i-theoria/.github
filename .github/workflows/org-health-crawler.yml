@@ -16,7 +16,7 @@ on:
     - main
     - claude/**
     paths:
-    - automation/scripts/web_crawler.py
+    - src/automation/scripts/web_crawler.py
     - .github/workflows/org-health-crawler.yml
 
 concurrency:
@@ -57,7 +57,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
-        python automation/scripts/web_crawler.py \
+        python src/automation/scripts/web_crawler.py \
           --base-dir . \
           ${{ github.event.inputs.validate_links == 'true' && '--validate-links' || '' }}
 

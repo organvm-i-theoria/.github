@@ -95,7 +95,7 @@ npm run version:bump:minor  # 1.0.0 → 1.1.0
 npm run version:sync        # Sync to all files
 
 # Validate
-python automation/scripts/utils/validate-schema-org.py
+python src/automation/scripts/utils/validate-schema-org.py
 ```
 
 ______________________________________________________________________
@@ -253,16 +253,16 @@ workflow management from manual and reactive to automated and proactive:
 
 ```bash
 # Run SLA monitor
-python automation/scripts/sla_monitor.py --owner ORG --repo REPO
+python src/automation/scripts/sla_monitor.py --owner ORG --repo REPO
 
 # Check auto-merge eligibility
-python automation/scripts/check_auto_merge_eligibility.py --owner ORG --repo REPO --pr NUM
+python src/automation/scripts/check_auto_merge_eligibility.py --owner ORG --repo REPO --pr NUM
 
 # Analyze self-healing
-python automation/scripts/self_healing.py --owner ORG --repo REPO --run-id ID
+python src/automation/scripts/self_healing.py --owner ORG --repo REPO --run-id ID
 
 # Test notifications
-python automation/scripts/notification_manager.py --title "Test" --message "Testing" --priority HIGH
+python src/automation/scripts/notification_manager.py --title "Test" --message "Testing" --priority HIGH
 ```
 
 ______________________________________________________________________
@@ -687,8 +687,8 @@ Automated GitHub Actions workflows in `.github/workflows/`:
 ## 🏗️ Repository Structure
 
 > **📁 Archive Note:** Historical documentation, deployment scripts, and status
-> reports have been organized into the [`archive/`](archive/) directory. See
-> [Archive README](archive/README.md) for details. Active documentation is in
+> reports have been organized into the [`docs/archive/`](docs/archive/) directory. See
+> [Archive README](docs/archive/README.md) for details. Active documentation is in
 > [`docs/`](docs/).
 
 ```
@@ -723,15 +723,13 @@ Automated GitHub Actions workflows in `.github/workflows/`:
 ├── GOVERNANCE_ANALYSIS.md    # Governance framework (archived)
 ├── README.md                 # This file
 ├── .pre-commit-config.yaml   # Pre-commit hooks
-├── archive/                  # Historical documentation (NEW)
-│   ├── deployment/           # Deployment scripts & status
-│   ├── monitoring/           # Monitoring checklists
-│   ├── status-reports/       # Historical status reports
-│   ├── github-projects/      # GitHub Projects setup docs
-│   └── test-results/         # Test execution results
-└── docs/                     # Additional documentation
-    ├── TEAM_STRUCTURE.md     # Team organization
-    └── BRANCH_PROTECTION.md  # Branch protection rules
+├── src/                      # All code
+│   ├── ai_framework/         # AI agents, chatmodes, instructions, prompts
+│   └── automation/           # Python automation scripts
+└── docs/                     # All documentation
+    ├── archive/              # Historical reports & deployment docs
+    ├── registry/             # Workflow registry
+    └── site/                 # Jekyll site files
 [optional footer]
 ```
 
@@ -1739,7 +1737,7 @@ tion default.
 1. **Set up teams**: Follow [docs/TEAM_STRUCTURE.md](docs/TEAM_STRUCTURE.md)
 1. **Apply branch protection**: See
    [docs/BRANCH_PROTECTION.md](docs/BRANCH_PROTECTION.md)
-1. **Sync labels**: Run label sync workflow or use `scripts/sync_labels_gh.sh`
+1. **Sync labels**: Run label sync workflow or use `docs/archive/deployment/sync_labels_gh.sh`
 
 ## 🔒 Security
 

@@ -31,7 +31,7 @@ jobs:
     - name: Check quota
       id: quota
       run: |
-        usage=$(python automation/scripts/quota_manager.py get_usage "Perplexity_Pro_API")
+        usage=$(python src/automation/scripts/quota_manager.py get_usage "Perplexity_Pro_API")
         quota=$(jq -r '.subscriptions[] | select(.name=="Perplexity_Pro_API") | .quota' .github/subscriptions.json)
         echo "usage=$usage" >> $GITHUB_OUTPUT
         echo "quota=$quota" >> $GITHUB_OUTPUT
@@ -47,7 +47,7 @@ jobs:
         prompt_length=${#INPUT_PROMPT}
         cost=$(echo "scale=4; $prompt_length * 0.0001" | bc)
         echo "Simulated cost: $cost"
-        python automation/scripts/quota_manager.py increment_usage "Perplexity_Pro_API" $cost
+        python src/automation/scripts/quota_manager.py increment_usage "Perplexity_Pro_API" $cost
 
         # Simulate output
         echo "This is a simulated output from Perplexity for the prompt: $INPUT_PROMPT" > perplexity_output_${{ github.run_id }}.txt
@@ -56,10 +56,10 @@ jobs:
       if: ${{ steps.quota.outputs.usage >= steps.quota.outputs.quota }}
       run: |
         task='{ "subscription": "Perplexity_Pro_API", "details": "..." }'
-        python automation/scripts/quota_manager.py add_task "$task"
+        python src/automation/scripts/quota_manager.py add_task "$task"
         echo "Perplexity API quota reached. Task queued."
 
     - name: Commit state changes
       if: always()
       run: |
-        ./automation/scripts/commit_changes.sh "chore: update state for Perplexity task"
+        ./src/automation/scripts/commit_changes.sh "chore: update state for Perplexity task"

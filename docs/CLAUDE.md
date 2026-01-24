@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Organization-level `.github` repository for ivviiviivvi providing:
 - Default community health files inherited by all org repositories
 - 98+ GitHub Actions workflows
-- 26 production AI agents in `ai_framework/`
+- 26 production AI agents in `src/ai_framework/`
 - GitHub Copilot customizations (instructions, prompts, chatmodes, collections)
 
 ## Essential Commands
@@ -15,7 +15,7 @@ Organization-level `.github` repository for ivviiviivvi providing:
 ### Testing
 ```bash
 # Full test suite with coverage (80% minimum required)
-python -m pytest --cov=automation --cov-report=html
+python -m pytest --cov=src/automation --cov-report=html
 
 # Single test file
 python -m pytest tests/test_specific.py -v
@@ -36,16 +36,16 @@ ruff check .
 ruff format .
 
 # Type checking
-mypy automation/
+mypy src/automation/
 
 # Security scanning
-bandit -r automation/scripts/
+bandit -r src/automation/scripts/
 ```
 
 ### Version Management
 ```bash
-# Check version
-cat VERSION  # Currently 1.0.0
+# Check version (in pyproject.toml)
+grep "^version" pyproject.toml  # Currently 1.0.0
 
 # Bump and sync versions
 npm run version:bump:minor
@@ -54,7 +54,7 @@ npm run version:sync
 
 ### Setup
 ```bash
-pip install -r requirements.txt
+pip install -e ".[dev]"
 pip install pre-commit
 pre-commit install
 ```
@@ -63,25 +63,34 @@ pre-commit install
 
 ```
 .github/
-├── .config/               # Consolidated config files (.bandit, .eslintrc.json, etc.)
+├── .config/               # ALL configs (devcontainer, vscode, jules, pre-commit, etc.)
 ├── .github/workflows/     # 98+ automation workflows
 │   └── reusable/          # 6 reusable workflow templates
-├── ai_framework/
-│   ├── agents/            # 26 production AI agents
-│   ├── chatmodes/         # Copilot chat modes
-│   ├── instructions/      # 100+ coding instructions
-│   └── prompts/           # Task-specific prompts
-├── automation/
-│   ├── scripts/           # 44 Python automation scripts
-│   │   └── utils/         # Utility scripts (update-action-pins.py, etc.)
-│   └── project_meta/      # Project metadata and context handoffs
-├── archive/               # Historical reports and results
-├── docs/                  # 133+ documentation files
-│   └── status/            # Deployment status documents
-├── site/                  # Jekyll site files
-└── tests/
-    ├── unit/
-    └── integration/
+├── docs/                  # ALL documentation
+│   ├── archive/           # Historical reports and results
+│   ├── registry/          # Workflow registry
+│   ├── site/              # Jekyll site files
+│   ├── CHANGELOG.md       # Version changelog
+│   └── CLAUDE.md          # This file
+├── src/
+│   ├── ai_framework/      # AI agents, chatmodes, instructions, prompts
+│   │   ├── agents/        # 26 production AI agents
+│   │   ├── chatmodes/     # Copilot chat modes
+│   │   ├── instructions/  # 100+ coding instructions
+│   │   └── prompts/       # Task-specific prompts
+│   └── automation/        # Python automation scripts
+│       ├── scripts/       # 44 Python automation scripts
+│       │   └── utils/     # Utility scripts (update-action-pins.py, etc.)
+│       └── project_meta/  # Project metadata and context handoffs
+├── tests/
+│   ├── unit/
+│   └── integration/
+│
+├── .gitignore             # Git config
+├── LICENSE                # MIT license
+├── README.md              # Project documentation
+├── pyproject.toml         # Python config (deps, pytest, coverage, ruff, mypy)
+└── package.json           # npm config (version scripts)
 ```
 
 ## Key Patterns
@@ -92,7 +101,7 @@ All GitHub Actions are SHA-pinned with ratchet comments:
 uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
 ```
 
-Update pins with: `python automation/scripts/utils/update-action-pins.py --recursive`
+Update pins with: `python src/automation/scripts/utils/update-action-pins.py --recursive`
 
 ### Centralized Version Management
 Workflows use repository variables with fallbacks:
@@ -120,7 +129,7 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
 ## Pre-commit Troubleshooting
 
 If `mypy` fails on `types-all` dependency:
-1. Remove `types-all` from `.pre-commit-config-rapid.yaml`
+1. Remove `types-all` from `.config/pre-commit-rapid.yaml`
 2. Run `pre-commit clean && pre-commit install`
 
 If `mdformat` has dependency conflicts:
@@ -131,10 +140,9 @@ If `mdformat` has dependency conflicts:
 
 | File | Purpose |
 |------|---------|
-| `pytest.ini` | Test config (80% coverage, markers) |
-| `.pre-commit-config.yaml` | Quality hooks (ruff, mypy, bandit, etc.) |
-| `VERSION` | Source of truth for version (1.0.0) |
-| `automation/scripts/utils/update-action-pins.py` | SHA pin updater |
+| `pyproject.toml` | Python config (deps, pytest, coverage, ruff, mypy, bandit) |
+| `.pre-commit-config.yaml` | Quality hooks (symlink to .config/pre-commit.yaml) |
+| `src/automation/scripts/utils/update-action-pins.py` | SHA pin updater |
 | `.github/VERSION_MANAGEMENT.md` | Centralized versioning docs |
 | `.github/WORKFLOW_STANDARDS.md` | Workflow conventions |
 

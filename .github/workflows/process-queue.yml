@@ -28,7 +28,7 @@ jobs:
 
     - name: Process queue
       run: |
-        tasks_json=$(python automation/scripts/quota_manager.py get_tasks)
+        tasks_json=$(python src/automation/scripts/quota_manager.py get_tasks)
         if [ -z "$tasks_json" ] || [ "$tasks_json" == "[]" ]; then
           echo "No tasks in the queue."
           exit 0
@@ -36,7 +36,7 @@ jobs:
 
         echo "$tasks_json" | jq -c '.[]' | while read -r task; do
           subscription_name=$(echo "$task" | jq -r '.subscription')
-          usage=$(python automation/scripts/quota_manager.py get_usage "$subscription_name")
+          usage=$(python src/automation/scripts/quota_manager.py get_usage "$subscription_name")
           quota=$(jq -r --arg name "$subscription_name" '.subscriptions[] | select(.name==$name) | .quota' .github/subscriptions.json)
 
           if (( $(echo "$usage < $quota" | bc -l) )); then
@@ -66,7 +66,7 @@ jobs:
               fi
               gh workflow run "$workflow_file" --ref ${{ github.ref }}$inputs
 
-              python automation/scripts/quota_manager.py remove_task "$task"
+              python src/automation/scripts/quota_manager.py remove_task "$task"
             else
               echo "No relevant workflow found for subscription: $subscription_name"
             fi
@@ -80,4 +80,4 @@ jobs:
     - name: Commit state changes
       if: always()
       run: |
-        ./automation/scripts/commit_changes.sh "chore: process task queue and update state"
+        ./src/automation/scripts/commit_changes.sh "chore: process task queue and update state"

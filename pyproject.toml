@@ -5,6 +5,21 @@ description = "Organization-wide GitHub configuration and community health files
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.9"
+dependencies = [
+    "PyYAML>=6.0.1",
+    "requests>=2.31.0",
+    "PyGithub>=2.1.1",
+    "jsonschema>=4.19.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "types-PyYAML>=6.0.12",
+    "types-requests>=2.32.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-timeout>=2.0.0",
+]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -13,11 +28,10 @@ tag_format = "v$version"
 version_scheme = "semver"
 version_files = [
     "pyproject.toml:version",
-    "VERSION",
     "package.json:version",
 ]
 update_changelog_on_bump = true
-changelog_file = "CHANGELOG.md"
+changelog_file = "docs/CHANGELOG.md"
 changelog_incremental = true
 annotated_tag = true
 bump_message = "chore(release): bump version $current_version -> $new_version"
@@ -62,18 +76,18 @@ ignore = [
 
 [tool.ruff.lint.per-file-ignores]
 # JavaScript embedded in Python strings causes false positives
-"automation/scripts/generate_pilot_workflows.py" = ["F821"]
+"src/automation/scripts/generate_pilot_workflows.py" = ["F821"]
 # ML code uses X, X_train, X_test by convention
-"automation/scripts/enhanced_analytics.py" = ["N806"]
-"automation/scripts/predict_workflow_failures.py" = ["N806"]
+"src/automation/scripts/enhanced_analytics.py" = ["N806"]
+"src/automation/scripts/predict_workflow_failures.py" = ["N806"]
 "tests/unit/test_predict_workflow_failures.py" = ["N806"]
 # Test files with sys.path manipulation need late imports
 "tests/unit/test_*.py" = ["E402"]
 # LRU cache on crawler methods is intentional (short-lived instances)
-"automation/scripts/web_crawler.py" = ["B019"]
+"src/automation/scripts/web_crawler.py" = ["B019"]
 # HTML templates have long lines that can't be wrapped
-"automation/scripts/generate_email_digest.py" = ["E501"]
-"automation/scripts/self_healing.py" = ["E501"]
+"src/automation/scripts/generate_email_digest.py" = ["E501"]
+"src/automation/scripts/self_healing.py" = ["E501"]
 "tests/unit/test_models.py" = ["E501"]
 
 [tool.mypy]
@@ -87,3 +101,64 @@ check_untyped_defs = false
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "node_modules"]
 skips = ["B101"]  # Allow assert statements in tests
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = """
+    --cov=src/automation
+    --cov-report=html:htmlcov
+    --cov-report=term-missing:skip-covered
+    --cov-report=xml:coverage.xml
+    --cov-fail-under=80
+    --junitxml=test-results/pytest-report.xml
+    --verbose
+    --tb=short
+    --strict-markers
+    --strict-config
+    -ra
+    --durations=10
+    --timeout=300
+"""
+markers = [
+    "unit: Unit tests for individual components",
+    "integration: Integration tests for workflows",
+    "slow: Slow running tests (>5s)",
+    "month1: Month 1 core workflow tests",
+    "month2: Month 2 feature tests (Slack, ML, A/B testing)",
+    "month3: Month 3 advanced automation tests",
+    "critical: Critical functionality tests",
+    "requires_github_token: Tests requiring GitHub API access",
+    "requires_slack: Tests requiring Slack integration",
+    "requires_ml: Tests requiring ML model artifacts",
+    "security: Security-focused tests",
+    "performance: Performance benchmarks",
+]
+
+[tool.coverage.run]
+source = ["src/automation/scripts"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/.*",
+    "*/node_modules/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+    "@abc.abstractmethod",
+]

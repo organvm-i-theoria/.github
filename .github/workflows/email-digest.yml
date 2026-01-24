@@ -125,7 +125,7 @@ jobs:
 
     - name: Generate HTML email
       run: |
-        python3 automation/scripts/generate_email_digest.py \
+        python3 src/automation/scripts/generate_email_digest.py \
           --metrics metrics.json \
           --events notable_events.json \
           --output email_digest.html
