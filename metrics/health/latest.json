@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-01-24T17:44:47.678388",
+  "overall_health": "excellent",
+  "total_workflows": 129,
+  "healthy_workflows": 124,
+  "warnings": [
+    "test-batch-onboarding-validation.yml: Missing explicit permissions",
+    "chatmode-frontmatter.yml: Missing explicit permissions",
+    "repository-structure-validation.yml: Missing explicit permissions",
+    "test-slack-notifications.yml: Missing explicit permissions"
+  ],
+  "errors": [
+    "health-check.yml: Contains unpinned actions (@master/@main)"
+  ],
+  "recommendations": [
+    "reusable-commitizen-bump.yml: Could benefit from pip caching",
+    "token-health-check.yml: Could benefit from pip caching",
+    "batch-onboarding.yml: Could benefit from pip caching",
+    "daily-master-orchestrator.yml: Could benefit from pip caching",
+    "schema-org-validation.yml: Could benefit from pip caching",
+    "commitizen-bump.yml: Could benefit from pip caching",
+    "chatmode-frontmatter.yml: Could benefit from pip caching",
+    "org-wide-workflow-dispatch.yml: Could benefit from pip caching",
+    "repository-bootstrap.yml: Could benefit from npm caching",
+    "sla-monitoring.yml: Could benefit from pip caching",
+    "email-digest.yml: Could benefit from pip caching",
+    "safeguard-5-secret-scanning.yml: Could benefit from pip caching",
+    "reconcile-deployments.yml: Could benefit from pip caching",
+    "orchestrator.yml: Could benefit from pip caching",
+    "scan-for-secrets.yml: Could benefit from pip caching",
+    "self-healing.yml: Could benefit from pip caching",
+    "update-nodejs-version.yml: Could benefit from npm caching",
+    "proactive-maintenance.yml: Could benefit from pip caching",
+    "proactive-maintenance.yml: Could benefit from npm caching",
+    "stale-management-ab.yml: Could benefit from pip caching",
+    "update-python-version.yml: Could benefit from pip caching"
+  ],
+  "metrics": {
+    "security": {
+      "score": 9.100000000000001,
+      "issues": []
+    },
+    "performance": {
+      "score": 9,
+      "issues": []
+    },
+    "reliability": {
+      "score": 9,
+      "issues": []
+    },
+    "maintainability": {
+      "score": 9,
+      "issues": []
+    }
+  }
+}
