@@ -13,37 +13,37 @@ repository:
 team:
   name: workflow-automation-team
   leads:
-    - "@maintainer1"
-    - "@maintainer2"
+  - '@maintainer1'
+  - '@maintainer2'
   members:
-    - "@your-org/team-backend"
-    - "@your-org/team-frontend"
+  - '@your-org/team-backend'
+  - '@your-org/team-frontend'
   oncall_rotation: weekly
 
 # Slack Webhook Configuration
 slack_webhook:
-  alerts: "${SLACK_WEBHOOK_ALERTS}"
-  notifications: "${SLACK_WEBHOOK_NOTIFICATIONS}"
-  channel: "#workflow-alerts"
+  alerts: ${SLACK_WEBHOOK_ALERTS}
+  notifications: ${SLACK_WEBHOOK_NOTIFICATIONS}
+  channel: '#workflow-alerts'
   mention_oncall: true
 
 # Priority Thresholds
 priority_thresholds:
   P0:
     response_time_minutes: 15
-    slack_channel: "#incidents"
+    slack_channel: '#incidents'
     notify_oncall: true
   P1:
     response_time_minutes: 60
-    slack_channel: "#workflow-alerts"
+    slack_channel: '#workflow-alerts'
     notify_oncall: true
   P2:
     response_time_minutes: 240
-    slack_channel: "#workflow-alerts"
+    slack_channel: '#workflow-alerts'
     notify_oncall: false
   P3:
     response_time_minutes: 1440
-    slack_channel: "#workflow-updates"
+    slack_channel: '#workflow-updates'
     notify_oncall: false
 
 # Evaluation Scores (from evaluate_repository.py)
@@ -52,7 +52,7 @@ evaluation:
   recommendation: EXCELLENT - Highly recommended for pilot
   activityScore: 80.0
   documentationScore: 100.0
-  date: "2026-02-22"
+  date: '2026-02-22'
 
 # Customization Settings
 customization:
@@ -69,25 +69,25 @@ customization:
     wontfix: wont-fix
     duplicate: duplicate
     invalid: invalid
-    "priority: critical": P0
-    "priority: high": P1
-    "priority: medium": P2
-    "priority: low": P3
-    "status: triage": needs-triage
-    "status: in-progress": in-progress
-    "status: blocked": blocked
-    "status: review": ready-for-review
+    'priority: critical': P0
+    'priority: high': P1
+    'priority: medium': P2
+    'priority: low': P3
+    'status: triage': needs-triage
+    'status: in-progress': in-progress
+    'status: blocked': blocked
+    'status: review': ready-for-review
 
   # CODEOWNERS Configuration
   codeowners:
     exists: true
     path: .github/CODEOWNERS
     teams:
-      - "@your-org/team-backend"
-      - "@your-org/team-frontend"
+    - '@your-org/team-backend'
+    - '@your-org/team-frontend'
     individuals:
-      - "@maintainer1"
-      - "@maintainer2"
+    - '@maintainer1'
+    - '@maintainer2'
     # Validation rules
     validation:
       requireTeamReview: true
@@ -99,11 +99,11 @@ customization:
     daysUntilStale: 60
     daysUntilClose: 7 # Will be adjusted based on A/B test results
     exemptLabels:
-      - pinned
-      - security
-      - in-progress
-      - P0
-      - P1
+    - pinned
+    - security
+    - in-progress
+    - P0
+    - P1
     staleIssueLabel: stale
     stalePRLabel: stale
     staleIssueMessage: >
@@ -122,57 +122,57 @@ workflows:
     enabled: true
     priority: P1 # Slack notification priority on failure
     triggerEvents:
-      - issues.opened
-      - issues.reopened
+    - issues.opened
+    - issues.reopened
     labelRules:
-      - pattern: bug
-        conditions:
-          - titleContains: [bug, error, crash, fail]
-          - bodyContains: [stacktrace, exception, TypeError]
-      - pattern: feature-request
-        conditions:
-          - titleContains: [feature, enhancement, add, support]
-      - pattern: docs
-        conditions:
-          - titleContains: [docs, documentation, readme]
-          - bodyContains: [documentation, tutorial]
+    - pattern: bug
+      conditions:
+      - titleContains: [bug, error, crash, fail]
+      - bodyContains: [stacktrace, exception, TypeError]
+    - pattern: feature-request
+      conditions:
+      - titleContains: [feature, enhancement, add, support]
+    - pattern: docs
+      conditions:
+      - titleContains: [docs, documentation, readme]
+      - bodyContains: [documentation, tutorial]
     autoAssign:
       enabled: true
       teams:
-        - "@your-org/triage-team"
+      - '@your-org/triage-team'
 
   # Auto-Assign Reviewers
   autoAssignReviewers:
     enabled: true
     priority: P1 # Slack notification priority on failure
     triggerEvents:
-      - pull_request.opened
-      - pull_request.ready_for_review
+    - pull_request.opened
+    - pull_request.ready_for_review
     rules:
-      - paths: [backend/**, api/**]
-        reviewers:
-          - "@your-org/team-backend"
-        count: 2
-      - paths: [frontend/**, ui/**]
-        reviewers:
-          - "@your-org/team-frontend"
-        count: 2
-      - paths: [docs/**, "*.md"]
-        reviewers:
-          - "@maintainer1"
-        count: 1
+    - paths: [backend/**, api/**]
+      reviewers:
+      - '@your-org/team-backend'
+      count: 2
+    - paths: [frontend/**, ui/**]
+      reviewers:
+      - '@your-org/team-frontend'
+      count: 2
+    - paths: [docs/**, '*.md']
+      reviewers:
+      - '@maintainer1'
+      count: 1
 
   # Status Sync
   statusSync:
     enabled: true
     priority: P2 # Slack notification priority on failure
     triggerEvents:
-      - pull_request.synchronize
-      - check_suite.completed
+    - pull_request.synchronize
+    - check_suite.completed
     statusChecks:
-      - ci/tests
-      - ci/lint
-      - ci/build
+    - ci/tests
+    - ci/lint
+    - ci/build
 
   # Stale Management
   staleManagement:
@@ -193,30 +193,30 @@ deployment:
     duration: 24 hours
     mode: passive
     workflows:
-      - issueTriage
-      - autoAssignReviewers
-      - statusSync
-      - staleManagement
+    - issueTriage
+    - autoAssignReviewers
+    - statusSync
+    - staleManagement
     dryRun: true
     observeOnly: true
-    notifyChannel: "#workflow-alerts"
+    notifyChannel: '#workflow-alerts'
 
   # Phase 2: Active Mode (Gradual)
   phase2:
     mode: active
     gradualActivation:
-      - day: 1
-        workflows: [issueTriage]
-        monitoring: intensive
-      - day: 2
-        workflows: [autoAssignReviewers]
-        monitoring: intensive
-      - day: 3
-        workflows: [statusSync]
-        monitoring: normal
-      - day: 4
-        workflows: [staleManagement]
-        monitoring: normal
+    - day: 1
+      workflows: [issueTriage]
+      monitoring: intensive
+    - day: 2
+      workflows: [autoAssignReviewers]
+      monitoring: intensive
+    - day: 3
+      workflows: [statusSync]
+      monitoring: normal
+    - day: 4
+      workflows: [staleManagement]
+      monitoring: normal
 
 # Monitoring Configuration
 monitoring:
@@ -224,10 +224,10 @@ monitoring:
   intensive:
     frequency: 3x daily # 9 AM, 2 PM, 6 PM UTC
     checks:
-      - workflowExecutions
-      - notificationDelivery
-      - errorRates
-      - responseTimesP1
+    - workflowExecutions
+    - notificationDelivery
+    - errorRates
+    - responseTimesP1
     alerts:
       failureThreshold: 1 # Alert on any failure
       responseTimeThreshold: 30 # minutes for P1
@@ -236,104 +236,104 @@ monitoring:
   normal:
     frequency: 2x daily # 9 AM, 5 PM UTC
     checks:
-      - workflowExecutions
-      - errorRates
+    - workflowExecutions
+    - errorRates
     alerts:
       failureThreshold: 2 # Alert after 2 failures
       responseTimeThreshold: 60 # minutes for P1
 
   # Success Criteria
   successCriteria:
-    - metric: workflowSuccessRate
-      target: ">95%"
-      timeframe: 3 days
-    - metric: notificationDelivery
-      target: ">99%"
-      timeframe: 3 days
-    - metric: p1ResponseTime
-      target: <30 min
-      timeframe: 3 days
-    - metric: teamSatisfaction
-      target: ">8.0/10"
-      method: survey
-    - metric: falsePositives
-      target: <5%
-      timeframe: 3 days
+  - metric: workflowSuccessRate
+    target: '>95%'
+    timeframe: 3 days
+  - metric: notificationDelivery
+    target: '>99%'
+    timeframe: 3 days
+  - metric: p1ResponseTime
+    target: <30 min
+    timeframe: 3 days
+  - metric: teamSatisfaction
+    target: '>8.0/10'
+    method: survey
+  - metric: falsePositives
+    target: <5%
+    timeframe: 3 days
 
 # Rollback Plan
 rollback:
   triggers:
-    - successRate < 90%
-    - criticalFailure
-    - teamRequest
-    - stakeholderRequest
+  - successRate < 90%
+  - criticalFailure
+  - teamRequest
+  - stakeholderRequest
   procedure:
-    - step: Disable workflows immediately
-      command: gh workflow disable <workflow-id> --repo {repo}
-    - step: Notify team in Slack
-      channel: "#workflow-alerts"
-    - step: Document issue
-      location: GitHub Issue
-    - step: Analyze root cause
-      responsible: "@workflow-team"
-    - step: Fix and redeploy
-      timeframe: 24-48 hours
+  - step: Disable workflows immediately
+    command: gh workflow disable <workflow-id> --repo {repo}
+  - step: Notify team in Slack
+    channel: '#workflow-alerts'
+  - step: Document issue
+    location: GitHub Issue
+  - step: Analyze root cause
+    responsible: '@workflow-team'
+  - step: Fix and redeploy
+    timeframe: 24-48 hours
 
 # Stakeholder Information
 stakeholders:
   primary:
-    - name: Repository Maintainer
-      github: "@maintainer1"
-      email: maintainer1@your-org.com
-      role: Pilot Owner
+  - name: Repository Maintainer
+    github: '@maintainer1'
+    email: maintainer1@your-org.com
+    role: Pilot Owner
   secondary:
-    - name: Team Lead
-      github: "@team-lead"
-      email: teamlead@your-org.com
-      role: Approver
+  - name: Team Lead
+    github: '@team-lead'
+    email: teamlead@your-org.com
+    role: Approver
   informed:
-    - name: Engineering Manager
-      email: engmanager@your-org.com
-      role: Stakeholder
+  - name: Engineering Manager
+    email: engmanager@your-org.com
+    role: Stakeholder
 
 # Communication Plan
 communication:
   preDeployment:
-    - channel: "#pilot-repo-general"
-      message: Workflow automation pilot announcement
-      timing: 3 days before
-    - channel: Email to stakeholders
-      message: Detailed pilot plan
-      timing: 2 days before
+  - channel: '#pilot-repo-general'
+    message: Workflow automation pilot announcement
+    timing: 3 days before
+  - channel: Email to stakeholders
+    message: Detailed pilot plan
+    timing: 2 days before
 
   duringDeployment:
-    - channel: "#workflow-alerts"
-      frequency: Real-time
-      content: Status updates and issues
-    - channel: "#pilot-repo-general"
-      frequency: Daily
-      content: Daily summary
+  - channel: '#workflow-alerts'
+    frequency: Real-time
+    content: Status updates and issues
+  - channel: '#pilot-repo-general'
+    frequency: Daily
+    content: Daily summary
 
   postDeployment:
-    - channel: "#pilot-repo-general"
-      message: Pilot completion summary
-      timing: 1 week after
-    - channel: Monthly Review Meeting
-      message: Results presentation
-      timing: Feb 28, 2026
+  - channel: '#pilot-repo-general'
+    message: Pilot completion summary
+    timing: 1 week after
+  - channel: Monthly Review Meeting
+    message: Results presentation
+    timing: Feb 28, 2026
 
 # Notes and Special Considerations
 notes:
-  - This repository uses feature-request instead of enhancement label
-  - "Team prefers P0-P3 priority labels over priority: labels"
-  - CODEOWNERS requires 2 reviewers for all PRs
-  - Stale detection grace period matches A/B test experiment group (10 days)
-  - Repository has active security policies - exempt security label from stale
+- This repository uses feature-request instead of enhancement label
+- 'Team prefers P0-P3 priority labels over priority: labels'
+- CODEOWNERS requires 2 reviewers for all PRs
+- Stale detection grace period matches A/B test experiment group (10 days)
+- Repository has active security policies - exempt security label from stale
 
 # Metadata
 metadata:
-  createdDate: "2026-02-22"
+  createdDate: '2026-02-22'
   createdBy: workflow-team
-  version: "1.0"
-  lastUpdated: "2026-02-22"
+  version: '1.0'
+  lastUpdated: '2026-02-22'
   status: pending-approval

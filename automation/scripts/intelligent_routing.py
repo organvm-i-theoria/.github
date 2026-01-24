@@ -546,7 +546,7 @@ class IntelligentRouter:
                 # Random assignment
                 import random
 
-                assignee = random.choice(candidates)["login"]
+                assignee = random.choice(candidates)["login"]  # nosec B311
 
                 return RoutingDecision(
                     issue_number=issue_number,

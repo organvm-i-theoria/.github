@@ -8,7 +8,7 @@ Usage:
 """
 
 import json
-import subprocess
+import subprocess  # nosec B404
 import sys
 from dataclasses import asdict, dataclass
 from typing import Dict, List, Optional
@@ -65,7 +65,9 @@ class RepositoryEvaluator:
         """Run gh CLI command and return JSON result."""
         try:
             cmd = ["gh"] + args
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            result = subprocess.run(  # nosec B603
+                cmd, capture_output=True, text=True, check=True
+            )
             return json.loads(result.stdout)
         except subprocess.CalledProcessError as e:
             print(f"Error running command: {e}", file=sys.stderr)
@@ -107,7 +109,7 @@ class RepositoryEvaluator:
     def check_file_exists(self, filepath: str) -> bool:
         """Check if a file exists in the repository."""
         try:
-            subprocess.run(
+            subprocess.run(  # nosec B603 B607
                 ["gh", "api", f"repos/{self.repo}/contents/{filepath}"],
                 capture_output=True,
                 check=True,
@@ -346,7 +348,7 @@ def evaluate_all_repos(org: str):
 
     # Get all repos
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603 B607
             ["gh", "repo", "list", org, "--json", "name", "--limit", "1000"],
             capture_output=True,
             text=True,

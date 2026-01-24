@@ -13,7 +13,7 @@ Usage:
 
 import argparse
 import json
-import subprocess
+import subprocess  # nosec B404
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -85,7 +85,9 @@ class PreDeploymentChecker:
 
         """
         try:
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+            result = subprocess.run(  # nosec B603
+                cmd, capture_output=True, text=True, timeout=10
+            )
             return result.returncode == 0, result.stdout, result.stderr
         except subprocess.TimeoutExpired:
             return False, "", "Command timed out"

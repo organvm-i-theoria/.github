@@ -11,7 +11,7 @@ Usage:
 
 import argparse
 import json
-import subprocess
+import subprocess  # nosec B404
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -69,7 +69,7 @@ class LabelValidator:
 
         """
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 [
                     "gh",
                     "label",
@@ -116,6 +116,7 @@ class LabelValidator:
                 label.get("description", ""),
                 "--force",  # Update if exists
             ]
+            # nosec B603 - gh CLI is trusted subprocess
             subprocess.run(cmd, capture_output=True, text=True, check=True)
             return True
         except subprocess.CalledProcessError as e:

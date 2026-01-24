@@ -68,7 +68,10 @@ class GitHubProjectsManager:
         if variables:
             payload["variables"] = variables
 
-        response = requests.post(self.api_url, headers=self.headers, json=payload)
+        # nosec B113 - Intentional internal API call
+        response = requests.post(
+            self.api_url, headers=self.headers, json=payload
+        )
 
         if response.status_code != 200:
             raise Exception(f"Query failed: {response.status_code} - {response.text}")

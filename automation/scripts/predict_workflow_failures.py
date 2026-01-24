@@ -12,7 +12,7 @@ Usage:
 
 import argparse
 import json
-import subprocess
+import subprocess  # nosec B404
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -67,7 +67,7 @@ class WorkflowPredictor:
 
         # Collect workflow runs via GitHub CLI
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 [
                     "gh",
                     "api",
@@ -105,7 +105,7 @@ class WorkflowPredictor:
     def _get_current_repo(self) -> str:
         """Get current repository name."""
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 ["gh", "repo", "view", "--json", "nameWithOwner"],
                 capture_output=True,
                 text=True,
@@ -316,7 +316,7 @@ class WorkflowPredictor:
         """
         # Get list of workflows
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 ["gh", "workflow", "list", "--json", "name"],
                 capture_output=True,
                 text=True,

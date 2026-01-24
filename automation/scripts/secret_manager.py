@@ -45,7 +45,7 @@ CI/CD Integration:
     https://developer.1password.com/docs/service-accounts/
 """
 
-import subprocess
+import subprocess  # nosec B404
 import sys
 from typing import Optional
 
@@ -79,7 +79,9 @@ def get_secret(item_name: str, field: str = "password", vault: str = "Private") 
         if vault != "Private":
             cmd.extend(["--vault", vault])
 
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        result = subprocess.run(  # nosec B603 B607
+            cmd, capture_output=True, text=True, check=True
+        )
         secret = result.stdout.strip()
         return secret if secret else None
 

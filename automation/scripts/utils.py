@@ -209,9 +209,9 @@ class GitHubAPIClient:
         if token is None:
             try:
                 # Try to get token from gh CLI (most common case)
-                import subprocess
+                import subprocess  # nosec B404
 
-                result = subprocess.run(
+                result = subprocess.run(  # nosec B603 B607
                     ["gh", "auth", "token"],
                     capture_output=True,
                     text=True,
@@ -293,7 +293,7 @@ class GitHubAPIClient:
 
             except requests.exceptions.Timeout:
                 if attempt < max_attempts:
-                    delay = 2**attempt + random.uniform(0, 1)
+                    delay = 2**attempt + random.uniform(0, 1)  # nosec B311
                     self.logger.warning(
                         f"Request timeout (attempt {attempt}/{max_attempts}). Retrying in {delay:.1f}s..."
                     )
@@ -311,6 +311,7 @@ class GitHubAPIClient:
                         if retry_after:
                             delay = int(retry_after)
                         else:
+                            # nosec B311 - Non-cryptographic jitter
                             delay = 2**attempt + random.uniform(0, 1)
 
                         self.logger.warning(
@@ -548,7 +549,7 @@ def retry_with_backoff(
                     initial_delay * (backoff_factor ** (attempt - 1)),
                 )
                 if jitter:
-                    delay += random.uniform(0, 1)
+                    delay += random.uniform(0, 1)  # nosec B311
 
                 logger.warning(f"Attempt {attempt}/{max_attempts} failed: {e}. Retrying in {delay:.1f}s...")
                 time.sleep(delay)

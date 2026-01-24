@@ -37,10 +37,10 @@ TOKENS = {
 
 def get_token_from_1password(token_name: str) -> Optional[str]:
     """Retrieve token from 1Password CLI."""
-    import subprocess
+    import subprocess  # nosec B404
 
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # nosec B603 B607
             ["op", "read", f"op://Personal/{token_name}/password"],
             capture_output=True,
             text=True,

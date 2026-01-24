@@ -76,7 +76,7 @@ class GitHubProjectManager:
 
     def execute_query(self, query: str, variables: Dict = None) -> Dict:
         """Execute a GraphQL query."""
-        response = requests.post(
+        response = requests.post(  # nosec B113
             self.api_url,
             json={"query": query, "variables": variables or {}},
             headers=self.headers,

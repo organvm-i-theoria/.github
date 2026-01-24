@@ -546,12 +546,9 @@ ______________________________________________________________________
   - **Troubleshooting:**
     1. **Examine Pre-Commit Configuration:** Check `.pre-commit-config.yaml` and
        `.pre-commit-config-rapid.yaml` for misconfigurations or outdated hooks.
-
     1. **Run Pre-Commit Locally:** Execute `pre-commit run --all-files` to
        identify specific errors.
-
     1. **Address Identified Issues:**
-
        - **YAML Errors:** Correct YAML syntax errors reported by the
          `check-yaml` hook.
        - **TOML Errors:** Fix TOML syntax errors reported by the `check-toml`
@@ -564,9 +561,7 @@ ______________________________________________________________________
          the `trailing-whitespace` hook.
        - **End-of-File Fixer:** Address end-of-file issues identified by the
          `end-of-file-fixer` hook.
-
     1. **Systematic Fixes:**
-
        - **Trailing Whitespace:** The `trailing-whitespace` hook automatically
          fixes this, but you might need to stage the changes.
        - **End of File:** The `end-of-file-fixer` hook automatically fixes this,
@@ -575,10 +570,8 @@ ______________________________________________________________________
          errors.
        - **TOML Errors:** Carefully examine the TOML file and fix any syntax
          errors.
-
     1. **Executable Permissions:** Ensure that scripts with shebangs are
        executable:
-
        ```bash
        chmod +x /workspace/.devcontainer/templates/datascience/post-create.sh
        chmod +x /workspace/.devcontainer/templates/fullstack/post-create.sh
@@ -586,32 +579,10 @@ ______________________________________________________________________
        chmod +x /workspace/project_meta/context-handoff/tests/validate_context.py
        chmod +x /workspace/tests/integration/test_agent_tracking.py
        chmod +x /workspace/tests/unit/test_ecosystem_visualizer.py
-       chmod +x /workspace/automation/scripts/bootstrap-walkthrough-org.sh
-       chmod +x /workspace/automation/scripts/enhanced_ml_predictions.py
-       chmod +x /workspace/automation/scripts/manage_lock.sh
-       chmod +x /workspace/tests/unit/test_incident_response.py
-       chmod +x /workspace/tests/unit/test_intelligent_routing.py
-       chmod +x /workspace/tests/unit/test_models.py
-       chmod +x /workspace/tests/unit/test_mouthpiece_filter.py
-       chmod +x /workspace/tests/unit/test_notification_manager.py
-       chmod +x /workspace/tests/unit/test_predict_workflow_failures.py
-       chmod +x /workspace/tests/unit/test_secret_manager.py
-       chmod +x /workspace/tests/unit/test_sla_monitor.py
-       chmod +x /workspace/tests/unit/test_validation_framework.py
-       chmod +x /workspace/automation/scripts/aicommit.sh
-       chmod +x /workspace/automation/scripts/commit_changes.sh
-       chmod +x /workspace/automation/scripts/validate-standards.sh
-       chmod +x /workspace/tests/unit/test_check_auto_merge_eligibility.py
-       chmod +x /workspace/tests/unit/test_sync_labels.py
-       chmod +x /workspace/tests/unit/test_utils.py
-       chmod +x /workspace/tests/unit/test_web_crawler.py
        ```
-
     1. **Gitleaks Configuration:**
-
        - Remove duplicate `allowlist` sections in `.gitleaks.toml`. Ensure that
          the allowlist configuration is defined only once.
-
     1. **Stage Changes and Re-run:** After applying fixes, stage all changes
        (`git add -u`) and re-run `pre-commit run --all-files`.
   - **Example fixes:**
@@ -725,3 +696,11 @@ ______________________________________________________________________
                   "type": "single_select",
                   "options": [
   ```
+
+- When using `subprocess.run` in Python scripts, add `# nosec B603` and/or
+  `# nosec B607` comments to suppress bandit warnings related to subprocess
+  calls and partial executable paths, but only if the use of subprocess is
+  deemed safe and necessary.
+
+- Add `types-PyYAML` and `types-requests` to `requirements-dev.txt` to include
+  type stubs for `PyYAML` and `requests` in development environments.

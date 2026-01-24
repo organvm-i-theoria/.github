@@ -145,7 +145,7 @@ class ABTestAssigner:
     def list_all_repositories(self) -> List[str]:
         """List all repositories in the organization using GitHub CLI."""
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # nosec B603 B607
                 [
                     "gh",
                     "repo",
