@@ -115,6 +115,7 @@ repos:
   - id: eslint
     files: \.[jt]sx?$
     types: [file]
+    args: [--config, .config/.eslintrc.json]
     additional_dependencies:
     - eslint@8.56.0
     - eslint-config-prettier@9.1.0
@@ -131,7 +132,7 @@ repos:
   rev: v1.5.0
   hooks:
   - id: detect-secrets
-    args: [--baseline, .secrets.baseline]
+    args: [--baseline, .config/.secrets.baseline]
     exclude: package-lock.json
 
           # Security checks for Python
@@ -139,7 +140,7 @@ repos:
   rev: 1.9.2
   hooks:
   - id: bandit
-    args: [-c, .bandit]
+    args: [-c, .config/.bandit]
     files: \.py$
 
           # Dependency security checks

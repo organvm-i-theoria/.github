@@ -66,13 +66,13 @@ Use the provided script to update action SHAs:
 
 ```bash
 # Dry run - see what would change
-python scripts/update-action-pins.py --dry-run --verbose
+python automation/scripts/utils/update-action-pins.py --dry-run --verbose
 
 # Apply updates
-python scripts/update-action-pins.py
+python automation/scripts/utils/update-action-pins.py
 
 # Update specific workflow
-python scripts/update-action-pins.py --workflow ci.yml
+python automation/scripts/utils/update-action-pins.py --workflow ci.yml
 ```
 
 The script resolves canonical version tags to their commit SHAs while preserving ratchet comments.

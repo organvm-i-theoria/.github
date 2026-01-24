@@ -58,7 +58,7 @@ jobs:
             SHA pinning prevents supply chain attacks where a malicious actor could hijack a version tag.
 
             **How to fix:**
-            1. Run \`python .github/scripts/update-action-pins.py\`
+            1. Run \`python automation/scripts/utils/update-action-pins.py\`
             2. Or manually pin actions using format: \`action@SHA  # ratchet:action@version\`
 
             **Example:**

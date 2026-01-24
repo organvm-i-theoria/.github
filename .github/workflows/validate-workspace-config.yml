@@ -4,13 +4,13 @@ on:
   push:
     paths:
     - .devcontainer/**
-    - scripts/workspace/**
+    - automation/scripts/workspace/**
     - docker-compose*.yml
     - Dockerfile*
   pull_request:
     paths:
     - .devcontainer/**
-    - scripts/workspace/**
+    - automation/scripts/workspace/**
     - docker-compose*.yml
     - Dockerfile*
   workflow_dispatch:
@@ -124,7 +124,7 @@ jobs:
     - name: Check script syntax
       run: |
         # Find all shell scripts
-        find scripts/workspace -name "*.sh" -type f | while read script; do
+        find automation/scripts/workspace -name "*.sh" -type f | while read script; do
           echo "Checking $script"
           bash -n "$script"
         done
@@ -132,7 +132,7 @@ jobs:
     - name: Check script permissions
       run: |
         # Verify scripts are executable
-        find scripts/workspace -name "*.sh" -type f | while read script; do
+        find automation/scripts/workspace -name "*.sh" -type f | while read script; do
           if [ ! -x "$script" ]; then
             echo "Error: $script is not executable"
             exit 1

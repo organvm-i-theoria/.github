@@ -135,7 +135,7 @@ repos:
   - id: bandit
     args:
     - -c
-    - .bandit
+    - .config/.bandit
     - -ll       # Only HIGH and MEDIUM severity
     - -r
     - .
@@ -149,7 +149,7 @@ repos:
   - id: detect-secrets
     args:
     - --baseline
-    - .secrets.baseline
+    - .config/.secrets.baseline
     - --exclude-files
     - .*\.lock$
     - --exclude-files
@@ -230,7 +230,7 @@ repos:
     additional_dependencies:
     - eslint@8.56.0
     - eslint-config-prettier@9.1.0
-    args: [--fix, --max-warnings=-1]
+    args: [--config, .config/.eslintrc.json, --fix, --max-warnings=-1]
     stages: [manual]     # Run manually in rapid mode
 
   # ============================================================================

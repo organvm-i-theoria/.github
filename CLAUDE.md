@@ -63,6 +63,7 @@ pre-commit install
 
 ```
 .github/
+├── .config/               # Consolidated config files (.bandit, .eslintrc.json, etc.)
 ├── .github/workflows/     # 98+ automation workflows
 │   └── reusable/          # 6 reusable workflow templates
 ├── ai_framework/
@@ -71,12 +72,16 @@ pre-commit install
 │   ├── instructions/      # 100+ coding instructions
 │   └── prompts/           # Task-specific prompts
 ├── automation/
-│   └── scripts/           # 44 Python automation scripts
-├── scripts/               # Utility scripts (update-action-pins.py, etc.)
-├── tests/
-│   ├── unit/
-│   └── integration/
-└── docs/                  # 133+ documentation files
+│   ├── scripts/           # 44 Python automation scripts
+│   │   └── utils/         # Utility scripts (update-action-pins.py, etc.)
+│   └── project_meta/      # Project metadata and context handoffs
+├── archive/               # Historical reports and results
+├── docs/                  # 133+ documentation files
+│   └── status/            # Deployment status documents
+├── site/                  # Jekyll site files
+└── tests/
+    ├── unit/
+    └── integration/
 ```
 
 ## Key Patterns
@@ -87,7 +92,7 @@ All GitHub Actions are SHA-pinned with ratchet comments:
 uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
 ```
 
-Update pins with: `python scripts/update-action-pins.py --recursive`
+Update pins with: `python automation/scripts/utils/update-action-pins.py --recursive`
 
 ### Centralized Version Management
 Workflows use repository variables with fallbacks:
@@ -129,7 +134,7 @@ If `mdformat` has dependency conflicts:
 | `pytest.ini` | Test config (80% coverage, markers) |
 | `.pre-commit-config.yaml` | Quality hooks (ruff, mypy, bandit, etc.) |
 | `VERSION` | Source of truth for version (1.0.0) |
-| `scripts/update-action-pins.py` | SHA pin updater |
+| `automation/scripts/utils/update-action-pins.py` | SHA pin updater |
 | `.github/VERSION_MANAGEMENT.md` | Centralized versioning docs |
 | `.github/WORKFLOW_STANDARDS.md` | Workflow conventions |
 

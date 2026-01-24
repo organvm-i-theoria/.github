@@ -6,14 +6,14 @@ on:
     paths:
     - '**.md'
     - .github/**
-    - scripts/**
+    - automation/scripts/utils/**
     - .gitignore
   pull_request:
     branches: [main, develop]
     paths:
     - '**.md'
     - .github/**
-    - scripts/**
+    - automation/scripts/utils/**
     - .gitignore
   workflow_dispatch:
 
@@ -35,8 +35,8 @@ jobs:
       id: validate
       continue-on-error: true
       run: |
-        chmod +x scripts/validate-repository-structure.sh
-        ./scripts/validate-repository-structure.sh 2>&1 | tee validation-output.txt
+        chmod +x automation/scripts/utils/validate-repository-structure.sh
+        ./automation/scripts/utils/validate-repository-structure.sh 2>&1 | tee validation-output.txt
         echo "exit_code=$?" >> $GITHUB_OUTPUT
 
     - name: Generate Summary

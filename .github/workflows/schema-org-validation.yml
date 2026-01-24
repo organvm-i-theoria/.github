@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
     - .schema-org/**
-    - scripts/validate-schema-org.py
+    - automation/scripts/utils/validate-schema-org.py
   push:
     branches:
     - main
@@ -40,7 +40,7 @@ jobs:
       id: validate
       run: |
         echo "Running schema.org validation..."
-        python scripts/validate-schema-org.py
+        python automation/scripts/utils/validate-schema-org.py
       continue-on-error: true
 
     - name: Check version consistency
@@ -96,7 +96,7 @@ jobs:
             comment += 'All schema.org files are valid and follow the standards.\n';
           } else {
             comment += '❌ **Schema.org validation failed!**\n\n';
-            comment += 'Please fix the errors and run `python scripts/validate-schema-org.py` locally.\n';
+            comment += 'Please fix the errors and run `python automation/scripts/utils/validate-schema-org.py` locally.\n';
           }
 
           comment += '\n---\n\n';

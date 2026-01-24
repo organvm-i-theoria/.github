@@ -95,7 +95,7 @@ npm run version:bump:minor  # 1.0.0 → 1.1.0
 npm run version:sync        # Sync to all files
 
 # Validate
-python scripts/validate-schema-org.py
+python automation/scripts/utils/validate-schema-org.py
 ```
 
 ______________________________________________________________________
