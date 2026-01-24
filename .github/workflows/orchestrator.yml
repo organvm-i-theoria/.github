@@ -142,7 +142,7 @@ jobs:
           fi
 
           # Check quota
-          usage=$(python scripts/quota_manager.py get_usage "$subscription_name")
+          usage=$(python automation/scripts/quota_manager.py get_usage "$subscription_name")
           quota=$(jq -r --arg name "$subscription_name" '.subscriptions[] | select(.name==$name) | .quota' .github/subscriptions.json)
 
           if (( $(echo "$usage < $quota" | bc -l) )); then

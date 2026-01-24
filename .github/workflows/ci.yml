@@ -91,7 +91,7 @@ jobs:
         fi
 
     - name: Upload coverage to Codecov
-      if: matrix.python-version == '3.12' && hashFiles('coverage.xml') != ''
+      if: hashFiles('coverage.xml') != ''
       uses: codecov/codecov-action@5c47607acb93fed5485fdbf7232e8a31425f672a  # ratchet:codecov/codecov-action@v4
       with:
         files: ./coverage.xml
@@ -103,7 +103,7 @@ jobs:
       if: always() && hashFiles('junit.xml') != ''
       uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
       with:
-        name: test-results-${{ matrix.python-version }}
+        name: test-results-python-3.12
         path: |
           junit.xml
           htmlcov/
@@ -113,9 +113,9 @@ jobs:
     - name: Test summary
       if: always()
       run: |
-        echo "### 🧪 Test Results (Python ${{ matrix.python-version }})" >> $GITHUB_STEP_SUMMARY
+        echo "### 🧪 Test Results (Python 3.12)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "Tests completed for Python ${{ matrix.python-version }}" >> $GITHUB_STEP_SUMMARY
+        echo "Tests completed for Python 3.12" >> $GITHUB_STEP_SUMMARY
 
   build-and-test-node:
     name: Build and Test (Node.js)

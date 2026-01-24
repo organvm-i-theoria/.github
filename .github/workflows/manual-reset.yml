@@ -25,14 +25,14 @@ jobs:
         cache: pip
 
     - name: Make scripts executable
-      run: chmod +x scripts/*.sh
+      run: chmod +x automation/scripts/*.sh
 
         # Removed manage_lock.sh usage to prevent deadlock and reliance on deprecated locking mechanism
         # quota_manager.py handles locking internally using fcntl
 
     - name: Reset quotas
-      run: python scripts/quota_manager.py reset_quotas
+      run: python automation/scripts/quota_manager.py reset_quotas
 
     - name: Commit state changes
       run: |
-        ./scripts/commit_changes.sh "chore: manually reset quotas"
+        ./automation/scripts/commit_changes.sh "chore: manually reset quotas"
