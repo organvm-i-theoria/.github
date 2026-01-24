@@ -286,7 +286,7 @@ class IntelligentRouter:
             if not issues:
                 return 0.5  # No data, use middle score
 
-            total_response_time = 0
+            total_response_time = 0.0
             count = 0
 
             for issue in issues[:10]:  # Sample recent 10

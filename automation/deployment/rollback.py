@@ -130,7 +130,7 @@ class RollbackManager:
 
                 response = self.session.get(
                     f"{self.api_base}/repos/{repo}/commits",
-                    params={"path": file_path, "per_page": 5},
+                    params={"path": file_path, "per_page": "5"},
                 )
 
                 if response.status_code != 200:

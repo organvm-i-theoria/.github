@@ -15,7 +15,7 @@ import sys
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import requests
 
@@ -54,7 +54,7 @@ class HealthChecker:
         """
         print(f"\n🏥 Health check: {repo}")
 
-        results = {
+        results: dict[str, Any] = {
             "repo": repo,
             "timestamp": datetime.now().isoformat(),
             "overall_health": "healthy",
@@ -80,7 +80,7 @@ class HealthChecker:
             ]
 
             # Group by workflow
-            workflow_runs = {}
+            workflow_runs: dict[str, list[dict[str, Any]]] = {}
             for run in recent_runs:
                 workflow_name = run["name"]
                 if workflows and workflow_name not in workflows:

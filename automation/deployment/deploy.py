@@ -54,7 +54,7 @@ class DeploymentOrchestrator:
 
         # Deployment tracking
         self.deployment_id = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.deployment_log = []
+        self.deployment_log: list[dict[str, Any]] = []
 
     def _load_config(self) -> dict[str, Any]:
         """Load environment-specific configuration."""

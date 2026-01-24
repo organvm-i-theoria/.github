@@ -32,6 +32,7 @@ import logging
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -81,9 +82,9 @@ class EnhancedAnalyticsEngine:
         """
         self.config = config
         self.github = github_client
-        self.models = {}
+        self.models: dict[str, Any] = {}
         self.scaler = StandardScaler()
-        self.feature_names = []
+        self.feature_names: list[str] = []
 
         # Model storage paths
         self.models_dir = Path(".github/models")
@@ -301,7 +302,7 @@ class EnhancedAnalyticsEngine:
             "ci_success_rate": ci_success_rate,
         }
 
-    def train_models(self, owner: str, repo: str, lookback_days: int = 90) -> dict[str, float]:
+    def train_models(self, owner: str, repo: str, lookback_days: int = 90) -> dict[str, Any]:
         """Train ML models on historical PR data.
 
         Args:

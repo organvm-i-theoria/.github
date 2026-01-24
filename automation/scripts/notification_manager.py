@@ -37,7 +37,7 @@ from collections import defaultdict
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional, cast
 
 import requests
 import yaml
@@ -164,7 +164,7 @@ class NotificationManager:
     def _send_to_channel(self, notification: Notification, channel: str) -> DeliveryRecord:
         """Send notification to specific channel."""
         record = DeliveryRecord(
-            notification_id=notification.notification_id,
+            notification_id=cast(str, notification.notification_id),
             channel=channel,
             status=NotificationStatus.PENDING,
         )
@@ -232,7 +232,7 @@ class NotificationManager:
         }.get(notification.priority, "📢")
 
         # Build Slack message
-        slack_message = {
+        slack_message: dict[str, Any] = {
             "text": f"{emoji} *{notification.title}*",
             "blocks": [
                 {
@@ -366,7 +366,7 @@ class NotificationManager:
         cutoff = time.time() - 60
         self.rate_limits[channel] = [t for t in self.rate_limits[channel] if t > cutoff]
 
-        return len(self.rate_limits[channel]) >= max_per_minute
+        return bool(len(self.rate_limits[channel]) >= max_per_minute)
 
     def _update_rate_limit(self, channel: str):
         """Update rate limit tracking."""
@@ -386,7 +386,7 @@ class NotificationManager:
         if key in self.sent_cache:
             last_sent = self.sent_cache[key]
             age = (datetime.now(timezone.utc) - last_sent).total_seconds()
-            return age < window_seconds
+            return bool(age < window_seconds)
 
         return False
 
@@ -398,7 +398,7 @@ class NotificationManager:
     def _get_channels_for_priority(self, priority: Priority) -> list[str]:
         """Get default channels for priority level."""
         routing = self.config.get("priority_routing", {})
-        return routing.get(priority.value, ["slack"])
+        return cast(list[str], routing.get(priority.value, ["slack"]))
 
     def _log_delivery(self, record: DeliveryRecord):
         """Log delivery record."""
@@ -419,7 +419,7 @@ class NotificationManager:
             return self._default_config()
 
         with open(config_path) as f:
-            return yaml.safe_load(f)
+            return cast(dict[str, Any], yaml.safe_load(f))
 
     def _default_config(self) -> dict:
         """Default configuration."""

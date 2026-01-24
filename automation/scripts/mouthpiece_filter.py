@@ -19,7 +19,7 @@ import argparse
 import json
 import re
 import sys
-from typing import Optional
+from typing import Any, Optional
 
 
 class MouthpieceFilter:
@@ -89,7 +89,7 @@ class MouthpieceFilter:
             "style": "conversational",  # conversational, technical, hybrid
         }
 
-    def transform(self, text: str) -> dict[str, any]:
+    def transform(self, text: str) -> dict[str, Any]:
         """Transform natural text into an AI prompt.
 
         Args:
@@ -119,7 +119,7 @@ class MouthpieceFilter:
             "structure": structure,
         }
 
-    def _analyze_text(self, text: str) -> dict[str, any]:
+    def _analyze_text(self, text: str) -> dict[str, Any]:
         """Analyze the text to understand intent and content."""
         # Calculate concepts once to reuse in complexity assessment
         concepts = self._extract_concepts(text)
@@ -191,12 +191,6 @@ class MouthpieceFilter:
         # Technical-looking terms (contains underscores, dots, or mixed case)
         concepts.extend(self._TECHNICAL_TERMS_MIXED.findall(text))
         concepts.extend(self._TECHNICAL_TERMS_CAMEL.findall(text))
-        concepts.extend(self._DOUBLE_QUOTES.findall(text))
-        concepts.extend(self._SINGLE_QUOTES.findall(text))
-
-        # Technical-looking terms (contains underscores, dots, or mixed case)
-        concepts.extend(self._TECHNICAL_TERMS_DOT_UNDERSCORE.findall(text))
-        concepts.extend(self._CAMEL_CASE.findall(text))
 
         return list(set(concepts))  # Remove duplicates
 
@@ -204,7 +198,6 @@ class MouthpieceFilter:
         """Extract metaphorical language that adds color and meaning."""
         metaphors = []
         sentences = self._SENTENCE_SPLIT.split(text)
-        sentences = self._SENTENCE_SPLITTER.split(text)
 
         for sentence in sentences:
             if self._METAPHOR_PATTERN.search(sentence):
@@ -237,7 +230,7 @@ class MouthpieceFilter:
         else:
             return "neutral"
 
-    def _assess_complexity(self, text: str, concepts: list[str] = None) -> str:
+    def _assess_complexity(self, text: str, concepts: Optional[list[str]] = None) -> str:
         """Assess the complexity level of the request."""
         words = text.split()
         sentences = self._SENTENCE_SPLIT.split(text)
@@ -307,7 +300,7 @@ class MouthpieceFilter:
         questions = self._QUESTIONS.findall(text)
         return [q.strip() for q in questions if q.strip()]
 
-    def _extract_structure(self, text: str, analysis: dict) -> dict[str, any]:
+    def _extract_structure(self, text: str, analysis: dict) -> dict[str, Any]:
         """Extract structural elements from the text."""
         structure = {
             "has_context": self._has_context(text),
@@ -366,7 +359,6 @@ class MouthpieceFilter:
 
         # Split by double newlines or paragraph indicators
         paragraphs = self._PARAGRAPH_SPLIT.split(text)
-        paragraphs = self._PARAGRAPHS.split(text)
 
         for i, para in enumerate(paragraphs):
             if para.strip():
@@ -468,7 +460,7 @@ class MouthpieceFilter:
 
         return main_sentence
 
-    def _create_metadata(self, text: str, analysis: dict) -> dict[str, any]:
+    def _create_metadata(self, text: str, analysis: dict) -> dict[str, Any]:
         """Create metadata about the transformation."""
         return {
             "input_length": len(text),
@@ -483,7 +475,7 @@ class MouthpieceFilter:
     def format_output(self, result: dict, format_type: str = "full") -> str:
         """Format the result for display."""
         if format_type == "prompt_only":
-            return result["prompt"]
+            return str(result["prompt"])
         elif format_type == "json":
             return json.dumps(result, indent=2)
         else:  # full

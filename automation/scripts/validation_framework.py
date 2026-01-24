@@ -26,6 +26,7 @@ import json
 import logging
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Any
 
 from models import ValidationResult, ValidationSuite
 from notification_integration import (
@@ -166,7 +167,7 @@ class ValidationFramework:
                 result.metrics["assignment_rate"] = len(assigned_prs) / len(prs)
 
                 # Check reviewer distribution
-                reviewers = {}
+                reviewers: dict[str, int] = {}
                 for pr in assigned_prs:
                     for reviewer in pr.get("requested_reviewers", []):
                         username = reviewer.get("login")
@@ -468,7 +469,7 @@ Capabilities:
                     recent_validations.append(data)
 
         # Generate report
-        report = {
+        report: dict[str, Any] = {
             "repository": f"{owner}/{repo}",
             "period_days": days,
             "total_validations": len(recent_validations),

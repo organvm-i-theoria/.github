@@ -58,8 +58,13 @@ def main() -> int:
             missing = REQUIRED_KEYS - set(frontmatter.keys())
             if missing:
                 failures.append(f"{path}: missing keys: {', '.join(sorted(missing))}")
-            tags = frontmatter.get("tags", [])
-            tags_list = [tags] if isinstance(tags, str) else list(tags) if tags else []
+            tags: object = frontmatter.get("tags", [])
+            if isinstance(tags, str):
+                tags_list: list[str] = [tags]
+            elif isinstance(tags, list):
+                tags_list = tags
+            else:
+                tags_list = []
             for tag in tags_list:
                 if tag and tag not in ALLOWED_TAGS:
                     failures.append(f"{path}: tag not allowed: {tag}")

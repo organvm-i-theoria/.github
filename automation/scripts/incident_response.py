@@ -475,7 +475,7 @@ Current status: {incident.status.value}
                 {
                     "time": incident.resolved_at.isoformat(),
                     "event": "Incident resolved",
-                    "details": incident.resolution,
+                    "details": incident.resolution or "No resolution details",
                 }
             )
 

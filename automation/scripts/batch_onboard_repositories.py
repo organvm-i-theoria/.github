@@ -53,7 +53,7 @@ class OnboardingConfig:
 
     repositories: list[str]
     workflows: list[str] = field(default_factory=list)
-    labels: dict[str, str] = field(default_factory=dict)
+    labels: dict[str, dict[str, str]] = field(default_factory=dict)
     branch_protection: dict = field(default_factory=dict)
     secrets: dict[str, str] = field(default_factory=dict)
     environments: list[str] = field(default_factory=list)

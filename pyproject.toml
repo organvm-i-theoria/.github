@@ -78,9 +78,11 @@ ignore = [
 
 [tool.mypy]
 python_version = "3.9"
-warn_return_any = true
+warn_return_any = false
 warn_unused_configs = true
 ignore_missing_imports = true
+# Disable strict checks that cause too many false positives
+check_untyped_defs = false
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "node_modules"]

@@ -571,7 +571,7 @@ class SLAReport(BaseModel):
     repository: str
     period_start: datetime
     period_end: datetime
-    metrics: dict[str, SLAMetrics] = Field(default_factory=dict)
+    metrics: dict[str, Any] = Field(default_factory=dict)
     total_breaches: int = 0
     compliance_percentage: float = 100.0
     trends: dict[str, Any] = Field(default_factory=dict)

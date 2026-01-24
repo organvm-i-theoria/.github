@@ -377,19 +377,19 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const runs = await github.rest.actions.listWorkflowRunsForRepo({owner: context.repo.owner,
+            const runs = await github.rest.actions.listWorkflowRunsForRepo({{owner: context.repo.owner,
               repo: context.repo.repo,
               per_page: 100
-            });
+            }});
 
-            const metrics = {total_runs: runs.data.total_count,
+            const metrics = {{total_runs: runs.data.total_count,
               success_count: runs.data.workflow_runs.filter(
                 r => r.conclusion === 'success'
               ).length,
               failure_count: runs.data.workflow_runs.filter(
                 r => r.conclusion === 'failure'
               ).length
-            };
+            }};
 
             console.log(JSON.stringify(metrics, null, 2));
 
