@@ -346,5 +346,21 @@ def main():
         sys.exit(1)
 
 
+# Module-level convenience function for direct import
+def assign_group(repo_name: str, config_path: str = "src/automation/config/ab-test-config.yml") -> str:
+    """Assign repository to A/B test group.
+
+    Args:
+        repo_name: Repository name (format: "owner/repo")
+        config_path: Path to A/B test configuration file
+
+    Returns:
+        Group name: "control", "experiment", or "excluded"
+
+    """
+    assigner = ABTestAssigner(config_path)
+    return assigner.assign_group(repo_name)
+
+
 if __name__ == "__main__":
     main()

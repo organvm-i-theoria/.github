@@ -11,7 +11,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "automation" / "scripts"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
 from ecosystem_visualizer import EcosystemVisualizer
 
 
@@ -286,7 +286,6 @@ class TestTechnologyDetection:
     def viz(self):
         return EcosystemVisualizer()
 
-    @pytest.mark.skip(reason="_detect_technologies method not implemented")
     def test_detects_python_workflows(self, viz):
         """Test detection of Python-related workflows."""
         workflow_content = """
@@ -301,7 +300,6 @@ class TestTechnologyDetection:
         technologies = viz._detect_technologies(workflow_content)
         assert "Python" in technologies or "pytest" in technologies
 
-    @pytest.mark.skip(reason="_detect_technologies method not implemented")
     def test_detects_nodejs_workflows(self, viz):
         """Test detection of Node.js-related workflows."""
         workflow_content = """
@@ -315,7 +313,6 @@ class TestTechnologyDetection:
         technologies = viz._detect_technologies(workflow_content)
         assert "Node.js" in technologies or "npm" in technologies
 
-    @pytest.mark.skip(reason="_detect_technologies method not implemented")
     def test_detects_docker_workflows(self, viz):
         """Test detection of Docker-related workflows."""
         workflow_content = """

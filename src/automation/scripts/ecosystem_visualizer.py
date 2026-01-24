@@ -248,6 +248,49 @@ graph TD
 
         return parts
 
+    def _detect_technologies(self, workflow_content: str) -> list[str]:
+        """Detect technologies used in workflow content.
+
+        Args:
+            workflow_content: The content of a workflow YAML file
+
+        Returns:
+            List of detected technology names
+
+        """
+        technologies = []
+        content_lower = workflow_content.lower()
+
+        # Python detection
+        if any(x in content_lower for x in ["setup-python", "pytest", "pip install", "python -m"]):
+            technologies.append("Python")
+
+        # Node.js detection
+        if any(x in content_lower for x in ["setup-node", "npm install", "npm run", "yarn", "pnpm"]):
+            technologies.append("Node.js")
+
+        # Docker detection
+        if any(x in content_lower for x in ["docker/build-push-action", "docker build", "docker-compose"]):
+            technologies.append("Docker")
+
+        # Go detection
+        if any(x in content_lower for x in ["setup-go", "go build", "go test"]):
+            technologies.append("Go")
+
+        # Java detection
+        if any(x in content_lower for x in ["setup-java", "maven", "gradle", "mvn "]):
+            technologies.append("Java")
+
+        # Rust detection
+        if any(x in content_lower for x in ["rust", "cargo"]):
+            technologies.append("Rust")
+
+        # Terraform detection
+        if any(x in content_lower for x in ["terraform", "hashicorp/setup-terraform"]):
+            technologies.append("Terraform")
+
+        return technologies
+
     def _classify_workflow(self, workflow_name: str) -> tuple[str, str]:
         """Classify a workflow based on its name using pre-compiled
         regex patterns. Returns tuple of (emoji, category_name).
