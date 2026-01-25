@@ -119,6 +119,7 @@ jobs:
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b  # ratchet:actions/setup-python@v5
         with:
           python-version: ${{ needs.check-version.outputs.latest_version }}
+          cache: 'pip'
 
       - name: Validate dependencies install
         run: |

@@ -44,6 +44,7 @@ jobs:
         import os
         import json
         import yaml
+        import re
         from pathlib import Path
         from datetime import datetime, timedelta
         import subprocess
@@ -82,9 +83,9 @@ jobs:
                     health_report["warnings"].append(f"{workflow_name}: Missing explicit permissions")
                     health_report["metrics"]["security"]["score"] -= 0.1
 
-                # Check for unpinned actions
+                # Check for unpinned actions (only match uses: statements, not branch refs)
                 workflow_str = open(workflow_file).read()
-                if '@master' in workflow_str or '@main' in workflow_str:
+                if re.search(r'uses:.*@(master|main)\b', workflow_str):
                     health_report["errors"].append(f"{workflow_name}: Contains unpinned actions (@master/@main)")
                     health_report["metrics"]["security"]["score"] -= 0.5
 

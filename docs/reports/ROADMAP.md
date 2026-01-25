@@ -9,6 +9,13 @@ ______________________________________________________________________
 
 ## Recent Completions (January 2026)
 
+### Workflow Polish (Jan 25)
+
+- ✅ **Workflow permissions fix** (d82dcaf) - Added permissions to 4 workflows
+- ✅ **Issues #276, #277, #278 resolved** - False positives/stale issues closed
+- ✅ **Health check false positive fix** - Improved unpinned action detection
+- ✅ **Performance optimization** - Added pip/npm caching to 21 workflows
+
 ### Repository Cleanup & Organization (Jan 23)
 
 - ✅ **Documentation reorganization** - 168 files at docs root → 1 (INDEX.md)
