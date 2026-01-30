@@ -5,15 +5,15 @@ on:
     branches: [main]
     paths:
     - '**.py'
-    - '**.go'
-    - '**.rb'
+    - '**.js'
+    - '**.ts'
     - .github/workflows/codeql-analysis.yml
   pull_request:
     branches: [main]
     paths:
     - '**.py'
-    - '**.go'
-    - '**.rb'
+    - '**.js'
+    - '**.ts'
     - .github/workflows/codeql-analysis.yml
   schedule:
   - cron: 0 6 * * 1   # Weekly on Mondays
@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [go, python, ruby]
+        language: [python, javascript]
 
     steps:
     - name: Checkout repository
