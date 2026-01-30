@@ -12,13 +12,13 @@ Usage:
 import json
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class DependencyResolver:
     """Resolve dependency conflicts in automation workflows."""
 
-    def __init__(self, root_path: Path | None = None):
+    def __init__(self, root_path: Optional[Path] = None):
         """Initialize dependency resolver.
 
         Args:

@@ -2,8 +2,7 @@ name: 🐛 Bug Report
 description: File a bug report using a structured form
 title: '[Bug] '
 labels: [bug, triage]
-assignees:
-- 
+assignees: []
 body:
 - type: markdown
   attributes:

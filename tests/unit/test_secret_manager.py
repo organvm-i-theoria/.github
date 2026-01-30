@@ -3,7 +3,6 @@
 Focus: 1Password CLI integration, secret retrieval, error handling.
 """
 
-import importlib
 import subprocess
 import sys
 from pathlib import Path
@@ -19,7 +18,6 @@ if "secret_manager" in sys.modules:
     # Remove any mock that might have been set by other tests
     del sys.modules["secret_manager"]
 
-import secret_manager
 from secret_manager import (
     _print_secret_error,
     ensure_github_token,

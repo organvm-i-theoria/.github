@@ -1,14 +1,14 @@
 # ivviiviivvi Organization Hub
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](VERSION)
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)<!-- link:badges.version -->](VERSION)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)<!-- link:badges.pre_commit -->](https://github.com/pre-commit/pre-commit)
 [![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-129%20workflows-blue?logo=github-actions)](https://github.com/ivviiviivvi/.github/actions)
-[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)](https://github.com/ivviiviivvi/.github)
+[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)<!-- link:badges.security -->](https://github.com/ivviiviivvi/.github)
 [![Documentation](https://img.shields.io/badge/docs-304%2B%20files-blue?logo=markdown)](docs/INDEX.md)
 
 > **AI-Driven Development Infrastructure for the Modern Organization**
 
----
+______________________________________________________________________
 
 ## The Problem
 
@@ -19,6 +19,7 @@ with team size.
 ## Our Approach
 
 A centralized `.github` repository providing organization-wide defaults:
+
 - Standardized governance that inherits automatically
 - Production-ready AI agents for common development tasks
 - Comprehensive workflow automation
@@ -30,7 +31,7 @@ A centralized `.github` repository providing organization-wide defaults:
 - **32 AI agents** ready for deployment
 - **Clean state**: 0 open issues, 0 open PRs
 
----
+______________________________________________________________________
 
 ## Overview
 
@@ -41,27 +42,31 @@ A centralized `.github` repository providing organization-wide infrastructure:
 - **MCP Server Framework** - Extended AI capabilities across 11 languages
 - **304+ Documentation Files** - Comprehensive guides and references
 
----
+______________________________________________________________________
 
 ## Quick Start
 
 **Get started in 5 minutes:**
 
-1. **Read the basics:** [CONTRIBUTING.md](CONTRIBUTING.md) + [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-2. **Browse documentation:** [Documentation Index](docs/INDEX.md)
-3. **Set up environment:** [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
-4. **Clone and explore:**
+1. **Read the basics:** [CONTRIBUTING.md](CONTRIBUTING.md) +
+   [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+1. **Browse documentation:** [Documentation Index](docs/INDEX.md)
+1. **Set up environment:**
+   [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
+1. **Clone and explore:**
    ```bash
    git clone https://github.com/ivviiviivvi/.github.git
    cd .github
    pip install -e ".[dev]"
    pre-commit install
    ```
-5. **Find issues:** [Good first issues](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+1. **Find issues:**
+   [Good first issues](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)<!-- link:github.good_first_issue -->
 
-**Need help?** Check [SUPPORT.md](SUPPORT.md) or [start a discussion](https://github.com/orgs/ivviiviivvi/discussions).
+**Need help?** Check [SUPPORT.md](SUPPORT.md) or
+[start a discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->.
 
----
+______________________________________________________________________
 
 ## Repository Structure
 
@@ -90,24 +95,28 @@ A centralized `.github` repository providing organization-wide infrastructure:
 └── package.json           # npm config (version scripts)
 ```
 
----
+______________________________________________________________________
 
 ## Key Features
 
 ### AI Framework
 
 **32 Production Agents** across 5 categories:
+
 - Security, Infrastructure, Development, Languages, Documentation
 - See [Agent Registry](docs/AGENT_REGISTRY.md) for complete catalog
 
 **GitHub Copilot Customizations:**
+
 - [Quick Start Guide](docs/COPILOT_QUICK_START.md) - 15-minute setup
-- [Custom Instructions](docs/CUSTOM_INSTRUCTIONS_SETUP.md) - 100+ coding standards
+- [Custom Instructions](docs/CUSTOM_INSTRUCTIONS_SETUP.md) - 100+ coding
+  standards
 - [MCP Server Setup](docs/MCP_SERVER_SETUP.md) - 11 languages supported
 
 ### Workflow Automation
 
 **129 Workflows** covering:
+
 - CI/CD pipelines
 - Security scanning (CodeQL, Gitleaks, TruffleHog)
 - Stale issue management
@@ -115,6 +124,7 @@ A centralized `.github` repository providing organization-wide infrastructure:
 - Health monitoring
 
 **Key Workflows:**
+
 - `health-check.yml` - Repository health monitoring
 - `auto-merge.yml` - Automated PR merging
 - `batch-onboarding.yml` - Multi-repo onboarding
@@ -123,7 +133,8 @@ A centralized `.github` repository providing organization-wide infrastructure:
 ### Security
 
 - **SHA-Pinned Actions** - All actions pinned to specific commits
-- **Secret Scanning** - Multi-tool detection (TruffleHog, Gitleaks, detect-secrets)
+- **Secret Scanning** - Multi-tool detection (TruffleHog, Gitleaks,
+  detect-secrets)
 - **CodeQL Analysis** - Continuous vulnerability scanning
 - **Branch Protection** - Enforced rules on production branches
 
@@ -138,7 +149,7 @@ npm run version:bump:minor
 npm run version:sync
 ```
 
----
+______________________________________________________________________
 
 ## Documentation
 
@@ -146,23 +157,23 @@ npm run version:sync
 
 ### Core Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
-| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards |
-| [SECURITY.md](SECURITY.md) | Security policy |
-| [SUPPORT.md](SUPPORT.md) | Getting help |
+| Document                                 | Purpose                 |
+| ---------------------------------------- | ----------------------- |
+| [CONTRIBUTING.md](CONTRIBUTING.md)       | Contribution guidelines |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community standards     |
+| [SECURITY.md](SECURITY.md)               | Security policy         |
+| [SUPPORT.md](SUPPORT.md)                 | Getting help            |
 
 ### Guides
 
-| Guide | Description |
-|-------|-------------|
-| [COPILOT_QUICK_START.md](docs/COPILOT_QUICK_START.md) | GitHub Copilot setup |
-| [BATCH_ONBOARDING_GUIDE.md](docs/BATCH_ONBOARDING_GUIDE.md) | Multi-repo onboarding |
-| [WORKFLOW_DESIGN.md](docs/WORKFLOW_DESIGN.md) | Workflow architecture |
-| [docs/guides/CLAUDE.md](docs/guides/CLAUDE.md) | Working with Claude Code |
+| Guide                                                                                    | Description              |
+| ---------------------------------------------------------------------------------------- | ------------------------ |
+| [COPILOT_QUICK_START.md](docs/COPILOT_QUICK_START.md)                                    | GitHub Copilot setup     |
+| [BATCH_ONBOARDING_GUIDE.md](docs/BATCH_ONBOARDING_GUIDE.md)                              | Multi-repo onboarding    |
+| [WORKFLOW_DESIGN.md](docs/WORKFLOW_DESIGN.md)                                            | Workflow architecture    |
+| [docs/guides/CLAUDE.md](docs/guides/CLAUDE.md)<!-- link:internal.guides.claude_guide --> | Working with Claude Code |
 
----
+______________________________________________________________________
 
 ## Templates
 
@@ -182,17 +193,19 @@ npm run version:sync
 ### Workflow Templates
 
 Located in `workflow-templates/`:
+
 - `ci.yml` - Basic CI pipeline
 - `security-scan.yml` - CodeQL analysis
 - `stale-management.yml` - Stale issue management
 - `deployment.yml` - Deployment pipeline
 - `repository-bootstrap.yml` - Repository setup automation
 
----
+______________________________________________________________________
 
 ## GitHub Projects
 
-**7 Organization Projects** at [github.com/orgs/ivviiviivvi/projects](https://github.com/orgs/ivviiviivvi/projects):
+**7 Organization Projects** at
+[github.com/orgs/ivviiviivvi/projects](https://github.com/orgs/ivviiviivvi/projects):
 
 - AI Framework Development
 - Documentation & Knowledge
@@ -202,7 +215,7 @@ Located in `workflow-templates/`:
 - Community & Engagement
 - Product Roadmap
 
----
+______________________________________________________________________
 
 ## Development
 
@@ -236,7 +249,7 @@ ruff check . && ruff format .
 Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
 ```
 
----
+______________________________________________________________________
 
 ## Security
 
@@ -245,14 +258,15 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
 **DO NOT create a public issue.** Follow our [Security Policy](SECURITY.md):
 
 - Email: security@ivviiviivvi.com
-- [GitHub Security Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)
+- [GitHub Security Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)<!-- link:github.security_advisory -->
 
 **Response Timeline:**
+
 - 24 hours: Acknowledgment
 - 72 hours: Initial assessment
 - 7 days: Detailed response
 
----
+______________________________________________________________________
 
 ## Automation
 
@@ -266,21 +280,23 @@ Configured for: GitHub Actions, pip, npm, Docker, Go modules, Terraform
 - Closed 14 days after stale marking
 - Exemptions: security, critical priority, pinned
 
----
+______________________________________________________________________
 
 ## Community
 
-- **Questions:** [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)
-- **Issues:** [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)
+- **Questions:**
+  [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
+- **Issues:**
+  [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
 - **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
----
+______________________________________________________________________
 
 ## License
 
 [MIT License](LICENSE)
 
----
+______________________________________________________________________
 
 ## Contact
 
@@ -288,7 +304,6 @@ Configured for: GitHub Actions, pip, npm, Docker, Go modules, Terraform
 - **Security:** security@ivviiviivvi.com
 - **Support:** support@ivviiviivvi.com
 
----
+______________________________________________________________________
 
-**Last Updated:** January 25, 2026
-**Maintained by:** @ivviiviivvi/leadership
+**Last Updated:** January 25, 2026 **Maintained by:** @ivviiviivvi/leadership

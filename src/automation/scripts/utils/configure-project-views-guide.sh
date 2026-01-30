@@ -380,7 +380,7 @@ main_menu() {
         echo -e "${BLUE}└────────────────────────────────────────────────────────────┘${NC}"
         echo ""
 
-        for num in $(echo ${!PROJECTS[@]} | tr ' ' '\n' | sort -n); do
+    for num in $(printf '%s\n' "${!PROJECTS[@]}" | sort -n); do
             local title="${PROJECTS[$num]}"
             local completed=$(grep -c "^$num|.*|DONE$" "$PROGRESS_FILE" || echo 0)
             local emoji=""
@@ -444,7 +444,7 @@ configure_project() {
     echo -e "${GREEN}✓ Project #$project_num configuration complete!${NC}"
     echo -e "${GREEN}═══════════════════════════════════════════════════════════════${NC}"
     echo ""
-    read -p "$(echo -e ${CYAN}Press ENTER to continue...${NC})"
+    read -p "${CYAN}Press ENTER to continue...${NC}"
 }
 
 # Auto-configure all projects
@@ -480,7 +480,7 @@ show_detailed_progress() {
 # Reset progress
 reset_progress() {
     echo ""
-    read -p "$(echo -e ${RED}Are you sure you want to reset all progress? (y/N):${NC}) " confirm
+    read -p "${RED}Are you sure you want to reset all progress? (y/N):${NC} " confirm
     if [[ "$confirm" =~ ^[Yy]$ ]]; then
         rm -f "$PROGRESS_FILE"
         echo -e "${GREEN}Progress reset. Reinitializing...${NC}"

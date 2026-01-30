@@ -25,6 +25,9 @@ pyyaml>=6.0.1
 # Data validation
 pydantic>=2.3.0
 jsonschema>=4.19.0
+numpy>=1.26.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
 
 # Test utilities
 faker>=19.3.1

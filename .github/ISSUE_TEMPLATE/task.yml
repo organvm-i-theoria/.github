@@ -2,8 +2,7 @@ name: 📋 Task
 description: Create a task or work item
 title: '[Task] '
 labels: [task]
-assignees:
-- 
+assignees: []
 body:
 - type: markdown
   attributes:

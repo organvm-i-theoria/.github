@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Update GitHub Action SHA pins to latest versions.
+"""Update GitHub Action SHA pins to latest versions.
 
 This script resolves version tags (e.g., v4) to their full commit SHAs
 and updates workflow files while preserving ratchet comments.
@@ -36,15 +35,13 @@ except ImportError:
 
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(levelname)s: %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 
 class ActionRef(NamedTuple):
     """Represents a GitHub Action reference."""
+
     owner: str
     repo: str
     path: str  # Subpath for actions like codeql-action/init
@@ -146,7 +143,7 @@ def resolve_tag_to_sha(
     repo: str,
     tag: str,
     session: requests.Session,
-    token: str | None = None  # allow-secret
+    token: str | None = None,  # allow-secret
 ) -> str | None:
     """Resolve a Git tag to its commit SHA with retry logic."""
     headers = {"Accept": "application/vnd.github.v3+json"}
@@ -198,25 +195,18 @@ def resolve_tag_to_sha(
 
 
 def parse_action_line(line: str) -> tuple[str, str, str | None] | None:
-    """
-    Parse a workflow line with an action reference.
+    """Parse a workflow line with an action reference.
     Returns (action, current_ref, ratchet_version) or None.
 
     Handles both simple actions (owner/repo) and subpath actions (owner/repo/path).
     """
     # Match: uses: owner/repo[/subpath]@ref  # ratchet:owner/repo[/subpath]@version
-    match = re.search(
-        r'uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)\s*#\s*ratchet:([^\s]+)',
-        line
-    )
+    match = re.search(r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)\s*#\s*ratchet:([^\s]+)", line)
     if match:
         return match.group(1), match.group(2), match.group(3)
 
     # Match without ratchet comment
-    match = re.search(
-        r'uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)',
-        line
-    )
+    match = re.search(r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)", line)
     if match:
         return match.group(1), match.group(2), None
 
@@ -224,25 +214,19 @@ def parse_action_line(line: str) -> tuple[str, str, str | None] | None:
 
 
 def get_base_action(action: str) -> tuple[str, str]:
-    """
-    Extract the base owner/repo from an action path.
+    """Extract the base owner/repo from an action path.
     For 'github/codeql-action/init' returns ('github', 'codeql-action').
     """
-    parts = action.split('/')
+    parts = action.split("/")
     if len(parts) >= 2:
         return parts[0], parts[1]
     return action, ""
 
 
 def update_workflow_file(
-    filepath: Path,
-    sha_cache: dict[str, str],
-    session: requests.Session,
-    dry_run: bool = False,
-    verbose: bool = False
+    filepath: Path, sha_cache: dict[str, str], session: requests.Session, dry_run: bool = False, verbose: bool = False
 ) -> int:
-    """
-    Update action pins in a workflow file.
+    """Update action pins in a workflow file.
     Returns number of lines updated.
     """
     try:
@@ -251,7 +235,7 @@ def update_workflow_file(
         logger.error(f"Failed to read {filepath}: {e}")
         return 0
 
-    lines = content.split('\n')
+    lines = content.split("\n")
     updated_lines = []
     updates = 0
 
@@ -297,13 +281,14 @@ def update_workflow_file(
             continue
 
         # Build updated line
-        if 'uses:' in line:
+        if "uses:" in line:
             # Preserve any leading dash for list items
-            prefix_match = re.match(r'^(\s*-\s*)', line)
+            prefix_match = re.match(r"^(\s*-\s*)", line)
             if prefix_match:
                 new_line = f"{prefix_match.group(1)}uses: {action}@{new_sha}  # ratchet:{action}@{canonical_version}"
             else:
-                indent = re.match(r'^(\s*)', line).group(1)
+                indent_match = re.match(r"^(\s*)", line)
+                indent = indent_match.group(1) if indent_match else ""
                 new_line = f"{indent}uses: {action}@{new_sha}  # ratchet:{action}@{canonical_version}"
 
             if verbose:
@@ -316,7 +301,7 @@ def update_workflow_file(
 
     if updates > 0 and not dry_run:
         try:
-            filepath.write_text('\n'.join(updated_lines))
+            filepath.write_text("\n".join(updated_lines))
         except Exception as e:
             logger.error(f"Failed to write {filepath}: {e}")
             return 0
@@ -325,28 +310,11 @@ def update_workflow_file(
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Update GitHub Action SHA pins to latest versions"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Show what would be updated without making changes"
-    )
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Show detailed output"
-    )
-    parser.add_argument(
-        "--workflow", "-w",
-        help="Update only a specific workflow file"
-    )
-    parser.add_argument(
-        "--recursive", "-r",
-        action="store_true",
-        help="Search for workflows in subdirectories"
-    )
+    parser = argparse.ArgumentParser(description="Update GitHub Action SHA pins to latest versions")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would be updated without making changes")
+    parser.add_argument("--verbose", "-v", action="store_true", help="Show detailed output")
+    parser.add_argument("--workflow", "-w", help="Update only a specific workflow file")
+    parser.add_argument("--recursive", "-r", action="store_true", help="Search for workflows in subdirectories")
     args = parser.parse_args()
 
     if args.verbose:
@@ -388,9 +356,7 @@ def main():
 
     for workflow in sorted(workflow_files):
         try:
-            updates = update_workflow_file(
-                workflow, sha_cache, session, args.dry_run, args.verbose
-            )
+            updates = update_workflow_file(workflow, sha_cache, session, args.dry_run, args.verbose)
             if updates > 0:
                 print(f"  {workflow.relative_to(repo_root)}: {updates} action(s) updated")
                 total_updates += updates

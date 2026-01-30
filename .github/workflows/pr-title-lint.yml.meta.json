@@ -17,5 +17,11 @@
   "triggers": ["pull_request", "pull_request_target"],
   "dateCreated": "2024-01-01T00:00:00Z",
   "dateModified": "2025-01-24T00:00:00Z",
-  "dc:subject": ["validation", "linting", "conventional-commits", "pr-title", "logic"]
+  "dc:subject": [
+    "validation",
+    "linting",
+    "conventional-commits",
+    "pr-title",
+    "logic"
+  ]
 }

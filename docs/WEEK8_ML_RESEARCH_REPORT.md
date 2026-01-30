@@ -2,26 +2,31 @@
 
 ## Executive Summary
 
-This report summarizes the machine learning research conducted during Week 8 of the automation optimization initiative.
+This report summarizes the machine learning research conducted during Week 8 of
+the automation optimization initiative.
 
 ## Model Performance
 
 ### Workflow Failure Prediction Model
 
-| Metric | Value |
-|--------|-------|
+| Metric       | Value     |
+| ------------ | --------- |
 | **Accuracy** | **74.3%** |
-| Precision | 71.2% |
-| Recall | 68.9% |
-| F1 Score | 70.0% |
+| Precision    | 71.2%     |
+| Recall       | 68.9%     |
+| F1 Score     | 70.0%     |
 
-The model achieved a **74.3% accuracy** rate in predicting workflow failures, exceeding the initial target of 70%.
+The model achieved a **74.3% accuracy** rate in predicting workflow failures,
+exceeding the initial target of 70%.
 
 ## Key Findings
 
-1. **Feature Importance**: Repository activity patterns and historical failure rates were the strongest predictors
-2. **Temporal Patterns**: Failures are 23% more likely during peak hours (9-11 AM UTC)
-3. **Dependency Correlation**: 62% of failures correlate with dependency update patterns
+1. **Feature Importance**: Repository activity patterns and historical failure
+   rates were the strongest predictors
+1. **Temporal Patterns**: Failures are 23% more likely during peak hours (9-11
+   AM UTC)
+1. **Dependency Correlation**: 62% of failures correlate with dependency update
+   patterns
 
 ## Methodology
 
@@ -33,8 +38,8 @@ The model achieved a **74.3% accuracy** rate in predicting workflow failures, ex
 ## Recommendations
 
 1. Implement predictive pre-warming for high-risk workflows
-2. Schedule dependency updates during low-activity periods
-3. Add confidence scoring to failure predictions
+1. Schedule dependency updates during low-activity periods
+1. Add confidence scoring to failure predictions
 
 ## Next Steps
 

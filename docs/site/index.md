@@ -48,7 +48,7 @@ ______________________________________________________________________
 
 - [Contributing Guide](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
-- [Quick Start Tutorial](docs/guides/QUICK_START.md)
+- [Quick Start Tutorial](../guides/QUICK_START.md)<!-- link:internal.guides.quick_start -->
 
 ### Key Resources
 

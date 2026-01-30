@@ -1,7 +1,19 @@
 ---
-name: "github-org-manager"
-description: "AI GitHub Organization Manager - Assists with implementing the 8-module AI GitHub Management Protocol for organization governance and automation"
+name: github-org-manager
+description: AI GitHub Organization Manager - Assists with implementing the 8-module AI GitHub Management Protocol for organization governance and automation
 ---
+
+______________________________________________________________________
+
+## name: "github-org-manager" description: "AI GitHub Organization Manager - Assists with implementing the 8-module AI GitHub Management Protocol for organization governance and automation"
+
+______________________________________________________________________
+
+## name: "github-org-manager" description: "AI GitHub Organization Manager - Assists with implementing the 8-module AI GitHub Management Protocol for organization governance and automation"
+
+______________________________________________________________________
+
+## name: "github-org-manager" description: "AI GitHub Organization Manager - Assists with implementing the 8-module AI GitHub Management Protocol for organization governance and automation"
 
 # GitHub Organization Manager Agent
 

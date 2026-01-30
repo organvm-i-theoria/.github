@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Validate workflow metadata sidecar files against the FUNCTIONcalled schema.
+"""Validate workflow metadata sidecar files against the FUNCTIONcalled schema.
 
 This tool validates .meta.json files that provide structured metadata
 for GitHub Actions workflows following the FUNCTIONcalled naming convention.
@@ -20,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from jsonschema import Draft202012Validator, ValidationError
+    from jsonschema import Draft202012Validator
 except ImportError:
     print("Error: jsonschema package required. Install with: pip install jsonschema")
     sys.exit(1)
@@ -43,15 +42,12 @@ def load_schema(schema_path: Path) -> dict[str, Any]:
         sys.exit(1)
 
 
-def validate_metadata(
-    metadata_path: Path,
-    validator: Draft202012Validator
-) -> tuple[bool, list[str]]:
-    """
-    Validate a metadata file against the schema.
+def validate_metadata(metadata_path: Path, validator: Draft202012Validator) -> tuple[bool, list[str]]:
+    """Validate a metadata file against the schema.
 
     Returns:
         (is_valid, list of error messages)
+
     """
     errors: list[str] = []
 
@@ -64,10 +60,7 @@ def validate_metadata(
         return False, [f"Invalid JSON: {e}"]
 
     # Validate against schema
-    validation_errors = sorted(
-        validator.iter_errors(data),
-        key=lambda e: list(e.path)
-    )
+    validation_errors = sorted(validator.iter_errors(data), key=lambda e: list(e.path))
 
     for err in validation_errors:
         loc = ".".join(str(p) for p in err.path) or "(root)"
@@ -87,15 +80,9 @@ def validate_metadata(
         if canonical:
             parts = canonical.split(".")
             if len(parts) < 3:
-                errors.append(
-                    "functioncalled.canonical: must have at least 3 parts "
-                    "(layer.role.domain[.ext])"
-                )
+                errors.append("functioncalled.canonical: must have at least 3 parts (layer.role.domain[.ext])")
             elif parts[0] not in valid_layers:
-                errors.append(
-                    f"functioncalled.canonical: first part must be a valid layer, "
-                    f"got '{parts[0]}'"
-                )
+                errors.append(f"functioncalled.canonical: first part must be a valid layer, got '{parts[0]}'")
 
     return len(errors) == 0, errors
 
@@ -106,31 +93,13 @@ def find_metadata_files(directory: Path) -> list[Path]:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Validate FUNCTIONcalled workflow metadata sidecar files"
-    )
+    parser = argparse.ArgumentParser(description="Validate FUNCTIONcalled workflow metadata sidecar files")
     parser.add_argument(
-        "--schema",
-        type=Path,
-        default=DEFAULT_SCHEMA,
-        help=f"Path to JSON schema file (default: {DEFAULT_SCHEMA})"
+        "--schema", type=Path, default=DEFAULT_SCHEMA, help=f"Path to JSON schema file (default: {DEFAULT_SCHEMA})"
     )
-    parser.add_argument(
-        "--scan-dir",
-        type=Path,
-        help="Directory to scan for .meta.json files"
-    )
-    parser.add_argument(
-        "files",
-        nargs="*",
-        type=Path,
-        help="Metadata files to validate"
-    )
-    parser.add_argument(
-        "-q", "--quiet",
-        action="store_true",
-        help="Only output errors"
-    )
+    parser.add_argument("--scan-dir", type=Path, help="Directory to scan for .meta.json files")
+    parser.add_argument("files", nargs="*", type=Path, help="Metadata files to validate")
+    parser.add_argument("-q", "--quiet", action="store_true", help="Only output errors")
 
     args = parser.parse_args()
 

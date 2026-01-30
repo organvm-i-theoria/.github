@@ -64,10 +64,7 @@
             "description": "Relative path to workflow file"
           },
           "meta": {
-            "oneOf": [
-              { "type": "string" },
-              { "type": "null" }
-            ],
+            "oneOf": [{ "type": "string" }, { "type": "null" }],
             "description": "Relative path to metadata sidecar (null if orphan)"
           },
           "hash": {

@@ -12,6 +12,7 @@ Usage:
 
 import argparse
 import json
+import logging
 import subprocess  # nosec B404
 import sys
 from datetime import datetime, timedelta
@@ -79,7 +80,7 @@ class WorkflowPredictor:
 
             runs = json.loads(result.stdout)["workflow_runs"]
 
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             print(f"Error collecting data: {e}", file=sys.stderr)
             return pd.DataFrame()
 
@@ -105,7 +106,7 @@ class WorkflowPredictor:
                 check=True,
             )
             return json.loads(result.stdout)["nameWithOwner"]
-        except (subprocess.SubprocessError, json.JSONDecodeError, KeyError, OSError) as e:
+        except Exception as e:
             # SubprocessError: gh command failed
             # JSONDecodeError: invalid JSON response
             # KeyError: missing expected field
@@ -215,6 +216,7 @@ class WorkflowPredictor:
             "accuracy": float(accuracy),
             "precision": float(precision),
             "recall": float(recall),
+            "f1": float(f1),
             "f1_score": float(f1),
             "training_samples": len(X_train),
             "test_samples": len(X_test),
@@ -242,19 +244,31 @@ class WorkflowPredictor:
 
         return metrics
 
-    def predict(self, workflow_name: str, repository: str) -> dict:
-        """Predict failure probability for a workflow.
+    def predict(self, workflow_name: str | dict, repository: Optional[str] = None) -> float | dict:
+        """Predict failure probability for a workflow or feature set.
 
         Args:
-            workflow_name: Name of the workflow
-            repository: Repository name (owner/repo)
+            workflow_name: Workflow name string or feature dict
+            repository: Repository name (owner/repo) when predicting by workflow name
 
         Returns:
-            Dictionary with prediction results
+            Failure probability for feature dicts or a prediction summary for workflow names
 
         """
         if self.model is None:
-            self.load_model()
+            if self.model_path.exists():
+                self.load_model()
+            else:
+                raise ValueError("Model not trained")
+
+        if isinstance(workflow_name, dict):
+            features = workflow_name
+            X = np.array([[features[col] for col in self.feature_columns]])
+            assert self.model is not None, "Model not loaded"  # nosec B101
+            return float(self.model.predict_proba(X)[0, 1])
+
+        if repository is None:
+            raise ValueError("Repository is required for workflow prediction")
 
         # Create feature vector for current time
         now = datetime.utcnow()
@@ -302,6 +316,21 @@ class WorkflowPredictor:
         }
 
         return result
+
+    def assess_risk(self, features: dict) -> dict:
+        """Assess risk level based on predicted failure probability."""
+        probability = float(self.predict(features))
+
+        if probability < 0.15:
+            level = "LOW"
+        elif probability < 0.30:
+            level = "MEDIUM"
+        elif probability < 0.60:
+            level = "HIGH"
+        else:
+            level = "CRITICAL"
+
+        return {"probability": probability, "level": level}
 
     def get_high_risk_workflows(self, threshold: float = 0.15) -> list[dict]:
         """Identify workflows at high risk of failure.

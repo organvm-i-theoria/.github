@@ -216,7 +216,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: 'chore: update workflow metrics [skip ci]'
         title: 'chore: update workflow metrics'
-        body: 'Automated update of workflow metrics.'
+        body: Automated update of workflow metrics.
         branch: automated-metrics-update
         base: main
         delete-branch: true

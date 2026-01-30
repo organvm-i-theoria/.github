@@ -1,10 +1,12 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with
+code in this repository.
 
 ## Repository Purpose
 
 Organization-level `.github` repository for ivviiviivvi providing:
+
 - Default community health files inherited by all org repositories
 - 98+ GitHub Actions workflows
 - 26 production AI agents in `src/ai_framework/`
@@ -13,6 +15,7 @@ Organization-level `.github` repository for ivviiviivvi providing:
 ## Essential Commands
 
 ### Testing
+
 ```bash
 # Full test suite with coverage (80% minimum required)
 python -m pytest --cov=src/automation --cov-report=html
@@ -27,6 +30,7 @@ python -m pytest -m critical  # Critical tests
 ```
 
 ### Linting & Code Quality
+
 ```bash
 # Run all pre-commit hooks
 pre-commit run --all-files
@@ -43,6 +47,7 @@ bandit -r src/automation/scripts/
 ```
 
 ### Version Management
+
 ```bash
 # Check version (in pyproject.toml)
 grep "^version" pyproject.toml  # Currently 1.0.0
@@ -53,6 +58,7 @@ npm run version:sync
 ```
 
 ### Setup
+
 ```bash
 pip install -e ".[dev]"
 pip install pre-commit
@@ -96,22 +102,29 @@ pre-commit install
 ## Key Patterns
 
 ### Workflow SHA Pinning
+
 All GitHub Actions are SHA-pinned with ratchet comments:
+
 ```yaml
 uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
 ```
 
-Update pins with: `python src/automation/scripts/utils/update-action-pins.py --recursive`
+Update pins with:
+`python src/automation/scripts/utils/update-action-pins.py --recursive`
 
 ### Centralized Version Management
+
 Workflows use repository variables with fallbacks:
+
 ```yaml
 python-version: ${{ vars.PYTHON_VERSION_DEFAULT || '3.12' }}
 node-version: ${{ vars.NODE_VERSION_DEFAULT || '20' }}
 ```
 
 ### FUNCTIONcalled Metadata
+
 Workflows can have `.meta.json` sidecars with layer classification:
+
 - `core` - Foundation, CI, reusable workflows
 - `interface` - User-facing workflows
 - `logic` - Validation workflows
@@ -120,6 +133,7 @@ Workflows can have `.meta.json` sidecars with layer classification:
 ## Commit Convention
 
 **Strictly enforced** via pre-commit hooks and CI:
+
 ```
 <type>(<scope>): <subject>
 
@@ -129,22 +143,25 @@ Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
 ## Pre-commit Troubleshooting
 
 If `mypy` fails on `types-all` dependency:
+
 1. Remove `types-all` from `.config/pre-commit-rapid.yaml`
-2. Run `pre-commit clean && pre-commit install`
+1. Run `pre-commit clean && pre-commit install`
 
 If `mdformat` has dependency conflicts:
+
 1. Ensure rev is `0.7.17` with `mdformat-gfm>=0.3.5`
-2. Run `pre-commit autoupdate --repo https://github.com/executablebooks/mdformat`
+1. Run
+   `pre-commit autoupdate --repo https://github.com/executablebooks/mdformat`
 
 ## Key Files
 
-| File | Purpose |
-|------|---------|
-| `pyproject.toml` | Python config (deps, pytest, coverage, ruff, mypy, bandit) |
-| `.pre-commit-config.yaml` | Quality hooks (symlink to .config/pre-commit.yaml) |
-| `src/automation/scripts/utils/update-action-pins.py` | SHA pin updater |
-| `.github/VERSION_MANAGEMENT.md` | Centralized versioning docs |
-| `.github/WORKFLOW_STANDARDS.md` | Workflow conventions |
+| File                                                 | Purpose                                                    |
+| ---------------------------------------------------- | ---------------------------------------------------------- |
+| `pyproject.toml`                                     | Python config (deps, pytest, coverage, ruff, mypy, bandit) |
+| `.pre-commit-config.yaml`                            | Quality hooks (symlink to .config/pre-commit.yaml)         |
+| `src/automation/scripts/utils/update-action-pins.py` | SHA pin updater                                            |
+| `.github/VERSION_MANAGEMENT.md`                      | Centralized versioning docs                                |
+| `.github/WORKFLOW_STANDARDS.md`                      | Workflow conventions                                       |
 
 ## Runtime Requirements
 
@@ -155,6 +172,7 @@ If `mdformat` has dependency conflicts:
 ## Additional Documentation
 
 See `docs/guides/CLAUDE.md` for comprehensive guide including:
+
 - Full workflow catalog
 - GitHub Copilot customization details
 - Security & compliance information

@@ -9,9 +9,7 @@
     "repository-structure-validation.yml: Missing explicit permissions",
     "test-slack-notifications.yml: Missing explicit permissions"
   ],
-  "errors": [
-    "health-check.yml: Contains unpinned actions (@master/@main)"
-  ],
+  "errors": ["health-check.yml: Contains unpinned actions (@master/@main)"],
   "recommendations": [
     "reusable-commitizen-bump.yml: Could benefit from pip caching",
     "token-health-check.yml: Could benefit from pip caching",

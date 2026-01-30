@@ -1,7 +1,19 @@
 ---
-name: "workflow-optimizer"
-description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability"
+name: workflow-optimizer
+description: Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability
 ---
+
+______________________________________________________________________
+
+## name: "workflow-optimizer" description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability"
+
+______________________________________________________________________
+
+## name: "workflow-optimizer" description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability"
+
+______________________________________________________________________
+
+## name: "workflow-optimizer" description: "Workflow Optimizer Agent - Analyzes and optimizes GitHub Actions workflows for performance, cost, security, and reliability"
 
 # Workflow Optimizer Agent
 

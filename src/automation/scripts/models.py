@@ -98,7 +98,7 @@ class AutoMergeConfig(BaseModel):
     notify_on_failure: bool = True
 
     @validator("coverage_threshold")
-    def validate_coverage(cls, v):
+    def validate_coverage(cls, v):  # noqa: N805
         """Validate coverage threshold is reasonable."""
         if v < 0 or v > 100:
             raise ValueError("Coverage threshold must be between 0 and 100")
@@ -158,7 +158,7 @@ class RoutingConfig(BaseModel):
     exempt_labels: list[str] = Field(default_factory=list)
 
     @validator("factors")
-    def validate_weights(cls, v):
+    def validate_weights(cls, v):  # noqa: N805
         """Validate routing weights sum to 1.0."""
         total = sum(v.values())
         if not (0.99 <= total <= 1.01):  # Allow small floating point error

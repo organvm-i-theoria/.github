@@ -9,7 +9,7 @@ inputs:
   cache:
     description: Package manager to cache (npm, yarn, pnpm, or empty for no cache)
     required: false
-    default: 'npm'
+    default: npm
   cache-dependency-path:
     description: Path to lockfile for cache key
     required: false
@@ -30,33 +30,33 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Determine Node.js version
-      id: version
-      shell: bash
-      run: |
-        # Priority: input > repository variable > default
-        INPUT_VERSION="${{ inputs.node-version }}"
-        REPO_VAR_VERSION="${{ vars.NODE_VERSION_DEFAULT }}"
-        DEFAULT_VERSION="20"
+  - name: Determine Node.js version
+    id: version
+    shell: bash
+    run: |
+      # Priority: input > repository variable > default
+      INPUT_VERSION="${{ inputs.node-version }}"
+      REPO_VAR_VERSION="${{ vars.NODE_VERSION_DEFAULT }}"
+      DEFAULT_VERSION="20"
 
-        if [ -n "$INPUT_VERSION" ]; then
-          VERSION="$INPUT_VERSION"
-          echo "Using input version: $VERSION"
-        elif [ -n "$REPO_VAR_VERSION" ]; then
-          VERSION="$REPO_VAR_VERSION"
-          echo "Using repository variable NODE_VERSION_DEFAULT: $VERSION"
-        else
-          VERSION="$DEFAULT_VERSION"
-          echo "Using default version: $VERSION"
-        fi
+      if [ -n "$INPUT_VERSION" ]; then
+        VERSION="$INPUT_VERSION"
+        echo "Using input version: $VERSION"
+      elif [ -n "$REPO_VAR_VERSION" ]; then
+        VERSION="$REPO_VAR_VERSION"
+        echo "Using repository variable NODE_VERSION_DEFAULT: $VERSION"
+      else
+        VERSION="$DEFAULT_VERSION"
+        echo "Using default version: $VERSION"
+      fi
 
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
+      echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-    - name: Set up Node.js ${{ steps.version.outputs.version }}
-      id: setup
-      uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # ratchet:actions/setup-node@v4
-      with:
-        node-version: ${{ steps.version.outputs.version }}
-        cache: ${{ inputs.cache }}
-        cache-dependency-path: ${{ inputs.cache-dependency-path }}
-        registry-url: ${{ inputs.registry-url }}
+  - name: Set up Node.js ${{ steps.version.outputs.version }}
+    id: setup
+    uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af    # ratchet:actions/setup-node@v4
+    with:
+      node-version: ${{ steps.version.outputs.version }}
+      cache: ${{ inputs.cache }}
+      cache-dependency-path: ${{ inputs.cache-dependency-path }}
+      registry-url: ${{ inputs.registry-url }}

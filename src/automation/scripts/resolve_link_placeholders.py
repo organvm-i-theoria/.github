@@ -121,6 +121,7 @@ def calculate_relative_path(from_file: Path, to_path: str, root: Path) -> str:
 
     Returns:
         Relative path from from_file's directory to the target
+
     """
     from_dir = from_file.parent
     target = root / to_path
@@ -292,10 +293,7 @@ def migrate_broken_links(
         raw_target = link_map[key]
         new_url = calculate_relative_path(current_file, raw_target, root)
 
-        return (
-            f"{match.group('prefix')}{new_url}"
-            f"{match.group('suffix')}<!-- link:{key} -->"
-        )
+        return f"{match.group('prefix')}{new_url}{match.group('suffix')}<!-- link:{key} -->"
 
     return BROKEN_AGENT_LINK_RE.sub(replace_broken_link, text)
 
@@ -368,8 +366,7 @@ def main() -> int:
             original = migrate_broken_links(original, link_map, md_file, root)
 
         updated_text, updated, annotated, missing = replace_links(
-            original, link_map, reverse_map, args.annotate,
-            current_file=md_file, root=root
+            original, link_map, reverse_map, args.annotate, current_file=md_file, root=root
         )
         total_updates += updated
         total_annotations += annotated

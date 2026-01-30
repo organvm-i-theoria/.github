@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Build a FUNCTIONcalled registry from workflow metadata sidecar files.
+"""Build a FUNCTIONcalled registry from workflow metadata sidecar files.
 
 This tool scans for .meta.json files and builds a registry catalog of all
 workflows with their metadata, hashes, and FUNCTIONcalled classifications.
@@ -15,7 +14,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -44,22 +42,19 @@ def load_metadata(meta_path: Path) -> dict[str, Any]:
 
 def find_workflow_files(root: Path) -> list[Path]:
     """Find all YAML workflow files."""
-    files = []
+    files: list[Path] = []
     for pattern in ["*.yml", "*.yaml"]:
         files.extend(root.glob(f"**/{pattern}"))
     return sorted(files)
 
 
-def build_registry(
-    root: Path,
-    include_orphans: bool = False
-) -> dict[str, Any]:
-    """
-    Build a registry from metadata files.
+def build_registry(root: Path, include_orphans: bool = False) -> dict[str, Any]:
+    """Build a registry from metadata files.
 
     Args:
         root: Root directory to scan
         include_orphans: Include workflows without metadata sidecars
+
     """
     root = root.resolve()
     resources: list[dict[str, Any]] = []
@@ -71,10 +66,8 @@ def build_registry(
     for meta_path in sorted(root.glob("**/*.meta.json")):
         # Determine the workflow file path
         meta_name = meta_path.name
-        if meta_name.endswith(".yml.meta.json"):
-            workflow_name = meta_name[:-len(".meta.json")]
-        elif meta_name.endswith(".yaml.meta.json"):
-            workflow_name = meta_name[:-len(".meta.json")]
+        if meta_name.endswith(".yml.meta.json") or meta_name.endswith(".yaml.meta.json"):
+            workflow_name = meta_name[: -len(".meta.json")]
         else:
             continue  # Skip non-workflow metadata
 
@@ -132,7 +125,7 @@ def build_registry(
                 resources.append(entry)
 
     # Build registry
-    registry = {
+    registry: dict[str, Any] = {
         "$schema": "https://example.com/schemas/workflow-registry.schema.json",
         "generated": datetime.now(timezone.utc).isoformat(),
         "generator": "workflow-registry-builder.py",
@@ -158,32 +151,18 @@ def build_registry(
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Build a FUNCTIONcalled registry from workflow metadata files"
-    )
+    parser = argparse.ArgumentParser(description="Build a FUNCTIONcalled registry from workflow metadata files")
     parser.add_argument(
         "--root",
         type=Path,
         default=Path(".github/workflows"),
-        help="Root directory to scan (default: .github/workflows)"
+        help="Root directory to scan (default: .github/workflows)",
     )
     parser.add_argument(
-        "--out",
-        type=Path,
-        default=Path("registry/workflow-registry.json"),
-        help="Output registry file path"
+        "--out", type=Path, default=Path("registry/workflow-registry.json"), help="Output registry file path"
     )
-    parser.add_argument(
-        "--include-orphans",
-        action="store_true",
-        help="Include workflows without metadata sidecars"
-    )
-    parser.add_argument(
-        "--pretty",
-        action="store_true",
-        default=True,
-        help="Pretty print JSON output (default: true)"
-    )
+    parser.add_argument("--include-orphans", action="store_true", help="Include workflows without metadata sidecars")
+    parser.add_argument("--pretty", action="store_true", default=True, help="Pretty print JSON output (default: true)")
 
     args = parser.parse_args()
 

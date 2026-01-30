@@ -49,7 +49,8 @@ docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6.9.0
 
 ### SHA Pinning with Ratchet Comments
 
-All actions must be pinned to full commit SHAs with a `# ratchet:` comment indicating the human-readable version:
+All actions must be pinned to full commit SHAs with a `# ratchet:` comment
+indicating the human-readable version:
 
 ```yaml
 # Format: owner/repo@<40-char-sha>  # ratchet:owner/repo@<version-tag>
@@ -57,8 +58,10 @@ uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actio
 ```
 
 **Why this format?**
+
 - **SHA pinning**: Ensures reproducible builds and prevents supply chain attacks
-- **Ratchet comment**: Documents the intended version for humans and tools like [ratchet](https://github.com/sethvargo/ratchet)
+- **Ratchet comment**: Documents the intended version for humans and tools like
+  [ratchet](https://github.com/sethvargo/ratchet)<!-- link:github.ratchet -->
 
 ### Updating Action Pins
 
@@ -75,26 +78,28 @@ python automation/scripts/utils/update-action-pins.py
 python automation/scripts/utils/update-action-pins.py --workflow ci.yml
 ```
 
-The script resolves canonical version tags to their commit SHAs while preserving ratchet comments.
+The script resolves canonical version tags to their commit SHAs while preserving
+ratchet comments.
 
 ### Automated Updates
 
 Version updates are automated via scheduled workflows:
 
-| Workflow | Schedule | Description |
-|----------|----------|-------------|
-| `update-action-pins-scheduled.yml` | Weekly (Tue 4am UTC) | Updates action SHA pins |
-| `update-python-version.yml` | Monthly (15th) | Updates default Python version |
-| `update-nodejs-version.yml` | Monthly (20th) | Updates default Node.js version |
-| `version-update-orchestrator.yml` | Weekly (Mon 3am UTC) | Status dashboard & management |
+| Workflow                           | Schedule             | Description                     |
+| ---------------------------------- | -------------------- | ------------------------------- |
+| `update-action-pins-scheduled.yml` | Weekly (Tue 4am UTC) | Updates action SHA pins         |
+| `update-python-version.yml`        | Monthly (15th)       | Updates default Python version  |
+| `update-nodejs-version.yml`        | Monthly (20th)       | Updates default Node.js version |
+| `version-update-orchestrator.yml`  | Weekly (Mon 3am UTC) | Status dashboard & management   |
 
 See [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md) for detailed documentation.
 
 ### Common SHA Issues
 
-1. **Duplicate ratchet comments**: Each line should have exactly one `# ratchet:` comment
-2. **Outdated SHAs**: Run `update-action-pins.py` regularly
-3. **Missing ratchet comments**: Always add when pinning to SHA
+1. **Duplicate ratchet comments**: Each line should have exactly one
+   `# ratchet:` comment
+1. **Outdated SHAs**: Run `update-action-pins.py` regularly
+1. **Missing ratchet comments**: Always add when pinning to SHA
 
 ## Required Workflow Elements
 
@@ -166,7 +171,8 @@ jobs:
 
 ### 5. Centralized Version Management
 
-**PREFER** using repository variables and composite actions for runtime versions:
+**PREFER** using repository variables and composite actions for runtime
+versions:
 
 #### Using Composite Actions (Recommended)
 
@@ -198,10 +204,10 @@ jobs:
 
 Configure in **Settings > Secrets and variables > Actions > Variables**:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PYTHON_VERSION_DEFAULT` | `3.12` | Default Python version |
-| `NODE_VERSION_DEFAULT` | `20` | Default Node.js LTS version |
+| Variable                 | Default | Description                 |
+| ------------------------ | ------- | --------------------------- |
+| `PYTHON_VERSION_DEFAULT` | `3.12`  | Default Python version      |
+| `NODE_VERSION_DEFAULT`   | `20`    | Default Node.js LTS version |
 
 See [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md) for complete documentation.
 
@@ -440,16 +446,17 @@ echo "foo=bar" >> $GITHUB_OUTPUT
 
 ## FUNCTIONcalled Workflow Metadata
 
-Workflows can have metadata sidecars (`.meta.json` files) for structured classification:
+Workflows can have metadata sidecars (`.meta.json` files) for structured
+classification:
 
 ### Layer Classification
 
-| Layer | Purpose | Example Workflows |
-|-------|---------|-------------------|
-| `core` | Foundation, CI, reusable | `ci.yml`, `reusable-*.yml` |
-| `interface` | User-facing, interaction | `welcome.yml`, `auto-assign.yml` |
-| `logic` | Validation, processing | `pr-title-lint.yml`, `validate-*.yml` |
-| `application` | Deployment, release | `release.yml`, `deployment.yml` |
+| Layer         | Purpose                  | Example Workflows                     |
+| ------------- | ------------------------ | ------------------------------------- |
+| `core`        | Foundation, CI, reusable | `ci.yml`, `reusable-*.yml`            |
+| `interface`   | User-facing, interaction | `welcome.yml`, `auto-assign.yml`      |
+| `logic`       | Validation, processing   | `pr-title-lint.yml`, `validate-*.yml` |
+| `application` | Deployment, release      | `release.yml`, `deployment.yml`       |
 
 ### Adding Metadata
 
@@ -464,7 +471,9 @@ Create `<workflow>.yml.meta.json` alongside your workflow:
 }
 ```
 
-See [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md#functioncalled-workflow-metadata) for complete schema and examples.
+See
+[VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md#functioncalled-workflow-metadata)
+for complete schema and examples.
 
 ## References
 
