@@ -7,6 +7,8 @@ on:
     - '**.py'
     - '**.js'
     - '**.ts'
+    - '**.rb'
+    - '**.go'
     - .github/workflows/codeql-analysis.yml
   pull_request:
     branches: [main]
@@ -14,6 +16,8 @@ on:
     - '**.py'
     - '**.js'
     - '**.ts'
+    - '**.rb'
+    - '**.go'
     - .github/workflows/codeql-analysis.yml
   schedule:
   - cron: 0 6 * * 1   # Weekly on Mondays
@@ -36,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [python, javascript]
+        language: [python, javascript, go, ruby]
 
     steps:
     - name: Checkout repository

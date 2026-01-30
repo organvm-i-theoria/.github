@@ -1,10 +1,14 @@
 name: Security Scan
 
 on:
+  push:
+    branches: [main, master, develop]
     paths:
     - '**.py'
     - '**.js'
     - '**.ts'
+    - '**.go'
+    - '**.rs'
     - requirements*.txt
     - package*.json
   pull_request:
@@ -18,8 +22,7 @@ on:
     - requirements*.txt
     - package*.json
   schedule:
-    # Run weekly security scans
-  - cron: 0 0 * * 0
+  - cron: 0 0 * * 0  # Run weekly security scans
   workflow_dispatch:
 
 concurrency:
