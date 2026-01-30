@@ -11,7 +11,7 @@ This module defines the core data structures used across all Month 3 components:
 All models use Pydantic for validation and serialization.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -72,7 +72,7 @@ class AutoMergeEligibility(BaseModel):
 
     pr_number: int = Field(..., description="Pull request number")
     repository: str = Field(..., description="Repository full name")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     eligible: bool = Field(..., description="Whether PR is eligible for auto-merge")
     checks_passed: AutoMergeSafetyChecks
@@ -125,7 +125,7 @@ class RoutingDecision(BaseModel):
 
     issue_number: int = Field(..., description="Issue number")
     repository: str = Field(..., description="Repository full name")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     assignee: str = Field(..., description="Selected assignee username")
     score: float = Field(..., ge=0.0, le=1.0, description="Overall assignment score")
@@ -181,7 +181,7 @@ class FailureClassification(BaseModel):
     reason: str = Field(..., description="Classification reason")
     priority: Priority = Field(..., description="Failure priority")
     failed_jobs: list[str] = Field(default_factory=list, description="List of failed job names")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Config:
         """Pydantic configuration."""
@@ -200,7 +200,7 @@ class SelfHealingResult(BaseModel):
     resolution: str = Field(..., description="Resolution description")
     retry_count: int = Field(..., ge=0, description="Number of retries")
     actions_taken: list[str] = Field(default_factory=list, description="List of actions taken")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Config:
         """Pydantic configuration."""
@@ -295,7 +295,7 @@ class WorkflowPrediction(BaseModel):
 
     workflow_id: str = Field(..., description="Workflow identifier")
     run_id: str = Field(..., description="Workflow run ID")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     # Input features
     hour_of_day: int = Field(..., ge=0, le=23)
@@ -386,7 +386,7 @@ class SLAMetrics(BaseModel):
 
     repository: str = Field(..., description="Repository full name")
     time_window: str = Field(..., description="Time window (e.g., '24h', '7d')")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     overall_compliance: float = Field(..., ge=0.0, le=100.0, description="Overall compliance percentage")
 
@@ -444,7 +444,7 @@ class SLAThresholds(BaseModel):
 class AuditLogEntry(BaseModel):
     """Audit log entry for security tracking."""
 
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     action: str = Field(..., description="Action performed")
     actor: str = Field(..., description="Actor (user or bot)")
     repository: str = Field(..., description="Repository affected")
@@ -500,7 +500,7 @@ class AnalyticsPrediction(BaseModel):
     confidence: float = Field(..., ge=0.0, le=1.0)
     model_name: str
     features: dict[str, float] = Field(default_factory=dict)
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Config:
         """Pydantic configuration."""
@@ -514,7 +514,7 @@ class FeatureImportance(BaseModel):
     model_name: str
     features: dict[str, float] = Field(..., description="Feature scores")
     top_features: list[str] = Field(default_factory=list, description="Top N features")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Config:
         """Pydantic configuration."""
@@ -555,7 +555,7 @@ class SLABreach(BaseModel):
     breach_type: str = Field(..., description="Type of breach")
     threshold_value: float = Field(..., description="SLA threshold")
     actual_value: float = Field(..., description="Actual value")
-    breach_time: datetime = Field(default_factory=datetime.utcnow)
+    breach_time: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     resolved: bool = False
     resolution_time: Optional[datetime] = None
 
@@ -575,7 +575,7 @@ class SLAReport(BaseModel):
     total_breaches: int = 0
     compliance_percentage: float = 100.0
     trends: dict[str, Any] = Field(default_factory=dict)
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     class Config:
         """Pydantic configuration."""

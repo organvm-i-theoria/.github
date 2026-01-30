@@ -27,8 +27,11 @@ Usage:
 """
 
 import argparse
+import hashlib
+import hmac
 import json
 import logging
+import os
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -89,6 +92,18 @@ class EnhancedAnalyticsEngine:
         # Model storage paths
         self.models_dir = Path(".github/models")
         self.models_dir.mkdir(parents=True, exist_ok=True)
+
+        # Secret for model signature
+        self._secret = os.getenv("ML_MODEL_SECRET", "default-insecure-secret").encode()
+
+    def _generate_signature(self, data: bytes) -> str:
+        """Generate HMAC signature for data."""
+        return hmac.new(self._secret, data, hashlib.sha256).hexdigest()
+
+    def _verify_signature(self, data: bytes, signature: str) -> bool:
+        """Verify HMAC signature for data."""
+        expected = self._generate_signature(data)
+        return hmac.compare_digest(expected, signature)
 
     def extract_features(self, owner: str, repo: str, pr_number: int) -> dict[str, float]:
         """Extract comprehensive feature set from a pull request.
@@ -495,12 +510,30 @@ class EnhancedAnalyticsEngine:
         )
 
     def _save_models(self):
-        """Save trained models to disk."""
+        """Save trained models to disk with security signature."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         for name, model in self.models.items():
             model_path = self.models_dir / f"{name}_{timestamp}.joblib"
-            joblib.dump(model, model_path)
+            
+            # Serialize to temp file
+            temp_path = model_path.with_suffix(".tmp")
+            joblib.dump(model, temp_path)
+            
+            # Sign
+            with open(temp_path, "rb") as f:
+                data = f.read()
+                signature = self._generate_signature(data)
+            
+            # Save signature
+            sig_path = model_path.with_suffix(".sig")
+            with open(sig_path, "w") as f:
+                f.write(signature)
+            
+            # Finalize
+            if model_path.exists():
+                model_path.unlink()
+            temp_path.rename(model_path)
             logger.info(f"Saved {name} to {model_path}")
 
         # Save scaler
@@ -513,7 +546,7 @@ class EnhancedAnalyticsEngine:
             json.dump(self.feature_names, f, indent=2)
 
     def _load_models(self):
-        """Load latest trained models from disk."""
+        """Load latest trained models from disk with signature verification."""
         # Find latest models
         for model_name in [
             "random_forest",
@@ -524,8 +557,24 @@ class EnhancedAnalyticsEngine:
             model_files = sorted(self.models_dir.glob(pattern), reverse=True)
 
             if model_files:
-                self.models[model_name] = joblib.load(model_files[0])
-                logger.info(f"Loaded {model_name} from {model_files[0]}")
+                model_file = model_files[0]
+                sig_file = model_file.with_suffix(".sig")
+                
+                if not sig_file.exists():
+                    logger.warning(f"Missing signature for {model_file}")
+                    continue
+                
+                with open(model_file, "rb") as f:
+                    data = f.read()
+                
+                with open(sig_file, "r") as f:
+                    signature = f.read().strip()
+                
+                if self._verify_signature(data, signature):
+                    self.models[model_name] = joblib.load(model_file)
+                    logger.info(f"Loaded {model_name} from {model_file}")
+                else:
+                    logger.error(f"Signature verification failed for {model_file}")
 
         # Load scaler
         scaler_files = sorted(self.models_dir.glob("scaler_*.joblib"), reverse=True)

@@ -1,14 +1,10 @@
 name: Security Scan
 
 on:
-  push:
-    branches: [main, master, develop]
     paths:
     - '**.py'
     - '**.js'
     - '**.ts'
-    - '**.go'
-    - '**.rs'
     - requirements*.txt
     - package*.json
   pull_request:

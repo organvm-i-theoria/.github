@@ -2,12 +2,13 @@ import os
 import socket
 import sys
 import unittest
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from web_crawler import OrganizationCrawler
+# Add scripts directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
 
-# Add scripts directory to path to import web_crawler
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from web_crawler import OrganizationCrawler
 
 
 class TestSSRFProtection(unittest.TestCase):

@@ -1,15 +1,13 @@
 import os
 import sys
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
-import web_crawler
+# Add scripts directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
 
-# Add scripts directory to path to handle imports correctly regardless of
-# where test is run
-current_dir = os.path.dirname(os.path.abspath(__file__))
-if current_dir not in sys.path:
-    sys.path.append(current_dir)
+import web_crawler
 
 # Import the module under test
 

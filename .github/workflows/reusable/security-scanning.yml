@@ -9,10 +9,10 @@ on:
         type: string
         default: all
       languages:
-        description: 'Languages for CodeQL (comma-separated: python,javascript,go,etc)'
+        description: 'Languages for CodeQL (comma-separated: python,javascript,etc)'
         required: false
         type: string
-        default: python,javascript,typescript,go
+        default: python,javascript,typescript
       severity-threshold:
         description: Minimum severity to report (CRITICAL, HIGH, MEDIUM, LOW)
         required: false

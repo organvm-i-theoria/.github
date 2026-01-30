@@ -9,12 +9,8 @@ on:
     - '**.py'
     - '**.js'
     - '**.ts'
-    - '**.go'
-    - '**.rs'
     - requirements*.txt
     - package*.json
-    - go.mod
-    - Cargo.toml
     - Dockerfile
   pull_request:
     branches: [main, master, develop]
@@ -24,12 +20,8 @@ on:
     - '**.py'
     - '**.js'
     - '**.ts'
-    - '**.go'
-    - '**.rs'
     - requirements*.txt
     - package*.json
-    - go.mod
-    - Cargo.toml
     - Dockerfile
   workflow_dispatch:
 
@@ -51,8 +43,6 @@ jobs:
     outputs:
       has-python: ${{ steps.detect.outputs.has-python }}
       has-node: ${{ steps.detect.outputs.has-node }}
-      has-go: ${{ steps.detect.outputs.has-go }}
-      has-rust: ${{ steps.detect.outputs.has-rust }}
       has-docker: ${{ steps.detect.outputs.has-docker }}
     steps:
     - name: Checkout
@@ -63,8 +53,6 @@ jobs:
       run: |
         echo "has-python=$(test -f requirements.txt -o -f setup.py -o -f pyproject.toml && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
         echo "has-node=$(test -f package.json && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
-        echo "has-go=$(test -f go.mod && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
-        echo "has-rust=$(test -f Cargo.toml && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
         echo "has-docker=$(test -f Dockerfile && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
 
   # Python CI
@@ -164,112 +152,6 @@ jobs:
         flags: node-${{ matrix.node-version }}
         name: node-${{ matrix.node-version }}-${{ matrix.os }}
 
-  # Go CI
-  go-ci:
-    name: Go CI
-    needs: detect-changes
-    if: needs.detect-changes.outputs.has-go == 'true'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        go-version: ['1.20', '1.21', '1.22']
-    steps:
-    - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
-    - name: Set up Go ${{ matrix.go-version }}
-      uses: actions/setup-go@0aeba01b1cf16c1c08fb268abf23dd80e5fb0aea  # ratchet:actions/setup-go@v5
-      with:
-        go-version: ${{ matrix.go-version }}
-        cache: true
-
-    - name: Install dependencies
-      run: go mod download
-
-    - name: Verify dependencies
-      run: go mod verify
-
-    - name: Format check
-      run: |
-        gofmt -s -l .
-        test -z "$(gofmt -s -l .)"
-
-    - name: Vet
-      run: go vet ./...
-
-    - name: Run tests
-      run: go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@7f8b4b4bde536c465e797be725029e5ebb969a52  # ratchet:codecov/codecov-action@v4
-      with:
-        files: ./coverage.out
-        flags: go-${{ matrix.go-version }}
-        name: go-${{ matrix.go-version }}-${{ matrix.os }}
-
-  # Rust CI
-  rust-ci:
-    name: Rust CI
-    needs: detect-changes
-    if: needs.detect-changes.outputs.has-rust == 'true'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        rust-version: [stable, beta, nightly]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
-    - name: Install Rust ${{ matrix.rust-version }}
-      uses: dtolnay/rust-toolchain@f7ccc83f9ed1e5b9c81d8a67d7ad1a747e22a561   # ratchet:dtolnay/rust-toolchain@stable
-      with:
-        toolchain: ${{ matrix.rust-version }}
-        components: rustfmt, clippy
-
-    - name: Cache cargo registry
-      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # ratchet:actions/cache@v4
-      with:
-        path: ~/.cargo/registry
-        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
-
-    - name: Cache cargo index
-      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # ratchet:actions/cache@v4
-      with:
-        path: ~/.cargo/git
-        key: ${{ runner.os }}-cargo-index-${{ hashFiles('**/Cargo.lock') }}
-
-    - name: Cache cargo build
-      uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a  # ratchet:actions/cache@v4
-      with:
-        path: target
-        key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
-
-    - name: Format check
-      run: cargo fmt -- --check
-
-    - name: Clippy
-      run: cargo clippy -- -D warnings
-
-    - name: Build
-      run: cargo build --verbose
-
-    - name: Run tests
-      run: cargo test --verbose
-
-    - name: Generate coverage
-      run: |
-        cargo install cargo-tarpaulin
-        cargo tarpaulin --out Xml
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@7f8b4b4bde536c465e797be725029e5ebb969a52  # ratchet:codecov/codecov-action@v4
-      with:
-        files: ./cobertura.xml
-        flags: rust-${{ matrix.rust-version }}
-        name: rust-${{ matrix.rust-version }}-${{ matrix.os }}
-
   # Docker build and scan
   docker-ci:
     name: Docker CI
@@ -305,7 +187,7 @@ jobs:
   # Summary job
   ci-summary:
     name: CI Summary
-    needs: [python-ci, node-ci, go-ci, rust-ci, docker-ci]
+    needs: [python-ci, node-ci, docker-ci]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -313,6 +195,4 @@ jobs:
       run: |
         echo "Python CI: ${{ needs.python-ci.result }}"
         echo "Node CI: ${{ needs.node-ci.result }}"
-        echo "Go CI: ${{ needs.go-ci.result }}"
-        echo "Rust CI: ${{ needs.rust-ci.result }}"
         echo "Docker CI: ${{ needs.docker-ci.result }}"

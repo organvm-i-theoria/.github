@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-# Add current directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+# Add scripts directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
 
 from predict_workflow_failures import WorkflowPredictor
 

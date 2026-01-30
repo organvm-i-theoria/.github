@@ -11,11 +11,14 @@ Usage:
 """
 
 import argparse
+import hashlib
+import hmac
 import json
 import logging
+import os
 import subprocess  # nosec B404
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -42,6 +45,17 @@ class WorkflowPredictor:
         self.model_path = Path(model_path)
         self.model: Optional[RandomForestClassifier] = None
         self.feature_columns: list[str] = []
+        # Secret for model signature - should be set via environment variable
+        self._secret = os.getenv("ML_MODEL_SECRET", "default-insecure-secret").encode()
+
+    def _generate_signature(self, data: bytes) -> str:
+        """Generate HMAC signature for data."""
+        return hmac.new(self._secret, data, hashlib.sha256).hexdigest()
+
+    def _verify_signature(self, data: bytes, signature: str) -> bool:
+        """Verify HMAC signature for data."""
+        expected = self._generate_signature(data)
+        return hmac.compare_digest(expected, signature)
 
     def collect_historical_data(self, days: int = 90) -> pd.DataFrame:
         """Collect historical workflow data from GitHub Actions.
@@ -56,7 +70,7 @@ class WorkflowPredictor:
         print(f"Collecting {days} days of workflow data...")
 
         # Calculate date range
-        end_date = datetime.utcnow()
+        end_date = datetime.now(timezone.utc)
         start_date = end_date - timedelta(days=days)
 
         # Collect workflow runs via GitHub CLI
@@ -271,7 +285,7 @@ class WorkflowPredictor:
             raise ValueError("Repository is required for workflow prediction")
 
         # Create feature vector for current time
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         features = {
             "hour_of_day": now.hour,
             "day_of_week": now.weekday(),
@@ -370,7 +384,7 @@ class WorkflowPredictor:
         return high_risk
 
     def save_model(self):
-        """Save trained model to disk."""
+        """Save trained model to disk with security signature."""
         self.model_path.parent.mkdir(parents=True, exist_ok=True)
 
         model_data = {
@@ -378,15 +392,45 @@ class WorkflowPredictor:
             "feature_columns": self.feature_columns,
         }
 
-        with open(self.model_path, "wb") as f:
+        # Serialize model data
+        temp_path = self.model_path.with_suffix(".tmp")
+        with open(temp_path, "wb") as f:
             joblib.dump(model_data, f)
+
+        # Generate signature
+        with open(temp_path, "rb") as f:
+            data = f.read()
+            signature = self._generate_signature(data)
+
+        # Write signature file
+        sig_path = self.model_path.with_suffix(".pkl.sig")
+        with open(sig_path, "w") as f:
+            f.write(signature)
+
+        # Move to final path
+        if self.model_path.exists():
+            self.model_path.unlink()
+        temp_path.rename(self.model_path)
 
         print(f"\nModel saved to {self.model_path}")
 
     def load_model(self):
-        """Load trained model from disk."""
+        """Load trained model from disk with signature verification."""
         if not self.model_path.exists():
             raise FileNotFoundError(f"Model not found: {self.model_path}")
+
+        sig_path = self.model_path.with_suffix(".pkl.sig")
+        if not sig_path.exists():
+            raise ValueError(f"Missing signature file: {sig_path}")
+
+        with open(self.model_path, "rb") as f:
+            data = f.read()
+
+        with open(sig_path, "r") as f:
+            signature = f.read().strip()
+
+        if not self._verify_signature(data, signature):
+            raise ValueError("Model signature verification failed")
 
         with open(self.model_path, "rb") as f:
             model_data = joblib.load(f)

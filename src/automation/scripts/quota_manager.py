@@ -184,7 +184,7 @@ def remove_task_from_queue(task):
             json.dump(new_queue, f, indent=2)
 
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) > 1:
         command = sys.argv[1]
         if command == "get_usage":
@@ -199,3 +199,7 @@ if __name__ == "__main__":
             print(json.dumps(get_tasks_from_queue()))
         elif command == "remove_task":
             remove_task_from_queue(json.loads(sys.argv[2]))
+
+
+if __name__ == "__main__":
+    main()

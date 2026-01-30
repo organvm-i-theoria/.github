@@ -6,19 +6,20 @@ import sys
 
 import requests
 
-tokens = {
-    "ORG_LABEL_SYNC_TOKEN": "org-label-sync-token",
-    "ORG_PROJECT_ADMIN_TOKEN": "org-project-admin-token",
-    "ORG_ONBOARDING_TOKEN": "org-onboarding-token",
-    "ORG_REPO_ANALYSIS_TOKEN": "org-repo-analysis-token",
-}
+tokens = [
+    "ORG_LABEL_SYNC_TOKEN",
+    "ORG_PROJECT_ADMIN_TOKEN",
+    "ORG_ONBOARDING_TOKEN",
+    "ORG_REPO_ANALYSIS_TOKEN",
+]
 
 print("🔍 Validating tokens...\n")
 
 valid_count = 0
 failed_count = 0
 
-for env_var, name in tokens.items():
+for env_var in tokens:
+    name = env_var.replace("ORG_", "").replace("_", " ").title()
     token = os.getenv(env_var)
     print(f"Checking {name}... ", end="", flush=True)
 

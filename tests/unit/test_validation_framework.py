@@ -65,7 +65,8 @@ class TestAutoMergeValidation:
 
     def test_fails_when_config_missing(self, framework):
         """Test validation fails when config file is missing."""
-        result = framework.validate_auto_merge("owner", "repo")
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_auto_merge("owner", "repo")
 
         assert result.passed is False
         assert "Configuration file not found" in result.errors
@@ -142,7 +143,8 @@ class TestRoutingValidation:
 
     def test_fails_when_config_missing(self, framework):
         """Test validation fails when config file is missing."""
-        result = framework.validate_routing("owner", "repo")
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_routing("owner", "repo")
 
         assert result.passed is False
         assert "Configuration file not found" in result.errors
