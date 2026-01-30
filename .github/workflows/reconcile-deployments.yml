@@ -92,7 +92,11 @@ jobs:
             def set_workflow_output(self, name: str, value: str):
                 """Set GitHub Actions workflow output"""
                 with open(os.getenv('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
-                    f.write(f'{name}={value}\n')
+                    if '\n' in value:
+                        delimiter = 'EOF_METADATA_REPORT'
+                        f.write(f'{name}<<{delimiter}\n{value}\n{delimiter}\n')
+                    else:
+                        f.write(f'{name}={value}\n')
 
             def load_metadata(self) -> Dict[str, Any]:
                 """Load deployment metadata from file"""
@@ -262,7 +266,8 @@ jobs:
                 """Generate reconciliation report"""
                 report = []
                 report.append('# Deployment Metadata Reconciliation Report')
-                report.append(f'\n**Timestamp:** {datetime.utcnow().isoformat()}')
+                report.append('')
+                report.append(f'**Timestamp:** {datetime.utcnow().isoformat()}')
                 report.append(f'**Repository:** {self.repo}')
                 report.append(f'**Auto-Repair Enabled:** {self.auto_repair}')
 

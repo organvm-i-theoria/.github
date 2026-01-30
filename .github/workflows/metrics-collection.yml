@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   actions: read
+  pull-requests: write
 
 concurrency:
   group: metrics-collection
@@ -209,17 +210,13 @@ jobs:
 
         EOF
 
-    - name: Commit metrics
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-
-        git add metrics/
-
-        if git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "chore: update workflow metrics [skip ci]"
-          git push
-          echo "✅ Metrics committed and pushed"
-        fi
+    - name: Create Pull Request for Metrics
+      uses: peter-evans/create-pull-request@8867c4aba1b742c39f8d0ba387c70f678c12193f # v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update workflow metrics [skip ci]'
+        title: 'chore: update workflow metrics'
+        body: 'Automated update of workflow metrics.'
+        branch: automated-metrics-update
+        base: main
+        delete-branch: true
