@@ -28,7 +28,7 @@ jobs:
         template-path: .github/ISSUE_TEMPLATE/bug_report.md   # Optional: Adjust based on actual templates
 
     - name: Add to Project
-      uses: actions/add-to-project@v0   # ratchet:exclude
+      uses: actions/add-to-project@1b844f0c5ac6446a402e0cb3693f9be5eca188c5 # v0.6.1
       with:
           # Requires a PAT or App token with project write permissions
         project-url: https://github.com/orgs/${{ github.repository_owner }}/projects/1
