@@ -185,10 +185,12 @@ jobs:
         fi
 
     - name: Clone repo-to-video tool
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         # Pin to specific commit for security and reproducibility
         REPO_TO_VIDEO_COMMIT="HEAD"  # TODO: Update with specific commit hash when available
-        git clone https://github.com/dpills/repo-to-video.git /tmp/repo-to-video
+        git clone https://x-access-token:${GH_TOKEN}@github.com/dpills/repo-to-video.git /tmp/repo-to-video
         cd /tmp/repo-to-video
         # Uncomment when pinning to specific version:
         # git checkout $REPO_TO_VIDEO_COMMIT

@@ -80,17 +80,17 @@ jobs:
         output: codeql-results
 
         # Trivy Security Scan
+    - name: Install Trivy
+      if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'
+      run: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.58.1
+
     - name: Run Trivy vulnerability scanner
       if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'
       id: trivy
-      uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # v0.28.0
-      with:
-        scan-type: ${{ inputs.trivy-scan-type }}
-        scan-ref: ${{ inputs.working-directory }}
-        format: sarif
-        output: trivy-results.sarif
-        severity: ${{ inputs.severity-threshold }}
-        exit-code: ${{ inputs.fail-on-severity == 'CRITICAL' && '1' || '0' }}
+      run: |
+        EXIT_CODE=${{ inputs.fail-on-severity == 'CRITICAL' && '1' || '0' }}
+        trivy ${{ inputs.trivy-scan-type }} --format sarif --output trivy-results.sarif --severity ${{ inputs.severity-threshold }} --exit-code $EXIT_CODE ${{ inputs.working-directory }}
 
     - name: Upload Trivy results to GitHub Security
       if: inputs.scan-type == 'trivy' || inputs.scan-type == 'all'

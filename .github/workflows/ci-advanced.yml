@@ -104,7 +104,7 @@ jobs:
       run: pytest --cov=. --cov-report=xml --cov-report=html
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@7f8b4b4bde536c465e797be725029e5ebb969a52  # ratchet:codecov/codecov-action@v4
+      uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238  # ratchet:codecov/codecov-action@v4
       with:
         files: ./coverage.xml
         flags: python-${{ matrix.python-version }}
@@ -146,7 +146,7 @@ jobs:
       run: npm run build || true
 
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@7f8b4b4bde536c465e797be725029e5ebb969a52  # ratchet:codecov/codecov-action@v4
+      uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238  # ratchet:codecov/codecov-action@v4
       with:
         files: ./coverage/coverage-final.json
         flags: node-${{ matrix.node-version }}
@@ -172,12 +172,13 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
+    - name: Install Trivy
+      run: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.58.1
+
     - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2  # ratchet:aquasecurity/trivy-action@0.28.0
-      with:
-        image-ref: test-image:latest
-        format: sarif
-        output: trivy-results.sarif
+      run: |
+        trivy image --format sarif --output trivy-results.sarif test-image:latest
 
     - name: Upload Trivy results to GitHub Security
       uses: github/codeql-action@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34  # ratchet:github/codeql-action@v3
