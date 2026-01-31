@@ -21,6 +21,11 @@ sys.path.insert(
 from ab_test_assignment import ABTestAssigner, main, print_table
 
 
+# Note: Lines 22-24 (yaml ImportError handling) cannot be easily tested
+# since yaml is always available as a dependency. This is acceptable
+# as it's just a helpful error message for missing optional dependencies.
+
+
 @pytest.fixture
 def mock_config():
     """Standard test configuration."""
@@ -417,6 +422,90 @@ class TestPrintTable:
 
 class TestMainFunction:
     """Test main() function with various arguments."""
+
+    @patch("ab_test_assignment.ABTestAssigner")
+    def test_main_repo_with_json_flag(self, MockAssigner):
+        """Test main with --repo and --json flags."""
+        mock_instance = MockAssigner.return_value
+        mock_instance.generate_workflow_config.return_value = {
+            "repository": "org/repo",
+            "group": "control",
+            "groupName": "Control Group",
+            "gracePeriod": 7,
+            "closeAfter": 7,
+            "percentage": 50,
+        }
+
+        with patch("sys.argv", ["ab_test_assignment.py", "--repo", "org/repo", "--json"]):
+            with patch("builtins.print") as mock_print:
+                main()
+
+                # Should print JSON output
+                calls = [str(call) for call in mock_print.call_args_list]
+                # JSON output should contain the repository info
+                assert any("org/repo" in c for c in calls)
+                # Should be formatted JSON (contains indent)
+                assert any('"repository"' in c for c in calls)
+
+    @patch("ab_test_assignment.ABTestAssigner")
+    def test_main_all_with_json_flag(self, MockAssigner):
+        """Test main with --all and --json flags."""
+        mock_instance = MockAssigner.return_value
+        mock_instance.generate_report.return_value = {
+            "testName": "Test",
+            "startDate": "2024-01-01",
+            "assignments": {
+                "control": {"count": 5, "percentage": 50, "repositories": ["r1"]},
+                "experiment": {"count": 5, "percentage": 50, "repositories": ["r2"]},
+                "excluded": {"count": 0, "repositories": []},
+            },
+            "totalActive": 10,
+            "splitRatio": "5:5",
+        }
+
+        with patch("sys.argv", ["ab_test_assignment.py", "--all", "--json"]):
+            with patch("builtins.print") as mock_print:
+                main()
+
+                # Should print JSON output
+                calls = [str(call) for call in mock_print.call_args_list]
+                # Should contain JSON-formatted report
+                assert any('"testName"' in c for c in calls)
+
+    @patch("ab_test_assignment.ABTestAssigner")
+    def test_main_handles_exception(self, MockAssigner, capsys):
+        """Test main handles exceptions gracefully."""
+        MockAssigner.side_effect = Exception("Test error")
+
+        with patch("sys.argv", ["ab_test_assignment.py", "--repo", "org/repo"]):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+            assert exc_info.value.code == 1
+            captured = capsys.readouterr()
+            assert "Error: Test error" in captured.err
+
+    @patch("ab_test_assignment.ABTestAssigner")
+    def test_main_repo_non_excluded(self, MockAssigner):
+        """Test main with non-excluded repository shows group details."""
+        mock_instance = MockAssigner.return_value
+        mock_instance.generate_workflow_config.return_value = {
+            "repository": "org/repo",
+            "group": "control",
+            "groupName": "Control Group",
+            "gracePeriod": 7,
+            "closeAfter": 7,
+            "percentage": 50,
+        }
+
+        with patch("sys.argv", ["ab_test_assignment.py", "--repo", "org/repo"]):
+            with patch("builtins.print") as mock_print:
+                main()
+
+                calls = [str(call) for call in mock_print.call_args_list]
+                assert any("Group Name" in c for c in calls)
+                assert any("Grace Period" in c for c in calls)
+                assert any("Close After" in c for c in calls)
 
     @patch("ab_test_assignment.ABTestAssigner")
     def test_main_excluded_repo(self, MockAssigner):

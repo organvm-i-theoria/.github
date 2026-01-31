@@ -525,6 +525,20 @@ class TestRenderGroupedSection:
         assert "Issue 2" in result
         assert "Issue 3" in result
 
+    def test_shows_low_severity(self, viz):
+        """Test category shows LOW severity when all items are low."""
+        items = [
+            {"category": "Minor", "severity": "low", "description": "Minor issue 1"},
+            {"category": "Minor", "severity": "low", "description": "Minor issue 2"},
+        ]
+
+        parts = viz._render_grouped_section(items)
+        result = "".join(parts)
+
+        # Should show LOW since that's the only severity
+        assert "LOW" in result
+        assert "🟢" in result
+
     def test_shows_highest_severity(self, viz):
         """Test category shows highest severity among items."""
         items = [
@@ -1155,3 +1169,104 @@ class TestDashboardNoData:
         dashboard = viz.generate_dashboard_markdown()
 
         assert "No report data" in dashboard
+
+
+@pytest.mark.unit
+class TestDashboardInvalidTimestamp:
+    """Test dashboard with invalid timestamp handling."""
+
+    def test_handles_invalid_timestamp_format(self, tmp_path):
+        """Test dashboard handles invalid timestamp gracefully."""
+        report_file = tmp_path / "report.json"
+        report_data = {
+            "timestamp": "not-a-valid-iso-timestamp",
+            "organization": "test-org",
+            "ecosystem_map": {"workflows": []},
+        }
+        report_file.write_text(json.dumps(report_data))
+        viz = EcosystemVisualizer(report_path=report_file)
+
+        # Should not raise, but use the original timestamp string
+        dashboard = viz.generate_dashboard_markdown()
+
+        assert "not-a-valid-iso-timestamp" in dashboard
+        assert "test-org" in dashboard
+
+
+@pytest.mark.unit
+class TestDashboardBrokenLinksStatusCodes:
+    """Test dashboard broken links status code handling."""
+
+    def test_displays_unknown_status_indicator(self, tmp_path):
+        """Test dashboard displays warning indicator for non-4xx/5xx status."""
+        report_file = tmp_path / "report.json"
+        report_data = {
+            "timestamp": "2024-01-14T12:00:00Z",
+            "ecosystem_map": {"workflows": []},
+            "link_validation": {
+                "total_links": 10,
+                "valid": 8,
+                "broken": 2,
+                "broken_links": [
+                    {"url": "https://example.com/timeout", "status": "timeout"},
+                    {"url": "https://example.com/error", "status": "connection_error"},
+                ],
+            },
+        }
+        report_file.write_text(json.dumps(report_data))
+        viz = EcosystemVisualizer(report_path=report_file)
+
+        dashboard = viz.generate_dashboard_markdown()
+
+        # Should show warning indicator for non-4xx/5xx status
+        assert "⚠️" in dashboard
+        assert "timeout" in dashboard
+        assert "connection_error" in dashboard
+
+
+@pytest.mark.unit
+class TestDashboardMissingEcosystemMap:
+    """Test dashboard with missing ecosystem_map sections."""
+
+    def test_handles_no_ecosystem_map_for_technologies(self, tmp_path):
+        """Test dashboard handles missing ecosystem_map for technologies."""
+        report_file = tmp_path / "report.json"
+        report_data = {
+            "timestamp": "2024-01-14T12:00:00Z",
+            "organization": "test-org",
+            # No ecosystem_map key
+        }
+        report_file.write_text(json.dumps(report_data))
+        viz = EcosystemVisualizer(report_path=report_file)
+
+        dashboard = viz.generate_dashboard_markdown()
+
+        assert "No technology data available" in dashboard
+        assert "No workflow data available" in dashboard
+
+
+@pytest.mark.unit
+class TestDashboardWritesToFile:
+    """Test dashboard file writing."""
+
+    def test_writes_dashboard_to_output_path(self, tmp_path, capsys):
+        """Test dashboard is written to specified output path."""
+        report_file = tmp_path / "report.json"
+        report_data = {
+            "timestamp": "2024-01-14T12:00:00Z",
+            "organization": "test-org",
+            "ecosystem_map": {"workflows": ["test.yml"]},
+        }
+        report_file.write_text(json.dumps(report_data))
+        viz = EcosystemVisualizer(report_path=report_file)
+
+        output_path = tmp_path / "dashboard.md"
+        dashboard = viz.generate_dashboard_markdown(output_path)
+
+        # Check file was written
+        assert output_path.exists()
+        assert output_path.read_text() == dashboard
+
+        # Check status message was printed
+        captured = capsys.readouterr()
+        assert "Dashboard saved" in captured.out
