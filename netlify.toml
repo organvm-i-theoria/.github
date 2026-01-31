@@ -1,9 +1,0 @@
-# Netlify Configuration
-# https://docs.netlify.com/configure-builds/file-based-configuration/
-
-[build]
-  publish = "docs/site"
-  command = "npm run build"
-
-[context.production]
-  environment = { NODE_VERSION = "20" }
