@@ -3,8 +3,11 @@
 Focus: 1Password CLI integration, secret retrieval, error handling.
 """
 
+import importlib
+import importlib.util
 import subprocess
 import sys
+import types
 from pathlib import Path
 from unittest.mock import MagicMock, patch, PropertyMock
 
@@ -14,7 +17,17 @@ sys.path.insert(
     0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
 )
 
-import secret_manager
+# Ensure we have the real secret_manager module, not a mock.
+# Other test modules may have inserted MagicMock objects into sys.modules
+# which would break our tests.
+_existing = sys.modules.get("secret_manager")
+if _existing is None or not isinstance(_existing, types.ModuleType):
+    # Remove any mock and do a fresh import
+    sys.modules.pop("secret_manager", None)
+    import secret_manager
+else:
+    # Real module exists, reload to ensure clean state
+    secret_manager = importlib.reload(_existing)
 
 # Reference the functions directly from the module
 get_secret = secret_manager.get_secret

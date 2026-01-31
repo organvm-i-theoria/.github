@@ -18,9 +18,17 @@ sys.path.insert(
 )
 
 # Mock secret_manager before importing validate_labels
+# Save original and restore after imports to avoid polluting other tests
+_original_secret_manager = sys.modules.get("secret_manager")
 sys.modules["secret_manager"] = MagicMock()
 
 from validate_labels import LabelValidator
+
+# Restore original secret_manager module after imports
+if _original_secret_manager is not None:
+    sys.modules["secret_manager"] = _original_secret_manager
+else:
+    sys.modules.pop("secret_manager", None)
 
 
 @pytest.mark.unit

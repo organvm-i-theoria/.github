@@ -14,16 +14,27 @@ class TestSyncLabelsFull(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Ensure github module is mocked if not present
-        if "github" not in sys.modules:
-            mock_github_module = MagicMock()
-            mock_github_exception = type("GithubException", (Exception,), {})
-            mock_github_module.GithubException = mock_github_exception
-            sys.modules["github"] = mock_github_module
+        # Create properly structured github mock with all submodules
+        mock_github_module = MagicMock()
+        mock_github_exception = type("GithubException", (Exception,), {})
+        mock_github_module.GithubException = mock_github_exception
 
-        # Ensure secret_manager is mocked if not present
-        if "secret_manager" not in sys.modules:
-            sys.modules["secret_manager"] = MagicMock()
+        # Create submodule mocks
+        mock_label_module = MagicMock()
+        mock_label_module.Label = MagicMock()
+
+        mock_repository_module = MagicMock()
+        mock_repository_module.Repository = MagicMock()
+
+        # Set up the module structure
+        sys.modules["github"] = mock_github_module
+        sys.modules["github.Label"] = mock_label_module
+        sys.modules["github.Repository"] = mock_repository_module
+
+        # Create a mock secret_manager module
+        mock_secret_manager = MagicMock()
+        mock_secret_manager.get_secret = MagicMock(return_value="fake-token")
+        sys.modules["secret_manager"] = mock_secret_manager
 
     def setUp(self):
         # We don't reload modules or patch sys.modules to avoid breaking other tests

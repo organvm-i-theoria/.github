@@ -14,28 +14,15 @@ sys.path.insert(
 )
 
 
-@pytest.fixture(autouse=True, scope="module")
-def mock_secret_manager():
-    """Mock secret_manager to avoid import issues."""
-    original = sys.modules.get("secret_manager")
-    sys.modules["secret_manager"] = MagicMock()
-    yield
-    # Restore original module after all tests in this module
-    if original is not None:
-        sys.modules["secret_manager"] = original
-    else:
-        sys.modules.pop("secret_manager", None)
-
-
-# These imports must happen after the mock fixture is set up
-# But since autouse fixture runs at module import time, we need to mock first
+# Mock secret_manager before importing modules that depend on it.
+# Save original, install mock, import, then restore.
 _original_secret_manager = sys.modules.get("secret_manager")
 sys.modules["secret_manager"] = MagicMock()
 
 from intelligent_routing import IntelligentRouter
 from models import RoutingConfig, RoutingFactorScores
 
-# Restore after imports
+# Restore original module state after imports
 if _original_secret_manager is not None:
     sys.modules["secret_manager"] = _original_secret_manager
 else:
