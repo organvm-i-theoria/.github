@@ -166,6 +166,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             Path("/nonexistent/path"),
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -187,6 +188,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -206,6 +208,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -226,6 +229,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -239,6 +243,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -258,6 +263,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 
@@ -280,6 +286,7 @@ class TestMainFunction:
             "validate_agent_frontmatter.AGENTS_DIR",
             mock_agents_dir,
         )
+        monkeypatch.setattr(sys, "argv", ["validate_agent_frontmatter.py"])
 
         result = main()
 

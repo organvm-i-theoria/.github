@@ -257,6 +257,8 @@ class TestMainFunction:
         mock_result = {
             "valid": True,
             "rate_limit": {"remaining": 5000, "limit": 5000},
+            "token": "test-token",
+            "purpose": "Test purpose",
         }
 
         with patch("validate_tokens.validate_token", return_value=mock_result):
@@ -291,6 +293,8 @@ class TestMainFunction:
         mock_result = {
             "valid": True,
             "rate_limit": {"remaining": 4000, "limit": 5000},
+            "token": "test-token",
+            "purpose": "Test purpose",
         }
 
         with patch("validate_tokens.validate_token", return_value=mock_result):
@@ -307,6 +311,8 @@ class TestMainFunction:
             "valid": True,
             "rate_limit": {"remaining": 5000, "limit": 5000},
             "warning": "Missing scopes: admin",
+            "token": "test-token",
+            "purpose": "Test purpose",
         }
 
         with patch("validate_tokens.validate_token", return_value=mock_result):
@@ -321,6 +327,8 @@ class TestMainFunction:
         mock_result = {
             "valid": True,
             "rate_limit": {"remaining": 5000, "limit": 5000},
+            "token": "test-token",
+            "purpose": "Test purpose",
         }
 
         with patch("validate_tokens.validate_token", return_value=mock_result):

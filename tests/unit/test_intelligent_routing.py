@@ -322,3 +322,169 @@ class TestRoutingDecision:
 
         with pytest.raises(ValueError, match="No candidates available"):
             router.calculate_assignment("owner", "repo", 123)
+
+    def test_calculate_assignment_scores_and_selects_best(self, mock_client):
+        """Test calculate_assignment scores all candidates and selects best."""
+        router = IntelligentRouter(mock_client, RoutingConfig())
+
+        # Mock issue with no labels
+        issue_response = {"number": 123, "labels": []}
+
+        # Mock collaborators - only one candidate to avoid alternatives validation
+        collaborators = [
+            {"login": "user1", "permissions": {"push": True}},
+        ]
+
+        # Mock for factor calculations
+        def api_response(endpoint, params=None):
+            if "issues/123" in endpoint:
+                return issue_response
+            elif "collaborators" in endpoint:
+                return collaborators
+            elif "commits" in endpoint:
+                return [{"sha": f"c{i}"} for i in range(10)]
+            elif "issues" in endpoint:
+                return []
+            elif "events" in endpoint:
+                return [{"created_at": "2024-01-01T12:00:00Z"}]
+            return []
+
+        mock_client.get.side_effect = api_response
+
+        result = router.calculate_assignment("owner", "repo", 123)
+
+        # Result should have valid structure
+        assert result.assignee == "user1"
+        assert 0 <= result.score <= 1
+        assert 0 <= result.confidence <= 1
+        assert result.fallback_used is False
+        assert result.issue_number == 123
+
+
+class TestResponseTimeCalculation:
+    """Test response time score calculation."""
+
+    @pytest.fixture
+    def mock_client(self):
+        return MagicMock()
+
+    @pytest.fixture
+    def router(self, mock_client):
+        return IntelligentRouter(mock_client, RoutingConfig())
+
+    def test_no_closed_issues_returns_default(self, router, mock_client):
+        """Test returns default score when no closed issues."""
+        mock_client.get.return_value = []
+
+        score = router._calculate_response_time("owner", "repo", "user")
+
+        assert score == 0.5
+
+    def test_api_error_returns_default(self, router, mock_client):
+        """Test returns default score on API error."""
+        mock_client.get.side_effect = Exception("API Error")
+
+        score = router._calculate_response_time("owner", "repo", "user")
+
+        assert score == 0.5
+
+
+class TestAvailabilityCalculation:
+    """Test availability score calculation."""
+
+    @pytest.fixture
+    def mock_client(self):
+        return MagicMock()
+
+    @pytest.fixture
+    def router(self, mock_client):
+        return IntelligentRouter(mock_client, RoutingConfig())
+
+    def test_no_events_returns_low_score(self, router, mock_client):
+        """Test returns low score when no recent events."""
+        mock_client.get.return_value = []
+
+        score = router._calculate_availability("owner", "repo", "user")
+
+        assert score == 0.3
+
+    def test_api_error_returns_default(self, router, mock_client):
+        """Test returns default score on API error."""
+        mock_client.get.side_effect = Exception("API Error")
+
+        score = router._calculate_availability("owner", "repo", "user")
+
+        assert score == 0.5
+
+
+class TestPerformanceCalculation:
+    """Test performance score calculation."""
+
+    @pytest.fixture
+    def mock_client(self):
+        return MagicMock()
+
+    @pytest.fixture
+    def router(self, mock_client):
+        return IntelligentRouter(mock_client, RoutingConfig())
+
+    def test_no_closed_issues_returns_default(self, router, mock_client):
+        """Test returns default score when no closed issues."""
+        mock_client.get.return_value = []
+
+        score = router._calculate_performance("owner", "repo", "user")
+
+        assert score == 0.5
+
+    def test_all_successful_closures_gives_high_score(self, router, mock_client):
+        """Test all successful closures give high performance score."""
+        # Return closed issues with no negative labels
+        mock_client.get.return_value = [
+            {"number": i, "labels": [{"name": "bug"}]} for i in range(10)
+        ]
+
+        score = router._calculate_performance("owner", "repo", "user")
+
+        assert score == 1.0
+
+    def test_wontfix_issues_lower_score(self, router, mock_client):
+        """Test wontfix issues lower performance score."""
+        mock_client.get.return_value = [
+            {"number": 1, "labels": [{"name": "wontfix"}]},
+            {"number": 2, "labels": [{"name": "bug"}]},
+        ]
+
+        score = router._calculate_performance("owner", "repo", "user")
+
+        # 1 of 2 issues are successful = 0.5
+        assert score == 0.5
+
+    def test_api_error_returns_default(self, router, mock_client):
+        """Test returns default score on API error."""
+        mock_client.get.side_effect = Exception("API Error")
+
+        score = router._calculate_performance("owner", "repo", "user")
+
+        assert score == 0.5
+
+
+class TestRandomFallbackStrategy:
+    """Test random fallback strategy."""
+
+    @pytest.fixture
+    def mock_client(self):
+        return MagicMock()
+
+    def test_random_strategy_selects_candidate(self, mock_client):
+        """Test random strategy selects one of the candidates."""
+        config = RoutingConfig(fallback_strategy=["random"])
+        router = IntelligentRouter(mock_client, config)
+
+        candidates = [{"login": f"user{i}"} for i in range(5)]
+        issue = {"labels": []}
+
+        result = router._fallback_assignment("owner", "repo", 123, issue, candidates)
+
+        assert result.assignee in [f"user{i}" for i in range(5)]
+        assert result.fallback_used is True
+        assert result.confidence == 0.2

@@ -194,7 +194,8 @@ jobs:
     def test_handles_yaml_parse_error(self, mock_workflow_dir):
         """Test handles YAML parsing errors gracefully."""
         workflow = mock_workflow_dir / "invalid.yml"
-        workflow.write_text("name: Invalid\n  bad indentation here")
+        # Use truly invalid YAML - tabs mixed with spaces in indentation
+        workflow.write_text("name: Invalid\njobs:\n  build:\n\t  invalid: tab-mixing")
 
         result = analyze_workflow(workflow)
 

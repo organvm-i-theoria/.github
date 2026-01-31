@@ -23,11 +23,16 @@ def analyze_workflow(file_path: Path) -> Optional[dict[str, Any]]:
 
         # Extract key information
         name = workflow.get("name", "Unnamed")
-        triggers = (
-            list(workflow.get("on", {}).keys())
-            if isinstance(workflow.get("on"), dict)
-            else [workflow.get("on", "unknown")]
-        )
+
+        # Handle YAML 'on' key - PyYAML converts 'on:' to boolean True
+        on_value = workflow.get("on") or workflow.get(True)
+        if isinstance(on_value, dict):
+            triggers = list(on_value.keys())
+        elif on_value is not None:
+            triggers = [on_value]
+        else:
+            triggers = ["unknown"]
+
         jobs = list(workflow.get("jobs", {}).keys())
 
         # Calculate complexity score

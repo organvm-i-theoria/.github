@@ -6,7 +6,7 @@ Focus: 1Password CLI integration, secret retrieval, error handling.
 import subprocess
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, patch, PropertyMock
 
 import pytest
 
@@ -14,19 +14,14 @@ sys.path.insert(
     0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
 )
 
-# Force reimport of secret_manager to avoid test pollution from other tests
-# that mock the module at module level
-if "secret_manager" in sys.modules:
-    # Remove any mock that might have been set by other tests
-    del sys.modules["secret_manager"]
+import secret_manager
 
-from secret_manager import (
-    _print_secret_error,
-    ensure_github_token,
-    ensure_secret,
-    get_github_token,
-    get_secret,
-)
+# Reference the functions directly from the module
+get_secret = secret_manager.get_secret
+ensure_secret = secret_manager.ensure_secret
+get_github_token = secret_manager.get_github_token
+ensure_github_token = secret_manager.ensure_github_token
+_print_secret_error = secret_manager._print_secret_error
 
 
 class TestGetSecret:
