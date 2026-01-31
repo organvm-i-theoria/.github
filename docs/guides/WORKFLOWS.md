@@ -1,6 +1,6 @@
 # Workflow Guide
 
-Comprehensive guide to GitHub Actions workflows in the {{ORG_DISPLAY_NAME}} template.
+Comprehensive guide to GitHub Actions workflows in the ivviiviivvi template.
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Start Guide
 
-Get up and running with the {{ORG_DISPLAY_NAME}} GitHub template in minutes.
+Get up and running with the ivviiviivvi GitHub template in minutes.
 
 ---
 
@@ -29,11 +29,11 @@ Before you begin, ensure you have:
 
 ```bash
 # Option A: Fork via GitHub UI, then clone your fork
-git clone git@github.com:{{ORG_NAME}}/.github.git
+git clone git@github.com:ivviiviivvi/.github.git
 cd .github
 
 # Option B: Use as template (recommended for new organizations)
-gh repo create {{ORG_NAME}}/.github --template ivviiviivvi/.github --public
+gh repo create ivviiviivvi/.github --template ivviiviivvi/.github --public
 ```
 
 ### Step 2: Install Dependencies
@@ -80,14 +80,14 @@ Replace placeholder variables throughout the repository:
 
 ```bash
 # Find all template variables
-grep -r "{{ORG_NAME}}" . --include="*.md" --include="*.yml"
-grep -r "{{ORG_DISPLAY_NAME}}" . --include="*.md" --include="*.yml"
+grep -r "ivviiviivvi" . --include="*.md" --include="*.yml"
+grep -r "ivviiviivvi" . --include="*.md" --include="*.yml"
 
 # Replace with your organization name
 find . -type f \( -name "*.md" -o -name "*.yml" \) \
-  -exec sed -i '' 's/{{ORG_NAME}}/your-org-name/g' {} \;
+  -exec sed -i '' 's/ivviiviivvi/your-org-name/g' {} \;
 find . -type f \( -name "*.md" -o -name "*.yml" \) \
-  -exec sed -i '' 's/{{ORG_DISPLAY_NAME}}/Your Organization/g' {} \;
+  -exec sed -i '' 's/ivviiviivvi/Your Organization/g' {} \;
 ```
 
 ### Verify Configuration
@@ -184,6 +184,6 @@ Ensure your repository has:
 
 ## Support
 
-- **[Discussions](https://github.com/{{ORG_NAME}}/.github/discussions)** - Ask questions
-- **[Issues](https://github.com/{{ORG_NAME}}/.github/issues)** - Report bugs
+- **[Discussions](https://github.com/ivviiviivvi/.github/discussions)** - Ask questions
+- **[Issues](https://github.com/ivviiviivvi/.github/issues)** - Report bugs
 - **[Support Guide](../governance/SUPPORT.md)** - Full support options
