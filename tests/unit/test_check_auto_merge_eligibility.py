@@ -551,3 +551,264 @@ class TestCheckEligibility:
 
         assert result.eligible is False
         assert len(result.reasons) >= 3  # Multiple reasons
+
+
+@pytest.mark.unit
+class TestRequiredChecksFailed:
+    """Test required checks with failed status."""
+
+    @pytest.fixture
+    def mock_client(self):
+        return MagicMock()
+
+    def test_required_check_failed(self, mock_client):
+        """Test returns False when required check exists but failed."""
+        config = AutoMergeConfig(
+            min_reviews=1,
+            coverage_threshold=0,
+            required_checks=["ci", "lint"],
+        )
+        checker = AutoMergeChecker(mock_client, config)
+
+        mock_client.get.side_effect = [
+            {"state": "success"},  # commit status
+            {
+                "check_runs": [
+                    {"name": "ci", "conclusion": "success"},
+                    {"name": "lint", "conclusion": "failure"},  # FAILED
+                ]
+            },
+        ]
+
+        pr = {"head": {"sha": "abc123"}}
+        result = checker._check_tests_passed("owner", "repo", pr)
+
+        assert result is False
+
+    def test_required_check_skipped(self, mock_client):
+        """Test returns False when required check was skipped."""
+        config = AutoMergeConfig(
+            min_reviews=1,
+            coverage_threshold=0,
+            required_checks=["ci"],
+        )
+        checker = AutoMergeChecker(mock_client, config)
+
+        mock_client.get.side_effect = [
+            {"state": "success"},
+            {
+                "check_runs": [
+                    {"name": "ci", "conclusion": "skipped"},
+                ]
+            },
+        ]
+
+        pr = {"head": {"sha": "abc123"}}
+        result = checker._check_tests_passed("owner", "repo", pr)
+
+        assert result is False
+
+    def test_required_check_cancelled(self, mock_client):
+        """Test returns False when required check was cancelled."""
+        config = AutoMergeConfig(
+            min_reviews=1,
+            coverage_threshold=0,
+            required_checks=["ci"],
+        )
+        checker = AutoMergeChecker(mock_client, config)
+
+        mock_client.get.side_effect = [
+            {"state": "success"},
+            {
+                "check_runs": [
+                    {"name": "ci", "conclusion": "cancelled"},
+                ]
+            },
+        ]
+
+        pr = {"head": {"sha": "abc123"}}
+        result = checker._check_tests_passed("owner", "repo", pr)
+
+        assert result is False
+
+
+@pytest.mark.unit
+class TestMainCLI:
+    """Test main CLI entry point."""
+
+    @pytest.fixture
+    def mock_pr_response(self):
+        """Standard PR response for testing."""
+        return {
+            "number": 42,
+            "head": {"sha": "abc123"},
+            "mergeable": True,
+            "mergeable_state": "clean",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "commits": 3,
+            "changed_files": 2,
+        }
+
+    def test_main_eligible_pr(self, mock_pr_response, capsys):
+        """Test CLI with eligible PR exits 0."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client = MagicMock()
+                mock_client_class.return_value = mock_client
+
+                mock_client.get.side_effect = [
+                    mock_pr_response,
+                    {"state": "success"},  # tests
+                    [{"user": {"login": "u1"}, "state": "APPROVED"}],  # reviews
+                    {"statuses": [{"context": "codecov", "description": "85%"}]},  # coverage
+                ]
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.side_effect = FileNotFoundError()
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit) as exc_info:
+                        main()
+
+                    assert exc_info.value.code == 0
+
+                    captured = capsys.readouterr()
+                    assert "Eligible: ✅ YES" in captured.out
+
+    def test_main_ineligible_pr(self, mock_pr_response, capsys):
+        """Test CLI with ineligible PR exits 1."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client = MagicMock()
+                mock_client_class.return_value = mock_client
+
+                mock_client.get.side_effect = [
+                    mock_pr_response,
+                    {"state": "failure"},  # tests failed
+                    [],  # no reviews
+                    {"statuses": []},
+                    {"check_runs": []},
+                ]
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.side_effect = FileNotFoundError()
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit) as exc_info:
+                        main()
+
+                    assert exc_info.value.code == 1
+
+                    captured = capsys.readouterr()
+                    assert "Eligible: ❌ NO" in captured.out
+                    assert "Reasons for ineligibility" in captured.out
+
+    def test_main_with_custom_config(self, mock_pr_response, capsys):
+        """Test CLI loads custom config."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42", "--config", "custom.yml"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client = MagicMock()
+                mock_client_class.return_value = mock_client
+
+                mock_client.get.side_effect = [
+                    mock_pr_response,
+                    {"state": "success"},
+                    [{"user": {"login": "u1"}, "state": "APPROVED"}],
+                    {"statuses": [{"context": "codecov", "description": "85%"}]},
+                ]
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.return_value = {
+                        "auto_merge": {"min_reviews": 1}
+                    }
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit) as exc_info:
+                        main()
+
+                    assert exc_info.value.code == 0
+
+    def test_main_with_debug_flag(self, mock_pr_response, capsys):
+        """Test CLI with debug flag runs successfully."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42", "--debug"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client = MagicMock()
+                mock_client_class.return_value = mock_client
+
+                mock_client.get.side_effect = [
+                    mock_pr_response,
+                    {"state": "success"},
+                    [{"user": {"login": "u1"}, "state": "APPROVED"}],
+                    {"statuses": [{"context": "codecov", "description": "85%"}]},
+                ]
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.side_effect = FileNotFoundError()
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit) as exc_info:
+                        main()
+
+                    # Debug flag shouldn't affect the outcome
+                    assert exc_info.value.code == 0
+
+    def test_main_api_error_exits_2(self, capsys):
+        """Test CLI exits with code 2 on API error."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client_class.return_value.get.side_effect = Exception("API Error")
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.side_effect = FileNotFoundError()
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit) as exc_info:
+                        main()
+
+                    assert exc_info.value.code == 2
+
+    def test_main_outputs_all_check_results(self, mock_pr_response, capsys):
+        """Test CLI outputs all safety check results."""
+        from unittest.mock import patch
+
+        with patch("sys.argv", ["prog", "--owner", "org", "--repo", "repo", "--pr", "42"]):
+            with patch("check_auto_merge_eligibility.GitHubAPIClient") as mock_client_class:
+                mock_client = MagicMock()
+                mock_client_class.return_value = mock_client
+
+                mock_client.get.side_effect = [
+                    mock_pr_response,
+                    {"state": "success"},
+                    [{"user": {"login": "u1"}, "state": "APPROVED"}],
+                    {"statuses": [{"context": "codecov", "description": "85%"}]},
+                ]
+
+                with patch("check_auto_merge_eligibility.ConfigLoader") as mock_config_loader:
+                    mock_config_loader.return_value.load.side_effect = FileNotFoundError()
+
+                    from check_auto_merge_eligibility import main
+
+                    with pytest.raises(SystemExit):
+                        main()
+
+                    captured = capsys.readouterr()
+                    assert "All tests passed" in captured.out
+                    assert "Reviews approved" in captured.out
+                    assert "No conflicts" in captured.out
+                    assert "Branch up-to-date" in captured.out
+                    assert "Coverage threshold met" in captured.out
