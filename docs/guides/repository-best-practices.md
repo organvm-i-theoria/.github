@@ -45,7 +45,7 @@ ______________________________________________________________________
 ├── labeler.yml                   # Auto-labeling configuration
 ├── CHANGELOG.md                  # Version history and changes
 ├── CONTRIBUTORS.md               # Contributor recognition
-├── BEST_PRACTICES.md            # This file
+├── repository-best-practices.md # This file (GitHub repo management)
 │
 ├── .github/
 │   ├── workflows/               # GitHub Actions workflows

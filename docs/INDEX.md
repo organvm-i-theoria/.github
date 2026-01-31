@@ -26,8 +26,9 @@ New to this template? Start here:
 |-------|-------------|
 | [Workflows Guide](guides/WORKFLOWS.md) | Workflow patterns and troubleshooting |
 | [AI Agents Guide](guides/AGENTS.md) | Working with AI agents |
-| [Best Practices](guides/BEST_PRACTICES.md) | General best practices |
-| [Security Best Practices](guides/SECURITY_BEST_PRACTICES.md) | Security guidelines |
+| [Best Practices](guides/best-practices.md) | Coding and development best practices |
+| [Repository Best Practices](guides/repository-best-practices.md) | GitHub repo management guidelines |
+| [Security Best Practices](guides/security-best-practices.md) | Security guidelines |
 
 ### Reference
 
