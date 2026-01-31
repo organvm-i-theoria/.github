@@ -13,6 +13,10 @@ on:
     - src/automation/scripts/secret_manager.py
     - .github/workflows/token-health-check.yml
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-tokens:
     runs-on: ubuntu-latest

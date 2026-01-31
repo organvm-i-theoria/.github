@@ -1,4 +1,4 @@
-name: AgentSphere Live Demo Deployment
+name: Live Demo Deployment
 
 on:
   push:
@@ -17,7 +17,7 @@ on:
     - package*.json
     - Dockerfile
     - docker-compose.yml
-    - .github/workflows/agentsphere-deployment.yml
+    - .github/workflows/demo-deployment.yml
   workflow_dispatch:
     inputs:
       force_deploy:
@@ -61,13 +61,13 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Load AgentSphere configuration
+    - name: Load demo configuration
       id: load-config
       run: |
-        CONFIG_FILE=".github/agentsphere-config.yml"
+        CONFIG_FILE=".github/demo-config.yml"
 
         if [ ! -f "$CONFIG_FILE" ]; then
-          echo "❌ AgentSphere configuration file not found"
+          echo "Demo configuration file not found"
           echo "enabled=false" >> $GITHUB_OUTPUT
           exit 0
         fi
@@ -77,7 +77,7 @@ jobs:
         echo "enabled=$ENABLED" >> $GITHUB_OUTPUT
 
         if [ "$ENABLED" != "true" ]; then
-          echo "⏭️ AgentSphere deployment is disabled"
+          echo "Demo deployment is disabled"
           exit 0
         fi
 
@@ -101,7 +101,7 @@ jobs:
         INPUT_FORCE_DEPLOY: ${{ inputs.force_deploy }}
         EVENT_FORCE_DEPLOY: ${{ github.event.inputs.force_deploy }}
       run: |
-        echo "🔍 Detecting application type..."
+        echo "Detecting application type..."
 
         APP_TYPE=""
         STARTUP_CMD=""
@@ -115,18 +115,18 @@ jobs:
 
         # Check for Node.js
         if [ -f "package.json" ]; then
-          echo "✓ Detected Node.js application (package.json found)"
+          echo "Detected Node.js application (package.json found)"
 
           # Detect specific framework
           if [ -f "vue.config.js" ] || grep -q '"vue"' package.json 2>/dev/null; then
             APP_TYPE="vue"
-            echo "  → Vue.js application"
+            echo "  Vue.js application"
           elif grep -q '"react"' package.json 2>/dev/null || [ -f "src/App.jsx" ] || [ -f "src/App.tsx" ]; then
             APP_TYPE="react"
-            echo "  → React application"
+            echo "  React application"
           else
             APP_TYPE="nodejs"
-            echo "  → Generic Node.js application"
+            echo "  Generic Node.js application"
           fi
 
           # Determine startup command from package.json scripts
@@ -146,7 +146,7 @@ jobs:
         # Check for Python
         elif [ -f "requirements.txt" ] || [ -f "Pipfile" ] || [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
           APP_TYPE="python"
-          echo "✓ Detected Python application"
+          echo "Detected Python application"
 
           if [ -f "app.py" ]; then
             STARTUP_CMD="python app.py"
@@ -168,7 +168,7 @@ jobs:
         # Check for Java
         elif [ -f "pom.xml" ] || [ -f "build.gradle" ] || [ -f "build.gradle.kts" ]; then
           APP_TYPE="java"
-          echo "✓ Detected Java application"
+          echo "Detected Java application"
 
           if [ -f "pom.xml" ]; then
             BUILD_CMD="mvn clean install -DskipTests"
@@ -183,7 +183,7 @@ jobs:
         # Check for Go
         elif [ -f "go.mod" ] || [ -f "main.go" ]; then
           APP_TYPE="go"
-          echo "✓ Detected Go application"
+          echo "Detected Go application"
 
           BUILD_CMD="go build -o main ."
           STARTUP_CMD="./main"
@@ -192,7 +192,7 @@ jobs:
         # Check for Ruby
         elif [ -f "Gemfile" ] || [ -f "config.ru" ]; then
           APP_TYPE="ruby"
-          echo "✓ Detected Ruby application"
+          echo "Detected Ruby application"
 
           BUILD_CMD="bundle install"
           if [ -f "config.ru" ]; then
@@ -205,14 +205,14 @@ jobs:
         # Check for .NET
         elif ls *.csproj 1> /dev/null 2>&1 || ls *.sln 1> /dev/null 2>&1; then
           APP_TYPE="dotnet"
-          echo "✓ Detected .NET application"
+          echo "Detected .NET application"
 
           BUILD_CMD="dotnet restore && dotnet build"
           STARTUP_CMD="dotnet run"
           PORT="5000"
 
         else
-          echo "❌ Could not detect application type"
+          echo "Could not detect application type"
           APP_TYPE="unknown"
         fi
 
@@ -223,7 +223,7 @@ jobs:
         fi
         if [ -n "$CUSTOM_CMD" ]; then
           STARTUP_CMD="$CUSTOM_CMD"
-          echo "  → Using custom startup command: $STARTUP_CMD"
+          echo "  Using custom startup command: $STARTUP_CMD"
         fi
 
         # Output results
@@ -233,25 +233,22 @@ jobs:
         echo "port=$PORT" >> $GITHUB_OUTPUT
 
         if [ "$APP_TYPE" = "unknown" ] && [ "$FORCE_DEPLOY_INPUT" != "true" ]; then
-          echo "⚠️ Deployment skipped - unknown application type"
+          echo "Deployment skipped - unknown application type"
           exit 1
         fi
 
-    - name: Register with AgentSphere
+    - name: Register demo deployment
       id: register
       if: steps.detect-app.outputs.app_type != 'unknown' || inputs.force_deploy == true || github.event.inputs.force_deploy == 'true'
       run: |
-        echo "⚠️  =============================================="
-        echo "⚠️  SIMULATION MODE - AgentSphere Integration"
-        echo "⚠️  =============================================="
+        echo "=============================================="
+        echo "SIMULATION MODE - Demo Deployment"
+        echo "=============================================="
         echo ""
-        echo "📝 This workflow is currently in SIMULATION mode."
-        echo "📝 Generated URLs are for demonstration and testing purposes only."
-        echo "📝 To implement real AgentSphere integration, see:"
-        echo "📝   - WORKFLOW_OPTIMIZATION_ROADMAP.md"
-        echo "📝   - NEXT_STEPS_IMPLEMENTATION.md"
+        echo "This workflow is currently in SIMULATION mode."
+        echo "Generated URLs are for demonstration and testing purposes only."
         echo ""
-        echo "🚀 Simulating AgentSphere registration..."
+        echo "Simulating demo registration..."
 
         API_ENDPOINT="${{ steps.load-config.outputs.api_endpoint }}"
         REPO_NAME="${{ github.repository }}"
@@ -274,21 +271,21 @@ jobs:
         EOF
         )
 
-        # NOTE: In production, this would make an actual API call to AgentSphere
+        # NOTE: In production, this would make an actual API call
         # For now, we'll simulate the response
-        echo "📡 Simulating AgentSphere API call (not making real request)..."
+        echo "Simulating API call (not making real request)..."
         echo "$PAYLOAD" | jq .
 
         # Simulate successful deployment
-        DEMO_URL="https://demo-${REPO_NAME//\//-}.agentsphere.dev"
+        DEMO_URL="https://demo-${REPO_NAME//\//-}.example.dev"
         DEMO_ID="demo_$(date +%s)_${RANDOM}"
 
         echo ""
-        echo "✅ Simulation completed successfully!"
+        echo "Simulation completed successfully!"
         echo "   Simulated Demo URL: $DEMO_URL"
         echo "   Simulated Demo ID: $DEMO_ID"
         echo ""
-        echo "⚠️  Note: These URLs are simulated and non-functional"
+        echo "Note: These URLs are simulated and non-functional"
 
         echo "demo_url=$DEMO_URL" >> $GITHUB_OUTPUT
         echo "demo_id=$DEMO_ID" >> $GITHUB_OUTPUT
@@ -314,7 +311,7 @@ jobs:
       if: steps.register.outputs.deployment_status == 'success'
       run: |
         if [ ! -f "README.md" ]; then
-          echo "⚠️ README.md not found, skipping badge insertion"
+          echo "README.md not found, skipping badge insertion"
           exit 0
         fi
 
@@ -323,7 +320,7 @@ jobs:
 
         # Check if badge already exists
         if grep -q "Live Demo" README.md; then
-          echo "ℹ️ Badge already exists in README.md"
+          echo "Badge already exists in README.md"
           exit 0
         fi
 
@@ -339,17 +336,17 @@ jobs:
           echo -e "$BADGE\n\n$(cat README.md)" > README.md
         fi
 
-        echo "✅ Badge added to README.md"
+        echo "Badge added to README.md"
 
     - name: Create pull request
       if: steps.register.outputs.deployment_status == 'success'
       uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f  # ratchet:peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'feat: add AgentSphere live demo badge to README (SIMULATION)'
-        title: 🚀 Add Live Demo Badge (Simulation Mode)
+        commit-message: 'feat: add live demo badge to README (SIMULATION)'
+        title: Add Live Demo Badge (Simulation Mode)
         body: |
-          ## ⚠️ Live Demo Deployment (SIMULATION MODE)
+          ## Live Demo Deployment (SIMULATION MODE)
 
           **Important**: This workflow is currently in **simulation mode**. The generated URLs are for demonstration and testing purposes only and do not point to actual live deployments.
 
@@ -364,51 +361,38 @@ jobs:
 
           ---
 
-          ### To Implement Real AgentSphere Integration
-
-          See the implementation guides:
-          - `WORKFLOW_OPTIMIZATION_ROADMAP.md` - Complete implementation plan
-          - `NEXT_STEPS_IMPLEMENTATION.md` - Step-by-step instructions
-          - Week 2-4 tasks include real API integration
-
-          ---
-
           ### What's Next?
 
-          - ✅ Review the live demo to ensure it's working correctly
-          - ✅ Merge this PR to make the badge visible
-          - ✅ Share the demo URL with stakeholders
-
-          ### Troubleshooting
-
-          If the demo isn't working as expected, check the [AgentSphere Setup Guide](.github/docs/AGENTSPHERE_SETUP.md).
+          - Review the live demo to ensure it's working correctly
+          - Merge this PR to make the badge visible
+          - Share the demo URL with stakeholders
 
           ---
 
-          _Automated by [AgentSphere Deployment Workflow](.github/workflows/agentsphere-deployment.yml)_
-        branch: agentsphere/add-live-demo-badge
+          _Automated by [Demo Deployment Workflow](.github/workflows/demo-deployment.yml)_
+        branch: demo/add-live-demo-badge
         delete-branch: true
 
     - name: Deployment summary
       if: always()
       run: |
-        echo "## AgentSphere Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "## Demo Deployment Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
 
         if [ "${{ steps.load-config.outputs.enabled }}" != "true" ]; then
-          echo "⏭️ **Status:** Disabled" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Disabled" >> $GITHUB_STEP_SUMMARY
           exit 0
         fi
 
         if [ "${{ steps.register.outputs.deployment_status }}" = "success" ]; then
-          echo "✅ **Status:** Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Application Type:** ${{ steps.detect-app.outputs.app_type }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Demo URL:** [${{ steps.register.outputs.demo_url }}](${{ steps.register.outputs.demo_url }})" >> $GITHUB_STEP_SUMMARY
           echo "- **Startup Command:** \`${{ steps.detect-app.outputs.startup_command }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Port:** ${{ steps.detect-app.outputs.port }}" >> $GITHUB_STEP_SUMMARY
         else
-          echo "❌ **Status:** Deployment Failed" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** Deployment Failed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Could not detect application type. Use manual deployment with custom command." >> $GITHUB_STEP_SUMMARY
         fi

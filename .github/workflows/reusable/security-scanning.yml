@@ -121,7 +121,7 @@ jobs:
     - name: Run secret scan with detect-secrets
       if: inputs.scan-type == 'secrets' || inputs.scan-type == 'all'
       run: |
-        pip install detect-secrets
+        pip install detect-secrets==1.5.0
         detect-secrets scan --all-files --baseline .secrets.baseline || true
         if [ -f .secrets.baseline ]; then
           echo "Secret scan complete. Review .secrets.baseline for any findings."

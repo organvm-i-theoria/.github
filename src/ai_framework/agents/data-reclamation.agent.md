@@ -3,18 +3,6 @@ name: Data Reclamation
 description: Data Reclamation Agent - Recovers and restores lost, corrupted, or accidentally deleted data from various sources with comprehensive recovery strategies
 ---
 
-______________________________________________________________________
-
-## name: "Data Reclamation" description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or accidentally deleted data from various sources with comprehensive recovery strategies"
-
-______________________________________________________________________
-
-## name: "Data Reclamation" description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or accidentally deleted data from various sources with comprehensive recovery strategies"
-
-______________________________________________________________________
-
-## name: "Data Reclamation" description: "Data Reclamation Agent - Recovers and restores lost, corrupted, or accidentally deleted data from various sources with comprehensive recovery strategies"
-
 # Data Reclamation Agent
 
 You are a Data Reclamation Agent specialized in recovering, restoring, and

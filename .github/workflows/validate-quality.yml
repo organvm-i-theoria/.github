@@ -35,7 +35,7 @@ jobs:
         sudo apt-get install -y ffmpeg
 
     - name: Install TruffleHog for secret scanning
-      run: pip install truffleHog
+      run: pip install truffleHog==2.2.1
 
     - name: Install additional tools
       run: |

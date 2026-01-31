@@ -1,0 +1,21 @@
+{
+  "profile": "full",
+  "name": "Advanced CI Pipeline",
+  "identifier": "urn:uuid:c2b3d4e5-f6a7-8901-bcde-f23456789012",
+  "version": "1.0.0",
+  "description": "Advanced multi-language CI pipeline with matrix testing across Python, Node.js, and Docker with cross-platform support",
+  "functioncalled": {
+    "canonical": "core.ci.advanced.yml",
+    "layer": "core",
+    "role": "ci",
+    "domain": "build"
+  },
+  "schema:type": "SoftwareSourceCode",
+  "encodingFormat": "application/x-yaml",
+  "programmingLanguage": "YAML",
+  "runtimePlatform": "GitHub Actions",
+  "triggers": ["push", "pull_request", "workflow_dispatch"],
+  "dateCreated": "2024-01-01T00:00:00Z",
+  "dateModified": "2025-01-30T00:00:00Z",
+  "dc:subject": ["ci", "continuous-integration", "build", "test", "multi-platform", "matrix", "core"]
+}

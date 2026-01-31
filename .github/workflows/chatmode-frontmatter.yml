@@ -33,6 +33,10 @@ on:
     - src/automation/scripts/validate_chatmode_frontmatter.py
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

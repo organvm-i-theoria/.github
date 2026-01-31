@@ -1,5 +1,5 @@
 [project]
-name = "ivviiviivvi-github"
+name = "org-github-template"
 version = "1.0.0"
 description = "Organization-wide GitHub configuration and community health files"
 readme = "README.md"

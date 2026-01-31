@@ -1,14 +1,13 @@
-# AgentSphere Configuration
-# This file controls how applications are automatically deployed to AgentSphere cloud sandbox
-# for live demo generation and testing
+# Demo Deployment Configuration
+# This file controls how applications are automatically deployed for live demos
 
 # Enable or disable automatic deployment
 enabled: true
 
 # Global settings
 global:
-  # API endpoint for AgentSphere
-  api_endpoint: https://api.agentsphere.dev/v1
+  # API endpoint for demo deployment service (configure with your provider)
+  api_endpoint: https://api.example.dev/v1
 
   # Timeout for application startup (seconds)
   startup_timeout: 60
@@ -204,7 +203,7 @@ tech_stacks:
     health_check_path: /health
 
 # Custom overrides (repository-specific)
-# Can be overridden by creating .agentsphere.yml in the repository root
+# Can be overridden by creating .demo-config.yml in the repository root
 custom_overrides:
   # Allow custom startup commands
   allow_custom_commands: true

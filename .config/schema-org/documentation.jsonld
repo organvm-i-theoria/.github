@@ -1,17 +1,17 @@
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "@id": "https://github.com/ivviiviivvi/.github/tree/main/docs",
+  "@id": "https://github.com/{{ORG_NAME}}/.github/tree/main/docs",
   "name": "Organization Documentation",
   "headline": "Comprehensive Documentation Ecosystem",
-  "description": "Documentation ecosystem spanning 133+ files covering setup guides, architecture documentation, API references, tutorials, and policy documents",
+  "description": "Documentation ecosystem covering setup guides, architecture documentation, API references, tutorials, and policy documents",
   "dateCreated": "2024",
-  "dateModified": "2026-01-18",
+  "dateModified": "2026-01-30",
   "version": "1.0.0",
-  "url": "https://github.com/ivviiviivvi/.github/tree/main/docs",
+  "url": "https://github.com/{{ORG_NAME}}/.github/tree/main/docs",
   "isPartOf": {
     "@type": "SoftwareSourceCode",
-    "@id": "https://github.com/ivviiviivvi/.github",
+    "@id": "https://github.com/{{ORG_NAME}}/.github",
     "name": ".github Repository"
   },
   "about": [
@@ -85,6 +85,5 @@
     "Reference",
     "Training"
   ],
-  "proficiencyLevel": "Beginner to Advanced",
-  "numberOfPages": 133
+  "proficiencyLevel": "Beginner to Advanced"
 }

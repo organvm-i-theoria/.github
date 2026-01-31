@@ -26,6 +26,10 @@ on:
         description: Default port for the application
         value: ${{ jobs.detect.outputs.port }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

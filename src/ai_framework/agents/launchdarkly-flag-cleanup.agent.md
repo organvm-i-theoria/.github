@@ -3,18 +3,6 @@ name: launchdarkly-flag-cleanup
 description: A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management
 ---
 
-______________________________________________________________________
-
-## name: "launchdarkly-flag-cleanup" description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
-
-______________________________________________________________________
-
-## name: "launchdarkly-flag-cleanup" description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
-
-______________________________________________________________________
-
-## name: "launchdarkly-flag-cleanup" description: "A specialized GitHub Copilot agent that uses the LaunchDarkly MCP server for feature flag lifecycle management"
-
 ## Use Case 1: Flag Removal
 
 When a developer asks you to remove a feature flag (e.g., "Remove the

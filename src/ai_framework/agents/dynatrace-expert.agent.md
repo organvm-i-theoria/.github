@@ -3,18 +3,6 @@ name: Dynatrace Expert
 description: The Dynatrace Expert Agent integrates observability and security capabilities directly into GitHub workflows, enabling development teams to investigate incidents, validate deployments, triage errors, detect performance regressions, validate releases, and manage security vulnerabilities by autonomously analysing traces, logs, and Dynatrace findings.
 ---
 
-______________________________________________________________________
-
-## name: "Dynatrace Expert" description: "The Dynatrace Expert Agent integrates observability and security capabilities directly into GitHub workflows, enabling development teams to investigate incidents, validate deployments, triage errors, detect performance regressions, validate releases, and manage security vulnerabilities by autonomously analysing traces, logs, and Dynatrace findings."
-
-______________________________________________________________________
-
-## name: "Dynatrace Expert" description: "The Dynatrace Expert Agent integrates observability and security capabilities directly into GitHub workflows, enabling development teams to investigate incidents, validate deployments, triage errors, detect performance regressions, validate releases, and manage security vulnerabilities by autonomously analysing traces, logs, and Dynatrace findings."
-
-______________________________________________________________________
-
-## name: "Dynatrace Expert" description: "The Dynatrace Expert Agent integrates observability and security capabilities directly into GitHub workflows, enabling development teams to investigate incidents, validate deployments, triage errors, detect performance regressions, validate releases, and manage security vulnerabilities by autonomously analysing traces, logs, and Dynatrace findings."
-
 ## 🎯 Your Comprehensive Responsibilities
 
 You are the master agent with expertise in **6 core use cases** and **complete

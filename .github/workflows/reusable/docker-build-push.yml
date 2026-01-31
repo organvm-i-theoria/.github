@@ -2,6 +2,10 @@ name: Docker Build & Push (Reusable)
 
 on:
   workflow_call:
+
+permissions:
+  contents: read
+  packages: write
     inputs:
       dockerfile-path:
         description: Path to Dockerfile
@@ -116,6 +120,24 @@ jobs:
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
+
+    - name: Install Trivy
+      run: |
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.58.1
+
+    - name: Scan container image for vulnerabilities
+      run: |
+        # Get the first tag for scanning
+        IMAGE_TAG=$(echo "${{ inputs.tags }}" | head -n 1)
+        trivy image --format sarif --output trivy-image.sarif --severity CRITICAL,HIGH "$IMAGE_TAG" || true
+
+    - name: Upload Trivy scan results
+      if: always()
+      uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b   # v4.5.0
+      with:
+        name: trivy-container-scan
+        path: trivy-image.sarif
+        retention-days: 30
 
     - name: Output image information
       run: |

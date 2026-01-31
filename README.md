@@ -1,10 +1,10 @@
-# ivviiviivvi Organization Hub
+# {{ORG_DISPLAY_NAME}} Organization Hub
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)<!-- link:badges.version -->](VERSION)
-[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)<!-- link:badges.pre_commit -->](https://github.com/pre-commit/pre-commit)
-[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-129%20workflows-blue?logo=github-actions)](https://github.com/ivviiviivvi/.github/actions)
-[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)<!-- link:badges.security -->](https://github.com/ivviiviivvi/.github)
-[![Documentation](https://img.shields.io/badge/docs-304%2B%20files-blue?logo=markdown)](docs/INDEX.md)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](VERSION)
+[![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-129%20workflows-blue?logo=github-actions)](https://github.com/{{ORG_NAME}}/.github/actions)
+[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)](https://github.com/{{ORG_NAME}}/.github)
+[![Documentation](https://img.shields.io/badge/docs-comprehensive-blue?logo=markdown)](docs/INDEX.md)
 
 > **AI-Driven Development Infrastructure for the Modern Organization**
 
@@ -40,7 +40,7 @@ A centralized `.github` repository providing organization-wide infrastructure:
 - **32 Production AI Agents** - Ready-to-deploy development assistants
 - **129 GitHub Actions Workflows** - Comprehensive automation coverage
 - **MCP Server Framework** - Extended AI capabilities across 11 languages
-- **304+ Documentation Files** - Comprehensive guides and references
+- **Comprehensive Documentation** - Guides and references
 
 ______________________________________________________________________
 
@@ -55,16 +55,16 @@ ______________________________________________________________________
    [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
 1. **Clone and explore:**
    ```bash
-   git clone https://github.com/ivviiviivvi/.github.git
+   git clone https://github.com/{{ORG_NAME}}/.github.git
    cd .github
    pip install -e ".[dev]"
    pre-commit install
    ```
 1. **Find issues:**
-   [Good first issues](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)<!-- link:github.good_first_issue -->
+   [Good first issues](https://github.com/{{ORG_NAME}}/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 **Need help?** Check [SUPPORT.md](SUPPORT.md) or
-[start a discussion](https://github.com/orgs/ivviiviivvi/discussions)<!-- link:github.org_discussions -->.
+[start a discussion](https://github.com/orgs/{{ORG_NAME}}/discussions).
 
 ______________________________________________________________________
 
@@ -73,21 +73,21 @@ ______________________________________________________________________
 ```
 .github/
 ├── .config/               # Configuration files (devcontainer, vscode, pre-commit)
-├── .github/workflows/     # 129 GitHub Actions workflows
+├── .github/workflows/     # GitHub Actions workflows
 │   └── reusable/          # Reusable workflow templates
-├── docs/                  # 304+ documentation files
+├── docs/                  # Documentation files
 │   ├── archive/           # Historical reports
 │   ├── guides/            # How-to guides
 │   ├── reference/         # Reference documentation
 │   └── reports/           # Health reports & roadmaps
 ├── src/
 │   ├── ai_framework/      # AI infrastructure
-│   │   ├── agents/        # 32 production AI agents
+│   │   ├── agents/        # Production AI agents
 │   │   ├── chatmodes/     # Copilot chat modes
-│   │   ├── instructions/  # 100+ coding instructions
+│   │   ├── instructions/  # Coding instructions
 │   │   └── prompts/       # Task-specific prompts
 │   └── automation/        # Python automation scripts
-│       ├── scripts/       # 44+ Python scripts
+│       ├── scripts/       # Python scripts
 │       └── project_meta/  # Project metadata
 ├── tests/                 # Test suites
 ├── workflow-templates/    # Reusable workflow templates
@@ -101,21 +101,20 @@ ______________________________________________________________________
 
 ### AI Framework
 
-**32 Production Agents** across 5 categories:
+**Production Agents** across 5 categories:
 
 - Security, Infrastructure, Development, Languages, Documentation
 - See [Agent Registry](docs/AGENT_REGISTRY.md) for complete catalog
 
 **GitHub Copilot Customizations:**
 
-- [Quick Start Guide](docs/COPILOT_QUICK_START.md) - 15-minute setup
-- [Custom Instructions](docs/CUSTOM_INSTRUCTIONS_SETUP.md) - 100+ coding
-  standards
-- [MCP Server Setup](docs/MCP_SERVER_SETUP.md) - 11 languages supported
+- [Quick Start Guide](docs/COPILOT_QUICK_START.md) - Setup guide
+- [Custom Instructions](docs/CUSTOM_INSTRUCTIONS_SETUP.md) - Coding standards
+- [MCP Server Setup](docs/MCP_SERVER_SETUP.md) - Language support
 
 ### Workflow Automation
 
-**129 Workflows** covering:
+**Workflows** covering:
 
 - CI/CD pipelines
 - Security scanning (CodeQL, Gitleaks, TruffleHog)
@@ -133,8 +132,7 @@ ______________________________________________________________________
 ### Security
 
 - **SHA-Pinned Actions** - All actions pinned to specific commits
-- **Secret Scanning** - Multi-tool detection (TruffleHog, Gitleaks,
-  detect-secrets)
+- **Secret Scanning** - Multi-tool detection (TruffleHog, Gitleaks, detect-secrets)
 - **CodeQL Analysis** - Continuous vulnerability scanning
 - **Branch Protection** - Enforced rules on production branches
 
@@ -153,7 +151,7 @@ ______________________________________________________________________
 
 ## Documentation
 
-**[Complete Documentation Index](docs/INDEX.md)** - Browse all 304+ docs
+**[Complete Documentation Index](docs/INDEX.md)** - Browse all docs
 
 ### Core Documentation
 
@@ -166,12 +164,12 @@ ______________________________________________________________________
 
 ### Guides
 
-| Guide                                                                                    | Description              |
-| ---------------------------------------------------------------------------------------- | ------------------------ |
-| [COPILOT_QUICK_START.md](docs/COPILOT_QUICK_START.md)                                    | GitHub Copilot setup     |
-| [BATCH_ONBOARDING_GUIDE.md](docs/BATCH_ONBOARDING_GUIDE.md)                              | Multi-repo onboarding    |
-| [WORKFLOW_DESIGN.md](docs/WORKFLOW_DESIGN.md)                                            | Workflow architecture    |
-| [docs/guides/CLAUDE.md](docs/guides/CLAUDE.md)<!-- link:internal.guides.claude_guide --> | Working with Claude Code |
+| Guide                                                        | Description              |
+| ------------------------------------------------------------ | ------------------------ |
+| [COPILOT_QUICK_START.md](docs/COPILOT_QUICK_START.md)        | GitHub Copilot setup     |
+| [BATCH_ONBOARDING_GUIDE.md](docs/BATCH_ONBOARDING_GUIDE.md)  | Multi-repo onboarding    |
+| [WORKFLOW_DESIGN.md](docs/WORKFLOW_DESIGN.md)                | Workflow architecture    |
+| [docs/guides/CLAUDE.md](docs/guides/CLAUDE.md)               | Working with Claude Code |
 
 ______________________________________________________________________
 
@@ -204,8 +202,8 @@ ______________________________________________________________________
 
 ## GitHub Projects
 
-**7 Organization Projects** at
-[github.com/orgs/ivviiviivvi/projects](https://github.com/orgs/ivviiviivvi/projects):
+**Organization Projects** at
+[github.com/orgs/{{ORG_NAME}}/projects](https://github.com/orgs/{{ORG_NAME}}/projects):
 
 - AI Framework Development
 - Documentation & Knowledge
@@ -257,8 +255,8 @@ ______________________________________________________________________
 
 **DO NOT create a public issue.** Follow our [Security Policy](SECURITY.md):
 
-- Email: security@ivviiviivvi.com
-- [GitHub Security Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)<!-- link:github.security_advisory -->
+- Email: security@{{ORG_NAME}}.com
+- [GitHub Security Advisory](https://github.com/{{ORG_NAME}}/.github/security/advisories/new)
 
 **Response Timeline:**
 
@@ -285,9 +283,9 @@ ______________________________________________________________________
 ## Community
 
 - **Questions:**
-  [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
+  [GitHub Discussions](https://github.com/{{ORG_NAME}}/.github/discussions)
 - **Issues:**
-  [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+  [Issue Tracker](https://github.com/{{ORG_NAME}}/.github/issues)
 - **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ______________________________________________________________________
@@ -300,10 +298,10 @@ ______________________________________________________________________
 
 ## Contact
 
-- **General:** info@ivviiviivvi.com
-- **Security:** security@ivviiviivvi.com
-- **Support:** support@ivviiviivvi.com
+- **General:** info@{{ORG_NAME}}.com
+- **Security:** security@{{ORG_NAME}}.com
+- **Support:** support@{{ORG_NAME}}.com
 
 ______________________________________________________________________
 
-**Last Updated:** January 25, 2026 **Maintained by:** @ivviiviivvi/leadership
+**Maintained by:** @{{ORG_NAME}}/leadership

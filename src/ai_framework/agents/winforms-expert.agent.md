@@ -3,19 +3,7 @@ name: WinForms Expert
 description: Support development of .NET (OOP) WinForms Designer compatible Apps.
 ---
 
-______________________________________________________________________
-
-## name: "WinForms Expert" description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
-
-______________________________________________________________________
-
-## name: "WinForms Expert" description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
-
-______________________________________________________________________
-
-## name: "WinForms Expert" description: "Support development of .NET (OOP) WinForms Designer compatible Apps."
-
-## 🎯 Critical Generic WinForms Issue: Dealing with Two Code Contexts
+## Critical Generic WinForms Issue: Dealing with Two Code Contexts
 
 | Context           | Files/Location                               | Language Level                                          | Key Rule                             |
 | ----------------- | -------------------------------------------- | ------------------------------------------------------- | ------------------------------------ |
@@ -25,14 +13,14 @@ ______________________________________________________________________
 **Decision:** In _.designer.cs_ or `InitializeComponent` → Designer rules.
 Otherwise → Modern C# rules.
 
-______________________________________________________________________
+---
 
-## 🚨 Designer File Rules (TOP PRIORITY)
+## Designer File Rules (TOP PRIORITY)
 
-⚠️ Make sure Diagnostic Errors and build/compile errors are eventually
+Make sure Diagnostic Errors and build/compile errors are eventually
 completely addressed!
 
-### ❌ Prohibited in InitializeComponent
+### Prohibited in InitializeComponent
 
 | Category       | Prohibited                                                                                                 | Why                         |
 | -------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -44,20 +32,22 @@ completely addressed!
 **Allowed method calls:** Designer-supporting interface methods like
 `SuspendLayout`, `ResumeLayout`, `BeginInit`, `EndInit`
 
-### ❌ Prohibited in _.designer.cs_ File
+### Prohibited in _.designer.cs_ File
 
-❌ Method definitions (except `InitializeComponent`, `Dispose`, preserve existing
-additional constructors)\
-❌ Properties\
-❌ Lambda expressions, DO ALSO NOT bind
-events in `InitializeComponent` to Lambdas! ❌ Complex logic ❌ `??`/`?.`/`?[]`
-(null coalescing/conditional), `nameof()` ❌ Collection Expressions
+- Method definitions (except `InitializeComponent`, `Dispose`, preserve existing
+additional constructors)
+- Properties
+- Lambda expressions, DO ALSO NOT bind
+events in `InitializeComponent` to Lambdas!
+- Complex logic
+- `??`/`?.`/`?[]` (null coalescing/conditional), `nameof()`
+- Collection Expressions
 
-### ✅ Correct Pattern
+### Correct Pattern
 
-✅ File-scope namespace definitions (preferred)
+- File-scope namespace definitions (preferred)
 
-### 📋 Required Structure of InitializeComponent Method
+### Required Structure of InitializeComponent Method
 
 | Order | Step                            | Example                                    |
 | ----- | ------------------------------- | ------------------------------------------ |
@@ -140,9 +130,9 @@ private Button _btnAdopt;
 **Remember:** Complex UI configuration logic goes in main _.cs_ file, NOT
 _.designer.cs_.
 
-______________________________________________________________________
+---
 
-______________________________________________________________________
+---
 
 ## Modern C# Features (Regular Code Only)
 
@@ -164,22 +154,22 @@ ______________________________________________________________________
 | Argument validation     | Always; throw helpers for .NET 8+                 | `ArgumentNullException.ThrowIfNull(control);`                              |
 | Using statements        | Modern syntax                                     | `using frmOptions modalOptionsDlg = new(); // Always dispose modal Forms!` |
 
-### Property Patterns (⚠️ CRITICAL - Common Bug Source!)
+### Property Patterns (CRITICAL - Common Bug Source!)
 
 | Pattern                | Behavior                          | Use Case                     | Memory                |
 | ---------------------- | --------------------------------- | ---------------------------- | --------------------- |
-| `=> new Type()`        | Creates NEW instance EVERY access | ⚠️ LIKELY MEMORY LEAK!       | Per-access allocation |
+| `=> new Type()`        | Creates NEW instance EVERY access | LIKELY MEMORY LEAK!          | Per-access allocation |
 | `{ get; } = new()`     | Creates ONCE at construction      | Use for: Cached/constant     | Single allocation     |
 | `=> _field ?? Default` | Computed/dynamic value            | Use for: Calculated property | Varies                |
 
 ```csharp
-// ❌ WRONG - Memory leak
+// WRONG - Memory leak
 public Brush BackgroundBrush => new SolidBrush(BackColor);
 
-// ✅ CORRECT - Cached
+// CORRECT - Cached
 public Brush BackgroundBrush { get; } = new SolidBrush(Color.White);
 
-// ✅ CORRECT - Dynamic
+// CORRECT - Dynamic
 public Font CurrentFont => _customFont ?? DefaultFont;
 ```
 
@@ -188,7 +178,7 @@ public Font CurrentFont => _customFont ?? DefaultFont;
 ### Prefer Switch Expressions over If-Else Chains
 
 ```csharp
-// ✅ NEW: Instead of countless IFs:
+// NEW: Instead of countless IFs:
 private Color GetStateColor(ControlState state) => state switch
 {
     ControlState.Normal => SystemColors.Control,
@@ -243,7 +233,7 @@ constructors, `Dispose`, `InitializeComponent`, control definitions
 - Strongly prefer event handlers `Sub`s with `Handles` clause in main code over
   `AddHandler` in file`InitializeComponent`
 
-______________________________________________________________________
+---
 
 ## Classic Data Binding and MVVM Data Binding (.NET 8+)
 
@@ -343,7 +333,7 @@ _tsmFile.DataBindings.Add(new Binding("Command", mainViewModelBindingSource, "To
 _tsmFile.CommandParameter = "File";
 ```
 
-______________________________________________________________________
+---
 
 ## WinForms Async Patterns (.NET 9+)
 
@@ -356,13 +346,13 @@ ______________________________________________________________________
 | Sync function, returns T   | `InvokeAsync<T>(Func<T>)`                | Get control value     |
 | Async operation, returns T | `InvokeAsync<T>(Func<CT, ValueTask<T>>)` | Async work + result   |
 
-### ⚠️ Fire-and-Forget Trap
+### Fire-and-Forget Trap
 
 ```csharp
-// ❌ WRONG - Analyzer violation, fire-and-forget
+// WRONG - Analyzer violation, fire-and-forget
 await InvokeAsync<string>(() => await LoadDataAsync());
 
-// ✅ CORRECT - Use async overload
+// CORRECT - Use async overload
 await InvokeAsync<string>(async (ct) => await LoadDataAsync(ct), outerCancellationToken);
 ```
 
@@ -475,7 +465,7 @@ public class CustomControl : Control
 **Important:** Use exactly ONE of the above approaches per property for types
 derived from `Component` or `Control`.
 
-______________________________________________________________________
+---
 
 ## WinForms Design Principles
 

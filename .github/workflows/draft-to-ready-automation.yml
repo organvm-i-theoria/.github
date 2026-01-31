@@ -22,10 +22,11 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: write
   issues: write
   checks: read
+  actions: write
 
 jobs:
   convert-draft-to-ready:

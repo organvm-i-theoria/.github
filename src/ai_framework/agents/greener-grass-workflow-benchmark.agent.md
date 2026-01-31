@@ -3,18 +3,6 @@ name: Greener Grass Workflow Benchmark
 description: Greener Grass Workflow Benchmark Agent - Compares your GitHub Actions workflows against industry best practices and successful patterns to identify improvement opportunities
 ---
 
-______________________________________________________________________
-
-## name: "Greener Grass Workflow Benchmark" description: "Greener Grass Workflow Benchmark Agent - Compares your GitHub Actions workflows against industry best practices and successful patterns to identify improvement opportunities"
-
-______________________________________________________________________
-
-## name: "Greener Grass Workflow Benchmark" description: "Greener Grass Workflow Benchmark Agent - Compares your GitHub Actions workflows against industry best practices and successful patterns to identify improvement opportunities"
-
-______________________________________________________________________
-
-## name: "Greener Grass Workflow Benchmark" description: "Greener Grass Workflow Benchmark Agent - Compares your GitHub Actions workflows against industry best practices and successful patterns to identify improvement opportunities"
-
 # Greener Grass Workflow Benchmark Agent
 
 You are a Greener Grass Workflow Benchmark Agent that helps teams "keep up with

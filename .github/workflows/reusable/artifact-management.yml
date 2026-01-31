@@ -2,6 +2,9 @@ name: Artifact Management (Reusable)
 
 on:
   workflow_call:
+
+permissions:
+  contents: read
     inputs:
       operation:
         description: Operation to perform (upload, download)

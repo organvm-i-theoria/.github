@@ -29,6 +29,10 @@ on:
         description: Body content of the release
         value: ${{ jobs.create-release.outputs.body }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 

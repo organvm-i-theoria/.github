@@ -3,18 +3,6 @@ name: security-audit
 description: Security Audit Agent - Performs comprehensive security audits of repositories, workflows, and organizational settings following security best practices
 ---
 
-______________________________________________________________________
-
-## name: "security-audit" description: "Security Audit Agent - Performs comprehensive security audits of repositories, workflows, and organizational settings following security best practices"
-
-______________________________________________________________________
-
-## name: "security-audit" description: "Security Audit Agent - Performs comprehensive security audits of repositories, workflows, and organizational settings following security best practices"
-
-______________________________________________________________________
-
-## name: "security-audit" description: "Security Audit Agent - Performs comprehensive security audits of repositories, workflows, and organizational settings following security best practices"
-
 # Security Audit Agent
 
 You are a Security Audit Agent specialized in performing comprehensive security

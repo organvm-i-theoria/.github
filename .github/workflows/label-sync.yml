@@ -22,6 +22,10 @@ on:
     # Run weekly on Monday at 00:00 UTC
   - cron: 0 0 * * 1
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   issues: write
   pull-requests: write

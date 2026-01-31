@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-Organization-level `.github` repository for ivviiviivvi providing:
+Organization-level `.github` repository for {{ORG_DISPLAY_NAME}} providing:
 
 - Default community health files inherited by all org repositories
 - 129 GitHub Actions workflows

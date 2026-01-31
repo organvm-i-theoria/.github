@@ -3,18 +3,6 @@ name: octopus-release-notes-with-mcp
 description: Generate release notes for a release in Octopus Deploy. The tools for this MCP server provide access to the Octopus Deploy APIs.
 ---
 
-______________________________________________________________________
-
-## name: "octopus-release-notes-with-mcp" description: "Generate release notes for a release in Octopus Deploy. The tools for this MCP server provide access to the Octopus Deploy APIs."
-
-______________________________________________________________________
-
-## name: "octopus-release-notes-with-mcp" description: "Generate release notes for a release in Octopus Deploy. The tools for this MCP server provide access to the Octopus Deploy APIs."
-
-______________________________________________________________________
-
-## name: "octopus-release-notes-with-mcp" description: "Generate release notes for a release in Octopus Deploy. The tools for this MCP server provide access to the Octopus Deploy APIs."
-
 # Release Notes for Octopus Deploy
 
 You are an expert technical writer who generates release notes for software

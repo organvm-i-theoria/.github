@@ -1,17 +1,17 @@
 github:
-  org: https://github.com/ivviiviivvi
+  org: https://github.com/{{ORG_NAME}}
   root: https://github.com
-  dotgithub: https://github.com/ivviiviivvi/.github
-  org_discussions: https://github.com/orgs/ivviiviivvi/discussions
+  dotgithub: https://github.com/{{ORG_NAME}}/.github
+  org_discussions: https://github.com/orgs/{{ORG_NAME}}/discussions
   legacy_discussions: https://github.com/ivi374forivi/.github/discussions
-  discussions: https://github.com/ivviiviivvi/.github/discussions
-  issues: https://github.com/ivviiviivvi/.github/issues
-  issues_new: https://github.com/ivviiviivvi/.github/issues/new/choose
-  good_first_issue: https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
-  bug_report: https://github.com/ivviiviivvi/.github/issues/new?template=bug_report.yml
-  feature_request: https://github.com/ivviiviivvi/.github/issues/new?template=feature_request.yml
-  security_vulnerability: https://github.com/ivviiviivvi/.github/issues/new?template=security_vulnerability.yml
-  security_advisory: https://github.com/ivviiviivvi/.github/security/advisories/new
+  discussions: https://github.com/{{ORG_NAME}}/.github/discussions
+  issues: https://github.com/{{ORG_NAME}}/.github/issues
+  issues_new: https://github.com/{{ORG_NAME}}/.github/issues/new/choose
+  good_first_issue: https://github.com/{{ORG_NAME}}/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+  bug_report: https://github.com/{{ORG_NAME}}/.github/issues/new?template=bug_report.yml
+  feature_request: https://github.com/{{ORG_NAME}}/.github/issues/new?template=feature_request.yml
+  security_vulnerability: https://github.com/{{ORG_NAME}}/.github/issues/new?template=security_vulnerability.yml
+  security_advisory: https://github.com/{{ORG_NAME}}/.github/security/advisories/new
   dependabot: https://github.com/dependabot
   detect_secrets: https://github.com/Yelp/detect-secrets  # pragma: allowlist secret
   pip_audit: https://github.com/pypa/pip-audit

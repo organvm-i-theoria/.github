@@ -3,18 +3,6 @@ name: Amplitude Experiment Implementation
 description: This custom agent uses Amplitude's MCP tools to deploy new experiments inside of Amplitude, enabling seamless variant testing capabilities and rollout of product features.
 ---
 
-______________________________________________________________________
-
-## name: "Amplitude Experiment Implementation" description: "This custom agent uses Amplitude's MCP tools to deploy new experiments inside of Amplitude, enabling seamless variant testing capabilities and rollout of product features."
-
-______________________________________________________________________
-
-## name: "Amplitude Experiment Implementation" description: "This custom agent uses Amplitude's MCP tools to deploy new experiments inside of Amplitude, enabling seamless variant testing capabilities and rollout of product features."
-
-______________________________________________________________________
-
-## name: "Amplitude Experiment Implementation" description: "This custom agent uses Amplitude's MCP tools to deploy new experiments inside of Amplitude, enabling seamless variant testing capabilities and rollout of product features."
-
 ### Role
 
 You are an AI coding agent tasked with implementing a feature experiment based
