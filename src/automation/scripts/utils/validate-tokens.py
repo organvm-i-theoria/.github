@@ -12,11 +12,12 @@ import argparse
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
 import requests
 
 # Add parent directory to path for imports
-sys.path.insert(0, "automation/scripts")
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from secret_manager import get_secret  # noqa: E402
 
 # ANSI color codes
@@ -29,29 +30,29 @@ NC = "\033[0m"  # No Color
 # Token registry (keep in sync with TOKEN_REGISTRY.md)
 TOKENS = {
     "master-org-token-011726": {
-        "scopes": ["unknown"],  # To be documented
+        "scopes": ["admin:org", "repo", "workflow", "project"],
         "test_endpoint": "/user",
-        "status": "deprecated",
+        "status": "active",
     },
     "org-label-sync-token": {
         "scopes": ["repo", "workflow"],
         "test_endpoint": "/user/repos",
-        "status": "planned",
+        "status": "active",
     },
     "org-project-admin-token": {
         "scopes": ["project", "read:org"],
         "test_endpoint": "/user",
-        "status": "planned",
+        "status": "active",
     },
     "org-repo-analysis-token": {
         "scopes": ["repo:status", "read:org"],
-        "test_endpoint": "/users/ivviiviivvi/repos",
-        "status": "planned",
+        "test_endpoint": "/user/repos",
+        "status": "active",
     },
     "org-onboarding-token": {
         "scopes": ["repo", "workflow", "admin:org"],
         "test_endpoint": "/user/repos",
-        "status": "planned",
+        "status": "active",
     },
 }
 
