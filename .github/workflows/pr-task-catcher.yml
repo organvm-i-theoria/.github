@@ -317,23 +317,23 @@ jobs:
         } >> /tmp/task_summary.md
 
         if [ "$BLOCKERS" -gt 0 ]; then
-          printf "- 🚨 **Address all blocker items** before merging\n" >> /tmp/task_summary.md
+          echo "- 🚨 **Address all blocker items** before merging" >> /tmp/task_summary.md
         fi
 
         if [ "$UNCHECKED_BODY" -gt 0 ]; then
-          printf "- ✅ Check off completed tasks in PR description\n" >> /tmp/task_summary.md
+          echo "- ✅ Check off completed tasks in PR description" >> /tmp/task_summary.md
         fi
 
         if [ "$UNRESOLVED_THREADS" -gt 0 ]; then
-          printf "- 💬 Resolve review discussion threads\n" >> /tmp/task_summary.md
+          echo "- 💬 Resolve review discussion threads" >> /tmp/task_summary.md
         fi
 
         if [ "$COMMENT_TASKS" -gt 0 ]; then
-          printf "- 📝 Complete or assign out tasks from comments\n" >> /tmp/task_summary.md
+          echo "- 📝 Complete or assign out tasks from comments" >> /tmp/task_summary.md
         fi
 
         if [ "$TOTAL_TASKS" -eq 0 ] && [ "$BLOCKERS" -eq 0 ] && [ "$UNRESOLVED_THREADS" -eq 0 ]; then
-          printf "- 🚀 All tasks complete! Ready to merge when CI passes.\n" >> /tmp/task_summary.md
+          echo "- 🚀 All tasks complete! Ready to merge when CI passes." >> /tmp/task_summary.md
         fi
 
         {
