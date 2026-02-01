@@ -322,7 +322,8 @@ def update_workflow_file(
     return updates
 
 
-def main():
+def main() -> None:
+    """Main entry point for updating action pins."""
     parser = argparse.ArgumentParser(
         description="Update GitHub Action SHA pins to latest versions"
     )

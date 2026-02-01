@@ -172,7 +172,7 @@ class LabelSyncManager:
             print(f"  ⚠️  Error getting labels from {repo.name}: {e}")
             return {}
 
-    def sync_labels(self, repo: Repository) -> dict[str, int]:
+    def sync_labels(self, repo: "Repository") -> dict[str, int]:
         """Sync labels for a single repository.
 
         Args:

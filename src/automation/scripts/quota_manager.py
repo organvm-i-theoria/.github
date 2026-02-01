@@ -23,8 +23,10 @@ import json
 import os
 import sys
 import time
+from collections.abc import Generator
 from contextlib import contextmanager, suppress
 from datetime import datetime
+from typing import Any
 
 SUBSCRIPTIONS_FILE = ".github/subscriptions.json"
 TASK_QUEUE_FILE = ".github/task_queue.json"
@@ -43,7 +45,7 @@ except ImportError:
 
 
 @contextmanager
-def acquire_lock(timeout=60):
+def acquire_lock(timeout: int = 60) -> Generator[None, None, None]:
     """Acquires a lock to prevent concurrent modifications.
     Uses fcntl (flock) on Unix-like systems for robust process-based locking.
     Falls back to atomic directory creation on Windows or if fcntl is unavailable.  # noqa: E501.
@@ -100,7 +102,7 @@ def acquire_lock(timeout=60):
                 os.rmdir(LOCK_DIR)
 
 
-def get_subscriptions():
+def get_subscriptions() -> dict[str, Any]:
     """Reads the subscriptions file and returns the subscriptions data."""
     try:
         with open(SUBSCRIPTIONS_FILE) as f:
@@ -109,7 +111,7 @@ def get_subscriptions():
         return {"subscriptions": []}
 
 
-def get_usage(subscription_name):
+def get_usage(subscription_name: str) -> int:
     """Gets the current usage for a specific subscription."""
     data = get_subscriptions()
     for sub in data["subscriptions"]:
@@ -118,7 +120,7 @@ def get_usage(subscription_name):
     return 0
 
 
-def increment_usage(subscription_name, amount=1):
+def increment_usage(subscription_name: str, amount: int = 1) -> None:
     """Increments the usage for a specific subscription."""
     with acquire_lock():
         try:
@@ -136,7 +138,7 @@ def increment_usage(subscription_name, amount=1):
             json.dump(data, f, indent=2)
 
 
-def reset_quotas():
+def reset_quotas() -> None:
     """Resets the usage for subscriptions based on their reset cadence."""
     with acquire_lock():
         try:
@@ -168,7 +170,7 @@ def reset_quotas():
             json.dump(data, f, indent=2)
 
 
-def add_task_to_queue(task):
+def add_task_to_queue(task: dict[str, Any]) -> None:
     """Adds a task to the task queue."""
     with acquire_lock():
         try:
@@ -181,7 +183,7 @@ def add_task_to_queue(task):
             json.dump(queue, f, indent=2)
 
 
-def get_tasks_from_queue():
+def get_tasks_from_queue() -> list[dict[str, Any]]:
     """Retrieves all tasks from the task queue."""
     try:
         with open(TASK_QUEUE_FILE) as f:
@@ -190,7 +192,7 @@ def get_tasks_from_queue():
         return []
 
 
-def remove_task_from_queue(task):
+def remove_task_from_queue(task: dict[str, Any]) -> None:
     """Removes a specific task from the task queue."""
     with acquire_lock():
         try:
@@ -205,7 +207,8 @@ def remove_task_from_queue(task):
             json.dump(new_queue, f, indent=2)
 
 
-def main():
+def main() -> None:
+    """CLI entry point for quota management commands."""
     if len(sys.argv) > 1:
         command = sys.argv[1]
         if command == "get_usage":

@@ -13,6 +13,7 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 import requests
 
@@ -57,7 +58,7 @@ TOKENS = {
 }
 
 
-def validate_token(token_name: str, config: dict, verbose: bool = False) -> dict:
+def validate_token(token_name: str, config: dict[str, Any], verbose: bool = False) -> dict[str, Any]:
     """Validate a single token."""
     result = {
         "token": token_name,
@@ -157,7 +158,7 @@ def validate_token(token_name: str, config: dict, verbose: bool = False) -> dict
     return result
 
 
-def print_summary(results: list[dict], verbose: bool = False):
+def print_summary(results: list[dict[str, Any]], verbose: bool = False) -> bool:
     """Print validation summary."""
     print("\n" + "=" * 80)
     print(f"{BLUE}Token Validation Summary{NC}")
@@ -208,7 +209,7 @@ def print_summary(results: list[dict], verbose: bool = False):
     return valid_count == len([r for r in results if r["status"] != "planned"])
 
 
-def main():
+def main() -> None:
     """Main validation function."""
     parser = argparse.ArgumentParser(description="Validate organization GitHub tokens")
     parser.add_argument(
