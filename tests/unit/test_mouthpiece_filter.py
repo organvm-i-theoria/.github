@@ -13,6 +13,8 @@ sys.path.insert(
     0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
 )
 
+import mouthpiece_filter  # noqa: E402
+
 
 class TestContentFiltering:
     """Test content filtering logic."""

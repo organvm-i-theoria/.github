@@ -539,7 +539,7 @@ def load_config(config_file: str) -> OnboardingConfig:
     return OnboardingConfig(**config_dict)
 
 
-async def main():
+async def main() -> None:
     """Main entry point."""
     parser = argparse.ArgumentParser(
         description="Batch onboard multiple repositories with validation and rollback"

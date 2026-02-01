@@ -237,6 +237,7 @@ jobs:
       with:
         name: pr-analysis-report
         path: pr_analysis_report.md
+        retention-days: 14
 
   convert-drafts:
     name: Convert Draft PRs to Ready

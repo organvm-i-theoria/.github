@@ -17,9 +17,12 @@ Usage:
 
 import argparse
 import json
+import logging
 import re
 import sys
 from typing import Any, Optional
+
+logger = logging.getLogger(__name__)
 
 
 class MouthpieceFilter:
@@ -622,9 +625,9 @@ Examples:
     if args.output:
         with open(args.output, "w") as f:
             f.write(output)
-        print(f"Output written to {args.output}")
+        logger.info(f"Output written to {args.output}")
     else:
-        print(output)
+        logger.info(output)
 
 
 if __name__ == "__main__":

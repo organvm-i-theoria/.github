@@ -708,7 +708,7 @@ Organization: {self.results["organization"]}
 
         return report
 
-    def run_full_analysis(self, base_dir: Path, validate_external_links: bool = False):
+    def run_full_analysis(self, base_dir: Path, validate_external_links: bool = False) -> dict[str, Any]:
         """Run complete organization analysis."""
         print("🚀 Starting full organization analysis...\n")
 
@@ -746,7 +746,7 @@ Organization: {self.results["organization"]}
         return self.results
 
 
-def main():
+def main() -> None:
     """Main entry point."""
     import argparse
 
