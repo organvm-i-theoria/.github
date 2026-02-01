@@ -175,10 +175,13 @@ jobs:
           fi
         done
 
-        # Count findings
-        TASK_COUNT=$(grep -c '^\s*[-*]\s*\[ \]' comment_tasks.md || echo "0")
-        BLOCKER_COUNT=$(grep -c '🚨' comment_tasks.md || echo "0")
-        SUGGESTION_COUNT=$(grep -c '💡' comment_tasks.md || echo "0")
+        # Count findings (use grep -c with proper handling to avoid newline issues)
+        TASK_COUNT=$(grep -c '^\s*[-*]\s*\[ \]' comment_tasks.md 2>/dev/null || true)
+        TASK_COUNT=${TASK_COUNT:-0}
+        BLOCKER_COUNT=$(grep -c '🚨' comment_tasks.md 2>/dev/null || true)
+        BLOCKER_COUNT=${BLOCKER_COUNT:-0}
+        SUGGESTION_COUNT=$(grep -c '💡' comment_tasks.md 2>/dev/null || true)
+        SUGGESTION_COUNT=${SUGGESTION_COUNT:-0}
 
         echo "Found: $TASK_COUNT tasks, $BLOCKER_COUNT blockers, $SUGGESTION_COUNT suggestions"
 
