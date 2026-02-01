@@ -90,6 +90,7 @@ internal:
     terraform: src/ai_framework/agents/terraform.agent.md
     winforms_expert: src/ai_framework/agents/winforms-expert.agent.md
     workflow_optimizer: src/ai_framework/agents/workflow-optimizer.agent.md
+    pr_branch_cleanup: src/ai_framework/agents/pr-branch-cleanup.agent.md
 
   guides:
     # Existing entries
@@ -179,10 +180,55 @@ internal:
 
   reference:
     agent_registry: docs/reference/AGENT_REGISTRY.md
+    agent_tracking: docs/reference/AGENT_TRACKING.md
+    archival_strategy: docs/reference/ARCHIVAL_STRATEGY.md
+    copilot_enhancements_index: docs/reference/COPILOT_ENHANCEMENTS_INDEX.md
+    issue_taxonomy: docs/reference/ISSUE_TAXONOMY.md
+    labels: docs/reference/LABELS.md
+    new_repos_classification: docs/reference/NEW_REPOS_CLASSIFICATION.md
+    organizational_content_index: docs/reference/ORGANIZATIONAL_CONTENT_INDEX.md
+    repository_organization_migration: docs/reference/REPOSITORY_ORGANIZATION_MIGRATION.md
+    repository_organization_quick_ref: docs/reference/REPOSITORY_ORGANIZATION_QUICK_REF.md
+    repository_stats: docs/reference/REPOSITORY_STATS.md
+    repository_structure: docs/reference/REPOSITORY_STRUCTURE.md
+    security_advanced: docs/reference/SECURITY_ADVANCED.md
+    semantic_versioning: docs/reference/SEMANTIC_VERSIONING.md
+    token_migration_phase3_monitoring: docs/reference/TOKEN_MIGRATION_PHASE3_MONITORING.md
+    token_registry: docs/reference/TOKEN_REGISTRY.md
+    version_control_standards: docs/reference/VERSION_CONTROL_STANDARDS.md
+    workflow_catalog: docs/reference/WORKFLOW_CATALOG.md
 
   automation:
     master_guide: docs/automation/AUTOMATION_MASTER_GUIDE.md
     scripts_dir: src/automation/scripts/
+    branch_automation_logic_review: docs/automation/BRANCH_AUTOMATION_LOGIC_REVIEW.md
+    pr_automation: docs/automation/PR_AUTOMATION.md
 
   collections:
     partners: src/ai_framework/collections/partners.md
+    awesome_copilot: src/ai_framework/collections/awesome-copilot.md
+    azure_cloud_development: src/ai_framework/collections/azure-cloud-development.md
+    clojure_interactive_programming: src/ai_framework/collections/clojure-interactive-programming.md
+    csharp_dotnet_development: src/ai_framework/collections/csharp-dotnet-development.md
+    csharp_mcp_development: src/ai_framework/collections/csharp-mcp-development.md
+    database_data_management: src/ai_framework/collections/database-data-management.md
+    devops_oncall: src/ai_framework/collections/devops-oncall.md
+    edge_ai_tasks: src/ai_framework/collections/edge-ai-tasks.md
+    frontend_web_dev: src/ai_framework/collections/frontend-web-dev.md
+    go_mcp_development: src/ai_framework/collections/go-mcp-development.md
+    java_development: src/ai_framework/collections/java-development.md
+    java_mcp_development: src/ai_framework/collections/java-mcp-development.md
+    kotlin_mcp_development: src/ai_framework/collections/kotlin-mcp-development.md
+    php_mcp_development: src/ai_framework/collections/php-mcp-development.md
+    power_apps_code_apps: src/ai_framework/collections/power-apps-code-apps.md
+    power_bi_development: src/ai_framework/collections/power-bi-development.md
+    power_platform_mcp_connector_development: src/ai_framework/collections/power-platform-mcp-connector-development.md
+    project_planning: src/ai_framework/collections/project-planning.md
+    python_mcp_development: src/ai_framework/collections/python-mcp-development.md
+    ruby_mcp_development: src/ai_framework/collections/ruby-mcp-development.md
+    rust_mcp_development: src/ai_framework/collections/rust-mcp-development.md
+    security_best_practices: src/ai_framework/collections/security-best-practices.md
+    swift_mcp_development: src/ai_framework/collections/swift-mcp-development.md
+    technical_spike: src/ai_framework/collections/technical-spike.md
+    testing_automation: src/ai_framework/collections/testing-automation.md
+    typescript_mcp_development: src/ai_framework/collections/typescript-mcp-development.md
