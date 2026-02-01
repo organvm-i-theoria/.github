@@ -75,9 +75,10 @@ jobs:
 
         gh api "orgs/$ORG_NAME/repos" \
           --paginate \
-          --jq '.[] | select(.archived == false)' > /tmp/repos.json
+          --jq '.[] | select(.archived == false)' > /tmp/repos.ndjson
 
-        REPO_COUNT=$(jq length /tmp/repos.json 2>/dev/null || echo "0")
+        # Count lines in NDJSON file (one JSON object per line)
+        REPO_COUNT=$(wc -l < /tmp/repos.ndjson | tr -d ' ')
         echo "Found $REPO_COUNT active repositories"
 
         WALKTHROUGH_COUNT=0
@@ -244,7 +245,7 @@ jobs:
             fi
           fi
 
-        done < <(jq -c '.' /tmp/repos.json 2>/dev/null || echo '[]')
+        done < <(jq -c '.' /tmp/repos.ndjson 2>/dev/null || echo '[]')
 
         # Output statistics
         echo "repository_count=$REPO_COUNT" >> $GITHUB_OUTPUT
