@@ -27,7 +27,7 @@ jobs:
     timeout-minutes: 30
     steps:
     - name: Mark and close stale issues
-      uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e  # ratchet:actions/stale@v9
+      uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639  # ratchet:actions/stale@v9
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -129,7 +129,7 @@ jobs:
     timeout-minutes: 30
     steps:
     - name: Check for inactive assigned issues
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
@@ -234,7 +234,7 @@ jobs:
     timeout-minutes: 30
     steps:
     - name: Unassign from very inactive issues
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const TWENTY_ONE_DAYS_MS = 21 * 24 * 60 * 60 * 1000;

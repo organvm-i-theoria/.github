@@ -346,13 +346,24 @@ def main():
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    # Find workflows directory
-    script_dir = Path(__file__).parent
-    repo_root = script_dir.parent
-    workflows_dir = repo_root / ".github" / "workflows"
+    # Find workflows directory by searching upward from script location
+    script_dir = Path(__file__).parent.resolve()
+    workflows_dir = None
 
-    if not workflows_dir.exists():
-        logger.error(f"Workflows directory not found: {workflows_dir}")
+    # Search upward for .github/workflows directory
+    current = script_dir
+    for _ in range(10):  # Limit search depth
+        candidate = current / ".github" / "workflows"
+        if candidate.exists():
+            workflows_dir = candidate
+            break
+        parent = current.parent
+        if parent == current:  # Reached filesystem root
+            break
+        current = parent
+
+    if not workflows_dir or not workflows_dir.exists():
+        logger.error(f"Workflows directory not found searching from: {script_dir}")
         sys.exit(1)
 
     # Create session with retry logic
@@ -387,7 +398,7 @@ def main():
             )
             if updates > 0:
                 print(
-                    f"  {workflow.relative_to(repo_root)}: {updates} action(s) updated"
+                    f"  {workflow.relative_to(workflows_dir.parent.parent)}: {updates} action(s) updated"
                 )
                 total_updates += updates
                 files_updated += 1

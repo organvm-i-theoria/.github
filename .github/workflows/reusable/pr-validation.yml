@@ -81,13 +81,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Get PR details
       id: pr-details
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const pr = context.payload.pull_request;
@@ -110,7 +110,7 @@ jobs:
     - name: Validate PR title (Conventional Commits)
       id: title-check
       if: inputs.enforce-conventional-commits
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const title = '${{ steps.pr-details.outputs.title }}';
@@ -142,7 +142,7 @@ jobs:
     - name: Validate PR description length
       id: description-check
       if: inputs.min-description-length > 0
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const body = `${{ steps.pr-details.outputs.body }}`;
@@ -172,7 +172,7 @@ jobs:
     - name: Check for issue link
       id: issue-check
       if: inputs.require-issue-link
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const title = '${{ steps.pr-details.outputs.title }}';
@@ -205,7 +205,7 @@ jobs:
     - name: Check checklist completion
       id: checklist-check
       if: inputs.require-checklist-completion
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const body = `${{ steps.pr-details.outputs.body }}`;
@@ -241,7 +241,7 @@ jobs:
 
     - name: Check PR size
       id: size-check
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -292,7 +292,7 @@ jobs:
     - name: Check merge conflicts
       id: conflict-check
       if: inputs.check-merge-conflicts
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -330,7 +330,7 @@ jobs:
 
     - name: Compile validation results
       id: final-result
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const failOnWarnings = ${{ inputs.fail-on-warnings }};
@@ -425,7 +425,7 @@ jobs:
 
     - name: Add size label to PR
       if: always()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -469,7 +469,7 @@ jobs:
 
     - name: Post validation summary as comment
       if: always() && (steps.final-result.outputs.passed == 'false' || steps.final-result.outputs.has-warnings == 'true')
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};

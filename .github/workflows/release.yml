@@ -28,18 +28,18 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Generate changelog
       id: changelog
-      uses: metcalfc/changelog-generator@52d4e2264db60fe4ef8e17ac3f61f8fddaf7d31b  # ratchet:metcalfc/changelog-generator@v4.3.1
+      uses: metcalfc/changelog-generator@3f82cef08fe5dcf57c591fe165e70e1d5032e15a  # ratchet:metcalfc/changelog-generator@v4
       with:
         myToken: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release
-      uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564  # ratchet:softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844  # ratchet:softprops/action-gh-release@v1
       with:
         tag_name: ${{ github.event.inputs.version || github.ref_name }}
         name: Release ${{ github.event.inputs.version || github.ref_name }}
@@ -78,7 +78,7 @@ jobs:
     needs: create-release
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -97,7 +97,7 @@ jobs:
           and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
     - name: Commit updated CHANGELOG
-      uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842  # ratchet:stefanzweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403  # ratchet:stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: 'docs: update CHANGELOG for ${{ github.event.inputs.version || github.ref_name }}'
         file_pattern: CHANGELOG.md

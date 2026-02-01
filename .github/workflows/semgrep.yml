@@ -43,7 +43,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -71,7 +71,7 @@ jobs:
 
     - name: Upload SARIF to GitHub
       if: ${{ always() && secrets.SEMGREP_APP_TOKEN == '' }}
-      uses: github/codeql-action/upload-sarif@f09c1c0a94de965c15400f5634aa42fac8fb8f88  # ratchet:github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@439137e1b50c27ba9e2f9befc93e43091b449c34  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: semgrep-results.sarif
         category: semgrep
@@ -84,7 +84,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
     - name: Run Custom Rules
       run: |
         # Run organization-specific rules if they exist
@@ -97,7 +97,7 @@ jobs:
 
     - name: Upload Custom Rules Results
       if: always() && hashFiles('custom-rules.sarif') != ''
-      uses: github/codeql-action/upload-sarif@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34  # ratchet:github/codeql-action/upload-sarif@v3
+      uses: github/codeql-action/upload-sarif@439137e1b50c27ba9e2f9befc93e43091b449c34  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: custom-rules.sarif
         category: semgrep-custom
@@ -110,7 +110,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
     - name: Semgrep Supply Chain Scan
       run: semgrep ci --supply-chain
       env:
@@ -126,7 +126,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -139,7 +139,7 @@ jobs:
           --output=semgrep-diff.json
 
     - name: Comment on PR
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const fs = require('fs');
