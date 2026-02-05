@@ -194,9 +194,7 @@ def generate_description(workflow: dict, name: str, role: str) -> str:
     return f"{base_desc}. Triggered by {trigger_desc}, executes {job_count} job(s)."
 
 
-def generate_subjects(
-    name: str, layer: str, role: str, triggers: list[str]
-) -> list[str]:
+def generate_subjects(name: str, layer: str, role: str, triggers: list[str]) -> list[str]:
     """Generate dc:subject keywords for the workflow."""
     subjects = set()
 
@@ -272,16 +270,8 @@ def generate_metadata(file_path: Path) -> Optional[dict[str, Any]]:
             return None
 
         filename = file_path.name
-<<<<<<< HEAD
         default_name = generate_default_workflow_name(filename)
         name = workflow.get("name", default_name)
-||||||| e3e02a8
-        name = workflow.get("name", filename.replace(".yml", "").replace("-", " ").title())
-=======
-        name = workflow.get(
-            "name", filename.replace(".yml", "").replace("-", " ").title()
-        )
->>>>>>> origin/main
 
         triggers = extract_triggers(workflow)
         layer = classify_layer(name, str(file_path))
