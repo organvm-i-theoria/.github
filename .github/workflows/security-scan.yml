@@ -94,8 +94,8 @@ jobs:
         sudo mv gitleaks /usr/local/bin/
 
         # Run scan using config if available
-        if [ -f ".gitleaks.toml" ]; then
-          gitleaks detect --source . --config .gitleaks.toml --verbose
+        if [ -f ".config/.gitleaks.toml" ]; then
+          gitleaks detect --source . --config .config/.gitleaks.toml --verbose
         else
           gitleaks detect --source . --verbose
         fi
