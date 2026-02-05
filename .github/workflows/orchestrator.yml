@@ -133,7 +133,7 @@ jobs:
 
           # Check for task deduplication
           TASK_DATA=$(echo "$task" | jq -c '{id, subscription, prompt}')
-          DEDUPE_RESULT=$(python3 .github/.github/scripts/task_deduplicator.py check "orchestrated_task" "$TASK_DATA" || echo '{"should_process":false,"reason":"script error"}')
+          DEDUPE_RESULT=$(python3 .github/scripts/task_deduplicator.py check "orchestrated_task" "$TASK_DATA" || echo '{"should_process":false,"reason":"script error"}')
           SHOULD_PROCESS=$(echo "$DEDUPE_RESULT" | jq -r '.should_process')
           REASON=$(echo "$DEDUPE_RESULT" | jq -r '.reason')
 

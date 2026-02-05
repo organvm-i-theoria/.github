@@ -100,7 +100,7 @@ jobs:
         echo "🎯 Orchestrating daily tasks for $TODAY"
 
         # Get tasks scheduled for today
-        python3 .github/.github/scripts/get_daily_tasks.py
+        python3 .github/scripts/get_daily_tasks.py
 
         TASK_COUNT=$(jq 'length' "$RUNNER_TEMP/daily_tasks.json")
         echo "tasks-executed=$TASK_COUNT" >> $GITHUB_OUTPUT
@@ -119,7 +119,7 @@ jobs:
 
           # Check if task is duplicate using deduplication system
           TASK_DATA=$(echo "$task" | jq -c '{id, subscription, prompt}')
-          DEDUPE_RESULT=$(python3 .github/.github/scripts/task_deduplicator.py check "orchestrated_task" "$TASK_DATA" || echo '{"should_process":false,"reason":"script error"}')
+          DEDUPE_RESULT=$(python3 .github/scripts/task_deduplicator.py check "orchestrated_task" "$TASK_DATA" || echo '{"should_process":false,"reason":"script error"}')
 
           SHOULD_PROCESS=$(echo "$DEDUPE_RESULT" | jq -r '.should_process')
           REASON=$(echo "$DEDUPE_RESULT" | jq -r '.reason')
@@ -226,7 +226,7 @@ jobs:
     - name: Run Cleanup
       run: |
         echo "🧹 Cleaning up old task records..."
-        python3 .github/.github/scripts/task_deduplicator.py cleanup 7
+        python3 .github/scripts/task_deduplicator.py cleanup 7
 
     - name: Commit Cleanup Changes via PR
       env:
