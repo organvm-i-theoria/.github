@@ -1,0 +1,293 @@
+{
+  "collected_at": "2026-02-05T18:46:36.489918Z",
+  "repository": "ivviiviivvi/.github",
+  "summary": {
+    "total_workflows": 30,
+    "workflows_with_runs": 28,
+    "total_runs_analyzed": 529,
+    "overall_success_rate": 36.3,
+    "avg_workflow_duration_min": 0.6
+  },
+  "workflows": [
+    {
+      "name": "Copilot coding agent",
+      "path": "dynamic/copilot-swe-agent/copilot",
+      "total_runs": 20,
+      "successful_runs": 20,
+      "failed_runs": 0,
+      "success_rate": 100.0,
+      "avg_duration_min": 6.8,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Commit Tracking",
+      "path": ".github/workflows/commit-tracking.yml",
+      "total_runs": 20,
+      "successful_runs": 20,
+      "failed_runs": 0,
+      "success_rate": 100.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Claude Code Review",
+      "path": ".github/workflows/claude-code-review.yml",
+      "total_runs": 20,
+      "successful_runs": 2,
+      "failed_runs": 15,
+      "success_rate": 10.0,
+      "avg_duration_min": 2.1,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Claude Code",
+      "path": ".github/workflows/claude.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 0,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Copilot code review",
+      "path": "dynamic/copilot-pull-request-reviewer/copilot-pull-request-reviewer",
+      "total_runs": 20,
+      "successful_runs": 17,
+      "failed_runs": 2,
+      "success_rate": 85.0,
+      "avg_duration_min": 5.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": ".github/workflows/performance-benchmark.yml",
+      "path": ".github/workflows/performance-benchmark.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": ".github/workflows/semantic-release.yml",
+      "path": ".github/workflows/semantic-release.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": ".github/workflows/mutation-testing.yml",
+      "path": ".github/workflows/mutation-testing.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "PR Quality Checks",
+      "path": ".github/workflows/pr-quality-checks.yml",
+      "total_runs": 20,
+      "successful_runs": 11,
+      "failed_runs": 0,
+      "success_rate": 55.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Link Checker",
+      "path": ".github/workflows/link-checker.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 18,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Auto Labeler",
+      "path": ".github/workflows/auto-labeler.yml",
+      "total_runs": 20,
+      "successful_runs": 11,
+      "failed_runs": 6,
+      "success_rate": 55.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Advanced CI Pipeline",
+      "path": ".github/workflows/ci-advanced.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 18,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Code Coverage",
+      "path": ".github/workflows/code-coverage.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 19,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Dependency Review",
+      "path": ".github/workflows/dependency-review.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": ".github/workflows/semgrep.yml",
+      "path": ".github/workflows/semgrep.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "CodeQL",
+      "path": ".github/workflows/codeql-analysis.yml",
+      "total_runs": 20,
+      "successful_runs": 18,
+      "failed_runs": 1,
+      "success_rate": 90.0,
+      "avg_duration_min": 1.5,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Auto Assign",
+      "path": ".github/workflows/auto-assign.yml",
+      "total_runs": 20,
+      "successful_runs": 19,
+      "failed_runs": 0,
+      "success_rate": 95.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Jules Agent",
+      "path": ".github/workflows/jules.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 0,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Accessibility Testing",
+      "path": ".github/workflows/accessibility-testing.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 20,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "SBOM Generation",
+      "path": ".github/workflows/sbom-generation.yml",
+      "total_runs": 20,
+      "successful_runs": 1,
+      "failed_runs": 19,
+      "success_rate": 5.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Welcome",
+      "path": ".github/workflows/welcome.yml",
+      "total_runs": 20,
+      "successful_runs": 19,
+      "failed_runs": 0,
+      "success_rate": 95.0,
+      "avg_duration_min": 0.4,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "AI Task Orchestrator",
+      "path": ".github/workflows/orchestrator.yml",
+      "total_runs": 20,
+      "successful_runs": 20,
+      "failed_runs": 0,
+      "success_rate": 100.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Organization Health Crawler",
+      "path": ".github/workflows/org-health-crawler.yml",
+      "total_runs": 20,
+      "successful_runs": 5,
+      "failed_runs": 15,
+      "success_rate": 25.0,
+      "avg_duration_min": 0.3,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Auto Merge Pull Request",
+      "path": ".github/workflows/auto-merge.yml",
+      "total_runs": 20,
+      "successful_runs": 20,
+      "failed_runs": 0,
+      "success_rate": 100.0,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Task Extraction from Closed PRs",
+      "path": ".github/workflows/task-extraction.yml",
+      "total_runs": 20,
+      "successful_runs": 0,
+      "failed_runs": 9,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Weekly Commit Report",
+      "path": ".github/workflows/weekly-commit-report.yml",
+      "total_runs": 14,
+      "successful_runs": 9,
+      "failed_runs": 5,
+      "success_rate": 64.3,
+      "avg_duration_min": 0.2,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Community Health",
+      "path": ".github/workflows/community-health.yml",
+      "total_runs": 12,
+      "successful_runs": 0,
+      "failed_runs": 12,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    },
+    {
+      "name": "Repository Metrics",
+      "path": ".github/workflows/repo-metrics.yml",
+      "total_runs": 3,
+      "successful_runs": 0,
+      "failed_runs": 3,
+      "success_rate": 0.0,
+      "avg_duration_min": 0,
+      "cache_hit_rate": null
+    }
+  ]
+}
