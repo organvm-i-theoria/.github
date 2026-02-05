@@ -102,11 +102,11 @@ jobs:
         # Get tasks scheduled for today
         python3 .github/.github/scripts/get_daily_tasks.py
 
-        TASK_COUNT=$(jq 'length' /tmp/daily_tasks.json)
+        TASK_COUNT=$(jq 'length' "$RUNNER_TEMP/daily_tasks.json")
         echo "tasks-executed=$TASK_COUNT" >> $GITHUB_OUTPUT
 
         # Dispatch tasks with deduplication
-        jq -c '.[]' /tmp/daily_tasks.json | while read -r task; do
+        jq -c '.[]' "$RUNNER_TEMP/daily_tasks.json" | while read -r task; do
           TASK_ID=$(echo "$task" | jq -r '.id')
           SUBSCRIPTION=$(echo "$task" | jq -r '.subscription')
           PROMPT=$(echo "$task" | jq -r '.prompt')
