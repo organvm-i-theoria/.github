@@ -182,7 +182,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "🔄 Triggering task queue processing..."
-        gh workflow run process_queue.yml --repo ${{ github.repository }}
+        gh workflow run process-queue.yml --repo ${{ github.repository }}
 
   consolidate-prs:
     name: Consolidate All Open PRs
