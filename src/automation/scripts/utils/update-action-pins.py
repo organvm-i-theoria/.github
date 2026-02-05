@@ -170,6 +170,13 @@ def resolve_tag_to_sha(
 
         if response.status_code == 200:
             data = response.json()
+
+            # Handle list response (multiple matching refs when tag is a prefix)
+            if isinstance(data, list):
+                if not data:
+                    return None
+                data = data[0]  # Use first (exact) match
+
             # Handle both lightweight and annotated tags
             if data["object"]["type"] == "tag":
                 # Annotated tag - need to resolve to commit
@@ -184,9 +191,19 @@ def resolve_tag_to_sha(
         response = session.get(url, headers=headers, timeout=30)
 
         if response.status_code == 200:
-            return response.json()["object"]["sha"]
+            data = response.json()
 
-        logger.debug(f"Could not resolve {owner}/{repo}@{tag}: HTTP {response.status_code}")
+            # Handle list response (multiple matching refs)
+            if isinstance(data, list):
+                if not data:
+                    return None
+                data = data[0]
+
+            return data["object"]["sha"]
+
+        logger.debug(
+            f"Could not resolve {owner}/{repo}@{tag}: HTTP {response.status_code}"
+        )
         return None
 
     except requests.exceptions.RequestException as e:
@@ -201,12 +218,17 @@ def parse_action_line(line: str) -> tuple[str, str, str | None] | None:
     Handles both simple actions (owner/repo) and subpath actions (owner/repo/path).
     """
     # Match: uses: owner/repo[/subpath]@ref  # ratchet:owner/repo[/subpath]@version
-    match = re.search(r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)\s*#\s*ratchet:([^\s]+)", line)
+    match = re.search(
+        r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)\s*#\s*ratchet:([^\s]+)",
+        line,
+    )
     if match:
         return match.group(1), match.group(2), match.group(3)
 
     # Match without ratchet comment
-    match = re.search(r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)", line)
+    match = re.search(
+        r"uses:\s*([a-zA-Z0-9_-]+/[a-zA-Z0-9_/-]+)@([a-f0-9]{40}|v[\d.]+)", line
+    )
     if match:
         return match.group(1), match.group(2), None
 
@@ -224,7 +246,11 @@ def get_base_action(action: str) -> tuple[str, str]:
 
 
 def update_workflow_file(
-    filepath: Path, sha_cache: dict[str, str], session: requests.Session, dry_run: bool = False, verbose: bool = False
+    filepath: Path,
+    sha_cache: dict[str, str],
+    session: requests.Session,
+    dry_run: bool = False,
+    verbose: bool = False,
 ) -> int:
     """Update action pins in a workflow file.
     Returns number of lines updated.
@@ -265,7 +291,9 @@ def update_workflow_file(
         if cache_key not in sha_cache:
             if verbose:
                 logger.info(f"  Resolving {cache_key}...")
-            sha = resolve_tag_to_sha(owner, repo, canonical_version, session, get_github_token())
+            sha = resolve_tag_to_sha(
+                owner, repo, canonical_version, session, get_github_token()
+            )
             if sha:
                 sha_cache[cache_key] = sha
             else:
@@ -309,24 +337,49 @@ def update_workflow_file(
     return updates
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Update GitHub Action SHA pins to latest versions")
-    parser.add_argument("--dry-run", action="store_true", help="Show what would be updated without making changes")
-    parser.add_argument("--verbose", "-v", action="store_true", help="Show detailed output")
+def main() -> None:
+    """Main entry point for updating action pins."""
+    parser = argparse.ArgumentParser(
+        description="Update GitHub Action SHA pins to latest versions"
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be updated without making changes",
+    )
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Show detailed output"
+    )
     parser.add_argument("--workflow", "-w", help="Update only a specific workflow file")
-    parser.add_argument("--recursive", "-r", action="store_true", help="Search for workflows in subdirectories")
+    parser.add_argument(
+        "--recursive",
+        "-r",
+        action="store_true",
+        help="Search for workflows in subdirectories",
+    )
     args = parser.parse_args()
 
     if args.verbose:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    # Find workflows directory
-    script_dir = Path(__file__).parent
-    repo_root = script_dir.parent
-    workflows_dir = repo_root / ".github" / "workflows"
+    # Find workflows directory by searching upward from script location
+    script_dir = Path(__file__).parent.resolve()
+    workflows_dir = None
 
-    if not workflows_dir.exists():
-        logger.error(f"Workflows directory not found: {workflows_dir}")
+    # Search upward for .github/workflows directory
+    current = script_dir
+    for _ in range(10):  # Limit search depth
+        candidate = current / ".github" / "workflows"
+        if candidate.exists():
+            workflows_dir = candidate
+            break
+        parent = current.parent
+        if parent == current:  # Reached filesystem root
+            break
+        current = parent
+
+    if not workflows_dir or not workflows_dir.exists():
+        logger.error(f"Workflows directory not found searching from: {script_dir}")
         sys.exit(1)
 
     # Create session with retry logic
@@ -356,9 +409,13 @@ def main():
 
     for workflow in sorted(workflow_files):
         try:
-            updates = update_workflow_file(workflow, sha_cache, session, args.dry_run, args.verbose)
+            updates = update_workflow_file(
+                workflow, sha_cache, session, args.dry_run, args.verbose
+            )
             if updates > 0:
-                print(f"  {workflow.relative_to(repo_root)}: {updates} action(s) updated")
+                print(
+                    f"  {workflow.relative_to(workflows_dir.parent.parent)}: {updates} action(s) updated"
+                )
                 total_updates += updates
                 files_updated += 1
         except Exception as e:

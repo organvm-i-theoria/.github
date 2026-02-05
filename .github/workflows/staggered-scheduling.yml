@@ -41,7 +41,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 1
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -186,7 +186,7 @@ jobs:
 
     - name: Upload today's schedule
       if: steps.check-today.outputs.repos_today != '0'
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: todays-schedule
         path: repos_today.txt
@@ -200,9 +200,9 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
     - name: Download today's schedule
-      uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16  # ratchet:actions/download-artifact@v4
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093  # ratchet:actions/download-artifact@v4
       with:
         name: todays-schedule
 
@@ -318,7 +318,7 @@ jobs:
 
     - name: Create alert if quota high
       if: env.quota_warning == 'true'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           await github.rest.issues.create({
@@ -360,7 +360,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
     - name: Generate report
       run: |
         cat >> $GITHUB_STEP_SUMMARY << 'EOF'

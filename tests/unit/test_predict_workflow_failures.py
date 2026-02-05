@@ -14,7 +14,9 @@ import pytest
 np = pytest.importorskip("numpy")
 pd = pytest.importorskip("pandas")
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
+sys.path.insert(
+    0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
+)
 
 from predict_workflow_failures import WorkflowPredictor
 
@@ -482,3 +484,719 @@ class TestRiskAssessment:
             risk = trained_predictor.assess_risk(features)
 
             assert risk["level"] == "LOW"
+
+    def test_medium_probability_maps_to_medium_risk(self, trained_predictor):
+        """Test medium failure probability maps to medium risk."""
+        with patch.object(trained_predictor, "predict", return_value=0.25):
+            features = {"hour_of_day": 10}
+
+            risk = trained_predictor.assess_risk(features)
+
+            assert risk["level"] == "MEDIUM"
+
+    def test_high_range_probability_maps_to_high(self, trained_predictor):
+        """Test 30-60% failure probability maps to HIGH risk."""
+        with patch.object(trained_predictor, "predict", return_value=0.45):
+            features = {"hour_of_day": 10}
+
+            risk = trained_predictor.assess_risk(features)
+
+            assert risk["level"] == "HIGH"
+
+    def test_critical_probability_maps_to_critical(self, trained_predictor):
+        """Test 60%+ failure probability maps to CRITICAL risk."""
+        with patch.object(trained_predictor, "predict", return_value=0.75):
+            features = {"hour_of_day": 10}
+
+            risk = trained_predictor.assess_risk(features)
+
+            assert risk["level"] == "CRITICAL"
+
+
+@pytest.mark.unit
+class TestPredictWorkflowByName:
+    """Test prediction by workflow name."""
+
+    @pytest.fixture
+    def trained_predictor(self, tmp_path):
+        """Create trained predictor."""
+        predictor = WorkflowPredictor(str(tmp_path / "model.joblib"))
+
+        np.random.seed(42)
+        n_samples = 100
+        training_df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+        predictor.train(training_df)
+        return predictor
+
+    def test_predict_by_workflow_name_returns_dict(self, trained_predictor):
+        """Test predicting by workflow name returns result dict."""
+        result = trained_predictor.predict("ci.yml", "owner/repo")
+
+        assert isinstance(result, dict)
+        assert "workflow" in result
+        assert "repository" in result
+        assert "failure_probability" in result
+        assert "risk_level" in result
+
+    def test_predict_without_repository_raises(self, trained_predictor):
+        """Test predicting without repository raises ValueError."""
+        with pytest.raises(ValueError, match="Repository is required"):
+            trained_predictor.predict("ci.yml")
+
+    def test_predict_result_contains_expected_fields(self, trained_predictor):
+        """Test prediction result contains all expected fields."""
+        result = trained_predictor.predict("deploy.yml", "owner/repo")
+
+        assert "workflow" in result
+        assert result["workflow"] == "deploy.yml"
+        assert "repository" in result
+        assert result["repository"] == "owner/repo"
+        assert "timestamp" in result
+        assert "failure_probability" in result
+        assert "prediction" in result
+        assert result["prediction"] in ["SUCCESS", "FAILURE"]
+        assert "risk_level" in result
+        assert result["risk_level"] in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+        assert "risk_color" in result
+        assert "confidence" in result
+
+    def test_predict_low_risk_level(self, trained_predictor):
+        """Test low probability results in LOW risk level."""
+        # Mock to return low probability
+        with patch.object(
+            trained_predictor.model, "predict_proba", return_value=np.array([[0.97, 0.03]])
+        ):
+            with patch.object(
+                trained_predictor.model, "predict", return_value=np.array([0])
+            ):
+                result = trained_predictor.predict("ci.yml", "owner/repo")
+
+                assert result["risk_level"] == "LOW"
+                assert result["risk_color"] == "green"
+
+    def test_predict_medium_risk_level(self, trained_predictor):
+        """Test medium probability results in MEDIUM risk level."""
+        with patch.object(
+            trained_predictor.model, "predict_proba", return_value=np.array([[0.90, 0.10]])
+        ):
+            with patch.object(
+                trained_predictor.model, "predict", return_value=np.array([0])
+            ):
+                result = trained_predictor.predict("ci.yml", "owner/repo")
+
+                assert result["risk_level"] == "MEDIUM"
+                assert result["risk_color"] == "yellow"
+
+    def test_predict_high_risk_level(self, trained_predictor):
+        """Test high probability results in HIGH risk level."""
+        with patch.object(
+            trained_predictor.model, "predict_proba", return_value=np.array([[0.80, 0.20]])
+        ):
+            with patch.object(
+                trained_predictor.model, "predict", return_value=np.array([0])
+            ):
+                result = trained_predictor.predict("ci.yml", "owner/repo")
+
+                assert result["risk_level"] == "HIGH"
+                assert result["risk_color"] == "orange"
+
+    def test_predict_critical_risk_level(self, trained_predictor):
+        """Test very high probability results in CRITICAL risk level."""
+        with patch.object(
+            trained_predictor.model, "predict_proba", return_value=np.array([[0.55, 0.45]])
+        ):
+            with patch.object(
+                trained_predictor.model, "predict", return_value=np.array([1])
+            ):
+                result = trained_predictor.predict("ci.yml", "owner/repo")
+
+                assert result["risk_level"] == "CRITICAL"
+                assert result["risk_color"] == "red"
+
+    def test_predict_loads_model_if_exists(self, trained_predictor, tmp_path):
+        """Test predict loads model from path if not loaded."""
+        trained_predictor.save_model()
+
+        # Create new predictor pointing to saved model
+        new_predictor = WorkflowPredictor(str(trained_predictor.model_path))
+
+        # Should auto-load model
+        result = new_predictor.predict("ci.yml", "owner/repo")
+
+        assert isinstance(result, dict)
+        assert new_predictor.model is not None
+
+
+@pytest.mark.unit
+class TestGetHighRiskWorkflows:
+    """Test high-risk workflow identification."""
+
+    @pytest.fixture
+    def trained_predictor(self, tmp_path):
+        """Create trained predictor."""
+        predictor = WorkflowPredictor(str(tmp_path / "model.joblib"))
+
+        np.random.seed(42)
+        n_samples = 100
+        training_df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+        predictor.train(training_df)
+        return predictor
+
+    def test_get_high_risk_workflows_returns_list(self, trained_predictor):
+        """Test returns list of high-risk workflows."""
+        mock_workflows = [{"name": "ci.yml"}, {"name": "deploy.yml"}]
+
+        with patch("predict_workflow_failures.subprocess.run") as mock_run:
+            mock_run.return_value = MagicMock(
+                stdout=json.dumps(mock_workflows),
+                returncode=0,
+            )
+
+            # Mock predictions to be above threshold
+            with patch.object(trained_predictor, "predict") as mock_predict:
+                mock_predict.return_value = {
+                    "failure_probability": 0.25,
+                    "workflow": "ci.yml",
+                }
+
+                high_risk = trained_predictor.get_high_risk_workflows(threshold=0.15)
+
+                assert isinstance(high_risk, list)
+
+    def test_get_high_risk_workflows_handles_api_error(self, trained_predictor):
+        """Test handles API error gracefully."""
+        with patch("predict_workflow_failures.subprocess.run") as mock_run:
+            mock_run.side_effect = Exception("API Error")
+
+            result = trained_predictor.get_high_risk_workflows()
+
+            assert result == []
+
+    def test_get_high_risk_workflows_sorted_by_probability(self, trained_predictor):
+        """Test workflows are sorted by probability descending."""
+        mock_workflows = [{"name": "low.yml"}, {"name": "high.yml"}]
+
+        predictions = [
+            {"failure_probability": 0.20, "workflow": "low.yml"},
+            {"failure_probability": 0.50, "workflow": "high.yml"},
+        ]
+
+        with patch("predict_workflow_failures.subprocess.run") as mock_run:
+            mock_run.return_value = MagicMock(
+                stdout=json.dumps(mock_workflows),
+                returncode=0,
+            )
+
+            with patch.object(trained_predictor, "predict") as mock_predict:
+                mock_predict.side_effect = predictions
+
+                high_risk = trained_predictor.get_high_risk_workflows(threshold=0.15)
+
+                # Should be sorted descending
+                if len(high_risk) >= 2:
+                    assert high_risk[0]["failure_probability"] >= high_risk[1][
+                        "failure_probability"
+                    ]
+
+
+@pytest.mark.unit
+class TestModelLoadErrors:
+    """Test model loading error conditions."""
+
+    def test_load_model_missing_file_raises(self, tmp_path):
+        """Test loading non-existent model raises FileNotFoundError."""
+        predictor = WorkflowPredictor(str(tmp_path / "nonexistent.joblib"))
+
+        with pytest.raises(FileNotFoundError, match="Model not found"):
+            predictor.load_model()
+
+    def test_load_model_missing_signature_raises(self, tmp_path):
+        """Test loading model without signature raises ValueError."""
+        # Create model file but no signature
+        model_path = tmp_path / "model.joblib"
+        model_path.write_bytes(b"dummy data")
+
+        predictor = WorkflowPredictor(str(model_path))
+
+        with pytest.raises(ValueError, match="Missing signature file"):
+            predictor.load_model()
+
+    def test_load_model_invalid_signature_raises(self, tmp_path):
+        """Test loading model with wrong signature raises ValueError."""
+        # Create model file with .pkl extension (expected by code)
+        model_path = tmp_path / "model.pkl"
+        model_path.write_bytes(b"model data")
+
+        # Create signature file with wrong signature (code expects .pkl.sig)
+        sig_path = tmp_path / "model.pkl.sig"
+        sig_path.write_text("wrong_signature")
+
+        predictor = WorkflowPredictor(str(model_path))
+
+        with pytest.raises(ValueError, match="signature verification failed"):
+            predictor.load_model()
+
+
+@pytest.mark.unit
+class TestGetCurrentRepo:
+    """Test _get_current_repo method."""
+
+    @pytest.fixture
+    def predictor(self, tmp_path):
+        return WorkflowPredictor(str(tmp_path / "model.joblib"))
+
+    def test_get_current_repo_success(self, predictor):
+        """Test successfully getting current repo."""
+        with patch("predict_workflow_failures.subprocess.run") as mock_run:
+            mock_run.return_value = MagicMock(
+                stdout='{"nameWithOwner": "myorg/myrepo"}',
+                returncode=0,
+            )
+
+            repo = predictor._get_current_repo()
+
+            assert repo == "myorg/myrepo"
+
+    def test_get_current_repo_fallback_on_error(self, predictor):
+        """Test fallback to default repo on error."""
+        with patch("predict_workflow_failures.subprocess.run") as mock_run:
+            mock_run.side_effect = Exception("gh not found")
+
+            repo = predictor._get_current_repo()
+
+            assert repo == "ivviiviivvi/.github"
+
+
+@pytest.mark.unit
+class TestSignatureGeneration:
+    """Test signature generation and verification."""
+
+    @pytest.fixture
+    def predictor(self, tmp_path):
+        return WorkflowPredictor(str(tmp_path / "model.joblib"))
+
+    def test_generate_signature_consistent(self, predictor):
+        """Test signature generation is consistent."""
+        data = b"test data"
+
+        sig1 = predictor._generate_signature(data)
+        sig2 = predictor._generate_signature(data)
+
+        assert sig1 == sig2
+
+    def test_verify_signature_correct(self, predictor):
+        """Test signature verification with correct signature."""
+        data = b"test data"
+        signature = predictor._generate_signature(data)
+
+        assert predictor._verify_signature(data, signature) is True
+
+    def test_verify_signature_wrong(self, predictor):
+        """Test signature verification with wrong signature."""
+        data = b"test data"
+
+        assert predictor._verify_signature(data, "wrong_signature") is False
+
+
+@pytest.mark.unit
+class TestMainCLI:
+    """Test main CLI function."""
+
+    @pytest.fixture
+    def tmp_ml_dir(self, tmp_path, monkeypatch):
+        """Set up temp directory for ML files."""
+        ml_dir = tmp_path / "automation" / "ml"
+        ml_dir.mkdir(parents=True)
+        monkeypatch.chdir(tmp_path)
+        return ml_dir
+
+    def test_main_collect_data(self, tmp_ml_dir, capsys):
+        """Test main with --collect flag."""
+        import sys
+
+        original_argv = sys.argv
+        sys.argv = ["predict_workflow_failures.py", "--collect", "--days", "7"]
+
+        try:
+            with patch("predict_workflow_failures.subprocess.run") as mock_run:
+                mock_run.return_value = MagicMock(
+                    stdout='{"workflow_runs": []}',
+                    returncode=0,
+                )
+
+                from predict_workflow_failures import main
+
+                main()
+
+            captured = capsys.readouterr()
+            assert "Collecting" in captured.out
+        finally:
+            sys.argv = original_argv
+
+    def test_main_train_no_data_file(self, tmp_ml_dir, capsys):
+        """Test main with --train but no data file."""
+        import sys
+
+        original_argv = sys.argv
+        sys.argv = ["predict_workflow_failures.py", "--train"]
+
+        try:
+            with pytest.raises(SystemExit) as exc_info:
+                from predict_workflow_failures import main
+
+                main()
+
+            assert exc_info.value.code == 1
+            captured = capsys.readouterr()
+            assert "No data file found" in captured.err
+        finally:
+            sys.argv = original_argv
+
+    def test_main_train_with_data(self, tmp_ml_dir, capsys):
+        """Test main with --train and data file."""
+        import sys
+
+        # Create sample data file
+        data_file = tmp_ml_dir / "workflow_data.csv"
+
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+        df.to_csv(data_file, index=False)
+
+        original_argv = sys.argv
+        sys.argv = ["predict_workflow_failures.py", "--train"]
+
+        try:
+            from predict_workflow_failures import main
+
+            main()
+
+            captured = capsys.readouterr()
+            assert "Training" in captured.out
+            assert "Accuracy" in captured.out
+        finally:
+            sys.argv = original_argv
+
+    def test_main_predict_workflow(self, tmp_ml_dir, capsys):
+        """Test main with --predict flag."""
+        import sys
+
+        # First train a model
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+
+        predictor = WorkflowPredictor("automation/ml/workflow_model.pkl")
+        predictor.train(df)
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--predict",
+            "owner/repo",
+            "ci.yml",
+        ]
+
+        try:
+            from predict_workflow_failures import main
+
+            main()
+
+            captured = capsys.readouterr()
+            assert "Workflow" in captured.out
+            assert "Failure Probability" in captured.out
+        finally:
+            sys.argv = original_argv
+
+    def test_main_predict_json_output(self, tmp_ml_dir, capsys):
+        """Test main with --predict and --json flags."""
+        import sys
+
+        # First train a model (capture and discard training output)
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+
+        predictor = WorkflowPredictor("automation/ml/workflow_model.pkl")
+        predictor.train(df)
+
+        # Clear any output from training
+        capsys.readouterr()
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--predict",
+            "owner/repo",
+            "ci.yml",
+            "--json",
+        ]
+
+        try:
+            from predict_workflow_failures import main
+
+            main()
+
+            captured = capsys.readouterr()
+            # Verify JSON-like output is present (multi-line JSON from json.dumps indent=2)
+            output = captured.out
+            assert '"workflow"' in output
+            assert '"failure_probability"' in output
+            assert '"risk_level"' in output
+        finally:
+            sys.argv = original_argv
+
+    def test_main_high_risk_workflows(self, tmp_ml_dir, capsys):
+        """Test main with --high-risk flag."""
+        import sys
+
+        # First train a model
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+
+        predictor = WorkflowPredictor("automation/ml/workflow_model.pkl")
+        predictor.train(df)
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--high-risk",
+            "--threshold",
+            "0.1",
+        ]
+
+        try:
+            with patch("predict_workflow_failures.subprocess.run") as mock_run:
+                mock_run.return_value = MagicMock(
+                    stdout='[{"name": "ci.yml"}]',
+                    returncode=0,
+                )
+
+                from predict_workflow_failures import main
+
+                main()
+
+            captured = capsys.readouterr()
+            assert "High-Risk Workflows" in captured.out
+        finally:
+            sys.argv = original_argv
+
+    def test_main_high_risk_no_workflows_detected(self, tmp_ml_dir, capsys):
+        """Test main with --high-risk when no high-risk workflows found."""
+        import sys
+
+        # First train a model
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+
+        predictor = WorkflowPredictor("automation/ml/workflow_model.pkl")
+        predictor.train(df)
+
+        # Clear any output from training
+        capsys.readouterr()
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--high-risk",
+            "--threshold",
+            "0.99",  # Very high threshold - no workflows should exceed this
+        ]
+
+        try:
+            with patch("predict_workflow_failures.subprocess.run") as mock_run:
+                mock_run.return_value = MagicMock(
+                    stdout='[{"name": "ci.yml"}]',
+                    returncode=0,
+                )
+
+                from predict_workflow_failures import main
+
+                main()
+
+            captured = capsys.readouterr()
+            assert "No high-risk workflows detected" in captured.out
+        finally:
+            sys.argv = original_argv
+
+    def test_main_high_risk_json_output(self, tmp_ml_dir, capsys):
+        """Test main with --high-risk and --json flags."""
+        import sys
+
+        # First train a model
+        np.random.seed(42)
+        n_samples = 100
+        df = pd.DataFrame(
+            {
+                "hour_of_day": np.random.randint(0, 24, n_samples),
+                "day_of_week": np.random.randint(0, 7, n_samples),
+                "is_weekend": np.random.randint(0, 2, n_samples),
+                "workflow_id": np.random.randint(100, 200, n_samples),
+                "workflow_name_hash": np.random.randint(0, 10000, n_samples),
+                "event_hash": np.random.randint(0, 100, n_samples),
+                "run_number": np.random.randint(1, 1000, n_samples),
+                "run_attempt": np.random.randint(1, 3, n_samples),
+                "failed": np.random.randint(0, 2, n_samples),
+            }
+        )
+
+        predictor = WorkflowPredictor("automation/ml/workflow_model.pkl")
+        predictor.train(df)
+
+        # Clear any output from training
+        capsys.readouterr()
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--high-risk",
+            "--json",
+        ]
+
+        try:
+            with patch("predict_workflow_failures.subprocess.run") as mock_run:
+                mock_run.return_value = MagicMock(
+                    stdout='[{"name": "ci.yml"}]',
+                    returncode=0,
+                )
+
+                from predict_workflow_failures import main
+
+                main()
+
+            captured = capsys.readouterr()
+            # Verify JSON array output (could be empty list or list with predictions)
+            output = captured.out
+            # Should contain opening bracket for JSON array
+            assert "[" in output
+            # Should also contain closing bracket
+            assert "]" in output
+        finally:
+            sys.argv = original_argv
+
+    def test_main_no_args_prints_help(self, capsys):
+        """Test main with no args prints help."""
+        import sys
+
+        original_argv = sys.argv
+        sys.argv = ["predict_workflow_failures.py"]
+
+        try:
+            from predict_workflow_failures import main
+
+            main()
+
+            captured = capsys.readouterr()
+            assert "usage" in captured.out.lower() or "predict" in captured.out.lower()
+        finally:
+            sys.argv = original_argv
+
+    def test_main_handles_exception(self, tmp_ml_dir, capsys):
+        """Test main handles exception gracefully."""
+        import sys
+
+        original_argv = sys.argv
+        sys.argv = [
+            "predict_workflow_failures.py",
+            "--predict",
+            "owner/repo",
+            "ci.yml",
+        ]
+
+        try:
+            # No model exists, should raise and exit with code 1
+            with pytest.raises(SystemExit) as exc_info:
+                from predict_workflow_failures import main
+
+                main()
+
+            assert exc_info.value.code == 1
+        finally:
+            sys.argv = original_argv

@@ -3,6 +3,8 @@
 Focus: 1Password CLI integration, secret retrieval, error handling.
 """
 
+import importlib
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
@@ -10,21 +12,63 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+# Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
 
-# Force reimport of secret_manager to avoid test pollution from other tests
-# that mock the module at module level
-if "secret_manager" in sys.modules:
-    # Remove any mock that might have been set by other tests
-    del sys.modules["secret_manager"]
 
-from secret_manager import (
-    _print_secret_error,
-    ensure_github_token,
-    ensure_secret,
-    get_github_token,
-    get_secret,
-)
+def _load_real_secret_manager():
+    """Force load the real secret_manager module, removing any mocks."""
+    # Remove any mock from sys.modules
+    sys.modules.pop("secret_manager", None)
+
+    # Load the module from the actual file path
+    scripts_path = Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"
+    spec = importlib.util.spec_from_file_location("secret_manager", scripts_path / "secret_manager.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["secret_manager"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+# Load the real module at import time
+secret_manager = _load_real_secret_manager()
+
+
+@pytest.fixture(autouse=True)
+def ensure_real_secret_manager():
+    """Ensure the real secret_manager module is loaded for each test."""
+    global secret_manager
+    # Reload fresh for each test to avoid cross-test pollution
+    secret_manager = _load_real_secret_manager()
+    yield
+    # Clean up after test - other tests may want to mock it
+    sys.modules.pop("secret_manager", None)
+
+
+# Helper functions that call through the module (ensures patches work correctly)
+def get_secret(item_name, field="password", vault="Private"):
+    """Call get_secret through the module for proper patch support."""
+    return secret_manager.get_secret(item_name, field, vault)
+
+
+def ensure_secret(item_name, field="password", vault="Private"):
+    """Call ensure_secret through the module for proper patch support."""
+    return secret_manager.ensure_secret(item_name, field, vault)
+
+
+def get_github_token(item_name):
+    """Call get_github_token through the module for proper patch support."""
+    return secret_manager.get_github_token(item_name)
+
+
+def ensure_github_token(item_name):
+    """Call ensure_github_token through the module for proper patch support."""
+    return secret_manager.ensure_github_token(item_name)
+
+
+def _print_secret_error(item_name, field, vault):
+    """Call _print_secret_error through the module for proper patch support."""
+    return secret_manager._print_secret_error(item_name, field, vault)
 
 
 class TestGetSecret:

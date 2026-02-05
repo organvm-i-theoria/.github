@@ -11,7 +11,9 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
+sys.path.insert(
+    0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
+)
 
 # Mock notification_integration before importing validation_framework
 sys.modules["notification_integration"] = MagicMock()
@@ -325,8 +327,11 @@ class TestIncidentResponseValidation:
         fw.validation_dir.mkdir(parents=True, exist_ok=True)
         return fw
 
-    def test_analyzes_incident_severity(self, framework):
+    def test_analyzes_incident_severity(self, framework, tmp_path, monkeypatch):
         """Test analyzes incident severity distribution."""
+        # Use temp directory to avoid conflicts with existing files
+        monkeypatch.chdir(tmp_path)
+
         config_path = Path(".github/incident.yml")
         config_path.parent.mkdir(parents=True, exist_ok=True)
         config_path.write_text("enabled: true")
@@ -344,12 +349,6 @@ class TestIncidentResponseValidation:
         dist = result.metrics.get("severity_distribution")
         assert dist["SEV-1"] == 1
         assert dist["SEV-2"] == 2
-
-        # Cleanup
-        for f in incidents_dir.glob("*.json"):
-            f.unlink()
-        incidents_dir.rmdir()
-        config_path.unlink()
 
 
 class TestValidateAll:
@@ -471,7 +470,9 @@ class TestReportGeneration:
             ],
         }
 
-        (validation_dir / "validation_20240101_120000.json").write_text(json.dumps(validation_data))
+        (validation_dir / "validation_20240101_120000.json").write_text(
+            json.dumps(validation_data)
+        )
 
         report = framework.generate_report("owner", "repo", days=30)
 
@@ -488,3 +489,461 @@ class TestReportGeneration:
 
         assert report["total_validations"] == 0
         assert report["capabilities"] == {}
+
+
+@pytest.mark.unit
+class TestValidationFrameworkInit:
+    """Test ValidationFramework initialization."""
+
+    def test_init_creates_validation_dir(self, tmp_path):
+        """Test __init__ creates validation directory."""
+        mock_client = MagicMock()
+
+        with patch("validation_framework.Path") as mock_path_class:
+            mock_dir = MagicMock()
+            mock_path_class.return_value = mock_dir
+
+            fw = ValidationFramework(mock_client)
+
+            assert fw.github == mock_client
+            assert fw.results == []
+            mock_dir.mkdir.assert_called_with(parents=True, exist_ok=True)
+
+
+@pytest.mark.unit
+class TestValidationExceptionHandling:
+    """Test exception handling in validation methods."""
+
+    @pytest.fixture
+    def framework(self, tmp_path):
+        fw = ValidationFramework.__new__(ValidationFramework)
+        fw.github = MagicMock()
+        fw.results = []
+        fw.validation_dir = tmp_path / ".github" / "validation"
+        fw.validation_dir.mkdir(parents=True, exist_ok=True)
+        return fw
+
+    def test_routing_exception_handling(self, framework):
+        """Test routing validation handles exceptions."""
+        config_path = Path(".github/routing.yml")
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_path.write_text("enabled: true")
+
+        framework.github.get.side_effect = Exception("API Error")
+
+        result = framework.validate_routing("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+        config_path.unlink()
+
+    def test_self_healing_config_missing(self, framework):
+        """Test self-healing validation fails when config missing."""
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_self_healing("owner", "repo")
+
+        assert result.passed is False
+        assert "Configuration file not found" in result.errors
+
+    def test_self_healing_exception_handling(self, framework):
+        """Test self-healing validation handles exceptions."""
+        config_path = Path(".github/self-healing.yml")
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_path.write_text("enabled: true")
+
+        framework.github.get.side_effect = Exception("API Error")
+
+        result = framework.validate_self_healing("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+        config_path.unlink()
+
+    def test_maintenance_config_missing(self, framework):
+        """Test maintenance validation fails when config missing."""
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_maintenance("owner", "repo")
+
+        assert result.passed is False
+        assert "Configuration file not found" in result.errors
+
+    def test_maintenance_exception_handling(self, framework):
+        """Test maintenance validation handles exceptions."""
+        # Use side_effect to have config_path.exists() return True first,
+        # then raise an exception on tasks_dir operations
+        call_count = [0]
+
+        def mock_exists(self):
+            call_count[0] += 1
+            if call_count[0] == 1:
+                return True  # Config file exists
+            raise Exception("IO Error")  # Tasks dir check raises
+
+        with patch.object(Path, "exists", mock_exists):
+            result = framework.validate_maintenance("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+    def test_analytics_config_missing(self, framework):
+        """Test analytics validation fails when config missing."""
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_analytics("owner", "repo")
+
+        assert result.passed is False
+        assert "Configuration file not found" in result.errors
+
+    def test_analytics_exception_handling(self, framework):
+        """Test analytics validation handles exceptions."""
+        # Use side_effect to have config_path.exists() return True first,
+        # then raise an exception on models_dir operations
+        call_count = [0]
+
+        def mock_exists(self):
+            call_count[0] += 1
+            if call_count[0] == 1:
+                return True  # Config file exists
+            raise Exception("IO Error")  # Models dir check raises
+
+        with patch.object(Path, "exists", mock_exists):
+            result = framework.validate_analytics("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+    def test_sla_config_missing(self, framework):
+        """Test SLA validation fails when config missing."""
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_sla("owner", "repo")
+
+        assert result.passed is False
+        assert "Configuration file not found" in result.errors
+
+    def test_sla_exception_handling(self, framework):
+        """Test SLA validation handles exceptions."""
+        config_path = Path(".github/sla.yml")
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_path.write_text("enabled: true")
+
+        framework.github.get.side_effect = Exception("API Error")
+
+        result = framework.validate_sla("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+        config_path.unlink()
+
+    def test_incident_response_config_missing(self, framework):
+        """Test incident response validation fails when config missing."""
+        with patch("pathlib.Path.exists", return_value=False):
+            result = framework.validate_incident_response("owner", "repo")
+
+        assert result.passed is False
+        assert "Configuration file not found" in result.errors
+
+    def test_incident_response_exception_handling(self, framework, tmp_path, monkeypatch):
+        """Test incident response validation handles exceptions."""
+        # Use temp directory to avoid conflicts with existing files
+        monkeypatch.chdir(tmp_path)
+
+        config_path = Path(".github/incident.yml")
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_path.write_text("enabled: true")
+
+        incidents_dir = Path(".github/incidents")
+        incidents_dir.mkdir(parents=True, exist_ok=True)
+        # Create a malformed JSON file to trigger exception
+        (incidents_dir / "INC-001.json").write_text("{invalid json}")
+
+        result = framework.validate_incident_response("owner", "repo")
+
+        assert result.passed is False
+        assert any("Validation failed" in e for e in result.errors)
+
+
+@pytest.mark.unit
+class TestSaveValidationSuite:
+    """Test _save_validation_suite method."""
+
+    @pytest.fixture
+    def framework(self, tmp_path):
+        fw = ValidationFramework.__new__(ValidationFramework)
+        fw.github = MagicMock()
+        fw.results = []
+        fw.validation_dir = tmp_path / "validation"
+        fw.validation_dir.mkdir(parents=True, exist_ok=True)
+        return fw
+
+    def test_saves_suite_to_json_file(self, framework, tmp_path):
+        """Test saves validation suite to JSON file."""
+        from models import ValidationSuite
+
+        suite = ValidationSuite(
+            started_at=datetime.now(timezone.utc),
+            repository="owner/repo",
+        )
+        suite.passed = 5
+        suite.failed = 2
+        suite.warnings = 1
+        suite.completed_at = datetime.now(timezone.utc)
+        suite.duration_seconds = 10.5
+
+        framework._save_validation_suite(suite)
+
+        # Check file was created
+        files = list(framework.validation_dir.glob("validation_*.json"))
+        assert len(files) == 1
+
+        # Verify content
+        with open(files[0]) as f:
+            data = json.load(f)
+            assert data["repository"] == "owner/repo"
+            assert data["passed"] == 5
+            assert data["failed"] == 2
+
+
+@pytest.mark.unit
+class TestSendValidationNotification:
+    """Test _send_validation_notification method."""
+
+    @pytest.fixture
+    def framework(self, tmp_path):
+        fw = ValidationFramework.__new__(ValidationFramework)
+        fw.github = MagicMock()
+        fw.results = []
+        fw.validation_dir = tmp_path / "validation"
+        fw.validation_dir.mkdir(parents=True, exist_ok=True)
+        return fw
+
+    def test_sends_success_notification_when_all_pass(self, framework):
+        """Test sends success notification when all validations pass."""
+        from models import ValidationSuite
+
+        suite = ValidationSuite(
+            started_at=datetime.now(timezone.utc),
+            repository="owner/repo",
+        )
+        suite.passed = 7
+        suite.failed = 0
+        suite.warnings = 0
+        suite.completed_at = datetime.now(timezone.utc)
+        suite.duration_seconds = 10.5
+        suite.results = [
+            ValidationResult(
+                capability="auto-merge",
+                started_at=datetime.now(timezone.utc),
+                passed=True,
+            )
+        ]
+
+        with patch(
+            "validation_framework.notify_validation_success"
+        ) as mock_success, patch(
+            "validation_framework.notify_validation_failure"
+        ) as mock_failure:
+            framework._send_validation_notification(suite)
+
+            mock_success.assert_called_once()
+            mock_failure.assert_not_called()
+
+    def test_sends_failure_notification_for_each_failed(self, framework):
+        """Test sends failure notification for each failed capability."""
+        from models import ValidationSuite
+
+        suite = ValidationSuite(
+            started_at=datetime.now(timezone.utc),
+            repository="owner/repo",
+        )
+        suite.passed = 5
+        suite.failed = 2
+        suite.warnings = 1
+        suite.completed_at = datetime.now(timezone.utc)
+        suite.duration_seconds = 10.5
+        suite.results = [
+            ValidationResult(
+                capability="auto-merge",
+                started_at=datetime.now(timezone.utc),
+                passed=False,
+                errors=["Config missing"],
+            ),
+            ValidationResult(
+                capability="routing",
+                started_at=datetime.now(timezone.utc),
+                passed=True,
+            ),
+            ValidationResult(
+                capability="self-healing",
+                started_at=datetime.now(timezone.utc),
+                passed=False,
+                errors=["API Error"],
+            ),
+        ]
+
+        with patch(
+            "validation_framework.notify_validation_success"
+        ) as mock_success, patch(
+            "validation_framework.notify_validation_failure"
+        ) as mock_failure:
+            framework._send_validation_notification(suite)
+
+            # Should be called twice for the two failed capabilities
+            assert mock_failure.call_count == 2
+            mock_success.assert_not_called()
+
+
+@pytest.mark.unit
+class TestMainCLI:
+    """Test main CLI entry point."""
+
+    @pytest.fixture
+    def mock_github(self):
+        with patch("validation_framework.GitHubAPIClient") as mock:
+            yield mock.return_value
+
+    def test_validate_all_cli(self, mock_github, tmp_path, capsys):
+        """Test --validate-all CLI option."""
+        from models import ValidationSuite
+
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--validate-all"]):
+            with patch.object(ValidationFramework, "validate_all") as mock_validate:
+                suite = ValidationSuite(
+                    started_at=datetime.now(timezone.utc),
+                    repository="org/repo",
+                )
+                suite.passed = 7
+                suite.failed = 0
+                suite.warnings = 0
+                suite.results = []
+                mock_validate.return_value = suite
+
+                from validation_framework import main
+                main()
+
+                captured = capsys.readouterr()
+                assert "Validation Complete" in captured.out
+                assert "Passed: 7/7" in captured.out
+
+    def test_validate_all_with_failures(self, mock_github, capsys):
+        """Test --validate-all with failures shows failed capabilities."""
+        from models import ValidationSuite
+
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--validate-all"]):
+            with patch.object(ValidationFramework, "validate_all") as mock_validate:
+                suite = ValidationSuite(
+                    started_at=datetime.now(timezone.utc),
+                    repository="org/repo",
+                )
+                suite.passed = 5
+                suite.failed = 2
+                suite.warnings = 0
+                suite.results = [
+                    ValidationResult(
+                        capability="auto-merge",
+                        started_at=datetime.now(timezone.utc),
+                        passed=False,
+                        errors=["Config missing"],
+                    ),
+                ]
+                mock_validate.return_value = suite
+
+                from validation_framework import main
+                main()
+
+                captured = capsys.readouterr()
+                assert "Failed Capabilities" in captured.out
+                assert "auto-merge" in captured.out
+                assert "Config missing" in captured.out
+
+    def test_validate_single_capability(self, mock_github, capsys):
+        """Test --validate single capability."""
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--validate", "routing"]):
+            with patch.object(ValidationFramework, "validate_routing") as mock_validate:
+                mock_validate.return_value = ValidationResult(
+                    capability="routing",
+                    started_at=datetime.now(timezone.utc),
+                    passed=True,
+                    message="Routing validation passed",
+                )
+
+                from validation_framework import main
+                main()
+
+                captured = capsys.readouterr()
+                assert "routing" in captured.out
+                assert "Routing validation passed" in captured.out
+
+    def test_validate_single_with_errors(self, mock_github, capsys):
+        """Test --validate single capability with errors."""
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--validate", "sla"]):
+            with patch.object(ValidationFramework, "validate_sla") as mock_validate:
+                mock_validate.return_value = ValidationResult(
+                    capability="sla",
+                    started_at=datetime.now(timezone.utc),
+                    passed=False,
+                    message="SLA validation failed",
+                    errors=["API Error"],
+                    warnings=["Low sample size"],
+                )
+
+                from validation_framework import main
+                main()
+
+                captured = capsys.readouterr()
+                assert "sla" in captured.out
+                assert "Error: API Error" in captured.out
+                assert "Warning: Low sample size" in captured.out
+
+    def test_report_cli(self, mock_github, capsys):
+        """Test --report CLI option."""
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--report", "--days", "14"]):
+            with patch.object(ValidationFramework, "generate_report") as mock_report:
+                mock_report.return_value = {
+                    "repository": "org/repo",
+                    "total_validations": 10,
+                    "capabilities": {
+                        "auto-merge": {"success_rate": 0.9},
+                        "routing": {"success_rate": 0.85},
+                    },
+                }
+
+                from validation_framework import main
+                main()
+
+                captured = capsys.readouterr()
+                assert "Validation Report" in captured.out
+                assert "14 days" in captured.out
+                assert "org/repo" in captured.out
+                assert "auto-merge: 90.0%" in captured.out
+
+    def test_no_args_prints_help(self, mock_github, capsys):
+        """Test no arguments prints help."""
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo"]):
+            with patch("argparse.ArgumentParser.print_help") as mock_help:
+                from validation_framework import main
+                main()
+
+                mock_help.assert_called_once()
+
+    def test_debug_flag_sets_debug_logging(self, mock_github):
+        """Test --debug flag enables debug logging."""
+        import logging
+
+        with patch("sys.argv", ["validation_framework.py", "--owner", "org", "--repo", "repo", "--debug", "--report"]):
+            with patch.object(ValidationFramework, "generate_report") as mock_report:
+                mock_report.return_value = {
+                    "repository": "org/repo",
+                    "total_validations": 0,
+                    "capabilities": {},
+                }
+
+                from validation_framework import main
+                main()
+
+                # Check that debug logging was enabled
+                assert logging.getLogger().level == logging.DEBUG
+
+                # Reset logging level
+                logging.getLogger().setLevel(logging.INFO)

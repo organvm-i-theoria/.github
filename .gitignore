@@ -72,3 +72,10 @@ test-results/
 coverage.xml
 *_STATUS_*.md
 *_COMPLETE_*.md
+
+# Runtime-generated files
+.github/incidents/
+.github/notifications/
+
+# Local tool configuration
+.serena/

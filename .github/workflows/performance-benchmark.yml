@@ -62,9 +62,10 @@ jobs:
       run: npm ci
 
     - name: Install Python dependencies
-      if: hashFiles('requirements.txt') != ''
+      if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
       run: |
-        pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
         pip install pytest-benchmark
 
         # JavaScript/TypeScript Benchmarks
@@ -100,8 +101,19 @@ jobs:
         npm install -g @lhci/cli
         lhci autorun || echo "Lighthouse CI not configured"
 
-        # Load Testing with k6
+        # Load Testing with k6 (only if load test file exists)
+    - name: Check for load test file
+      id: check-load-test
+      run: |
+        if [ -f "tests/load-test.js" ]; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+          echo "ℹ️ No load test file found at tests/load-test.js"
+        fi
+
     - name: Load Testing
+      if: steps.check-load-test.outputs.exists == 'true'
       uses: grafana/k6-action@c38b1bb7c8c6b23f4aaf41ef90cd6e95f6b881d2  # ratchet:grafana/k6-action@v0.3.1
       with:
         filename: tests/load-test.js
@@ -197,10 +209,11 @@ jobs:
         python-version: '3.11'
 
     - name: Install memory profiler
-      if: hashFiles('requirements.txt') != ''
+      if: hashFiles('requirements.txt', 'setup.py', 'pyproject.toml') != ''
       run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev]"
         pip install memory_profiler
-        pip install -r requirements.txt
 
     - name: Run memory profiling
       if: hashFiles('requirements.txt') != ''

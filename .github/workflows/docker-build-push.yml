@@ -60,14 +60,14 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130  # ratchet:docker/setup-qemu-action@v3
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # ratchet:docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f  # ratchet:docker/setup-buildx-action@v3
       with:
         driver-opts: |
           image=moby/buildkit:latest
@@ -221,9 +221,20 @@ jobs:
         INPUT_PLATFORMS: ${{ inputs.platforms }}
         EVENT_PLATFORMS: ${{ github.event.inputs.platforms }}
 
+    - name: Check Docker Hub credentials
+      id: docker-creds
+      run: |
+        if [[ -n "${{ secrets.DOCKER_USERNAME }}" ]]; then
+          echo "available=true" >> $GITHUB_OUTPUT
+        else
+          echo "available=false" >> $GITHUB_OUTPUT
+          echo "⚠️ Docker Hub credentials not configured. Skipping Docker Hub push."
+          echo "To enable Docker Hub push, add DOCKER_USERNAME and DOCKER_PASSWORD secrets."
+        fi
+
     - name: Log in to Docker Hub
-      if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
-      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # ratchet:docker/login-action@v3
+      if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true' && steps.docker-creds.outputs.available == 'true'
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # ratchet:docker/login-action@v3
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ secrets.DOCKER_USERNAME }}
@@ -231,7 +242,7 @@ jobs:
 
     - name: Log in to GitHub Container Registry
       if: github.event_name != 'pull_request' && steps.deployment-inputs.outputs.push == 'true'
-      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # ratchet:docker/login-action@v3
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # ratchet:docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
@@ -239,10 +250,10 @@ jobs:
 
     - name: Extract metadata
       id: meta
-      uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81  # ratchet:docker/metadata-action@v5.5.1
+      uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051  # ratchet:docker/metadata-action@v5
       with:
         images: |
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          ${{ steps.docker-creds.outputs.available == 'true' && format('{0}/{1}', env.REGISTRY, env.IMAGE_NAME) || '' }}
           ghcr.io/${{ env.IMAGE_NAME }}
         tags: |
           type=ref,event=branch
@@ -255,8 +266,14 @@ jobs:
         flavor: |
           latest=auto
 
+    - name: Set primary image reference
+      id: image-ref
+      run: |
+        # Use GHCR as primary reference (always available), Docker Hub as fallback
+        echo "primary=ghcr.io/${{ env.IMAGE_NAME }}:latest" >> $GITHUB_OUTPUT
+
     - name: Build and push Docker image
-      uses: docker/build-push-action@1ca370b3a9802c92e886402e0dd88098a2533b12  # ratchet:docker/build-push-action@v5
+      uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83  # ratchet:docker/build-push-action@v6
       with:
         context: .
         platforms: ${{ steps.deployment-inputs.outputs.platforms }}
@@ -278,11 +295,11 @@ jobs:
     - name: Scan image for vulnerabilities
       if: github.event_name != 'pull_request'
       run: |
-        trivy image --format sarif --output trivy-results.sarif --severity CRITICAL,HIGH ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        trivy image --format sarif --output trivy-results.sarif --severity CRITICAL,HIGH ${{ steps.image-ref.outputs.primary }}
 
     - name: Upload Trivy scan results
       if: github.event_name != 'pull_request'
-      uses: github/codeql-action@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34  # ratchet:github/codeql-action@v3
+      uses: github/codeql-action/upload-sarif@439137e1b50c27ba9e2f9befc93e43091b449c34  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: trivy-results.sarif
 
@@ -294,7 +311,7 @@ jobs:
         # Run container for basic smoke test
         docker run --rm -d --name test-container \
           -p 8888:3000 -p 8889:5000 -p 8890:8000 -p 8891:8080 \
-          ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          ${{ steps.image-ref.outputs.primary }}
 
         # Wait for container to start
         sleep 10
@@ -312,15 +329,15 @@ jobs:
 
     - name: Generate SBOM
       if: github.event_name != 'pull_request'
-      uses: anchore/sbom-action@a930d0ac434e3182448fe678398ba5713717112a  # ratchet:anchore/sbom-action@v0
+      uses: anchore/sbom-action@deef08a0db64bfad603422135db61477b16cef56  # ratchet:anchore/sbom-action@v0
       with:
-        image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        image: ${{ steps.image-ref.outputs.primary }}
         format: spdx-json
         output-file: sbom.spdx.json
 
     - name: Upload SBOM
       if: github.event_name != 'pull_request'
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: sbom
         path: sbom.spdx.json

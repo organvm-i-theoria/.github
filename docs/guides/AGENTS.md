@@ -2,7 +2,7 @@
 
 Global policy: /Users/4jp/AGENTS.md applies and cannot be overridden.
 
-Complete guide to working with AI agents in the {{ORG_DISPLAY_NAME}} template.
+Complete guide to working with AI agents in the ivviiviivvi template.
 
 ---
 

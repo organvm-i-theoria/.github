@@ -1,6 +1,6 @@
 # Workflow Catalog
 
-Complete reference catalog of all GitHub Actions workflows in the {{ORG_DISPLAY_NAME}} template.
+Complete reference catalog of all GitHub Actions workflows in the ivviiviivvi template.
 
 ---
 

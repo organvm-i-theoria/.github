@@ -272,8 +272,16 @@ def generate_metadata(file_path: Path) -> Optional[dict[str, Any]]:
             return None
 
         filename = file_path.name
+<<<<<<< HEAD
         default_name = generate_default_workflow_name(filename)
         name = workflow.get("name", default_name)
+||||||| e3e02a8
+        name = workflow.get("name", filename.replace(".yml", "").replace("-", " ").title())
+=======
+        name = workflow.get(
+            "name", filename.replace(".yml", "").replace("-", " ").title()
+        )
+>>>>>>> origin/main
 
         triggers = extract_triggers(workflow)
         layer = classify_layer(name, str(file_path))

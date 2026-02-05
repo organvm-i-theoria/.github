@@ -1,8 +1,8 @@
-# {{ORG_DISPLAY_NAME}} Organization Hub
+# ivviiviivvi Organization Hub
 
 ## Project Overview
 
-This is the centralized `.github` repository for the **{{ORG_DISPLAY_NAME}}** organization. It serves as the infrastructure backbone, providing organization-wide defaults, governance policies, comprehensive workflow automation, and a ready-to-deploy AI agent framework.
+This is the centralized `.github` repository for the **ivviiviivvi** organization. It serves as the infrastructure backbone, providing organization-wide defaults, governance policies, comprehensive workflow automation, and a ready-to-deploy AI agent framework.
 
 **Key Features:**
 *   **Centralized Infrastructure:** "Zero-config" inheritance for new repositories.

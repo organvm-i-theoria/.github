@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Close Stale Issues and PRs
-      uses: actions/stale@28ca1036281a5e5922ead5184a1bbf96e5fc984e  # ratchet:actions/stale@v9.0.0
+      uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639  # ratchet:actions/stale@v9
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
           # Issues
@@ -111,7 +111,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -131,13 +131,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get Issue Metrics
-      uses: github/issue-metrics@dccfbd8308c9f1b8db83c2e5962d23c74b4c437e  # ratchet:github/issue-metrics@v3
+      uses: github/issue-metrics@6fa9041b3ea7b6a9dafbdc388d25d86d06b2b6af  # ratchet:github/issue-metrics@v3
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SEARCH_QUERY: repo:${{ github.repository }} is:issue created:>=${{ github.event.repository.created_at }}
 
     - name: Upload Metrics
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: issue-metrics
         path: issue_metrics.md

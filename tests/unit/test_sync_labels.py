@@ -130,9 +130,8 @@ class TestGetExistingLabels:
 
     def test_handles_api_error(self, manager, mock_repo):
         """Test handling of GitHub API errors - returns empty dict."""
-        from github import GithubException
-
-        mock_repo.get_labels.side_effect = GithubException(404, "Not Found")
+        # Use the GithubException from the sync_labels module (which uses our mock)
+        mock_repo.get_labels.side_effect = mock_github_exception(404, "Not Found")
 
         # Manager returns empty dict on error (doesn't raise)
         labels = manager.get_existing_labels(mock_repo)
@@ -318,11 +317,9 @@ class TestBatchOperations:
 
     def test_handles_individual_repo_failures(self, manager, mock_github, mock_org):
         """Test handling of failures in individual repositories."""
-        from github import GithubException
-
         repos = [MagicMock(name=f"repo-{i}") for i in range(3)]
         # Manager's sync_labels catches GithubException and returns error stats
-        repos[1].get_labels.side_effect = GithubException(403, "Forbidden")
+        repos[1].get_labels.side_effect = mock_github_exception(403, "Forbidden")
         repos[0].get_labels.return_value = []
         repos[2].get_labels.return_value = []
 

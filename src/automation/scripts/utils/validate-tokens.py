@@ -12,11 +12,13 @@ import argparse
 import os
 import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 import requests
 
 # Add parent directory to path for imports
-sys.path.insert(0, "automation/scripts")
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from secret_manager import get_secret  # noqa: E402
 
 # ANSI color codes
@@ -29,34 +31,34 @@ NC = "\033[0m"  # No Color
 # Token registry (keep in sync with TOKEN_REGISTRY.md)
 TOKENS = {
     "master-org-token-011726": {
-        "scopes": ["unknown"],  # To be documented
+        "scopes": ["admin:org", "repo", "workflow", "project"],
         "test_endpoint": "/user",
-        "status": "deprecated",
+        "status": "active",
     },
     "org-label-sync-token": {
         "scopes": ["repo", "workflow"],
         "test_endpoint": "/user/repos",
-        "status": "planned",
+        "status": "active",
     },
     "org-project-admin-token": {
         "scopes": ["project", "read:org"],
         "test_endpoint": "/user",
-        "status": "planned",
+        "status": "active",
     },
     "org-repo-analysis-token": {
         "scopes": ["repo:status", "read:org"],
-        "test_endpoint": "/users/ivviiviivvi/repos",
-        "status": "planned",
+        "test_endpoint": "/user/repos",
+        "status": "active",
     },
     "org-onboarding-token": {
         "scopes": ["repo", "workflow", "admin:org"],
         "test_endpoint": "/user/repos",
-        "status": "planned",
+        "status": "active",
     },
 }
 
 
-def validate_token(token_name: str, config: dict, verbose: bool = False) -> dict:
+def validate_token(token_name: str, config: dict[str, Any], verbose: bool = False) -> dict[str, Any]:
     """Validate a single token."""
     result = {
         "token": token_name,
@@ -110,13 +112,17 @@ def validate_token(token_name: str, config: dict, verbose: bool = False) -> dict
 
             # Get scopes
             scopes_header = response.headers.get("X-OAuth-Scopes", "")
-            result["scopes"] = [s.strip() for s in scopes_header.split(",") if s.strip()]
+            result["scopes"] = [
+                s.strip() for s in scopes_header.split(",") if s.strip()
+            ]
 
             # Get rate limit
             result["rate_limit"] = {
                 "remaining": int(response.headers.get("X-RateLimit-Remaining", 0)),
                 "limit": int(response.headers.get("X-RateLimit-Limit", 0)),
-                "reset": datetime.fromtimestamp(int(response.headers.get("X-RateLimit-Reset", 0))),
+                "reset": datetime.fromtimestamp(
+                    int(response.headers.get("X-RateLimit-Reset", 0))
+                ),
             }
 
             if verbose:
@@ -152,14 +158,16 @@ def validate_token(token_name: str, config: dict, verbose: bool = False) -> dict
     return result
 
 
-def print_summary(results: list[dict], verbose: bool = False):
+def print_summary(results: list[dict[str, Any]], verbose: bool = False) -> bool:
     """Print validation summary."""
     print("\n" + "=" * 80)
     print(f"{BLUE}Token Validation Summary{NC}")
     print("=" * 80 + "\n")
 
     valid_count = sum(1 for r in results if r["valid"])
-    failed_count = sum(1 for r in results if not r["valid"] and r["status"] != "planned")
+    failed_count = sum(
+        1 for r in results if not r["valid"] and r["status"] != "planned"
+    )
     planned_count = sum(1 for r in results if r["status"] == "planned")
     warning_count = sum(1 for r in results if r.get("warning"))
 
@@ -173,8 +181,16 @@ def print_summary(results: list[dict], verbose: bool = False):
         print("\n" + "-" * 80)
         print(f"{BLUE}Detailed Results:{NC}\n")
         for result in results:
-            status_icon = "✓" if result["valid"] else "✗" if result["status"] != "planned" else "⏳"
-            status_color = GREEN if result["valid"] else RED if result["status"] != "planned" else YELLOW
+            status_icon = (
+                "✓"
+                if result["valid"]
+                else "✗" if result["status"] != "planned" else "⏳"
+            )
+            status_color = (
+                GREEN
+                if result["valid"]
+                else RED if result["status"] != "planned" else YELLOW
+            )
 
             print(f"{status_color}{status_icon}{NC} {result['token']}")
             if result["valid"]:
@@ -193,7 +209,7 @@ def print_summary(results: list[dict], verbose: bool = False):
     return valid_count == len([r for r in results if r["status"] != "planned"])
 
 
-def main():
+def main() -> None:
     """Main validation function."""
     parser = argparse.ArgumentParser(description="Validate organization GitHub tokens")
     parser.add_argument(

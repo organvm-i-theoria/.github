@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -357,7 +357,7 @@ jobs:
 
     - name: Create alert issue on critical problems
       if: failure()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const report = `${{ steps.reconcile.outputs.report }}`;
@@ -375,7 +375,7 @@ jobs:
 
     - name: Annotate workflow with summary
       if: always()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const discrepancies = parseInt(`${{ steps.reconcile.outputs.discrepancies_found }}`);
@@ -395,7 +395,7 @@ jobs:
 
     - name: Upload reconciliation report as artifact
       if: always()
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: reconciliation-report
         path: reconciliation-report.txt
@@ -403,7 +403,7 @@ jobs:
 
     - name: Post status check
       if: always()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const fs = require('fs');

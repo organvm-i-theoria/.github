@@ -63,7 +63,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
 
     - name: Install Trivy
       if: inputs.scan_type == 'trivy' || inputs.scan_type == 'all'
@@ -77,7 +77,7 @@ jobs:
 
     - name: Run Semgrep scanner
       if: inputs.scan_type == 'semgrep' || inputs.scan_type == 'all'
-      uses: returntocorp/semgrep-action@c4d42fa70dc79e81e6fa15c67d3bf3cf0d4fe9de  # ratchet:returntocorp/semgrep-action@v1
+      uses: returntocorp/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d  # ratchet:returntocorp/semgrep-action@v1
       with:
         config: >-
           p/security-audit
@@ -164,7 +164,7 @@ jobs:
 
     - name: Upload Trivy SARIF to GitHub Security
       if: inputs.upload_sarif && always()
-      uses: github/codeql-action@c37a8b7cd97e31de3fcbd9d84c401870edeb8d34  # ratchet:github/codeql-action@v3
+      uses: github/codeql-action/upload-sarif@439137e1b50c27ba9e2f9befc93e43091b449c34  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: trivy-results.sarif
         category: trivy
@@ -195,7 +195,7 @@ jobs:
 
     - name: Upload scan artifacts
       if: always()
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: security-scan-results
         path: |

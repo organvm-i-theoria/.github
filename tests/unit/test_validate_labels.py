@@ -18,9 +18,17 @@ sys.path.insert(
 )
 
 # Mock secret_manager before importing validate_labels
+# Save original and restore after imports to avoid polluting other tests
+_original_secret_manager = sys.modules.get("secret_manager")
 sys.modules["secret_manager"] = MagicMock()
 
 from validate_labels import LabelValidator
+
+# Restore original secret_manager module after imports
+if _original_secret_manager is not None:
+    sys.modules["secret_manager"] = _original_secret_manager
+else:
+    sys.modules.pop("secret_manager", None)
 
 
 @pytest.mark.unit
@@ -200,9 +208,9 @@ class TestGetRepoLabels:
     def test_returns_labels_on_success(self, validator):
         """Test returns parsed labels on successful API call."""
         mock_result = MagicMock()
-        mock_result.stdout = json.dumps([
-            {"name": "bug", "color": "d73a4a", "description": "Bug report"}
-        ])
+        mock_result.stdout = json.dumps(
+            [{"name": "bug", "color": "d73a4a", "description": "Bug report"}]
+        )
 
         with patch("subprocess.run", return_value=mock_result):
             labels = validator._get_repo_labels("owner/repo")
@@ -302,9 +310,7 @@ class TestValidateRepository:
             {"name": "feature", "color": "a2eeef", "description": "New feature"},
         ]
 
-        with patch.object(
-            validator, "_get_repo_labels", return_value=existing_labels
-        ):
+        with patch.object(validator, "_get_repo_labels", return_value=existing_labels):
             success, missing, mismatched = validator.validate_repository("owner/repo")
 
         assert success is True
@@ -317,9 +323,7 @@ class TestValidateRepository:
             {"name": "bug", "color": "d73a4a", "description": "Bug report"},
         ]
 
-        with patch.object(
-            validator, "_get_repo_labels", return_value=existing_labels
-        ):
+        with patch.object(validator, "_get_repo_labels", return_value=existing_labels):
             success, missing, mismatched = validator.validate_repository("owner/repo")
 
         assert success is False
@@ -333,9 +337,7 @@ class TestValidateRepository:
             {"name": "feature", "color": "a2eeef", "description": "New feature"},
         ]
 
-        with patch.object(
-            validator, "_get_repo_labels", return_value=existing_labels
-        ):
+        with patch.object(validator, "_get_repo_labels", return_value=existing_labels):
             success, missing, mismatched = validator.validate_repository("owner/repo")
 
         assert success is False
@@ -459,7 +461,9 @@ class TestValidateAll:
     def test_returns_false_when_any_fails(self, validator):
         """Test returns False when any repository fails validation."""
         with patch.object(
-            validator, "validate_repository", return_value=(False, [{"name": "bug"}], [])
+            validator,
+            "validate_repository",
+            return_value=(False, [{"name": "bug"}], []),
         ):
             result = validator.validate_all()
 

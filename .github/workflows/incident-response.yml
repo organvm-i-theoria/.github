@@ -5,11 +5,13 @@ on:
     types: [completed]
     workflows:
     - CI
-    - deploy
-    - release
-    - security
-    - Build
-    - Test
+    - Deploy to Production
+    - Live Demo Deployment
+    - Release Management
+    - Semantic Release
+    - CodeQL
+    - Security Scan
+    - Test Coverage
     # Trigger on critical workflow failures only
     # Note: Additional filtering by conclusion is done in job conditions
 
@@ -69,7 +71,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
 
     - name: Detect incident trigger
       id: detect
@@ -148,7 +150,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
 
     - name: Execute runbook
       id: runbook

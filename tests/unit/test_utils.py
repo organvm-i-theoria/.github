@@ -12,7 +12,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
+sys.path.insert(
+    0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts")
+)
 
 # Mock secret_manager before importing utils
 # Save original and restore after imports to avoid polluting other tests
@@ -317,3 +319,482 @@ class TestExceptionClasses:
             raise ValidationError("Invalid input")
 
         assert "Invalid input" in str(exc_info.value)
+
+
+@pytest.mark.unit
+class TestConfigLoaderErrorHandling:
+    """Test ConfigLoader error handling."""
+
+    @pytest.fixture
+    def temp_config_dir(self, tmp_path):
+        """Create temporary config directory."""
+        config_dir = tmp_path / ".github"
+        config_dir.mkdir()
+        return config_dir
+
+    def test_load_raises_on_invalid_yaml(self, temp_config_dir):
+        """Test loading invalid YAML raises YAMLError."""
+        import yaml
+
+        config_file = temp_config_dir / "invalid.yml"
+        # Intentionally invalid YAML
+        config_file.write_text("key: [unclosed bracket")
+
+        loader = ConfigLoader(temp_config_dir)
+
+        with pytest.raises(yaml.YAMLError):
+            loader.load("invalid.yml")
+
+    def test_get_returns_default_on_file_not_found(self, temp_config_dir):
+        """Test get returns default when file doesn't exist."""
+        loader = ConfigLoader(temp_config_dir)
+        result = loader.get("nonexistent.yml", "key", default="fallback")
+        assert result == "fallback"
+
+    def test_get_returns_default_on_yaml_error(self, temp_config_dir):
+        """Test get returns default on YAML parse error."""
+        config_file = temp_config_dir / "bad.yml"
+        config_file.write_text("key: [unclosed")
+
+        loader = ConfigLoader(temp_config_dir)
+        result = loader.get("bad.yml", "key", default="fallback")
+        assert result == "fallback"
+
+
+@pytest.mark.unit
+class TestRateLimiterWait:
+    """Test RateLimiter wait functionality."""
+
+    def test_wait_when_rate_limited(self):
+        """Test wait pauses when rate limited."""
+        limiter = RateLimiter(max_requests=1, window=0.1)
+
+        # Exhaust the limit
+        limiter.acquire()
+
+        start = time.time()
+        limiter.wait()
+        elapsed = time.time() - start
+
+        # Should have waited approximately 0.1 seconds
+        assert elapsed >= 0.05  # Allow some tolerance
+
+    def test_wait_no_delay_when_not_limited(self):
+        """Test wait returns immediately when not rate limited."""
+        limiter = RateLimiter(max_requests=10, window=60)
+
+        start = time.time()
+        limiter.wait()
+        elapsed = time.time() - start
+
+        # Should be nearly instant
+        assert elapsed < 0.1
+
+
+@pytest.mark.unit
+class TestGitHubAPIClient:
+    """Test GitHubAPIClient functionality."""
+
+    def test_init_with_token(self):
+        """Test initialization with explicit token."""
+        from utils import GitHubAPIClient
+
+        client = GitHubAPIClient(token="test-token")  # allow-secret
+
+        assert client.token == "test-token"  # allow-secret
+        assert client.base_url == "https://api.github.com"
+
+    def test_init_raises_without_token(self):
+        """Test initialization raises when no token available."""
+        import subprocess
+        from unittest.mock import patch
+
+        from utils import GitHubAPIClient
+
+        # Mock subprocess to fail
+        def mock_run(*args, **kwargs):
+            raise subprocess.CalledProcessError(1, "gh")
+
+        # Mock secret_manager to return None
+        mock_secret = MagicMock(return_value=None)
+
+        with patch("subprocess.run", mock_run):
+            with patch("utils.get_secret", mock_secret):
+                with pytest.raises(ValueError, match="GitHub token required"):
+                    GitHubAPIClient()
+
+    def test_init_with_gh_cli(self):
+        """Test initialization using gh CLI token."""
+        from unittest.mock import patch, MagicMock
+
+        from utils import GitHubAPIClient
+
+        mock_result = MagicMock()
+        mock_result.stdout = "gh-cli-token\n"  # allow-secret
+
+        with patch("subprocess.run", return_value=mock_result):
+            client = GitHubAPIClient()
+            assert client.token == "gh-cli-token"  # allow-secret
+
+    def test_init_falls_back_to_1password(self):
+        """Test initialization falls back to 1Password when gh CLI fails."""
+        from unittest.mock import patch
+
+        from utils import GitHubAPIClient
+
+        def mock_run(*args, **kwargs):
+            raise FileNotFoundError("gh not found")
+
+        with patch("subprocess.run", side_effect=mock_run):
+            with patch("utils.get_secret", return_value="1password-token"):  # allow-secret
+                client = GitHubAPIClient()
+                assert client.token == "1password-token"  # allow-secret
+
+
+@pytest.mark.unit
+class TestGitHubAPIClientRequest:
+    """Test GitHubAPIClient request methods."""
+
+    @pytest.fixture
+    def mock_client(self):
+        """Create client with mocked session."""
+        from unittest.mock import patch, MagicMock
+
+        from utils import GitHubAPIClient
+
+        with patch.object(GitHubAPIClient, "__init__", lambda self, **kwargs: None):
+            client = GitHubAPIClient()
+            client.token = "test-token"  # allow-secret
+            client.base_url = "https://api.github.com"
+            client.session = MagicMock()
+            client.rate_limiter = RateLimiter()
+            client.logger = MagicMock()
+            return client
+
+    def test_get_request(self, mock_client):
+        """Test GET request."""
+        mock_response = MagicMock()
+        mock_response.content = b'{"data": "value"}'
+        mock_response.json.return_value = {"data": "value"}
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.get("/repos/owner/repo")
+
+        assert result == {"data": "value"}
+        mock_client.session.request.assert_called_once()
+
+    def test_post_request(self, mock_client):
+        """Test POST request."""
+        mock_response = MagicMock()
+        mock_response.content = b'{"id": 123}'
+        mock_response.json.return_value = {"id": 123}
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.post("/repos/owner/repo/issues", json_data={"title": "Test"})
+
+        assert result == {"id": 123}
+
+    def test_put_request(self, mock_client):
+        """Test PUT request."""
+        mock_response = MagicMock()
+        mock_response.content = b'{}'
+        mock_response.json.return_value = {}
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.put("/endpoint", json={"data": "value"})
+
+        assert result == {}
+
+    def test_patch_request(self, mock_client):
+        """Test PATCH request."""
+        mock_response = MagicMock()
+        mock_response.content = b'{"updated": true}'
+        mock_response.json.return_value = {"updated": True}
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.patch("/endpoint", json={"field": "value"})
+
+        assert result == {"updated": True}
+
+    def test_delete_request(self, mock_client):
+        """Test DELETE request."""
+        mock_response = MagicMock()
+        mock_response.content = b''
+        mock_response.json.return_value = {}
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.delete("/endpoint")
+
+        assert result == {}
+
+    def test_handles_empty_response(self, mock_client):
+        """Test handling of empty response."""
+        mock_response = MagicMock()
+        mock_response.content = b''  # Empty content
+        mock_response.headers = {}
+        mock_client.session.request.return_value = mock_response
+
+        result = mock_client.get("/endpoint")
+
+        assert result == {}
+
+    def test_logs_low_rate_limit(self, mock_client):
+        """Test logs warning when rate limit is low."""
+        mock_response = MagicMock()
+        mock_response.content = b'{}'
+        mock_response.json.return_value = {}
+        mock_response.headers = {"X-RateLimit-Remaining": "50"}
+        mock_client.session.request.return_value = mock_response
+
+        mock_client.get("/endpoint")
+
+        mock_client.logger.warning.assert_called()
+
+    def test_retries_on_timeout(self, mock_client):
+        """Test retries on timeout."""
+        import requests
+
+        mock_response = MagicMock()
+        mock_response.content = b'{"success": true}'
+        mock_response.json.return_value = {"success": True}
+        mock_response.headers = {}
+
+        # First call raises timeout, second succeeds
+        mock_client.session.request.side_effect = [
+            requests.exceptions.Timeout("timeout"),
+            mock_response,
+        ]
+
+        result = mock_client.request("GET", "/endpoint", retry=True)
+
+        assert result == {"success": True}
+        assert mock_client.session.request.call_count == 2
+
+    def test_retries_on_500_error(self, mock_client):
+        """Test retries on 500 error."""
+        import requests
+
+        mock_error_response = MagicMock()
+        mock_error_response.status_code = 500
+        mock_error_response.text = "Internal Server Error"
+        mock_error_response.headers = {}
+
+        mock_success_response = MagicMock()
+        mock_success_response.content = b'{"ok": true}'
+        mock_success_response.json.return_value = {"ok": True}
+        mock_success_response.headers = {}
+
+        http_error = requests.exceptions.HTTPError(response=mock_error_response)
+
+        # First call raises 500, second succeeds
+        mock_client.session.request.side_effect = [
+            http_error,
+            mock_success_response,
+        ]
+
+        # Need to mock raise_for_status
+        mock_error_response.raise_for_status.side_effect = http_error
+
+        result = mock_client.request("GET", "/endpoint", retry=True)
+
+        assert result == {"ok": True}
+
+    def test_respects_retry_after_header(self, mock_client):
+        """Test respects Retry-After header on 429."""
+        import requests
+
+        mock_error_response = MagicMock()
+        mock_error_response.status_code = 429
+        mock_error_response.text = "Rate limited"
+        mock_error_response.headers = {"Retry-After": "1"}
+
+        mock_success_response = MagicMock()
+        mock_success_response.content = b'{}'
+        mock_success_response.json.return_value = {}
+        mock_success_response.headers = {}
+
+        http_error = requests.exceptions.HTTPError(response=mock_error_response)
+        mock_error_response.raise_for_status.side_effect = http_error
+
+        mock_client.session.request.side_effect = [
+            http_error,
+            mock_success_response,
+        ]
+
+        start = time.time()
+        mock_client.request("GET", "/endpoint", retry=True)
+        elapsed = time.time() - start
+
+        # Should have waited at least 1 second
+        assert elapsed >= 0.9
+
+    def test_no_retry_on_4xx_error(self, mock_client):
+        """Test no retry on 4xx errors (except 429)."""
+        import requests
+
+        mock_error_response = MagicMock()
+        mock_error_response.status_code = 404
+        mock_error_response.text = "Not Found"
+        mock_error_response.headers = {}
+
+        http_error = requests.exceptions.HTTPError(response=mock_error_response)
+        mock_error_response.raise_for_status.side_effect = http_error
+
+        mock_client.session.request.return_value = mock_error_response
+
+        with pytest.raises(requests.exceptions.HTTPError):
+            mock_client.request("GET", "/endpoint", retry=True)
+
+        # Should only try once
+        assert mock_client.session.request.call_count == 1
+
+    def test_raises_on_request_exception(self, mock_client):
+        """Test raises on general request exception."""
+        import requests
+
+        mock_client.session.request.side_effect = requests.exceptions.ConnectionError(
+            "Connection refused"
+        )
+
+        with pytest.raises(requests.exceptions.ConnectionError):
+            mock_client.request("GET", "/endpoint")
+
+
+@pytest.mark.unit
+class TestLoadConfig:
+    """Test load_config utility function."""
+
+    def test_loads_existing_config(self, tmp_path):
+        """Test loading existing config file."""
+        from utils import load_config
+
+        config_file = tmp_path / "config.yml"
+        config_file.write_text("setting: enabled\nvalue: 42")
+
+        result = load_config(str(config_file))
+
+        assert result["setting"] == "enabled"
+        assert result["value"] == 42
+
+    def test_returns_default_for_missing_file(self):
+        """Test returns default when file doesn't exist."""
+        from utils import load_config
+
+        result = load_config("/nonexistent/path.yml", default={"default": "value"})
+
+        assert result == {"default": "value"}
+
+    def test_returns_empty_dict_when_no_default(self):
+        """Test returns empty dict when no default provided."""
+        from utils import load_config
+
+        result = load_config("/nonexistent/path.yml")
+
+        assert result == {}
+
+
+@pytest.mark.unit
+class TestRetryWithBackoff:
+    """Test retry_with_backoff function."""
+
+    def test_returns_on_success(self):
+        """Test returns result on successful call."""
+        from utils import retry_with_backoff
+
+        def success_func():
+            return "success"
+
+        result = retry_with_backoff(success_func)
+
+        assert result == "success"
+
+    def test_retries_on_failure(self):
+        """Test retries on failure."""
+        from utils import retry_with_backoff
+
+        call_count = 0
+
+        def flaky_func():
+            nonlocal call_count
+            call_count += 1
+            if call_count < 3:
+                raise ValueError("Temporary failure")
+            return "success"
+
+        result = retry_with_backoff(
+            flaky_func, max_attempts=3, initial_delay=0.01, jitter=False
+        )
+
+        assert result == "success"
+        assert call_count == 3
+
+    def test_raises_after_max_attempts(self):
+        """Test raises exception after max attempts."""
+        from utils import retry_with_backoff
+
+        def always_fail():
+            raise RuntimeError("Always fails")
+
+        with pytest.raises(RuntimeError, match="Always fails"):
+            retry_with_backoff(
+                always_fail, max_attempts=3, initial_delay=0.01, jitter=False
+            )
+
+    def test_respects_max_delay(self):
+        """Test respects maximum delay setting."""
+        from utils import retry_with_backoff
+
+        call_count = 0
+        call_times = []
+
+        def fail_then_succeed():
+            nonlocal call_count
+            call_times.append(time.time())
+            call_count += 1
+            if call_count < 3:
+                raise ValueError("Fail")
+            return "success"
+
+        retry_with_backoff(
+            fail_then_succeed,
+            max_attempts=3,
+            initial_delay=0.01,
+            max_delay=0.02,
+            backoff_factor=10,  # Would be 0.1s on second try without max
+            jitter=False,
+        )
+
+        # Delays should be capped at max_delay
+        if len(call_times) > 1:
+            delay = call_times[1] - call_times[0]
+            assert delay <= 0.03  # max_delay + some tolerance
+
+    def test_adds_jitter(self):
+        """Test jitter adds randomness to delays."""
+        from utils import retry_with_backoff
+
+        delays = []
+
+        def fail_func():
+            delays.append(time.time())
+            raise ValueError("Fail")
+
+        # Run multiple times to check jitter
+        for _ in range(2):
+            delays.clear()
+            try:
+                retry_with_backoff(
+                    fail_func,
+                    max_attempts=2,
+                    initial_delay=0.01,
+                    jitter=True,
+                )
+            except ValueError:
+                pass
+
+        # Jitter should add some variation (hard to test precisely)

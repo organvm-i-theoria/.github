@@ -1,9 +1,9 @@
-# {{ORG_DISPLAY_NAME}} Organization Hub
+# ivviiviivvi Organization Hub
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](VERSION)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
-[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-129%20workflows-blue?logo=github-actions)](https://github.com/{{ORG_NAME}}/.github/actions)
-[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)](https://github.com/{{ORG_NAME}}/.github)
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-129%20workflows-blue?logo=github-actions)](https://github.com/ivviiviivvi/.github/actions)
+[![Security Scanning](https://img.shields.io/badge/security-bandit%20%7C%20gitleaks-green?logo=security)](https://github.com/ivviiviivvi/.github)
 [![Documentation](https://img.shields.io/badge/docs-comprehensive-blue?logo=markdown)](docs/INDEX.md)
 
 > **AI-Driven Development Infrastructure for the Modern Organization**
@@ -55,16 +55,16 @@ ______________________________________________________________________
    [Development Environment Setup](docs/DEVELOPMENT_ENVIRONMENT_SETUP.md)
 1. **Clone and explore:**
    ```bash
-   git clone https://github.com/{{ORG_NAME}}/.github.git
+   git clone https://github.com/ivviiviivvi/.github.git
    cd .github
    pip install -e ".[dev]"
    pre-commit install
    ```
 1. **Find issues:**
-   [Good first issues](https://github.com/{{ORG_NAME}}/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+   [Good first issues](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 **Need help?** Check [SUPPORT.md](SUPPORT.md) or
-[start a discussion](https://github.com/orgs/{{ORG_NAME}}/discussions).
+[start a discussion](https://github.com/orgs/ivviiviivvi/discussions).
 
 ______________________________________________________________________
 
@@ -203,7 +203,7 @@ ______________________________________________________________________
 ## GitHub Projects
 
 **Organization Projects** at
-[github.com/orgs/{{ORG_NAME}}/projects](https://github.com/orgs/{{ORG_NAME}}/projects):
+[github.com/orgs/ivviiviivvi/projects](https://github.com/orgs/ivviiviivvi/projects):
 
 - AI Framework Development
 - Documentation & Knowledge
@@ -255,8 +255,8 @@ ______________________________________________________________________
 
 **DO NOT create a public issue.** Follow our [Security Policy](SECURITY.md):
 
-- Email: security@{{ORG_NAME}}.com
-- [GitHub Security Advisory](https://github.com/{{ORG_NAME}}/.github/security/advisories/new)
+- Email: security@ivviiviivvi.com
+- [GitHub Security Advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)
 
 **Response Timeline:**
 
@@ -283,9 +283,9 @@ ______________________________________________________________________
 ## Community
 
 - **Questions:**
-  [GitHub Discussions](https://github.com/{{ORG_NAME}}/.github/discussions)
+  [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)
 - **Issues:**
-  [Issue Tracker](https://github.com/{{ORG_NAME}}/.github/issues)
+  [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)
 - **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ______________________________________________________________________
@@ -298,10 +298,10 @@ ______________________________________________________________________
 
 ## Contact
 
-- **General:** info@{{ORG_NAME}}.com
-- **Security:** security@{{ORG_NAME}}.com
-- **Support:** support@{{ORG_NAME}}.com
+- **General:** info@ivviiviivvi.com
+- **Security:** security@ivviiviivvi.com
+- **Support:** support@ivviiviivvi.com
 
 ______________________________________________________________________
 
-**Maintained by:** @{{ORG_NAME}}/leadership
+**Maintained by:** @ivviiviivvi/leadership

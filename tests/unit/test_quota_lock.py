@@ -14,6 +14,7 @@ from quota_manager import LOCK_DIR, LOCK_FILE, SUBSCRIPTIONS_FILE, acquire_lock
 
 try:
     import fcntl  # noqa: F401
+
     HAS_FCNTL = True
 except ImportError:
     HAS_FCNTL = False
@@ -92,7 +93,6 @@ class TestQuotaLock(unittest.TestCase):
         locked_event.wait(timeout=1)
 
         # Try to acquire lock with short timeout - should fail
-        start_time = time.time()
         try:
             with acquire_lock(timeout=0.1):
                 self.fail("Should not have acquired lock")
@@ -108,6 +108,7 @@ class TestQuotaLock(unittest.TestCase):
         """Test that reset_quotas correctly resets usage based on cadence."""
         from datetime import datetime, timedelta
         from unittest.mock import mock_open, patch
+
         from quota_manager import reset_quotas
 
         today = datetime.now().strftime("%Y-%m-%d")
@@ -121,15 +122,15 @@ class TestQuotaLock(unittest.TestCase):
                     "usage": 10,
                     "limit": 100,
                     "reset_cadence": "daily",
-                    "last_reset": yesterday
+                    "last_reset": yesterday,
                 },
                 {
                     "name": "monthly-sub",
                     "usage": 50,
                     "limit": 1000,
                     "reset_cadence": "monthly",
-                    "last_reset": today # Already reset today
-                }
+                    "last_reset": today,  # Already reset today
+                },
             ]
         }
 
@@ -147,6 +148,7 @@ class TestQuotaLock(unittest.TestCase):
 
                 # We can't easily verify the content with simple mock_open without more complex setup
                 # but the fact it reached "w" means it processed the logic.
+
 
 if __name__ == "__main__":
     unittest.main()

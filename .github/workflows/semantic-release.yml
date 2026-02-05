@@ -32,13 +32,13 @@ jobs:
     timeout-minutes: 20
     steps:
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
         persist-credentials: false
 
     - name: Setup Node.js
-      uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  # ratchet:actions/setup-node@v4.1.0
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # ratchet:actions/setup-node@v4
       with:
         node-version: lts/*
         cache: npm
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
         persist-credentials: false
@@ -100,17 +100,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Setup Go
-      uses: actions/setup-go@0aeba01b1cf16c1c08fb268abf23dd80e5fb0aea  # ratchet:actions/setup-go@v5
+      uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff  # ratchet:actions/setup-go@v5
       with:
         go-version: stable
 
     - name: Run GoReleaser
-      uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b  # ratchet:goreleaser/goreleaser-action@v5
+      uses: goreleaser/goreleaser-action@5742e2a039330cbb23ebf35f046f814d4c6ff811  # ratchet:goreleaser/goreleaser-action@v5
       with:
         version: latest
         args: release --clean
@@ -125,10 +125,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81  # ratchet:docker/metadata-action@v5.5.1
+      uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051  # ratchet:docker/metadata-action@v5
       with:
         images: |
           ghcr.io/${{ github.repository }}
@@ -140,16 +140,16 @@ jobs:
           type=sha
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # ratchet:docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f  # ratchet:docker/setup-buildx-action@v3
     - name: Login to GHCR
-      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # ratchet:docker/login-action@v3
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # ratchet:docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push
-      uses: docker/build-push-action@1ca370b3a9802c92e886402e0dd88098a2533b12  # ratchet:docker/build-push-action@v5
+      uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83  # ratchet:docker/build-push-action@v6
       with:
         context: .
         push: true
@@ -168,7 +168,7 @@ jobs:
         trivy image --format sarif --output trivy-results.sarif --severity CRITICAL,HIGH "$IMAGE_TAG" || true
 
     - name: Upload Trivy scan results
-      uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882  # ratchet:actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: trivy-container-scan
         path: trivy-results.sarif

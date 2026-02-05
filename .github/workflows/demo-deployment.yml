@@ -57,7 +57,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -340,7 +340,7 @@ jobs:
 
     - name: Create pull request
       if: steps.register.outputs.deployment_status == 'success'
-      uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f  # ratchet:peter-evans/create-pull-request@v5
+      uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c  # ratchet:peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit-message: 'feat: add live demo badge to README (SIMULATION)'

@@ -92,13 +92,13 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Get PR details
       id: pr-details
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const pr = context.payload.pull_request;
@@ -116,7 +116,7 @@ jobs:
 
     - name: Get changed files
       id: changed-files
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -136,7 +136,7 @@ jobs:
     - name: Validate CODEOWNERS
       id: codeowners-check
       if: inputs.validate-codeowners
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const fs = require('fs');
@@ -231,7 +231,7 @@ jobs:
 
     - name: Get current review status
       id: review-status
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -288,7 +288,7 @@ jobs:
     - name: Request team reviews
       id: request-team-reviews
       if: inputs.team-reviewers != ''
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -315,7 +315,7 @@ jobs:
     - name: Check for CODEOWNER review
       id: codeowner-review
       if: inputs.require-codeowner-review && steps.codeowners-check.outputs.exists == 'true'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -355,7 +355,7 @@ jobs:
     - name: Auto-approve eligible PRs
       id: auto-approve
       if: inputs.auto-approve-dependabot || inputs.auto-approve-patterns != ''
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -418,7 +418,7 @@ jobs:
     - name: Flag stale reviews
       id: stale-reviews
       if: inputs.dismiss-stale-reviews && github.event.action == 'synchronize'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -477,7 +477,7 @@ jobs:
     - name: Process review suggestions
       id: suggestions
       if: inputs.implement-suggestions && github.event.action == 'submitted'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const prNumber = ${{ steps.pr-details.outputs.number }};
@@ -518,7 +518,7 @@ jobs:
 
     - name: Post review summary
       if: always()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const status = '${{ steps.review-status.outputs.status }}';

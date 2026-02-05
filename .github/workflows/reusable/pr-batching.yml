@@ -105,7 +105,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # ratchet:actions/checkout@v4.2.2
+      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
         token: ${{ secrets.github-token || secrets.GITHUB_TOKEN }}
@@ -118,7 +118,7 @@ jobs:
     - name: List PR queue
       id: list-queue
       if: inputs.operation == 'list-queue' || inputs.operation == 'create-batch'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const batchLabel = '${{ inputs.batch-label }}';
@@ -239,7 +239,7 @@ jobs:
     - name: Create batch branch
       id: create-batch
       if: inputs.operation == 'create-batch'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const baseBranch = '${{ inputs.base-branch }}';
@@ -361,7 +361,7 @@ jobs:
     - name: Create batch PR
       id: create-batch-pr
       if: inputs.operation == 'create-batch' && steps.create-batch.outputs.branch != ''
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const batchBranch = '${{ steps.create-batch.outputs.branch }}';
@@ -415,7 +415,7 @@ jobs:
     - name: Merge batch
       id: merge-batch
       if: inputs.operation == 'merge-batch'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const mergeMethod = '${{ inputs.merge-method }}';
@@ -523,7 +523,7 @@ jobs:
     - name: Add PR to queue
       id: add-to-queue
       if: inputs.operation == 'add-to-queue'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const batchLabel = '${{ inputs.batch-label }}';
@@ -551,7 +551,7 @@ jobs:
     - name: Remove PR from queue
       id: remove-from-queue
       if: inputs.operation == 'remove-from-queue'
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const batchLabel = '${{ inputs.batch-label }}';
@@ -578,7 +578,7 @@ jobs:
 
     - name: Post operation summary
       if: always()
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # ratchet:actions/github-script@v7.0.1
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b  # ratchet:actions/github-script@v7
       with:
         script: |
           const operation = '${{ inputs.operation }}';
