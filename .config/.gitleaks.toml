@@ -54,7 +54,7 @@ title = "Gitleaks Configuration for ivviiviivvi/.github"
   id = "aws-access-key"
   regex = '''AKIA[0-9A-Z]{16}'''
   tags = ["key", "AWS"]
-  [[rules.allowlist]]
+  [rules.allowlist]
     description = "Documentation examples"
     regexes = ['''AKIA\.\.\.''']
     paths = ['''docs/.*''', '''README\.md''', '''agents/.*''']
@@ -64,7 +64,7 @@ title = "Gitleaks Configuration for ivviiviivvi/.github"
   id = "github-pat"
   regex = '''ghp_[a-zA-Z0-9]{36}'''
   tags = ["key", "GitHub"]
-  [[rules.allowlist]]
+  [rules.allowlist]
     description = "Documentation examples"
     regexes = ['''ghp_xxx''', '''ghp_example''']
     paths = ['''docs/.*''', '''README\.md''', '''scripts/.*''']
@@ -74,7 +74,7 @@ title = "Gitleaks Configuration for ivviiviivvi/.github"
   id = "generic-api-key"
   regex = '''(?i)(api[_-]?key|apikey)["\s:=]+['"']?([a-zA-Z0-9_\-]{20,})['"']?'''
   tags = ["key", "API"]
-  [[rules.allowlist]]
+  [rules.allowlist]
     description = "Workflow and documentation references"
     paths = [
       '''\.github/workflows/.*''',
@@ -87,6 +87,6 @@ title = "Gitleaks Configuration for ivviiviivvi/.github"
   id = "private-key"
   regex = '''-----BEGIN (RSA|DSA|EC|OPENSSH|PGP) PRIVATE KEY-----'''
   tags = ["key", "private"]
-  [[rules.allowlist]]
+  [rules.allowlist]
     description = "Pattern definitions"
     paths = ['''\.github/workflows/.*''', '''agents/.*''']
