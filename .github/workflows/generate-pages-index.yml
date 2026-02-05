@@ -331,10 +331,12 @@ jobs:
 
     - name: Trigger Pages build
       if: steps.changes.outputs.has_changes == 'true'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Trigger build-pages-site workflow
         gh workflow run build-pages-site.yml \
-          --ref ${{ github.ref_name }}
+          --ref ${{ github.ref_name }} || echo "Pages build trigger failed"
 
         echo "✅ Pages build triggered"
 

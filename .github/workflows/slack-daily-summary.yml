@@ -74,6 +74,7 @@ jobs:
           core.setOutput('date', startDate);
 
     - name: Send daily summary to Slack
+      if: ${{ secrets.SLACK_WEBHOOK_METRICS != '' }}
       shell: bash
       run: |
         WORKFLOW_DATA='${{ steps.metrics.outputs.by-workflow }}'
@@ -94,7 +95,7 @@ jobs:
         # Build workflow breakdown
         WORKFLOW_BREAKDOWN=$(echo "$WORKFLOW_DATA" | jq -r 'to_entries | map("*" + .key + ":* " + (.value.successful|tostring) + "/" + (.value.total|tostring) + " (" + (if .value.total > 0 then ((.value.successful / .value.total * 100)|tostring|split(".")[0]) else "0" end) + "%)") | join("\n")')
 
-        curl -X POST "${{ secrets.SLACK_WEBHOOK_METRICS }}" \
+        if ! curl -sf -X POST "${{ secrets.SLACK_WEBHOOK_METRICS }}" \
           -H 'Content-Type: application/json' \
           -d "{
             \"blocks\": [
@@ -148,4 +149,6 @@ jobs:
                 ]
               }
             ]
-          }"
+          }"; then
+          echo "::warning::Slack notification failed - check SLACK_WEBHOOK_METRICS secret"
+        fi

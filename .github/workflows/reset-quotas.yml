@@ -29,7 +29,21 @@ jobs:
     - name: Reset quotas
       run: python src/automation/scripts/quota_manager.py reset_quotas
 
-    - name: Commit state changes
+    - name: Commit state changes via PR
       if: always()
-      run: >
-        ./src/automation/scripts/commit_changes.sh "chore: reset quotas"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+        BRANCH_NAME="auto/reset-quotas-$(date +%Y%m%d)"
+        git checkout -b "$BRANCH_NAME"
+
+        git add .github/subscriptions.json .github/task_queue.json || true
+
+        if ! git diff --staged --quiet; then
+          git commit -m "chore: reset quotas"
+          git push origin "$BRANCH_NAME"
+          gh pr create --title "chore: reset quotas" --body "Automated quota reset" --base main --head "$BRANCH_NAME" || echo "PR may already exist"
+        fi
