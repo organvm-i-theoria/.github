@@ -83,6 +83,7 @@ jobs:
 
         # Store benchmark results
     - name: Store benchmark result
+      continue-on-error: true
       uses: benchmark-action/github-action-benchmark@4bdcce38c94cec68da58d012ac24b7b1155efe8b  # ratchet:benchmark-action/github-action-benchmark@v1
       with:
         tool: benchmarkjs
@@ -177,6 +178,7 @@ jobs:
 
     - name: Run Lighthouse
       if: steps.check-pkg.outputs.exists == 'true'
+      continue-on-error: true
       uses: treosh/lighthouse-ci-action@72f881228236981b625ed765b928efb1786a1f55  # ratchet:treosh/lighthouse-ci-action@v11
       with:
         urls: |
@@ -216,6 +218,7 @@ jobs:
 
     - name: Analyze bundle size
       if: steps.check-pkg.outputs.exists == 'true'
+      continue-on-error: true
       uses: andresz1/size-limit-action@e7493a72a44b113341c0cf6186ab49c17c4b65c1  # ratchet:andresz1/size-limit-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

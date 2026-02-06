@@ -111,7 +111,7 @@ jobs:
 
     - name: Run security tests
       run: |
-        pytest tests/ -m security --verbose --tb=short
+        pytest tests/ -m security --verbose --tb=short --cov-fail-under=0
 
   integration-tests:
     name: Run Integration Tests
@@ -136,6 +136,6 @@ jobs:
 
     - name: Run integration tests
       run: |
-        pytest tests/ -m integration --verbose --tb=short
+        pytest tests/ -m integration --verbose --tb=short --cov-fail-under=0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

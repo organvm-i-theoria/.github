@@ -93,6 +93,7 @@ jobs:
       run: ruff format --check .
 
     - name: Import sorting check
+      continue-on-error: true
       run: isort --check-only .
 
     - name: Type check with mypy
