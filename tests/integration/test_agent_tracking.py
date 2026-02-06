@@ -24,7 +24,7 @@ class TestJulesJournalFormat:
 
     JULES_DIR = Path(".jules")
     JOURNAL_FILES = ["bolt.md", "palette.md", "sentinel.md"]
-    ENTRY_PATTERN = re.compile(r"^##\s+(\d{4}-\d{2}-\d{2})\s+-\s+\[(.+?)\]\s*$", re.MULTILINE)
+    ENTRY_PATTERN = re.compile(r"^##\s+(\d{4}-\d{2}-\d{2})\s+-\s+\\?\[(.+?)\\?\]\s*$", re.MULTILINE)
 
     def test_jules_directory_exists(self):
         """Verify .jules/ directory exists."""
@@ -92,7 +92,7 @@ class TestJulesJournalFormat:
 
             # Split by entry headers
             entries = re.split(
-                r"^##\s+\d{4}-\d{2}-\d{2}\s+-\s+\[.+?\]\s*$",
+                r"^##\s+\d{4}-\d{2}-\d{2}\s+-\s+\\?\[.+?\\?\]\s*$",
                 content,
                 flags=re.MULTILINE,
             )
@@ -275,22 +275,22 @@ class TestAgentMetadata:
 class TestMouthpieceFilter:
     """Test Mouthpiece Filter system integrity."""
 
-    SCRIPT_PATH = Path("src/automation/scripts/mouthpiece_filter.py")
+    SCRIPT_PATH = Path("src/automation/scripts/natural_language_prompt_filter.py")
 
     def test_mouthpiece_script_exists(self):
-        """Verify mouthpiece_filter.py exists."""
-        assert self.SCRIPT_PATH.exists(), "mouthpiece_filter.py not found"
+        """Verify natural_language_prompt_filter.py exists."""
+        assert self.SCRIPT_PATH.exists(), "natural_language_prompt_filter.py not found"
 
     def test_has_proper_shebang(self):
         """Verify script has proper shebang."""
         content = self.SCRIPT_PATH.read_text()
-        assert content.startswith("#!/usr/bin/env python3"), "mouthpiece_filter.py missing proper shebang"
+        assert content.startswith("#!/usr/bin/env python3"), "natural_language_prompt_filter.py missing proper shebang"
 
     def test_has_docstring(self):
         """Verify script has module-level docstring."""
         content = self.SCRIPT_PATH.read_text()
         # Check for triple-quoted docstring near the top
-        assert '"""' in content[:500], "mouthpiece_filter.py missing module docstring"
+        assert '"""' in content[:500], "natural_language_prompt_filter.py missing module docstring"
 
     def test_regex_precompilation(self):
         """Verify regex patterns are pre-compiled (Bolt's learning)."""
