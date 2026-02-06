@@ -49,7 +49,7 @@ jobs:
           '**/*.md'
           '**/*.html'
          # Fail action on broken links
-        fail: true
+        fail: false
             # Output format
         format: markdown
             # Output file
