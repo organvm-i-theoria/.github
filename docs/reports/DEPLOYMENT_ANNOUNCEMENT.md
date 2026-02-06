@@ -345,10 +345,8 @@ ______________________________________________________________________
 **Approved by**: @4444JPP\
 **Date**:
 2025-12-22\
-**PR**:
-https://github.com/ivviiviivvi/.github/pull/[NUMBER]\
-**Organization**:
-ivviiviivvi
+**PR**: https://github.com/ivviiviivvi/.github/pull/%5BNUMBER%5D%5C
+**Organization**: ivviiviivvi
 
 ______________________________________________________________________
 
