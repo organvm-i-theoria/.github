@@ -672,9 +672,9 @@ ______________________________________________________________________
 
 - 📖 [Main Protocols](../architecture/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
 - 💬
-  [Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
+  [Discussions](https://github.com/%7B%7BORG_NAME%7D%7D/.github/discussions)<!-- link:github.discussions -->
 - 🐛
-  [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+  [Issues](https://github.com/%7B%7BORG_NAME%7D%7D/.github/issues)<!-- link:github.issues -->
 
 ______________________________________________________________________
 

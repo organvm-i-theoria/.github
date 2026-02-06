@@ -1,12 +1,12 @@
 <div align="center">
 
-# ivviiviivvi
+# {{ORG_NAME}}
 
 **AI-Driven Development Infrastructure for the Modern Organization**
 
-[Configuration Hub](https://github.com/ivviiviivvi/.github) |
-[Documentation](https://github.com/ivviiviivvi/.github/blob/main/docs/INDEX.md)
-| [Discussions](https://github.com/orgs/ivviiviivvi/discussions)
+[Configuration Hub](https://github.com/%7B%7BORG_NAME%7D%7D/.github) |
+[Documentation](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/docs/INDEX.md)
+| [Discussions](https://github.com/orgs/%7B%7BORG_NAME%7D%7D/discussions)
 
 </div>
 
@@ -15,10 +15,10 @@ ______________________________________________________________________
 We build open-source tooling that scales AI-assisted development across teams
 and repositories.
 
-|                   |                           |
-| :---------------: | :-----------------------: |
-| **143** Workflows |     **26** AI Agents      |
-| **85** Chatmodes  | **12** Reusable Templates |
+|                                  |                                                    |
+| :------------------------------: | :------------------------------------------------: |
+| **{{WORKFLOW_COUNT}}** Workflows |           **{{AGENT_COUNT}}** AI Agents            |
+| **{{CHATMODE_COUNT}}** Chatmodes | **{{REUSABLE_TEMPLATE_COUNT}}** Reusable Templates |
 
 ### What We Ship
 
@@ -31,5 +31,5 @@ and repositories.
 
 ______________________________________________________________________
 
-[![CI](https://img.shields.io/github/actions/workflow/status/ivviiviivvi/.github/ci.yml?style=flat-square&label=CI)](https://github.com/ivviiviivvi/.github/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/ivviiviivvi/.github?style=flat-square)](https://github.com/ivviiviivvi/.github/blob/main/LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/%7B%7BORG_NAME%7D%7D/.github/ci.yml?style=flat-square&label=CI)](https://github.com/%7B%7BORG_NAME%7D%7D/.github/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/%7B%7BORG_NAME%7D%7D/.github?style=flat-square)](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/LICENSE)
