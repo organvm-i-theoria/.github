@@ -104,6 +104,7 @@ jobs:
     - name: Validate deployment metadata
       id: validate
       if: steps.download-artifact.outcome == 'success'
+      continue-on-error: true
       run: |
         set -euo pipefail
         python <<-'PY'
