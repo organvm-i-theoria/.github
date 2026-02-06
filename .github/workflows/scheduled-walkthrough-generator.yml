@@ -1,7 +1,7 @@
 name: Scheduled Walkthrough Generator
 
-# Automatically generates application walkthroughs for organization repositories on a schedule
-# Discovers repos, generates videos, and creates PRs with results
+# Generates Gource git history visualizations for organization repositories on a schedule
+# Discovers repos, generates MP4 videos, and uploads as artifacts
 
 on:
   # Scheduled execution - runs weekly on Monday at 9 AM UTC
@@ -33,24 +33,13 @@ on:
         default: false
         type: boolean
 
-      voiceover_style:
-        description: Voiceover style for all walkthroughs
-        required: false
-        default: professional
-        type: choice
-        options:
-        - professional
-        - casual
-        - technical
-
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
-  issues: read
+  contents: read
+  issues: write
 
 jobs:
   # Job 1: Discover repositories that need walkthrough generation
@@ -65,12 +54,6 @@ jobs:
     steps:
     - name: Checkout configuration
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # ratchet:actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: npm
 
     - name: Discover organization repositories
       id: discover
@@ -182,9 +165,10 @@ jobs:
           FILTERED_REPOS="$CHANGED_REPOS"
         fi
 
-        # Output matrix
+        # Output matrix (compact JSON for GITHUB_OUTPUT compatibility)
         REPO_COUNT=$(echo "$FILTERED_REPOS" | jq 'length')
-        echo "repos=$FILTERED_REPOS" >> $GITHUB_OUTPUT
+        COMPACT_REPOS=$(echo "$FILTERED_REPOS" | jq -c '.')
+        echo "repos=$COMPACT_REPOS" >> $GITHUB_OUTPUT
         echo "count=$REPO_COUNT" >> $GITHUB_OUTPUT
 
         echo "Discovered $REPO_COUNT repositories for walkthrough generation"
@@ -203,7 +187,7 @@ jobs:
         echo '${{ steps.discover.outputs.repos }}' | jq '.' >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
 
-  # Job 2: Generate walkthroughs for discovered repositories
+  # Job 2: Generate Gource visualizations for discovered repositories
   generate-walkthroughs:
     name: Generate Walkthrough for ${{ matrix.repo.name }}
     runs-on: ubuntu-latest
@@ -222,166 +206,26 @@ jobs:
       with:
         repository: ${{ github.repository_owner }}/${{ matrix.repo.name }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        ref: main
+        fetch-depth: 0
 
-    - name: Check for walkthrough configuration
-      id: check-config
-      run: |
-        if [ -f "walkthrough-config.yml" ]; then
-          echo "config_exists=true" >> $GITHUB_OUTPUT
-          echo "Found walkthrough-config.yml in repository"
-        elif [ -f ".github/walkthrough-config.yml" ]; then
-          echo "config_exists=true" >> $GITHUB_OUTPUT
-          echo "Found .github/walkthrough-config.yml in repository"
-        else
-          echo "config_exists=false" >> $GITHUB_OUTPUT
-          echo "No walkthrough configuration found, will use defaults"
-        fi
-
-    - name: Setup environment
-      if: steps.check-config.outputs.config_exists == 'true' || github.event.inputs.force_regenerate == 'true'
-      run: |
-        echo "Setting up environment for ${{ matrix.repo.name }}"
-
-        # Install dependencies based on detected language
-        if [ -f "package.json" ]; then
-          echo "Node.js project detected"
-          npm install || true
-        elif [ -f "requirements.txt" ]; then
-          echo "Python project detected"
-          pip install -r requirements.txt || true
-        elif [ -f "Gemfile" ]; then
-          echo "Ruby project detected"
-          bundle install || true
-        fi
-
-    - name: Generate walkthrough video
-      id: generate
-      if: steps.check-config.outputs.config_exists == 'true' || github.event.inputs.force_regenerate == 'true'
-      env:
-        VOICEOVER_STYLE: ${{ github.event.inputs.voiceover_style || 'professional' }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo "Generating walkthrough for ${{ matrix.repo.name }}"
-
-        # Dispatch the generate-walkthrough workflow for this repo
-        if gh workflow run generate-walkthrough.yml \
-          --repo "${{ github.repository_owner }}/${{ matrix.repo.name }}" \
-          -f voiceover_style="$VOICEOVER_STYLE" \
-          -f output_format="mp4" 2>/dev/null; then
-
-          echo "Workflow dispatched, waiting for completion..."
-
-          # Wait for the workflow to start (give it time to register)
-          sleep 10
-
-          # Get the run ID of the dispatched workflow
-          RUN_ID=$(gh run list \
-            --repo "${{ github.repository_owner }}/${{ matrix.repo.name }}" \
-            --workflow=generate-walkthrough.yml \
-            --limit 1 \
-            --json databaseId \
-            -q '.[0].databaseId' 2>/dev/null || echo "")
-
-          if [ -n "$RUN_ID" ] && [ "$RUN_ID" != "null" ]; then
-            echo "Watching workflow run $RUN_ID..."
-
-            # Wait for completion with timeout
-            if timeout 1800 gh run watch "$RUN_ID" \
-              --repo "${{ github.repository_owner }}/${{ matrix.repo.name }}" \
-              --exit-status 2>/dev/null; then
-
-              # Download the walkthrough artifact
-              gh run download "$RUN_ID" \
-                --repo "${{ github.repository_owner }}/${{ matrix.repo.name }}" \
-                --pattern 'walkthrough-*' \
-                --dir ./walkthrough-output 2>/dev/null || true
-
-              VIDEO_PATH=$(find ./walkthrough-output -name '*.mp4' -type f | head -1)
-
-              if [ -n "$VIDEO_PATH" ]; then
-                echo "status=success" >> $GITHUB_OUTPUT
-                echo "video_path=$VIDEO_PATH" >> $GITHUB_OUTPUT
-                echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
-              else
-                echo "status=success" >> $GITHUB_OUTPUT
-                echo "video_path=walkthrough-video.mp4" >> $GITHUB_OUTPUT
-                echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
-              fi
-            else
-              echo "Workflow timed out or failed"
-              echo "status=failure" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "Could not get workflow run ID, using placeholder"
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "video_path=walkthrough-video.mp4" >> $GITHUB_OUTPUT
-          fi
-        else
-          # Fallback: workflow doesn't exist in target repo, use local generation
-          echo "generate-walkthrough.yml not found in target repo, using placeholder"
-          echo "Repository: ${{ matrix.repo.name }}"
-          echo "Voiceover style: $VOICEOVER_STYLE"
-
-          echo "status=success" >> $GITHUB_OUTPUT
-          echo "video_path=walkthrough-video.mp4" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Create pull request with walkthrough
-      if: steps.generate.outputs.status == 'success'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # Create new branch
-        BRANCH_NAME="automated-walkthrough-$(date +%Y%m%d-%H%M%S)"
-        git checkout -b "$BRANCH_NAME"
-
-        # Commit video artifact reference (actual video would be uploaded separately)
-        mkdir -p docs/walkthroughs
-        echo "# Automated Walkthrough - $(date +%Y-%m-%d)" > docs/walkthroughs/latest.md
-        echo "" >> docs/walkthroughs/latest.md
-        echo "Generated automatically by scheduled workflow." >> docs/walkthroughs/latest.md
-        echo "Download video artifact from workflow run." >> docs/walkthroughs/latest.md
-
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add docs/walkthroughs/latest.md
-        git commit -m "chore: add automated walkthrough video"
-        git push origin "$BRANCH_NAME"
-
-        # Create pull request
-        gh pr create \
-          --title "🎥 Automated Walkthrough - $(date +%Y-%m-%d)" \
-          --body "## Automated Walkthrough Generated
-
-        This PR contains an automatically generated application walkthrough video.
-
-        ### Details
-        - Generated: $(date +%Y-%m-%d %H:%M:%S UTC)
-        - Repository: ${{ matrix.repo.name }}
-        - Voiceover: ${{ github.event.inputs.voiceover_style || 'professional' }}
-        - Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-        ### Artifact
-        The walkthrough video is available as an artifact in the workflow run.
-
-        ### Review
-        Please review the walkthrough video and merge if acceptable.
-
-        ---
-        Generated by Scheduled Walkthrough Generator" \
-          --label "automated,walkthrough,documentation" \
-          --base main \
-          --head "$BRANCH_NAME"
-
-        echo "Pull request created successfully"
+    - name: Generate Gource visualization
+      continue-on-error: true
+      uses: NBprojekt/gource-action@57256d303c5a9a5e72ed92ba13e3e83c5ec8b257  # ratchet:NBprojekt/gource-action@v1.3.0
+      with:
+        gource_title: ${{ matrix.repo.name }}
+        gource_resolution: 1080p
+        gource_fps: '60'
+        gource_seconds_per_day: '0.5'
+        gource_auto_skip_seconds: '1'
+        gource_background_color: '000000'
+        avatars_auto_fetch: 'true'
 
     - name: Upload walkthrough artifact
-      if: steps.generate.outputs.status == 'success'
+      if: hashFiles('./gource/gource.mp4') != ''
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
         name: walkthrough-${{ matrix.repo.name }}
-        path: ${{ steps.generate.outputs.video_path }}
+        path: ./gource/gource.mp4
         retention-days: 90
 
   # Job 3: Generate summary report
@@ -408,7 +252,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REPO_MATRIX: ${{ needs.discover-repos.outputs.repo-matrix }}
       run: |
-        echo "Compiling results from all walkthrough generations..."
+        echo "Compiling results from all Gource visualizations..."
 
         # Aggregate results from all matrix jobs
         SUCCESS_COUNT=0
@@ -424,11 +268,10 @@ jobs:
               # Check if video exists
               if find "$artifact_dir" -name '*.mp4' -type f | head -1 | grep -q .; then
                 SUCCESS_COUNT=$((SUCCESS_COUNT + 1))
-                VIDEO_FILE=$(find "$artifact_dir" -name '*.mp4' -type f | head -1)
-                ARTIFACT_LIST="$ARTIFACT_LIST\n| $REPO_NAME | ✅ Success | [Download](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |"
+                ARTIFACT_LIST="$ARTIFACT_LIST\n| $REPO_NAME | Success | [Download](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |"
               else
                 FAILED_COUNT=$((FAILED_COUNT + 1))
-                ARTIFACT_LIST="$ARTIFACT_LIST\n| $REPO_NAME | ⚠️ No video | - |"
+                ARTIFACT_LIST="$ARTIFACT_LIST\n| $REPO_NAME | No video | - |"
               fi
             fi
           done
@@ -440,24 +283,23 @@ jobs:
         # Calculate repos without artifacts (may have failed silently)
         PROCESSED=$((SUCCESS_COUNT + FAILED_COUNT))
         if [ "$PROCESSED" -lt "$TOTAL_REPOS" ]; then
-          UNPROCESSED=$((TOTAL_REPOS - PROCESSED))
           # Add entries for unprocessed repos
           for repo_name in $(echo "$REPO_MATRIX" | jq -r '.[].name' 2>/dev/null || echo ""); do
             if ! echo "$ARTIFACT_LIST" | grep -q "$repo_name"; then
-              ARTIFACT_LIST="$ARTIFACT_LIST\n| $repo_name | ❓ Unknown | - |"
+              ARTIFACT_LIST="$ARTIFACT_LIST\n| $repo_name | Unknown | - |"
             fi
           done
         fi
 
         # Generate report
-        echo "## Scheduled Walkthrough Generation Report" > report.md
+        echo "## Scheduled Gource Visualization Report" > report.md
         echo "" >> report.md
         echo "**Date**: $(date +%Y-%m-%d %H:%M:%S UTC)" >> report.md
         echo "**Workflow Run**: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> report.md
         echo "" >> report.md
         echo "### Summary" >> report.md
         echo "- **Repositories discovered**: $TOTAL_REPOS" >> report.md
-        echo "- **Successful walkthroughs**: $SUCCESS_COUNT" >> report.md
+        echo "- **Successful visualizations**: $SUCCESS_COUNT" >> report.md
         echo "- **Failed/incomplete**: $FAILED_COUNT" >> report.md
         echo "- **Overall status**: ${{ needs.generate-walkthroughs.result }}" >> report.md
         echo "" >> report.md
@@ -470,10 +312,9 @@ jobs:
         echo "" >> report.md
 
         echo "### Next Steps" >> report.md
-        echo "1. Review created pull requests in each repository" >> report.md
-        echo "2. Download video artifacts for verification" >> report.md
-        echo "3. Merge PRs for approved walkthroughs" >> report.md
-        echo "4. Tag repositories with \`walkthrough-YYYYMMDD\` after successful merge" >> report.md
+        echo "1. Download Gource visualization artifacts from the workflow run" >> report.md
+        echo "2. Review generated MP4 videos" >> report.md
+        echo "3. Tag repositories with \`walkthrough-YYYYMMDD\` to track generation history" >> report.md
 
         # Export counts for summary
         echo "success_count=$SUCCESS_COUNT" >> $GITHUB_OUTPUT
@@ -491,12 +332,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Send notification on failure
-        echo "Scheduled walkthrough generation failed"
+        echo "Scheduled Gource visualization generation failed"
         echo "Creating issue for visibility..."
 
         gh issue create \
-          --title "Scheduled Walkthrough Generation Failed - $(date +%Y-%m-%d)" \
-          --body "The scheduled walkthrough generation workflow failed.
+          --title "Scheduled Gource Visualization Failed - $(date +%Y-%m-%d)" \
+          --body "The scheduled Gource visualization workflow failed.
 
         Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         Time: $(date +%Y-%m-%d %H:%M:%S UTC)

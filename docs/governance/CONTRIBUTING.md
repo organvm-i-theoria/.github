@@ -35,7 +35,7 @@ channels.
 
 ### Prerequisites
 
-- Python 3.11 or higher
+- Python 3.9 or higher (3.12 recommended)
 - Git
 - Node.js 20 or higher (for some tooling)
 
@@ -43,11 +43,11 @@ channels.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ivviiviivvi/.github.git
+git clone https://github.com/{{ORG_NAME}}/.github.git
 cd .github
 
 # Install Python dependencies
-pip install -r requirements.txt
+pip install -e ".[dev]"
 
 # Install pre-commit hooks
 pip install pre-commit
@@ -81,8 +81,9 @@ pre-commit run ruff --all-files
 
 ### Reporting Bugs
 
-Use our [Bug Report template](../../.github/ISSUE_TEMPLATE/bug_report.yml) and
-include:
+Use our
+[Bug Report template](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/.github/ISSUE_TEMPLATE/bug_report.yml)
+and include:
 
 - Clear description of the issue
 - Steps to reproduce
@@ -92,8 +93,8 @@ include:
 ### Suggesting Features
 
 Use our
-[Feature Request template](../../.github/ISSUE_TEMPLATE/feature_request.yml) and
-include:
+[Feature Request template](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/.github/ISSUE_TEMPLATE/feature_request.yml)
+and include:
 
 - Problem statement
 - Proposed solution
@@ -102,14 +103,14 @@ include:
 ### Improving Documentation
 
 Documentation improvements are always welcome! Use our
-[Documentation template](../../.github/ISSUE_TEMPLATE/documentation.yml) for doc
-issues.
+[Documentation template](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/.github/ISSUE_TEMPLATE/documentation.yml)
+for doc issues.
 
 ## Repository Organization Guidelines
 
 Follow our
-[Repository Structure Standards](../reference/REPOSITORY_STRUCTURE.md) when
-adding files.
+[Repository Structure Standards](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/docs/reference/REPOSITORY_STRUCTURE.md)
+when adding files.
 
 ### File Placement
 
@@ -142,15 +143,16 @@ Run the validation script before submitting:
 ./scripts/validate-repository-structure.sh
 ```
 
-See the [Quick Reference](../reference/REPOSITORY_ORGANIZATION_QUICK_REF.md) for
-more details.
+See the
+[Quick Reference](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/docs/reference/REPOSITORY_ORGANIZATION_QUICK_REF.md)
+for more details.
 
 ## Code Style Guidelines
 
 ### Python
 
 - Follow **PEP 8** style guide
-- Use **Python 3.11+** features
+- Use **Python 3.9+** features
 - Use type hints where appropriate
 - Maximum line length: 100 characters
 - Use descriptive variable names
@@ -312,11 +314,13 @@ def test1():
 ## Getting Help
 
 - 💬
-  [Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
+  [Discussions](https://github.com/%7B%7BORG_NAME%7D%7D/.github/discussions)<!-- link:github.discussions -->
   \- Ask questions
-- 📚 [Documentation](../../README.md) - Read the docs
+- 📚
+  [Documentation](https://github.com/%7B%7BORG_NAME%7D%7D/.github/blob/main/README.md)
+  \- Read the docs
 - 🐛
-  [Issues](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
+  [Issues](https://github.com/%7B%7BORG_NAME%7D%7D/.github/issues)<!-- link:github.issues -->
   \- Report bugs
 
 ## Recognition

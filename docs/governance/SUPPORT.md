@@ -24,21 +24,21 @@ Before asking for help, please:
 
 ### When to Use What
 
-| Situation                     | Where to Go                                                                                              |
-| ----------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Questions, ideas, discussions | [GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions --> |
-| Bug reports                   | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->                |
-| Feature requests              | [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->                |
-| Security vulnerabilities      | [Security Policy](SECURITY.md)                                                                           |
-| Contributing                  | [Contributing Guide](CONTRIBUTING.md)                                                                    |
-| Code of Conduct violations    | conduct@ivviiviivvi.com                                                                                  |
+| Situation                     | Where to Go                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Questions, ideas, discussions | [GitHub Discussions](https://github.com/%7B%7BORG_NAME%7D%7D/.github/discussions)<!-- link:github.discussions --> |
+| Bug reports                   | [Issue Tracker](https://github.com/%7B%7BORG_NAME%7D%7D/.github/issues)<!-- link:github.issues -->                |
+| Feature requests              | [Issue Tracker](https://github.com/%7B%7BORG_NAME%7D%7D/.github/issues)<!-- link:github.issues -->                |
+| Security vulnerabilities      | [Security Policy](SECURITY.md)                                                                                    |
+| Contributing                  | [Contributing Guide](CONTRIBUTING.md)                                                                             |
+| Code of Conduct violations    | conduct@{{ORG_NAME}}.com                                                                                          |
 
 ## GitHub Discussions
 
 **Best for**: Questions, ideas, general help, and community discussion
 
 👉
-**[Start a Discussion](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->**
+**[Start a Discussion](https://github.com/%7B%7BORG_NAME%7D%7D/.github/discussions)<!-- link:github.discussions -->**
 
 ### Discussion Categories
 
@@ -98,7 +98,7 @@ installation and setup instructions.
 
 A:
 
-- Python 3.11 or higher
+- Python 3.9 or higher (3.12 recommended)
 - pip package manager
 - Git for version control
 - See [CONTRIBUTING.md](CONTRIBUTING.md) for full requirements
@@ -114,7 +114,7 @@ A: Yes, this project is open source and free to use under the
 
 A:
 
-1. Ensure you have Python 3.11+ installed: `python --version`
+1. Ensure you have Python 3.9+ installed: `python --version`
 1. Update pip: `pip install --upgrade pip`
 1. Try installing in a virtual environment
 1. Review the [FAQ](#faq) section below
@@ -125,7 +125,7 @@ A:
 
 ```bash
 git pull origin main
-pip install --upgrade -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 #### Usage
@@ -145,93 +145,6 @@ and include:
 A: Use our
 [Feature Request Template](../../.github/ISSUE_TEMPLATE/feature_request.yml) and
 explain:
-
-## Getting Help
-
-Thank you for using this project! If you need help, here are the best ways to
-get support.
-
-## 📚 Documentation
-
-Before asking for help, please check our documentation:
-
-- **[README](../../README.md)** - Project overview and quick start
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
-- **[Documentation](../INDEX.md)** - Detailed guides and references
-
-## 💬 GitHub Discussions
-
-For questions, ideas, and general discussions, use
-[GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->:
-
-- **[Q&A](https://github.com/ivviiviivvi/.github/discussions/categories/q-and-a)**
-  \- Ask questions
-- **[Ideas](https://github.com/ivviiviivvi/.github/discussions/categories/ideas)**
-  \- Suggest features
-- **[Show and Tell](https://github.com/ivviiviivvi/.github/discussions/categories/show-and-tell)**
-  \- Share your work
-- **[General](https://github.com/ivviiviivvi/.github/discussions/categories/general)**
-  \- General discussions
-
-## 🐛 Bug Reports
-
-If you've found a bug, please
-[create an issue](https://github.com/ivviiviivvi/.github/issues/new/choose)<!-- link:github.issues_new -->
-using our bug report template.
-
-## ✨ Feature Requests
-
-Have an idea for a new feature?
-[Submit a feature request](https://github.com/ivviiviivvi/.github/issues/new?template=feature_request.yml)<!-- link:github.feature_request -->!
-
-## 🔒 Security Issues
-
-**Do not report security vulnerabilities in public issues.**
-
-For security issues, please:
-
-1. Use our
-   [private security advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)<!-- link:github.security_advisory -->
-   (preferred)
-1. Review our [Security Policy](SECURITY.md) for details
-
-## ❓ FAQ
-
-### How do I get started?
-
-1. Read the [README](../../README.md)
-1. Check the [Documentation](../INDEX.md)
-1. Look at existing issues and discussions
-1. Join the community discussions
-
-### How long does it take to get a response?
-
-- **Issues**: Typically within 3-5 business days
-- **Pull Requests**: Usually reviewed within 1 week
-- **Discussions**: Community-driven, responses vary
-
-### Can I contribute?
-
-Yes! We welcome contributions. Please read our
-[Contributing Guide](CONTRIBUTING.md) to get started.
-
-### How do I report a bug?
-
-Use our
-[bug report template](https://github.com/ivviiviivvi/.github/issues/new?template=bug_report.yml)<!-- link:github.bug_report -->
-and provide as much detail as possible.
-
-### Where can I find examples?
-
-- Check the [examples/](../../.github/examples/) directory (if applicable)
-- Look at existing issues and pull requests
-- Browse the documentation
-
-### How do I request a feature?
-
-Use our
-[feature request template](https://github.com/ivviiviivvi/.github/issues/new?template=feature_request.yml)<!-- link:github.feature_request -->
-and describe:
 
 - The problem you're trying to solve
 - Your proposed solution
@@ -255,10 +168,10 @@ welcome:
 A:
 
 1. Look for issues labeled
-   [`good first issue`](https://github.com/ivviiviivvi/.github/labels/good%20first%20issue)
+   [`good first issue`](https://github.com/%7B%7BORG_NAME%7D%7D/.github/labels/good%20first%20issue)
 1. Read [CONTRIBUTING.md](CONTRIBUTING.md)
 1. Ask questions in
-   [Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
+   [Discussions](https://github.com/%7B%7BORG_NAME%7D%7D/.github/discussions)<!-- link:github.discussions -->
 1. Join our upcoming community calls (announced in Discussions)
 
 #### Security
@@ -266,7 +179,7 @@ A:
 **Q: I found a security vulnerability. Where do I report it?**
 
 A: **Do NOT create a public issue.** Follow our [Security Policy](SECURITY.md)
-to report privately to security@ivviiviivvi.com.
+to report privately to security@{{ORG_NAME}}.com.
 
 **Q: What is your security response timeline?**
 
@@ -358,8 +271,8 @@ We use labels to track issue status:
 
 For enterprise support, training, or consulting:
 
-- **Email**: enterprise@ivviiviivvi.com
-- **Support Portal**: Contact enterprise@ivviiviivvi.com for scheduling
+- **Email**: enterprise@{{ORG_NAME}}.com
+- **Support Portal**: Contact enterprise@{{ORG_NAME}}.com for scheduling
 
 ### Enterprise Support Includes
 
@@ -372,80 +285,40 @@ For enterprise support, training, or consulting:
 
 ## Contact Information
 
-- **General Support**: support@ivviiviivvi.com
-- **Security Issues**: security@ivviiviivvi.com
-- **Code of Conduct**: conduct@ivviiviivvi.com
-- **Enterprise Support**: enterprise@ivviiviivvi.com
-- **Press/Media**: press@ivviiviivvi.com
+- **General Support**: support@{{ORG_NAME}}.com
+- **Security Issues**: security@{{ORG_NAME}}.com
+- **Code of Conduct**: conduct@{{ORG_NAME}}.com
+- **Enterprise Support**: enterprise@{{ORG_NAME}}.com
+- **Press/Media**: press@{{ORG_NAME}}.com
 
 ## Additional Resources
 
 ### Learning Resources
 
 - **[Documentation Index](../INDEX.md)** - Entry point to all docs
-- **[Workflow Design Guide](../guides/WORKFLOW_DESIGN.md)** - Deep dive on
+- **[Workflow Design Guide](../workflows/WORKFLOW_DESIGN.md)** - Deep dive on
   automation patterns
 - **[Common Tasks Runbook](../guides/common-tasks-runbook.md)** - Step-by-step
   operations playbooks
 
 ### Related Projects
 
-- [Organization Hub Repository](https://github.com/ivviiviivvi/.github)
-- [Workflow Templates](https://github.com/ivviiviivvi/.github/tree/main/workflow-templates)
+- [Organization Hub Repository](https://github.com/%7B%7BORG_NAME%7D%7D/.github)
+- [Workflow Templates](https://github.com/%7B%7BORG_NAME%7D%7D/.github/tree/main/workflow-templates)
 
 ______________________________________________________________________
 
-**Need more help?** Contact us at support@ivviiviivvi.com
+**Need more help?** Contact us at support@{{ORG_NAME}}.com
 
-**Last Updated**: January 12, 2026
-
-## 🌐 Community Resources
-
-- **GitHub Repository**:
-  [ivviiviivvi/.github](https://github.com/ivviiviivvi/.github)<!-- link:github.dotgithub -->
-- **Issues**:
-  [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
-- **Discussions**:
-  [Community Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
-- **Documentation**: [INDEX.md](../INDEX.md)
-
-## 📧 Contact
-
-For matters that require direct contact with maintainers:
-
-- Create a private security advisory for security issues
-- Use discussions for general questions
-- Comment on relevant issues for bug reports
-
-## ⏱️ Response Times
-
-Our team aims to respond within these timeframes:
-
-- **Critical security issues**: 24 hours
-- **Bugs**: 3-5 business days
-- **Feature requests**: 1-2 weeks
-- **General questions**: Community-driven
-
-Please note these are estimates and actual response times may vary based on
-issue complexity and team availability.
-
-## 🤝 Community Guidelines
-
-When seeking support, please:
-
-- Be respectful and constructive
-- Provide clear and detailed information
-- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
-- Search before asking to avoid duplicates
-- Stay on topic in discussions
-
-## ⭐ Show Your Support
+## Show Your Support
 
 If this project has helped you, consider:
 
-- Starring the repository ⭐
+- Starring the repository
 - Sharing it with others
 - Contributing back to the project
 - Providing feedback
 
-Thank you for being part of our community! 🙏
+______________________________________________________________________
+
+**Last Updated**: January 12, 2026
