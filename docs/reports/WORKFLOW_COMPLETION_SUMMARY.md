@@ -408,14 +408,14 @@ ______________________________________________________________________
 
 | Document                                                     | Purpose       | Size  |
 | ------------------------------------------------------------ | ------------- | ----- |
-| [Workflow Design](../workflows/WORKFLOW_DESIGN.md)                | Architecture  | 17 KB |
-| [Contributor Guide](../workflows/CONTRIBUTOR_WORKFLOW.md)         | User manual   | 12 KB |
-| [Maintainer Guide](../workflows/MAINTAINER_WORKFLOW.md)           | Operations    | 14 KB |
-| [Testing Guide](../guides/WORKFLOW_TESTING_GUIDE.md)           | QA            | 14 KB |
-| [Onboarding](../workflows/WORKFLOW_ONBOARDING.md)                 | Training      | 16 KB |
-| [Projects Setup](../guides/GITHUB_PROJECTS_CONFIGURATION.md)   | Visualization | 17 KB |
-| [Implementation](WORKFLOW_IMPLEMENTATION_SUMMARY.md) | Overview      | 13 KB |
-| [Visualization](../workflows/WORKFLOW_VISUALIZATION.md)           | Diagrams      | 26 KB |
+| [Workflow Design](../workflows/WORKFLOW_DESIGN.md)           | Architecture  | 17 KB |
+| [Contributor Guide](../workflows/CONTRIBUTOR_WORKFLOW.md)    | User manual   | 12 KB |
+| [Maintainer Guide](../workflows/MAINTAINER_WORKFLOW.md)      | Operations    | 14 KB |
+| [Testing Guide](../guides/WORKFLOW_TESTING_GUIDE.md)         | QA            | 14 KB |
+| [Onboarding](../workflows/WORKFLOW_ONBOARDING.md)            | Training      | 16 KB |
+| [Projects Setup](../guides/GITHUB_PROJECTS_CONFIGURATION.md) | Visualization | 17 KB |
+| [Implementation](WORKFLOW_IMPLEMENTATION_SUMMARY.md)         | Overview      | 13 KB |
+| [Visualization](../workflows/WORKFLOW_VISUALIZATION.md)      | Diagrams      | 26 KB |
 
 ### Workflow Files
 

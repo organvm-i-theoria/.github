@@ -22,8 +22,8 @@ ______________________________________________________________________
 
 ### Setup Guides
 
-| Guide                                                             | Time   | Purpose                                                 |
-| ----------------------------------------------------------------- | ------ | ------------------------------------------------------- |
+| Guide                                                                       | Time   | Purpose                                                 |
+| --------------------------------------------------------------------------- | ------ | ------------------------------------------------------- |
 | [**Quick Start**](../guides/COPILOT_QUICK_START.md) ⭐                      | 15 min | Get up and running with all enhancements                |
 | [Custom Instructions Setup](../guides/CUSTOM_INSTRUCTIONS_SETUP.md)         | 20 min | Configure 100+ coding standards and best practices      |
 | [MCP Server Setup](../guides/MCP_SERVER_SETUP.md)                           | 25 min | Integrate Model Context Protocol servers (11 languages) |
@@ -31,10 +31,10 @@ ______________________________________________________________________
 
 ### Advanced Guides
 
-| Guide                                                           | Purpose                                   |
-| --------------------------------------------------------------- | ----------------------------------------- |
+| Guide                                                                     | Purpose                                   |
+| ------------------------------------------------------------------------- | ----------------------------------------- |
 | [Agent Architecture Guide](../guides/AGENT_ARCHITECTURE_GUIDE.md)         | Build custom agents for specialized tasks |
-| [Agent Registry](AGENT_REGISTRY.md)                             | Catalog of 26+ production-ready agents    |
+| [Agent Registry](AGENT_REGISTRY.md)                                       | Catalog of 26+ production-ready agents    |
 | [GitHub Copilot Actions Setup](../guides/GITHUB_COPILOT_ACTIONS_SETUP.md) | CI/CD integration and troubleshooting     |
 
 ______________________________________________________________________
