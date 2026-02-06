@@ -389,7 +389,7 @@ jobs:
         steps.convert.outputs.converted == 'true' ||
         (steps.pr-details.outputs.is_ready_for_review_event == 'true' && steps.pr-details.outputs.draft == 'false')
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       run: |
         PR_NUMBER=${{ steps.pr-details.outputs.number }}
 

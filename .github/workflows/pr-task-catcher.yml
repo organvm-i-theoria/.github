@@ -50,7 +50,7 @@ jobs:
           echo "number=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
         fi
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Fetch All PR Data
       id: fetch
@@ -72,7 +72,7 @@ jobs:
         # Save body to file for processing
         echo "$BODY" > pr_body.txt
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Extract Tasks from PR Body
       id: body_tasks
@@ -196,7 +196,7 @@ jobs:
           echo "TASK_SUMMARY_EOF"
         } >> $GITHUB_OUTPUT
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Check for Unresolved Review Threads
       id: review_threads
@@ -231,7 +231,7 @@ jobs:
         echo "Found $UNRESOLVED_COUNT unresolved review threads"
         echo "unresolved_count=$UNRESOLVED_COUNT" >> $GITHUB_OUTPUT
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Create Task Summary Comment
       id: summary
@@ -381,7 +381,7 @@ jobs:
           gh pr comment $PR_NUM --body "$SUMMARY"
         fi
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Add Labels Based on Findings
       run: |
@@ -418,7 +418,7 @@ jobs:
           fi
         fi
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Check Merge Blocking
       id: block_check
@@ -459,7 +459,7 @@ jobs:
           echo "should_block=false" >> $GITHUB_OUTPUT
         fi
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
   create-issues-from-tasks:
     name: Create Issues from PR Tasks
@@ -531,4 +531,4 @@ jobs:
 
         echo "✅ Created $TASK_COUNT issues from PR tasks"
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

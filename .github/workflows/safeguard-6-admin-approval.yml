@@ -17,7 +17,7 @@ on:
     types: [completed]
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: "${{ github.workflow }}"
   cancel-in-progress: false
 
 permissions:
@@ -54,8 +54,8 @@ jobs:
     - name: Collect pending walkthroughs
       id: collect
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BATCH_RUN_ID: ${{ github.event.inputs.batch_run_id || github.event.workflow_run.id }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        BATCH_RUN_ID: "${{ github.event.inputs.batch_run_id || github.event.workflow_run.id }}"
       run: |
         python3 << 'PYTHON_SCRIPT'
         import os
@@ -468,7 +468,7 @@ jobs:
       if: steps.collect.outputs.has_pending == 'true'
       id: auto_approve
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         QUALITY_THRESHOLD: ${{ github.event.inputs.auto_approve_quality_threshold || '85' }}
       run: |
         python3 << 'PYTHON_SCRIPT'
@@ -525,7 +525,7 @@ jobs:
       if: steps.collect.outputs.has_pending == 'true'
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
-        name: approval-dashboard-${{ github.run_number }}
+        name: "approval-dashboard-${{ github.run_number }}"
         path: |
           approval-dashboard/
           pending_approvals.json

@@ -8,7 +8,7 @@ on:
         required: true
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: "${{ github.workflow }}"
   cancel-in-progress: false
 
 permissions:
@@ -37,10 +37,10 @@ jobs:
         echo "quota=$quota" >> $GITHUB_OUTPUT
 
     - name: Run OpenAI Task
-      if: ${{ steps.quota.outputs.usage < steps.quota.outputs.quota }}
+      if: "${{ steps.quota.outputs.usage < steps.quota.outputs.quota }}"
       env:
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        INPUT_PROMPT: ${{ github.event.inputs.prompt }}
+        OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+        INPUT_PROMPT: "${{ github.event.inputs.prompt }}"
       run: |
         echo "Running OpenAI task with prompt: $INPUT_PROMPT"
         # Simulate a variable cost based on prompt length
@@ -53,7 +53,7 @@ jobs:
         echo "This is a simulated output from OpenAI for the prompt: $INPUT_PROMPT" > openai_output_${{ github.run_id }}.txt
 
     - name: Queue Task
-      if: ${{ steps.quota.outputs.usage >= steps.quota.outputs.quota }}
+      if: "${{ steps.quota.outputs.usage >= steps.quota.outputs.quota }}"
       run: |
         task='{ "subscription": "OpenAI_API", "details": "..." }'
         python src/automation/scripts/quota_manager.py add_task "$task"

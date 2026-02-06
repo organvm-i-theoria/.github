@@ -40,13 +40,13 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
-        ref: ${{ inputs.target_branch }}
+        ref: "${{ inputs.target_branch }}"
         fetch-depth: 0
 
     - name: Generate Gource visualization
       uses: NBprojekt/gource-action@57256d303c5a9a5e72ed92ba13e3e83c5ec8b257  # ratchet:NBprojekt/gource-action@v1.3.0
       with:
-        gource_title: ${{ inputs.title || github.event.repository.name }}
+        gource_title: "${{ inputs.title || github.event.repository.name }}"
         gource_resolution: ${{ inputs.resolution || '1080p' }}
         gource_fps: '60'
         gource_seconds_per_day: ${{ inputs.seconds_per_day || '0.5' }}

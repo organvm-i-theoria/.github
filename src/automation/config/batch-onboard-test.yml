@@ -5,7 +5,7 @@
 
 # Test repositories (using actual .github repo and mock examples)
 repositories:
-- {{ORG_NAME}}/.github
+- '{{ORG_NAME}}/.github'
     # Add 2-4 additional test repositories here for parallel testing
     # - "{{ORG_NAME}}/test-repo-1"
     # - "{{ORG_NAME}}/test-repo-2"

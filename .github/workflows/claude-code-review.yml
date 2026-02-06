@@ -45,7 +45,7 @@ jobs:
       with:
         claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         prompt: |
-          REPO: ${{ github.repository }}
+          REPO: "${{ github.repository }}"
           PR NUMBER: ${{ github.event.pull_request.number }}
 
           Please review this pull request and provide feedback on:

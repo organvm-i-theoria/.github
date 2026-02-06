@@ -38,10 +38,10 @@ jobs:
     timeout-minutes: 30
     if: github.event.workflow_run.conclusion == 'failure' || github.event_name == 'workflow_dispatch'
     outputs:
-      failure_type: ${{ steps.classify.outputs.failure_type }}
-      should_retry: ${{ steps.classify.outputs.should_retry }}
-      attempt_number: ${{ steps.classify.outputs.attempt_number }}
-      backoff_seconds: ${{ steps.classify.outputs.backoff_seconds }}
+      failure_type: "${{ steps.classify.outputs.failure_type }}"
+      should_retry: "${{ steps.classify.outputs.should_retry }}"
+      attempt_number: "${{ steps.classify.outputs.attempt_number }}"
+      backoff_seconds: "${{ steps.classify.outputs.backoff_seconds }}"
 
     steps:
     - name: Checkout repository
@@ -61,8 +61,8 @@ jobs:
       continue-on-error: true
       id: classify
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WORKFLOW_RUN_ID: ${{ github.event.workflow_run.id || inputs.workflow_run_id }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        WORKFLOW_RUN_ID: "${{ github.event.workflow_run.id || inputs.workflow_run_id }}"
       run: |
         # Determine failure classification
         FAILURE_TYPE="unknown"
@@ -152,7 +152,7 @@ jobs:
 
     - name: Retry failed workflow
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       run: |
         WORKFLOW_RUN_ID="${{ github.event.workflow_run.id || inputs.workflow_run_id }}"
 
@@ -177,13 +177,13 @@ jobs:
       needs.classify-failure.outputs.failure_type == 'permanent' ||
       (needs.classify-failure.outputs.should_retry == 'false' && needs.classify-failure.outputs.attempt_number > 1)
     env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
 
     steps:
     - name: Create issue for permanent failure
       if: needs.classify-failure.outputs.failure_type == 'permanent'
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       run: |
         WORKFLOW_NAME="${{ github.event.workflow_run.name || 'Unknown' }}"
         WORKFLOW_URL="${{ github.event.workflow_run.html_url || 'N/A' }}"
