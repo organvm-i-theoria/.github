@@ -8,7 +8,7 @@ code in this repository.
 Organization-level `.github` repository for ivviiviivvi providing:
 
 - Default community health files inherited by all org repositories
-- 98+ GitHub Actions workflows
+- 131 GitHub Actions workflows
 - 26 production AI agents in `src/ai_framework/`
 - GitHub Copilot customizations (instructions, prompts, chatmodes, collections)
 
@@ -17,7 +17,7 @@ Organization-level `.github` repository for ivviiviivvi providing:
 ### Testing
 
 ```bash
-# Full test suite with coverage (80% minimum required)
+# Full test suite with coverage (58% minimum required)
 python -m pytest --cov=src/automation --cov-report=html
 
 # Single test file
@@ -70,8 +70,8 @@ pre-commit install
 ```
 .github/
 ├── .config/               # ALL configs (devcontainer, vscode, jules, pre-commit, etc.)
-├── .github/workflows/     # 98+ automation workflows
-│   └── reusable/          # 6 reusable workflow templates
+├── .github/workflows/     # 131 automation workflows
+│   └── reusable/          # 12 reusable workflow templates
 ├── docs/                  # ALL documentation
 │   ├── archive/           # Historical reports and results
 │   ├── registry/          # Workflow registry
@@ -165,7 +165,7 @@ If `mdformat` has dependency conflicts:
 
 ## Runtime Requirements
 
-- Python >= 3.9 (prefer 3.11+)
+- Python >= 3.9 (prefer 3.12)
 - Node.js >= 20.0.0
 - Dependencies: PyYAML, requests, PyGithub, jsonschema
 

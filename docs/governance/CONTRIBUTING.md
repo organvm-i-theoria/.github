@@ -35,7 +35,7 @@ channels.
 
 ### Prerequisites
 
-- Python 3.11 or higher
+- Python 3.9 or higher (3.12 recommended)
 - Git
 - Node.js 20 or higher (for some tooling)
 
@@ -47,7 +47,7 @@ git clone https://github.com/ivviiviivvi/.github.git
 cd .github
 
 # Install Python dependencies
-pip install -r requirements.txt
+pip install -e ".[dev]"
 
 # Install pre-commit hooks
 pip install pre-commit
@@ -150,7 +150,7 @@ more details.
 ### Python
 
 - Follow **PEP 8** style guide
-- Use **Python 3.11+** features
+- Use **Python 3.9+** features
 - Use type hints where appropriate
 - Maximum line length: 100 characters
 - Use descriptive variable names

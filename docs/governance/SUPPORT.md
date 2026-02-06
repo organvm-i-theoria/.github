@@ -98,7 +98,7 @@ installation and setup instructions.
 
 A:
 
-- Python 3.11 or higher
+- Python 3.9 or higher (3.12 recommended)
 - pip package manager
 - Git for version control
 - See [CONTRIBUTING.md](CONTRIBUTING.md) for full requirements
@@ -114,7 +114,7 @@ A: Yes, this project is open source and free to use under the
 
 A:
 
-1. Ensure you have Python 3.11+ installed: `python --version`
+1. Ensure you have Python 3.9+ installed: `python --version`
 1. Update pip: `pip install --upgrade pip`
 1. Try installing in a virtual environment
 1. Review the [FAQ](#faq) section below
@@ -125,7 +125,7 @@ A:
 
 ```bash
 git pull origin main
-pip install --upgrade -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 #### Usage
@@ -145,93 +145,6 @@ and include:
 A: Use our
 [Feature Request Template](../../.github/ISSUE_TEMPLATE/feature_request.yml) and
 explain:
-
-## Getting Help
-
-Thank you for using this project! If you need help, here are the best ways to
-get support.
-
-## 📚 Documentation
-
-Before asking for help, please check our documentation:
-
-- **[README](../../README.md)** - Project overview and quick start
-- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
-- **[Documentation](../INDEX.md)** - Detailed guides and references
-
-## 💬 GitHub Discussions
-
-For questions, ideas, and general discussions, use
-[GitHub Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->:
-
-- **[Q&A](https://github.com/ivviiviivvi/.github/discussions/categories/q-and-a)**
-  \- Ask questions
-- **[Ideas](https://github.com/ivviiviivvi/.github/discussions/categories/ideas)**
-  \- Suggest features
-- **[Show and Tell](https://github.com/ivviiviivvi/.github/discussions/categories/show-and-tell)**
-  \- Share your work
-- **[General](https://github.com/ivviiviivvi/.github/discussions/categories/general)**
-  \- General discussions
-
-## 🐛 Bug Reports
-
-If you've found a bug, please
-[create an issue](https://github.com/ivviiviivvi/.github/issues/new/choose)<!-- link:github.issues_new -->
-using our bug report template.
-
-## ✨ Feature Requests
-
-Have an idea for a new feature?
-[Submit a feature request](https://github.com/ivviiviivvi/.github/issues/new?template=feature_request.yml)<!-- link:github.feature_request -->!
-
-## 🔒 Security Issues
-
-**Do not report security vulnerabilities in public issues.**
-
-For security issues, please:
-
-1. Use our
-   [private security advisory](https://github.com/ivviiviivvi/.github/security/advisories/new)<!-- link:github.security_advisory -->
-   (preferred)
-1. Review our [Security Policy](SECURITY.md) for details
-
-## ❓ FAQ
-
-### How do I get started?
-
-1. Read the [README](../../README.md)
-1. Check the [Documentation](../INDEX.md)
-1. Look at existing issues and discussions
-1. Join the community discussions
-
-### How long does it take to get a response?
-
-- **Issues**: Typically within 3-5 business days
-- **Pull Requests**: Usually reviewed within 1 week
-- **Discussions**: Community-driven, responses vary
-
-### Can I contribute?
-
-Yes! We welcome contributions. Please read our
-[Contributing Guide](CONTRIBUTING.md) to get started.
-
-### How do I report a bug?
-
-Use our
-[bug report template](https://github.com/ivviiviivvi/.github/issues/new?template=bug_report.yml)<!-- link:github.bug_report -->
-and provide as much detail as possible.
-
-### Where can I find examples?
-
-- Check the [examples/](../../.github/examples/) directory (if applicable)
-- Look at existing issues and pull requests
-- Browse the documentation
-
-### How do I request a feature?
-
-Use our
-[feature request template](https://github.com/ivviiviivvi/.github/issues/new?template=feature_request.yml)<!-- link:github.feature_request -->
-and describe:
 
 - The problem you're trying to solve
 - Your proposed solution
@@ -397,55 +310,15 @@ ______________________________________________________________________
 
 **Need more help?** Contact us at support@ivviiviivvi.com
 
-**Last Updated**: January 12, 2026
-
-## 🌐 Community Resources
-
-- **GitHub Repository**:
-  [ivviiviivvi/.github](https://github.com/ivviiviivvi/.github)<!-- link:github.dotgithub -->
-- **Issues**:
-  [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
-- **Discussions**:
-  [Community Discussions](https://github.com/ivviiviivvi/.github/discussions)<!-- link:github.discussions -->
-- **Documentation**: [INDEX.md](../INDEX.md)
-
-## 📧 Contact
-
-For matters that require direct contact with maintainers:
-
-- Create a private security advisory for security issues
-- Use discussions for general questions
-- Comment on relevant issues for bug reports
-
-## ⏱️ Response Times
-
-Our team aims to respond within these timeframes:
-
-- **Critical security issues**: 24 hours
-- **Bugs**: 3-5 business days
-- **Feature requests**: 1-2 weeks
-- **General questions**: Community-driven
-
-Please note these are estimates and actual response times may vary based on
-issue complexity and team availability.
-
-## 🤝 Community Guidelines
-
-When seeking support, please:
-
-- Be respectful and constructive
-- Provide clear and detailed information
-- Follow our [Code of Conduct](CODE_OF_CONDUCT.md)
-- Search before asking to avoid duplicates
-- Stay on topic in discussions
-
-## ⭐ Show Your Support
+## Show Your Support
 
 If this project has helped you, consider:
 
-- Starring the repository ⭐
+- Starring the repository
 - Sharing it with others
 - Contributing back to the project
 - Providing feedback
 
-Thank you for being part of our community! 🙏
+______________________________________________________________________
+
+**Last Updated**: January 12, 2026

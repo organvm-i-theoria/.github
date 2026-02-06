@@ -52,6 +52,20 @@ docker-compose.yml @ivviiviivvi/devops
 /.github/workflows/scan-*.yml @ivviiviivvi/security
 
 ##############################
+# Organization Profile
+##############################
+
+# Organization profile README
+/profile/ @ivviiviivvi/leadership
+
+##############################
+# Workflow Templates
+##############################
+
+# Starter workflow templates for org repos
+/.github/workflow-templates/ @ivviiviivvi/devops
+
+##############################
 # Organization Documentation
 ##############################
 
