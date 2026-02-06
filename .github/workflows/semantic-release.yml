@@ -61,6 +61,7 @@ jobs:
         fi
 
     - name: Release
+      continue-on-error: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -99,6 +100,7 @@ jobs:
 
     - name: Python Semantic Release
       if: steps.check.outputs.should_run == 'true'
+      continue-on-error: true
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

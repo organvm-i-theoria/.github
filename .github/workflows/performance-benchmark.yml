@@ -114,7 +114,7 @@ jobs:
 
     - name: Load Testing
       if: steps.check-load-test.outputs.exists == 'true'
-      uses: grafana/k6-action@c38b1bb7c8c6b23f4aaf41ef90cd6e95f6b881d2  # ratchet:grafana/k6-action@v0.3.1
+      uses: grafana/k6-action@e4714b734f2b0afaabeb7b4a69142745548ab9ec  # ratchet:grafana/k6-action@v0.3.1
       with:
         filename: tests/load-test.js
       continue-on-error: true
@@ -177,7 +177,7 @@ jobs:
 
     - name: Run Lighthouse
       if: steps.check-pkg.outputs.exists == 'true'
-      uses: treosh/lighthouse-ci-action@b4dfae3eb959c5cececb2ea7c006f6c796c9f35f  # ratchet:treosh/lighthouse-ci-action@v11
+      uses: treosh/lighthouse-ci-action@72f881228236981b625ed765b928efb1786a1f55  # ratchet:treosh/lighthouse-ci-action@v11
       with:
         urls: |
           http://localhost:3000
@@ -216,7 +216,7 @@ jobs:
 
     - name: Analyze bundle size
       if: steps.check-pkg.outputs.exists == 'true'
-      uses: andresz1/size-limit-action@f7a56ece616db5bddde81de219695c920a8ae137  # ratchet:andresz1/size-limit-action@v1
+      uses: andresz1/size-limit-action@e7493a72a44b113341c0cf6186ab49c17c4b65c1  # ratchet:andresz1/size-limit-action@v1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         skip_step: install

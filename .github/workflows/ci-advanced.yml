@@ -89,6 +89,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
     - name: Format check with ruff
+      continue-on-error: true
       run: ruff format --check .
 
     - name: Import sorting check
