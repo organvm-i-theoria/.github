@@ -8,7 +8,7 @@ code in this repository.
 Organization-level `.github` repository for ivviiviivvi providing:
 
 - Default community health files inherited by all org repositories
-- 131 GitHub Actions workflows
+- 143 GitHub Actions workflows
 - 26 production AI agents in `src/ai_framework/`
 - GitHub Copilot customizations (instructions, prompts, chatmodes, collections)
 
@@ -70,7 +70,7 @@ pre-commit install
 ```
 .github/
 ├── .config/               # ALL configs (devcontainer, vscode, jules, pre-commit, etc.)
-├── .github/workflows/     # 131 automation workflows
+├── .github/workflows/     # 143 automation workflows
 │   └── reusable/          # 12 reusable workflow templates
 ├── docs/                  # ALL documentation
 │   ├── archive/           # Historical reports and results
@@ -85,7 +85,7 @@ pre-commit install
 │   │   ├── instructions/  # 100+ coding instructions
 │   │   └── prompts/       # Task-specific prompts
 │   └── automation/        # Python automation scripts
-│       ├── scripts/       # 44 Python automation scripts
+│       ├── scripts/       # 57 Python automation scripts
 │       │   └── utils/     # Utility scripts (update-action-pins.py, etc.)
 │       └── project_meta/  # Project metadata and context handoffs
 ├── tests/

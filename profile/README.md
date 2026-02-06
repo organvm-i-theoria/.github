@@ -1,30 +1,31 @@
+<div align="center">
+
 # ivviiviivvi
 
 **AI-Driven Development Infrastructure for the Modern Organization**
 
+[Configuration Hub](https://github.com/ivviiviivvi/.github) |
+[Documentation](https://github.com/ivviiviivvi/.github/blob/main/docs/INDEX.md) |
+[Discussions](https://github.com/orgs/ivviiviivvi/discussions)
+
+</div>
+
+---
+
 We build open-source tooling that scales AI-assisted development across teams and repositories.
 
-## What We Do
-
-- **Organization Automation** -- Centralized CI/CD, security scanning, and governance workflows
-- **AI Development Agents** -- Production-ready agents for code review, documentation, and infrastructure tasks
-- **GitHub Copilot Customizations** -- Chatmodes, prompts, and coding instructions tailored to org standards
-
-## Quick Links
-
 | | |
-|---|---|
-| [Contributing](https://github.com/ivviiviivvi/.github/blob/main/CONTRIBUTING.md) | How to get involved |
-| [Documentation](https://github.com/ivviiviivvi/.github/blob/main/docs/INDEX.md) | Guides and references |
-| [Discussions](https://github.com/orgs/ivviiviivvi/discussions) | Questions and ideas |
-| [Security Policy](https://github.com/ivviiviivvi/.github/blob/main/SECURITY.md) | Reporting vulnerabilities |
+|:---:|:---:|
+| **143** Workflows | **26** AI Agents |
+| **85** Chatmodes | **12** Reusable Templates |
 
-## By the Numbers
+### What We Ship
 
-**131** GitHub Actions workflows | **26** production AI agents | **12** reusable workflow templates
+- **Organization Automation** — Centralized CI/CD, security scanning, and governance workflows
+- **AI Development Agents** — Production-ready agents for code review, documentation, and infrastructure tasks
+- **GitHub Copilot Customizations** — Chatmodes, prompts, and coding instructions tailored to org standards
 
 ---
 
 [![CI](https://img.shields.io/github/actions/workflow/status/ivviiviivvi/.github/ci.yml?style=flat-square&label=CI)](https://github.com/ivviiviivvi/.github/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/ivviiviivvi/.github?style=flat-square)](https://github.com/ivviiviivvi/.github/blob/main/LICENSE)
-[![Contributors](https://img.shields.io/github/contributors/ivviiviivvi/.github?style=flat-square)](https://github.com/ivviiviivvi/.github/graphs/contributors)

@@ -6,8 +6,8 @@ title: ivviiviivvi Walkthrough Gallery
 description: Comprehensive gallery of application walkthroughs and live demos for all ivviiviivvi organization repositories
 url: https://ivviiviivvi.github.io
 baseurl: /.github
-author: '{{ORG_AUTHOR}}'
-email: support@{{ORG_DOMAIN}}
+author: 'ivviiviivvi'
+email: support@ivviiviivvi.com
 
 # Organization settings
 organization:
@@ -185,8 +185,7 @@ analytics:
 # SEO settings
 seo:
   twitter_card: summary_large_image
-  twitter_creator: '{{ORG_TWITTER}}'
-  og_image: /assets/images/og-image.png
+  og_image: /assets/images/social-preview.png
 
 # Performance settings
 performance:

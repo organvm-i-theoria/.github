@@ -8,8 +8,8 @@ code in this repository.
 Organization-level `.github` repository for ivviiviivvi providing:
 
 - Default community health files inherited by all org repositories
-- 129 GitHub Actions workflows
-- 32 production AI agents in `src/ai_framework/`
+- 143 GitHub Actions workflows
+- 26 production AI agents in `src/ai_framework/`
 - GitHub Copilot customizations (instructions, prompts, chatmodes, collections)
 
 ## Essential Commands
@@ -73,20 +73,20 @@ npm run version:sync
 ```
 .github/
 ├── .config/               # ALL configs (devcontainer, vscode, jules, pre-commit)
-├── .github/workflows/     # 129 automation workflows
-│   └── reusable/          # 6 reusable workflow templates
+├── .github/workflows/     # 143 automation workflows
+│   └── reusable/          # 12 reusable workflow templates
 ├── docs/                  # ALL documentation (304+ files)
 │   ├── archive/           # Historical reports
 │   ├── guides/            # How-to guides (includes extended CLAUDE.md)
 │   └── registry/          # Workflow registry
 ├── src/
 │   ├── ai_framework/      # AI agents, chatmodes, prompts
-│   │   ├── agents/        # 32 production AI agents (*.agent.md)
+│   │   ├── agents/        # 26 production AI agents (*.agent.md)
 │   │   ├── chatmodes/     # 95+ chatmodes (*.chatmode.md)
 │   │   ├── collections/   # Collection definitions
 │   │   └── prompts/       # Prompt templates (*.prompt.md)
 │   └── automation/        # Python automation scripts
-│       ├── scripts/       # 44 Python automation scripts
+│       ├── scripts/       # 57 Python automation scripts
 │       │   └── utils/     # Utility scripts (update-action-pins.py, etc.)
 │       └── project_meta/  # Project metadata and context handoffs
 ├── tests/
