@@ -537,7 +537,8 @@ Post**: Everyone\
 - Compliance topics
 
 **⚠️ Important**: Do NOT post security vulnerabilities here. Use the private
-vulnerability reporting feature or email per [SECURITY.md](../governance/SECURITY.md).
+vulnerability reporting feature or email per
+[SECURITY.md](../governance/SECURITY.md).
 
 **Template:**
 

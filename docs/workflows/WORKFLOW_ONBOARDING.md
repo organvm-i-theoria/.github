@@ -224,8 +224,7 @@ ______________________________________________________________________
 >
 > "If you have questions:
 >
-> 1. **Read the guide**:
->    [CONTRIBUTOR_WORKFLOW.md](CONTRIBUTOR_WORKFLOW.md)
+> 1. **Read the guide**: [CONTRIBUTOR_WORKFLOW.md](CONTRIBUTOR_WORKFLOW.md)
 > 1. **Ask in discussions**: General Q&A category
 > 1. **Tag a maintainer**: Use @mention in your issue/PR
 > 1. **Check FAQs**: Common questions answered
@@ -318,7 +317,8 @@ ______________________________________________________________________
 >
 > **For Monitoring:**
 >
-> - [Actions tab](https://github.com/ivviiviivvi/.github/actions) - workflow runs
+> - [Actions tab](https://github.com/ivviiviivvi/.github/actions) - workflow
+>   runs
 > - Metrics report - daily stats
 >
 > **Demo:** \[Navigate through filters\]"

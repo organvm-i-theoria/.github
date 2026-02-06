@@ -616,12 +616,11 @@ ______________________________________________________________________
 
 ### Internal Docs
 
-- SEMANTIC_VERSIONING.md - Detailed semver
-  guide
+- SEMANTIC_VERSIONING.md - Detailed semver guide
 - [AI_CODE_INTELLIGENCE.md](../architecture/AI_CODE_INTELLIGENCE.md) - AI
   integration
-- [VERSION_CONTROL_STANDARDS.md](../reference/VERSION_CONTROL_STANDARDS.md) - Branch
-  naming
+- [VERSION_CONTROL_STANDARDS.md](../reference/VERSION_CONTROL_STANDARDS.md) -
+  Branch naming
 
 ### Tools
 

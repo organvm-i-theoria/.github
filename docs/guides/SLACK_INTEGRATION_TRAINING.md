@@ -393,7 +393,8 @@ thread with "false positive" tag. We'll tune thresholds weekly.
 
 - 📘 Week 5 Implementation Guide
 - 📘 [Slack Notification Action](../../.github/actions/slack-notify/action.yml)
-- 📘 [Daily Summary Workflow](../../.github/workflows/google-chat-daily-summary.yml)
+- 📘
+  [Daily Summary Workflow](../../.github/workflows/google-chat-daily-summary.yml)
 
 **Support Channels:**
 

@@ -585,7 +585,8 @@ ______________________________________________________________________
   \- Share instruction ideas
 - [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
   \- Report issues or request features
-- [Contributing Guide](../governance/CONTRIBUTING.md) - Contribute new instructions
+- [Contributing Guide](../governance/CONTRIBUTING.md) - Contribute new
+  instructions
 
 ______________________________________________________________________
 

@@ -707,7 +707,8 @@ Each language collection includes:
   \- Ask questions and share ideas
 - [Issue Tracker](https://github.com/ivviiviivvi/.github/issues)<!-- link:github.issues -->
   \- Report bugs or request features
-- [Contributing Guide](../governance/CONTRIBUTING.md) - Contribute to this documentation
+- [Contributing Guide](../governance/CONTRIBUTING.md) - Contribute to this
+  documentation
 
 ______________________________________________________________________
 

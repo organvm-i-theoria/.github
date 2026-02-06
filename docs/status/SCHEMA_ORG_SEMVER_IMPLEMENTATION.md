@@ -394,9 +394,9 @@ ______________________________________________________________________
 
 ### Documentation
 
-- [SCHEMA_ORG_SEMVER_GUIDE.md](../guides/SCHEMA_ORG_SEMVER_GUIDE.md) - Complete guide
-- SEMANTIC_VERSIONING.md - Semver
-  details
+- [SCHEMA_ORG_SEMVER_GUIDE.md](../guides/SCHEMA_ORG_SEMVER_GUIDE.md) - Complete
+  guide
+- SEMANTIC_VERSIONING.md - Semver details
 - [.schema-org/README.md](../../README.md) - Schema docs
 
 ### External Resources

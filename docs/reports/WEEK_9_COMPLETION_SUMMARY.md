@@ -332,8 +332,8 @@ ______________________________________________________________________
    - Usage examples and configuration
    - Troubleshooting
 
-1. **[UNIFIED_NOTIFICATION_SYSTEM.md](../guides/UNIFIED_NOTIFICATION_SYSTEM.md)** (700+
-   lines)
+1. **[UNIFIED_NOTIFICATION_SYSTEM.md](../guides/UNIFIED_NOTIFICATION_SYSTEM.md)**
+   (700+ lines)
 
    - Architecture and design
    - Configuration guide

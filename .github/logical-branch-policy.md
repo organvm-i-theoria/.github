@@ -1511,18 +1511,18 @@ ______________________________________________________________________
 
 ### Internal Docs (This Repository)
 
-- [BRANCH_STRATEGY.md](../docs/workflows/BRANCH_STRATEGY.md) - Comprehensive branching strategy
-  (alternative to "main only")
-- [GIT_WORKFLOW.md](../docs/workflows/GIT_WORKFLOW.md) - Git workflow and branch strategy
-  details
-- [VERSION_CONTROL_STANDARDS.md](../docs/reference/VERSION_CONTROL_STANDARDS.md) - Version
-  control standards
-- [CONTRIBUTING.md](../docs/governance/CONTRIBUTING.md) - Contribution guidelines and
-  commit conventions
-- [SECURITY.md](../docs/governance/SECURITY.md) - Security policy and vulnerability
-  reporting
-- [CODE_OF_CONDUCT.md](../docs/governance/CODE_OF_CONDUCT.md) - Community standards (if
-  available)
+- [BRANCH_STRATEGY.md](../docs/workflows/BRANCH_STRATEGY.md) - Comprehensive
+  branching strategy (alternative to "main only")
+- [GIT_WORKFLOW.md](../docs/workflows/GIT_WORKFLOW.md) - Git workflow and branch
+  strategy details
+- [VERSION_CONTROL_STANDARDS.md](../docs/reference/VERSION_CONTROL_STANDARDS.md)
+  \- Version control standards
+- [CONTRIBUTING.md](../docs/governance/CONTRIBUTING.md) - Contribution
+  guidelines and commit conventions
+- [SECURITY.md](../docs/governance/SECURITY.md) - Security policy and
+  vulnerability reporting
+- [CODE_OF_CONDUCT.md](../docs/governance/CODE_OF_CONDUCT.md) - Community
+  standards (if available)
 
 ### GitHub Documentation
 

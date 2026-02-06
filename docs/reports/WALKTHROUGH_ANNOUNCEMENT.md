@@ -229,8 +229,8 @@ VOICE_CLONE_API_KEY   # For custom voice cloning
 STORAGE_API_KEY       # For long-term artifact storage
 ```
 
-📚 **Complete Setup Guide**: See [SECRETS_SETUP.md](../guides/SECRETS_SETUP.md) for
-detailed instructions.
+📚 **Complete Setup Guide**: See [SECRETS_SETUP.md](../guides/SECRETS_SETUP.md)
+for detailed instructions.
 
 ## 🐛 Troubleshooting
 
@@ -349,7 +349,8 @@ We want to hear from you!
 
 1. **Comment below** with your feedback
 1. **Submit feature requests** using our issue template
-1. **Contribute** to the codebase (see [CONTRIBUTING.md](../governance/CONTRIBUTING.md))
+1. **Contribute** to the codebase (see
+   [CONTRIBUTING.md](../governance/CONTRIBUTING.md))
 1. **Share examples** of walkthroughs you've generated
 1. **Help others** by answering questions in discussions
 

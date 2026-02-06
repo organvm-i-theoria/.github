@@ -125,7 +125,8 @@ We welcome contributions! Here's how you can help:
 1. **Submit PRs**: Fork, create a branch, and submit a pull request
 1. **Improve Docs**: Documentation improvements are always appreciated
 
-See our [Contributing Guide](../governance/CONTRIBUTING.md) for detailed guidelines.
+See our [Contributing Guide](../governance/CONTRIBUTING.md) for detailed
+guidelines.
 
 **Code of Conduct**: Please read and follow our
 [Code of Conduct](../governance/CODE_OF_CONDUCT.md).

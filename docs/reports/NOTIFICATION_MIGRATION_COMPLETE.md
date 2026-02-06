@@ -624,7 +624,8 @@ ______________________________________________________________________
 
 **Questions or Issues?**
 
-- See [Troubleshooting Guide](../guides/UNIFIED_NOTIFICATION_SYSTEM.md#troubleshooting)
+- See
+  [Troubleshooting Guide](../guides/UNIFIED_NOTIFICATION_SYSTEM.md#troubleshooting)
 - Open issue: <https://github.com/ivviiviivvi/.github/issues>
 - Contact: <automation-team@example.com>
 

@@ -526,15 +526,15 @@ ______________________________________________________________________
 
 - WEEK6_REPOSITORY_EXPANSION_GUIDE.md - Original planning guide
 - WEEK6_DEPLOYMENT_CHECKLIST.md - Detailed checklist
-- [PRODUCTION_WORKFLOW_INTEGRATION.md](../workflows/PRODUCTION_WORKFLOW_INTEGRATION.md) -
-  Integration patterns
+- [PRODUCTION_WORKFLOW_INTEGRATION.md](../workflows/PRODUCTION_WORKFLOW_INTEGRATION.md)
+  \- Integration patterns
 - [SLACK_INTEGRATION_TRAINING.md](SLACK_INTEGRATION_TRAINING.md) - Training
   materials
 
 ### Tools
 
-- [evaluate_repository.py](../../src/automation/scripts/evaluate_repository.py) -
-  Evaluation script
+- [evaluate_repository.py](../../src/automation/scripts/evaluate_repository.py)
+  \- Evaluation script
 - [generate_pilot_workflows.py](../../src/automation/scripts/generate_pilot_workflows.py)
   \- Generator script
 - setup_week6.sh - Quick setup script

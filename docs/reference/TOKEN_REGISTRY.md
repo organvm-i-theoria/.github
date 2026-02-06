@@ -614,9 +614,10 @@ ______________________________________________________________________
 
 - [MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md](../analysis/MASTER_ORG_TOKEN_CONTEXTUAL_AWARENESS_ANALYSIS.md)
   \- Detailed analysis and migration plan
-- [SECRET_MANAGEMENT_GUIDE.md](../guides/SECRET_MANAGEMENT_GUIDE.md) - Universal secret
-  management practices
-- [SECRETS_SETUP.md](../guides/SECRETS_SETUP.md) - GitHub Actions secrets configuration
+- [SECRET_MANAGEMENT_GUIDE.md](../guides/SECRET_MANAGEMENT_GUIDE.md) - Universal
+  secret management practices
+- [SECRETS_SETUP.md](../guides/SECRETS_SETUP.md) - GitHub Actions secrets
+  configuration
 - `scripts/rotate-token.sh` - Automated token rotation script
 - `scripts/validate-tokens.py` - Token health validation script
 

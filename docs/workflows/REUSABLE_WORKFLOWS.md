@@ -680,8 +680,7 @@ ______________________________________________________________________
 
 - **[Workflow Optimization Guide](./WORKFLOW_OPTIMIZATION.md)** - Performance
   tips
-- **Security Best Practices** - Security
-  guidelines
+- **Security Best Practices** - Security guidelines
 - **[Contributing Guide](../governance/CONTRIBUTING.md)** - How to contribute
 
 ______________________________________________________________________

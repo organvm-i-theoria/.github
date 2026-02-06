@@ -487,7 +487,8 @@ git clone <repo>
 
 ### Documentation
 
-- 📖 [Complete Protocols](../architecture/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
+- 📖
+  [Complete Protocols](../architecture/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
 - 🚀 [Quick Start](../guides/WORKSPACE_QUICK_START.md)
 - 🌐 [Codespaces Guide](../guides/CODESPACES_GUIDE.md)
 - 🔧 [Code-Server Setup](../guides/CODE_SERVER_SETUP.md)

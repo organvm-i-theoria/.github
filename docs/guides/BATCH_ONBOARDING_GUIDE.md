@@ -694,8 +694,10 @@ ______________________________________________________________________
 
 ### Documentation
 
-- [Week 10 Reconciliation](../reports/WEEK_10_RECONCILIATION.md) - Planning overview
-- [Week 10 Decision Brief](../reports/WEEK_10_DECISION_BRIEF.md) - Implementation decision
+- [Week 10 Reconciliation](../reports/WEEK_10_RECONCILIATION.md) - Planning
+  overview
+- [Week 10 Decision Brief](../reports/WEEK_10_DECISION_BRIEF.md) -
+  Implementation decision
 - [Month 3 Master Plan](../reports/MONTH3_MASTER_PLAN.md) - Overall roadmap
 
 ### Getting Help

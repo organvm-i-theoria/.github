@@ -537,9 +537,10 @@ ______________________________________________________________________
 ### Resources
 
 - **Documentation**: [README.md](../../README.md) - Complete repository overview
-- **Agent Registry**: [AGENT_REGISTRY.md](../reference/AGENT_REGISTRY.md) - Catalog of all
-  agents
-- **Contributing**: [CONTRIBUTING.md](../governance/CONTRIBUTING.md) - How to contribute
+- **Agent Registry**: [AGENT_REGISTRY.md](../reference/AGENT_REGISTRY.md) -
+  Catalog of all agents
+- **Contributing**: [CONTRIBUTING.md](../governance/CONTRIBUTING.md) - How to
+  contribute
 
 ### Community
 

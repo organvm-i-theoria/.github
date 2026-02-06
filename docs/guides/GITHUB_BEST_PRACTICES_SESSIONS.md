@@ -1159,7 +1159,8 @@ Have ideas for improving these session guides? We welcome contributions!
 - Suggest new session types
 - Improve existing content
 
-See our [Contributing Guidelines](../governance/CONTRIBUTING.md) for more information.
+See our [Contributing Guidelines](../governance/CONTRIBUTING.md) for more
+information.
 
 ______________________________________________________________________
 

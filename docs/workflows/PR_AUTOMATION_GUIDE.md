@@ -4,8 +4,7 @@
 
 This document has been relocated to maintain better organization.
 
-**New Location:**
-[`guides/PR_AUTOMATION_GUIDE.md`](PR_AUTOMATION_GUIDE.md)
+**New Location:** [`guides/PR_AUTOMATION_GUIDE.md`](PR_AUTOMATION_GUIDE.md)
 
 ______________________________________________________________________
 

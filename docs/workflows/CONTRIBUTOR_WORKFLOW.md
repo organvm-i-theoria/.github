@@ -34,7 +34,8 @@ ______________________________________________________________________
    [`good-first-issue`](https://github.com/ivviiviivvi/.github/issues?q=is%3Aissue+is%3Aopen+label%3A%22good-first-issue%22)
 1. Comment "I'd like to work on this"
 1. Wait for assignment (usually within 24 hours)
-1. Follow the [development setup guide](../guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)
+1. Follow the
+   [development setup guide](../guides/DEVELOPMENT_ENVIRONMENT_SETUP.md)
 1. Make your changes
 1. Open a pull request
 
@@ -44,10 +45,12 @@ ______________________________________________________________________
 
 ### Required Reading
 
-- [ ] [Code of Conduct](../governance/CODE_OF_CONDUCT.md) - Our community standards
-- [ ] [Contributing Guidelines](../governance/CONTRIBUTING.md) - Detailed contribution rules
-- [ ] [Development Setup](../guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) - Environment
-  configuration
+- [ ] [Code of Conduct](../governance/CODE_OF_CONDUCT.md) - Our community
+  standards
+- [ ] [Contributing Guidelines](../governance/CONTRIBUTING.md) - Detailed
+  contribution rules
+- [ ] [Development Setup](../guides/DEVELOPMENT_ENVIRONMENT_SETUP.md) -
+  Environment configuration
 
 ### Recommended Reading
 

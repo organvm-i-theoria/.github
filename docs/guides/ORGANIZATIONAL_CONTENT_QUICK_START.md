@@ -208,12 +208,13 @@ git add . && git commit -m "Initialize wiki" && git push
 ### Documentation
 
 - 🗂️ [Master Index](../reference/ORGANIZATIONAL_CONTENT_INDEX.md) - Start here
-- 📝 [Issue Taxonomy](../reference/ISSUE_TAXONOMY.md) - Issue types and guidelines
+- 📝 [Issue Taxonomy](../reference/ISSUE_TAXONOMY.md) - Issue types and
+  guidelines
 - 💬 [Discussion Guide](DISCUSSION_GUIDE.md) - Discussion framework
 - 📊 [Projects Guide](PROJECTS_GUIDE.md) - Project templates
 - 📚 [Wiki Guide](WIKI_GUIDE.md) - Wiki structure
-- 🚀 [Implementation Guide](../analysis/ORGANIZATIONAL_CONTENT_IMPLEMENTATION.md) - Full
-  deployment
+- 🚀 [Implementation Guide](../analysis/ORGANIZATIONAL_CONTENT_IMPLEMENTATION.md)
+  \- Full deployment
 
 ### Templates
 
@@ -351,5 +352,5 @@ You now have:
 
 ______________________________________________________________________
 
-**Questions?** See [Master Index](../reference/ORGANIZATIONAL_CONTENT_INDEX.md) or ask in
-[Discussions](https://github.com/your-org/your-repo/discussions)
+**Questions?** See [Master Index](../reference/ORGANIZATIONAL_CONTENT_INDEX.md)
+or ask in [Discussions](https://github.com/your-org/your-repo/discussions)

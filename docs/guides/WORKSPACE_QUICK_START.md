@@ -274,7 +274,8 @@ ______________________________________________________________________
 
 ### Learn More
 
-- 📖 [Complete Protocols](../architecture/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
+- 📖
+  [Complete Protocols](../architecture/WORKSPACE_CONTAINERIZATION_PROTOCOLS.md)
 - 🚀 [Codespaces Guide](./CODESPACES_GUIDE.md)
 - 🔧 [Code-Server Setup](./CODE_SERVER_SETUP.md)
 - 🐳 [Docker Best Practices](DOCKER_BEST_PRACTICES.md)

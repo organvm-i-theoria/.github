@@ -358,8 +358,8 @@ repository health after bootstrap.
 
 - [Repository Purpose Analysis](../architecture/REPOSITORY_PURPOSE_ANALYSIS.md)
   \- Understanding what belongs in repositories
-- [Repository Setup Checklist](../runbooks/REPOSITORY_SETUP_CHECKLIST.md) - Manual setup
-  checklist
+- [Repository Setup Checklist](../runbooks/REPOSITORY_SETUP_CHECKLIST.md) -
+  Manual setup checklist
 - [Labels Documentation](../reference/LABELS.md) - Standard label definitions
 - [Repository Setup Agent](../../src/ai_framework/agents/repository-setup.agent.md)
   \- AI-powered setup assistant

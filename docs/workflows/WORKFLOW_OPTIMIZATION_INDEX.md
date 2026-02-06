@@ -4,8 +4,7 @@
 
 This document has been relocated to maintain better organization.
 
-**New Location:**
-`guides/WORKFLOW_OPTIMIZATION_INDEX.md`
+**New Location:** `guides/WORKFLOW_OPTIMIZATION_INDEX.md`
 
 ______________________________________________________________________
 

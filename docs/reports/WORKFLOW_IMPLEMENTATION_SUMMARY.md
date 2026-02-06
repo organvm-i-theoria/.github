@@ -401,9 +401,12 @@ ______________________________________________________________________
 
 For contributors and maintainers unfamiliar with this system:
 
-1. **Start Here**: [CONTRIBUTOR_WORKFLOW.md](../workflows/CONTRIBUTOR_WORKFLOW.md)
-1. **For Maintainers**: [MAINTAINER_WORKFLOW.md](../workflows/MAINTAINER_WORKFLOW.md)
-1. **Architecture Details**: [WORKFLOW_DESIGN.md](../workflows/WORKFLOW_DESIGN.md)
+1. **Start Here**:
+   [CONTRIBUTOR_WORKFLOW.md](../workflows/CONTRIBUTOR_WORKFLOW.md)
+1. **For Maintainers**:
+   [MAINTAINER_WORKFLOW.md](../workflows/MAINTAINER_WORKFLOW.md)
+1. **Architecture Details**:
+   [WORKFLOW_DESIGN.md](../workflows/WORKFLOW_DESIGN.md)
 1. **GitHub Docs**:
    [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow)
 
@@ -411,7 +414,8 @@ ______________________________________________________________________
 
 ## 📞 Support & Feedback
 
-- **Questions**: Open a [Discussion](https://github.com/ivviiviivvi/.github/discussions)
+- **Questions**: Open a
+  [Discussion](https://github.com/ivviiviivvi/.github/discussions)
 - **Issues**: Report in [Issues](https://github.com/ivviiviivvi/.github/issues)
 - **Improvements**: Submit a PR
 - **Urgent Matters**: Contact @ivviiviivvi/maintainers

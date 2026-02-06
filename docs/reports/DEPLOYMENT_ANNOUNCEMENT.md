@@ -161,8 +161,7 @@ ______________________________________________________________________
 
 ### Must-Read
 
-- **Complete Integration Guide** - Everything
-  you need to know
+- **Complete Integration Guide** - Everything you need to know
 - **[Deployment Summary](DEPLOYMENT_SUMMARY.md)** - What was deployed and why
 
 ### Additional Resources
