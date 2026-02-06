@@ -59,10 +59,10 @@ on:
     outputs:
       image-digest:
         description: Image digest
-        value: "${{ jobs.build-push.outputs.digest }}"
+        value: ${{ jobs.build-push.outputs.digest }}
       image-tags:
         description: Image tags
-        value: "${{ jobs.build-push.outputs.tags }}"
+        value: ${{ jobs.build-push.outputs.tags }}
 
 permissions:
   contents: read
@@ -76,8 +76,8 @@ jobs:
   build-push:
     runs-on: ubuntu-latest
     outputs:
-      digest: "${{ steps.build.outputs.digest }}"
-      tags: "${{ inputs.tags }}"
+      digest: ${{ steps.build.outputs.digest }}
+      tags: ${{ inputs.tags }}
 
     steps:
     - name: Checkout code
@@ -95,15 +95,15 @@ jobs:
       if: inputs.push && inputs.registry-username != ''
       uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # ratchet:docker/login-action@v3
       with:
-        registry: "${{ inputs.registry }}"
-        username: "${{ inputs.registry-username }}"
-        password: "${{ secrets.registry-password }}"
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry-username }}
+        password: ${{ secrets.registry-password }}
 
     - name: Extract metadata
       id: meta
       uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051  # ratchet:docker/metadata-action@v5
       with:
-        images: "${{ inputs.tags }}"
+        images: ${{ inputs.tags }}
         tags: |
           type=ref,event=branch
           type=ref,event=pr
@@ -115,15 +115,15 @@ jobs:
       id: build
       uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83  # ratchet:docker/build-push-action@v6
       with:
-        context: "${{ inputs.context }}"
-        file: "${{ inputs.dockerfile-path }}"
-        platforms: "${{ inputs.platforms }}"
-        push: "${{ inputs.push }}"
-        tags: "${{ inputs.tags }}"
-        labels: "${{ steps.meta.outputs.labels }}"
-        build-args: "${{ inputs.build-args }}"
-        cache-from: "${{ inputs.cache-from }}"
-        cache-to: "${{ inputs.cache-to }}"
+        context: ${{ inputs.context }}
+        file: ${{ inputs.dockerfile-path }}
+        platforms: ${{ inputs.platforms }}
+        push: ${{ inputs.push }}
+        tags: ${{ inputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        build-args: ${{ inputs.build-args }}
+        cache-from: ${{ inputs.cache-from }}
+        cache-to: ${{ inputs.cache-to }}
 
     - name: Install Trivy
       run: |

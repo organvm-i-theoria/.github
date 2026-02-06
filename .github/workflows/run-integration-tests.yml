@@ -71,8 +71,8 @@ jobs:
       id: month1-tests
       continue-on-error: true  # Allow coverage failures while increasing test coverage
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        GITHUB_TEST_REPO: "${{ github.repository }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
       run: |
         pytest tests/integration/test_month1_workflows.py \
           -v \
@@ -132,9 +132,9 @@ jobs:
       id: month2-tests
       continue-on-error: true  # Allow coverage failures while increasing test coverage
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        GITHUB_TEST_REPO: "${{ github.repository }}"
-        SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
         pytest tests/integration/test_month2_features.py \
           -v \
@@ -194,9 +194,9 @@ jobs:
       id: month3-tests
       continue-on-error: true  # Allow coverage failures while increasing test coverage
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        GITHUB_TEST_REPO: "${{ github.repository }}"
-        SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       run: |
         pytest tests/integration/test_month3_advanced.py \
           -v \
@@ -255,8 +255,8 @@ jobs:
     - name: Run critical tests
       continue-on-error: true
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        GITHUB_TEST_REPO: "${{ github.repository }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TEST_REPO: ${{ github.repository }}
       run: |
         pytest tests/ \
           -v \

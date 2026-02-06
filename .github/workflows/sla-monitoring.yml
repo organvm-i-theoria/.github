@@ -41,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
-      compliance_status: "${{ steps.check.outputs.status }}"
-      breaches: "${{ steps.check.outputs.breaches }}"
-      metrics: "${{ steps.check.outputs.metrics }}"
+      compliance_status: ${{ steps.check.outputs.status }}
+      breaches: ${{ steps.check.outputs.breaches }}
+      metrics: ${{ steps.check.outputs.metrics }}
 
     steps:
     - name: Checkout repository
@@ -85,7 +85,7 @@ jobs:
     - name: Check SLA metrics
       id: check
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         python3 << 'EOF'
         import os
@@ -150,8 +150,8 @@ jobs:
     needs: check-sla-compliance
     if: needs.check-sla-compliance.outputs.compliance_status != 'compliant'
     env:
-      SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
-      PAGERDUTY_INTEGRATION_KEY: "${{ secrets.PAGERDUTY_INTEGRATION_KEY }}"
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      PAGERDUTY_INTEGRATION_KEY: ${{ secrets.PAGERDUTY_INTEGRATION_KEY }}
 
     steps:
     - name: Parse breach details
@@ -228,7 +228,7 @@ jobs:
     - name: Create issue for breach
       if: needs.check-sla-compliance.outputs.compliance_status == 'breached'
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Check if there's already an open SLA breach issue
         EXISTING=$(gh issue list --label "sla-breach" --state open --json number --jq '.[0].number' || echo "")
@@ -302,6 +302,6 @@ jobs:
     - name: Upload report artifact
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
-        name: "sla-report-${{ github.run_id }}"
+        name: sla-report-${{ github.run_id }}
         path: sla-report.md
         retention-days: 30

@@ -50,19 +50,19 @@ jobs:
       !contains(github.event.pull_request.title, '[skip-auto-merge]') &&
       !contains(github.event.pull_request.body, '[skip-auto-merge]')
     outputs:
-      merged: "${{ steps.enable-auto-merge.outputs.merged }}"
-      merge-sha: "${{ steps.enable-auto-merge.outputs.merge-sha }}"
-      pr-number: "${{ steps.pr-details.outputs.number }}"
-      base-branch: "${{ steps.pr-details.outputs.base }}"
+      merged: ${{ steps.enable-auto-merge.outputs.merged }}
+      merge-sha: ${{ steps.enable-auto-merge.outputs.merge-sha }}
+      pr-number: ${{ steps.pr-details.outputs.number }}
+      base-branch: ${{ steps.pr-details.outputs.base }}
     env:
-      SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
-        token: "${{ secrets.GITHUB_TOKEN }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Get PR details
       id: pr-details
@@ -479,14 +479,14 @@ jobs:
     needs: auto-merge
     if: failure() && needs.auto-merge.outputs.merged == 'true'
     env:
-      SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 0
-        token: "${{ secrets.GITHUB_TOKEN }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Validate failure cause
       id: validate

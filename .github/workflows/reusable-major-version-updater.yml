@@ -33,12 +33,12 @@ jobs:
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-tags: true
-        ref: "${{ inputs.tag-name }}"
+        ref: ${{ inputs.tag-name }}
 
     - name: Parse Version
       id: version
       env:
-        TAG_NAME: "${{ inputs.tag-name }}"
+        TAG_NAME: ${{ inputs.tag-name }}
       run: |
         # Remove refs/tags/ prefix if present
         tag=${TAG_NAME/refs\/tags\//}
@@ -54,7 +54,7 @@ jobs:
 
     - name: Force Update Major Tag
       env:
-        GITHUB_TOKEN: "${{ secrets.github-token }}"
+        GITHUB_TOKEN: ${{ secrets.github-token }}
       run: |
         echo "Updating v${{ steps.version.outputs.major }} to point to ${{ steps.version.outputs.tag }}"
         git tag -f v${{ steps.version.outputs.major }} ${{ steps.version.outputs.tag }}

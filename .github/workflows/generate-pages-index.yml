@@ -265,10 +265,10 @@ jobs:
         # Statistics
         # Generated at $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
-        repositories: "${{ steps.query.outputs.repository_count }}"
-        walkthroughs: "${{ steps.query.outputs.walkthrough_count }}"
-        live_demos: "${{ steps.query.outputs.demo_count }}"
-        deployments: "${{ steps.query.outputs.deployment_count }}"
+        repositories: ${{ steps.query.outputs.repository_count }}
+        walkthroughs: ${{ steps.query.outputs.walkthrough_count }}
+        live_demos: ${{ steps.query.outputs.demo_count }}
+        deployments: ${{ steps.query.outputs.deployment_count }}
         last_updated: "$(date -u +"%Y-%m-%d %H:%M:%S UTC")"
         EOF
 

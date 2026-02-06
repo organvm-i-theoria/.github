@@ -201,7 +201,7 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "${{ inputs.message }}"
+                  "text": ${{ inputs.message }}
                 }
               },
               {
@@ -213,7 +213,7 @@ jobs:
                       "type": "plain_text",
                       "text": "View Workflow Run"
                     },
-                    "url": "${{ steps.details.outputs.run_url }}"
+                    "url": ${{ steps.details.outputs.run_url }}
                   }
                 ]
               }

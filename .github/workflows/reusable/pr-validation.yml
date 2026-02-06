@@ -51,13 +51,13 @@ on:
     outputs:
       validation-passed:
         description: Whether all validations passed
-        value: "${{ jobs.validate-pr.outputs.passed }}"
+        value: ${{ jobs.validate-pr.outputs.passed }}
       validation-summary:
         description: Summary of validation results
-        value: "${{ jobs.validate-pr.outputs.summary }}"
+        value: ${{ jobs.validate-pr.outputs.summary }}
       has-warnings:
         description: Whether any warnings were generated
-        value: "${{ jobs.validate-pr.outputs.has-warnings }}"
+        value: ${{ jobs.validate-pr.outputs.has-warnings }}
 
 permissions:
   contents: read
@@ -71,9 +71,9 @@ jobs:
   validate-pr:
     runs-on: ubuntu-latest
     outputs:
-      passed: "${{ steps.final-result.outputs.passed }}"
-      summary: "${{ steps.final-result.outputs.summary }}"
-      has-warnings: "${{ steps.final-result.outputs.has-warnings }}"
+      passed: ${{ steps.final-result.outputs.passed }}
+      summary: ${{ steps.final-result.outputs.summary }}
+      has-warnings: ${{ steps.final-result.outputs.has-warnings }}
 
     permissions:
       contents: read

@@ -35,7 +35,7 @@ on:
         default: false
 
 concurrency:
-  group: "bio-completions-${{ github.ref }}"
+  group: bio-completions-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -53,7 +53,7 @@ jobs:
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
       with:
         fetch-depth: 1
-        token: "${{ secrets.GITHUB_TOKEN }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Node.js
       uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # ratchet:actions/setup-node@v4
@@ -104,7 +104,7 @@ jobs:
       if: inputs.scope == 'all' || inputs.scope == 'organization'
       id: check-org
       env:
-        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "🔍 Checking organization profile completeness..."
 
@@ -169,8 +169,8 @@ jobs:
       if: inputs.scope == 'all' || inputs.scope == 'current-repo'
       id: check-current-repo
       env:
-        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        MIN_LENGTH: "${{ steps.load-config.outputs.min_description_length }}"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MIN_LENGTH: ${{ steps.load-config.outputs.min_description_length }}
       run: |
         echo "🔍 Auditing current repository..."
 
@@ -254,8 +254,8 @@ jobs:
       if: inputs.scope == 'all' || inputs.scope == 'repositories'
       id: check-all-repos
       env:
-        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        MIN_LENGTH: "${{ steps.load-config.outputs.min_description_length }}"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MIN_LENGTH: ${{ steps.load-config.outputs.min_description_length }}
       run: |
         echo "🔍 Auditing all organization repositories..."
 
@@ -379,7 +379,7 @@ jobs:
         (steps.check-current-repo.outputs.repo_complete == 'false' ||
          steps.check-org.outputs.org_complete == 'false')
       env:
-        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo "📝 Creating issue for incomplete descriptions..."
 

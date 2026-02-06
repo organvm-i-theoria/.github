@@ -32,4 +32,4 @@ jobs:
       with:
           # Requires a PAT or App token with project write permissions
         project-url: "https://github.com/orgs/${{ github.repository_owner }}/projects/1"
-        github-token: "${{ secrets.ADD_TO_PROJECT_PAT }}"
+        github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}

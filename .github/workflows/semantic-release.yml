@@ -63,8 +63,8 @@ jobs:
     - name: Release
       continue-on-error: true
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        NPM_TOKEN: "${{ secrets.NPM_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: npx semantic-release
 
   # Alternative: Python semantic release
@@ -102,7 +102,7 @@ jobs:
       if: steps.check.outputs.should_run == 'true'
       continue-on-error: true
       env:
-        GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         semantic-release publish
 
@@ -138,7 +138,7 @@ jobs:
         version: latest
         args: release --clean
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Container image release
   container-release:
@@ -180,8 +180,8 @@ jobs:
       uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9  # ratchet:docker/login-action@v3
       with:
         registry: ghcr.io
-        username: "${{ github.actor }}"
-        password: "${{ secrets.GITHUB_TOKEN }}"
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build and push
       if: steps.check.outputs.should_run == 'true'
@@ -189,8 +189,8 @@ jobs:
       with:
         context: .
         push: true
-        tags: "${{ steps.meta.outputs.tags }}"
-        labels: "${{ steps.meta.outputs.labels }}"
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
 

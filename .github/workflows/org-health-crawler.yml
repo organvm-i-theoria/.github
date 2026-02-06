@@ -20,7 +20,7 @@ on:
     - .github/workflows/org-health-crawler.yml
 
 concurrency:
-  group: "${{ github.workflow }}"
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 permissions:
@@ -54,8 +54,8 @@ jobs:
 
     - name: Run Organization Health Crawler
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        GITHUB_REPOSITORY: "${{ github.repository }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
         python src/automation/scripts/web_crawler.py \
           --base-dir . \
@@ -64,7 +64,7 @@ jobs:
     - name: Upload Reports as Artifacts
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02  # ratchet:actions/upload-artifact@v4
       with:
-        name: "health-reports-${{ github.run_number }}"
+        name: health-reports-${{ github.run_number }}
         path: reports/org_health_*.{json,md}
         retention-days: 90
 

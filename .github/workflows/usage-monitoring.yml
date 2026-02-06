@@ -25,7 +25,7 @@ on:
         default: 80
 
 concurrency:
-  group: "${{ github.workflow }}"
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 permissions:
@@ -42,10 +42,10 @@ jobs:
     timeout-minutes: 20
     name: Collect Usage Metrics
     outputs:
-      total_minutes: "${{ steps.billing.outputs.total_minutes }}"
-      included_minutes: "${{ steps.billing.outputs.included_minutes }}"
-      percentage_used: "${{ steps.billing.outputs.percentage_used }}"
-      alert_needed: "${{ steps.billing.outputs.alert_needed }}"
+      total_minutes: ${{ steps.billing.outputs.total_minutes }}
+      included_minutes: ${{ steps.billing.outputs.included_minutes }}
+      percentage_used: ${{ steps.billing.outputs.percentage_used }}
+      alert_needed: ${{ steps.billing.outputs.alert_needed }}
 
     steps:
     - name: Checkout repository
@@ -66,7 +66,7 @@ jobs:
     - name: Fetch billing information
       id: billing
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cat > fetch_billing.py << 'EOF'
         import os
@@ -128,7 +128,7 @@ jobs:
 
     - name: Fetch workflow runs data
       env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cat > fetch_workflow_data.py << 'EOF'
         import os
