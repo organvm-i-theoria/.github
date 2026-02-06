@@ -206,7 +206,6 @@ jobs:
       with:
         repository: ${{ github.repository_owner }}/${{ matrix.repo.name }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        ref: main
         fetch-depth: 0
 
     - name: Generate Gource visualization
