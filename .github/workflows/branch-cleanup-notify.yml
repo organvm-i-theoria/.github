@@ -33,6 +33,7 @@ jobs:
         }
 
     - name: Detect stale branches
+      continue-on-error: true
       id: stale
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

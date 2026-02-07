@@ -28,6 +28,7 @@ jobs:
         template-path: .github/ISSUE_TEMPLATE/bug_report.md   # Optional: Adjust based on actual templates
 
     - name: Add to Project
+      continue-on-error: true
       uses: actions/add-to-project@1b844f0c5ac6446a402e0cb3693f9be5eca188c5 # v0.6.1
       with:
           # Requires a PAT or App token with project write permissions

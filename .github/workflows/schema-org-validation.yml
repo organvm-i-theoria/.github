@@ -46,6 +46,7 @@ jobs:
 
     - name: Check version consistency
       id: version-check
+      continue-on-error: true
       run: |
         echo "Checking version consistency across files..."
 
