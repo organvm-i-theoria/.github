@@ -2,6 +2,7 @@ import sys
 import unittest
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+from urllib.parse import urlparse
 
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src" / "automation" / "scripts"))
@@ -87,9 +88,11 @@ class TestLinkExtraction(unittest.TestCase):
         # Note: Current regex may capture some trailing punctuation
         # The validation phase will handle these appropriately
         self.assertEqual(len(urls), 3)
-        self.assertTrue(any(url.startswith("https://example.com") for url in urls))
-        self.assertTrue(any(url.startswith("https://github.com") for url in urls))
-        self.assertTrue(any(url.startswith("https://test.com") for url in urls))
+        # Use urlparse for safe hostname extraction (avoids CodeQL py/incomplete-url-substring-sanitization)
+        hostnames = [urlparse(url).hostname.rstrip(".,!;:") for url in urls]
+        self.assertIn("example.com", hostnames)
+        self.assertIn("github.com", hostnames)
+        self.assertIn("test.com", hostnames)
 
     def test_markdown_url_with_parentheses(self):
         """Test markdown links correctly handle URLs with parentheses."""

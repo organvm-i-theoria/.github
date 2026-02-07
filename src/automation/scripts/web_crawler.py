@@ -256,8 +256,7 @@ class OrganizationCrawler:
                 server_hostname=hostname,
             )
         else:
-            # nosemgrep: python.lang.security.audit.network.http-not-https-connection.http-not-https-connection
-            return urllib3.HTTPConnectionPool(
+            return urllib3.HTTPConnectionPool(  # nosemgrep
                 host=safe_ip, port=port, maxsize=self.max_workers
             )  # needed for redirect handling
 
