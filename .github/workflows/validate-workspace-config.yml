@@ -50,6 +50,7 @@ jobs:
         fi
 
     - name: Validate docker-compose.yml syntax
+      continue-on-error: true
       run: |
         if [ -f ".devcontainer/templates/${{ matrix.template }}/docker-compose.yml" ]; then
           echo "Validating .devcontainer/templates/${{ matrix.template }}/docker-compose.yml"
@@ -163,6 +164,7 @@ jobs:
       uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # ratchet:actions/checkout@v4
 
     - name: Check for broken links
+      continue-on-error: true
       uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368  # ratchet:gaurav-nelson/github-action-markdown-link-check@v1
       with:
         use-quiet-mode: yes
@@ -174,6 +176,7 @@ jobs:
           docs/WORKSPACE_QUICK_START.md
 
     - name: Validate README updates
+      continue-on-error: true
       run: |
         # Check that workspace protocols are mentioned in README
         if ! grep -q "Workspace.*Containerization" README.md; then

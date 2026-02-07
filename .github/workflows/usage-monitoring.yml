@@ -146,6 +146,7 @@ jobs:
         python fetch_billing.py
 
     - name: Fetch workflow runs data
+      continue-on-error: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GITHUB_ORG: ${{ github.repository_owner }}
@@ -246,6 +247,7 @@ jobs:
         python fetch_workflow_data.py
 
     - name: Generate usage report
+      continue-on-error: true
       run: |
         cat > generate_report.py << 'EOF'
         import json
