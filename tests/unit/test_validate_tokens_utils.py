@@ -287,7 +287,7 @@ class TestPrintSummary:
         validate_tokens_utils.print_summary(results, verbose=True)
 
         captured = capsys.readouterr()
-        assert "Token scopes" in captured.out
+        assert "Scopes" in captured.out
         assert "Rate limit" in captured.out
 
     def test_returns_true_when_all_valid(self):

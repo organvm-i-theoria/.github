@@ -65,8 +65,8 @@ jobs:
           p/cwe-top-25
           p/default
 
-    - name: Run Semgrep (Local)
-      if: steps.check-token.outputs.has_token != 'true'
+    - name: Run Semgrep (SARIF)
+      if: always()
       run: |
         semgrep scan \
           --config=auto \
@@ -76,7 +76,7 @@ jobs:
           --severity=WARNING
 
     - name: Upload SARIF to GitHub
-      if: always() && steps.check-token.outputs.has_token != 'true'
+      if: always()
       uses: github/codeql-action/upload-sarif@33119e582d3ab4ed79c2610af108cb08ff983917  # ratchet:github/codeql-action/upload-sarif@v3
       with:
         sarif_file: semgrep-results.sarif
