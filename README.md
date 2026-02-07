@@ -2,6 +2,8 @@
 
 # .github
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Available-brightgreen?style=for-the-badge)](https://demo-ivviiviivvi-.github.example.dev)
+
 **Organization-wide infrastructure for CI/CD, AI agents, and community health**
 
 <!-- BADGES:START -->
