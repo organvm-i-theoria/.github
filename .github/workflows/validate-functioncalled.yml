@@ -169,9 +169,11 @@ jobs:
         fetch-depth: 0
 
     - name: Check new workflows have metadata
+      env:
+        BASE_REF: ${{ github.base_ref }}
       run: |
         # Get list of new workflow files in this PR
-        NEW_WORKFLOWS=$(git diff --name-only --diff-filter=A origin/${{ github.base_ref }}...HEAD | \
+        NEW_WORKFLOWS=$(git diff --name-only --diff-filter=A origin/"$BASE_REF"...HEAD | \
           grep -E '\.github/workflows/.*\.(yml|yaml)$' | \
           grep -v '\.meta\.json$' || true)
 

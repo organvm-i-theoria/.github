@@ -88,9 +88,11 @@ jobs:
 
     - name: Check file changes
       id: file-check
+      env:
+        BASE_REF: ${{ github.base_ref }}
       run: |
         # Get changed files
-        git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+        git diff --name-only origin/"$BASE_REF"...HEAD > changed_files.txt
 
         # Count different file types
         total_files=$(wc -l < changed_files.txt)
@@ -126,9 +128,11 @@ jobs:
 
     - name: Check for sensitive data
       id: secrets-check
+      env:
+        BASE_REF: ${{ github.base_ref }}
       run: |
         # Basic patterns to detect potential secrets
-        if git diff origin/${{ github.base_ref }}...HEAD | grep -qE '(password|api[_-]?key|secret|token|credentials|private[_-]?key)\s*='; then
+        if git diff origin/"$BASE_REF"...HEAD | grep -qE '(password|api[_-]?key|secret|token|credentials|private[_-]?key)\s*='; then
           echo "potential_secrets=true" >> $GITHUB_OUTPUT
           echo "❌ Potential secrets detected in diff"
         else
@@ -158,10 +162,12 @@ jobs:
     - name: Analyze code complexity
       id: complexity-check
       continue-on-error: true
+      env:
+        BASE_REF: ${{ github.base_ref }}
       run: |
         # This is a simple check - in production, use proper complexity tools
-        lines_added=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{sum+=$1} END {print sum}')
-        lines_removed=$(git diff --numstat origin/${{ github.base_ref }}...HEAD | awk '{sum+=$2} END {print sum}')
+        lines_added=$(git diff --numstat origin/"$BASE_REF"...HEAD | awk '{sum+=$1} END {print sum}')
+        lines_removed=$(git diff --numstat origin/"$BASE_REF"...HEAD | awk '{sum+=$2} END {print sum}')
 
         echo "lines_added=$lines_added" >> $GITHUB_OUTPUT
         echo "lines_removed=$lines_removed" >> $GITHUB_OUTPUT
