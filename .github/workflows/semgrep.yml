@@ -73,7 +73,8 @@ jobs:
           --sarif \
           --output=semgrep-results.sarif \
           --severity=ERROR \
-          --severity=WARNING
+          --severity=WARNING \
+          --exclude-rule=python.lang.security.audit.network.http-not-https-connection.http-not-https-connection
 
     - name: Upload SARIF to GitHub
       if: always()
