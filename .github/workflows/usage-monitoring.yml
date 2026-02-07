@@ -391,6 +391,7 @@ jobs:
         python generate_chart.py || echo "Chart generation failed, continuing..."
 
     - name: Save report
+      continue-on-error: true
       run: |
         mkdir -p ${{ env.REPORTS_DIR }}
 
