@@ -4,6 +4,8 @@
 
 # ORGAN-I: Theoria — Theory & Epistemology
 
+_Epistemological frameworks and symbolic computing in Python_
+
 > *θεωρία (theoria) — contemplation, seeing*
 >
 > The ancient Greek word for the act of beholding truth: not passive observation,
