@@ -269,7 +269,7 @@ jobs:
 
         See [AI_RAPID_WORKFLOW.md](../blob/main/AI_RAPID_WORKFLOW.md#branch-lifecycle-management) for details.
         EOF_CLOSE_TASKS
-              gh pr close $PR_NUMBER --comment-file /tmp/pr_close.md
+              gh pr close $PR_NUMBER -c "$(cat /tmp/pr_close.md)"
 
               # Delete branch
               git push origin --delete "$BRANCH" || echo "Branch may already be deleted"
@@ -293,7 +293,7 @@ jobs:
 
         See [AI_RAPID_WORKFLOW.md](../blob/main/AI_RAPID_WORKFLOW.md#branch-lifecycle-management) for details.
         EOF_CLOSE_NOTASKS
-              gh pr close $PR_NUMBER --comment-file /tmp/pr_close.md
+              gh pr close $PR_NUMBER -c "$(cat /tmp/pr_close.md)"
 
               # Delete branch
               git push origin --delete "$BRANCH" || echo "Branch may already be deleted"
