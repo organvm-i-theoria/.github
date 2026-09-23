@@ -63,8 +63,8 @@ jobs:
           "^maintenance/v[0-9]+-maintenance$"
           "^maintenance/v[0-9]+\.x/[a-z0-9-]+$"
           "^archive/[a-z0-9-]+/[a-z0-9-]+$"
-          # Legacy patterns for automated branches (Jules, Bolt, Palette, Sentinel)
-          "^(jules|bolt|palette|sentinel)-[a-z0-9-]+$"
+          # Legacy patterns for automated branches (Jules, Bolt, Palette, Sentinel, fix-*, feat-*)
+          "^(jules|bolt|palette|sentinel|fix|feat|docs|chore)-[a-z0-9-]+$"
         )
 
         VALID=false

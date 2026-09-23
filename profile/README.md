@@ -91,7 +91,7 @@ coordinated whole:
 | VIII  | Meta           | [meta-organvm](https://github.com/meta-organvm)               |
 
 > **Read the public process:**
-> [organvm.github.io/public-process](https://organvm.github.io/public-process/)
+> [organvm-vi-koinonia.github.io/public-process](https://organvm-vi-koinonia.github.io/public-process/)
 
 ______________________________________________________________________
 
@@ -107,11 +107,11 @@ ______________________________________________________________________
 
 **Explore the System**
 
-[Portfolio](https://organvm.github.io/portfolio/) ·
-[System Directory](https://organvm.github.io/portfolio/directory/) ·
-[65 Essays](https://organvm.github.io/public-process/) ·
-[Knowledge Base](https://organvm.github.io/portfolio/projects/knowledge-base/) ·
-[Consult](https://organvm.github.io/portfolio/consult/)
+[Portfolio](https://organvm-vii-kerygma.github.io/portfolio/) ·
+[System Directory](https://organvm-vii-kerygma.github.io/portfolio/directory/) ·
+[65 Essays](https://organvm-vi-koinonia.github.io/public-process/) ·
+[Knowledge Base](https://organvm-vii-kerygma.github.io/portfolio/projects/knowledge-base/)
+· [Consult](https://organvm-vii-kerygma.github.io/portfolio/consult/)
 
 </div>
 <!-- PORTFOLIO-HUB-END -->
