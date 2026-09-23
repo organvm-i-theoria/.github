@@ -110,8 +110,8 @@ ______________________________________________________________________
 [Portfolio](https://organvm-vii-kerygma.github.io/portfolio/) ·
 [System Directory](https://organvm-vii-kerygma.github.io/portfolio/directory/) ·
 [65 Essays](https://organvm-vi-koinonia.github.io/public-process/) ·
-[Knowledge Base](https://organvm-vii-kerygma.github.io/portfolio/projects/knowledge-base/) ·
-[Consult](https://organvm-vii-kerygma.github.io/portfolio/consult/)
+[Knowledge Base](https://organvm-vii-kerygma.github.io/portfolio/projects/knowledge-base/)
+· [Consult](https://organvm-vii-kerygma.github.io/portfolio/consult/)
 
 </div>
 <!-- PORTFOLIO-HUB-END -->
